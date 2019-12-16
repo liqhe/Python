@@ -1,0 +1,579 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- saved from url=(0050)https://docs.pytest.org/en/latest/xunit_setup.html -->
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh-CN" class="translated-ltr"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+    
+    <title>经典的xunit风格的设置 -  pytest文档</title>
+    <link rel="stylesheet" href="./pytest文档17_files/flasky.css" type="text/css">
+    <link rel="stylesheet" href="./pytest文档17_files/pygments.css" type="text/css">
+    <link rel="stylesheet" type="text/css" href="./pytest文档17_files/pygments_pytest.css">
+    <link rel="stylesheet" type="text/css" href="./pytest文档17_files/badge_only.css">
+    <script type="text/javascript" async="" src="./pytest文档17_files/ga.js"></script><script async="" src="./pytest文档17_files/analytics.js"></script><script type="text/javascript" id="documentation_options" data-url_root="./" src="./pytest文档17_files/documentation_options.js"></script>
+    <script type="text/javascript" src="./pytest文档17_files/jquery.js"></script>
+    <script type="text/javascript" src="./pytest文档17_files/underscore.js"></script>
+    <script type="text/javascript" src="./pytest文档17_files/doctools.js"></script>
+    <script type="text/javascript" src="./pytest文档17_files/language_data.js"></script>
+    <script type="text/javascript" src="./pytest文档17_files/readthedocs-doc-embed.js"></script>
+    <link rel="shortcut icon" href="https://docs.pytest.org/en/latest/_static/pytest1favi.ico">
+    <link rel="search" title="搜索" href="https://docs.pytest.org/en/latest/search.html">
+    <link rel="next" title="安装和使用插件" href="https://docs.pytest.org/en/latest/plugins.html">
+    <link rel="prev" title="运行为鼻子写的测试" href="https://docs.pytest.org/en/latest/nose.html">
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9">
+
+  
+<!-- RTD Extra Head -->
+
+<!-- 
+Always link to the latest version, as canonical.
+http://docs.readthedocs.org/en/latest/canonical.html
+-->
+<link rel="canonical" href="http://doc.pytest.org/en/latest/xunit_setup.html">
+
+<link rel="stylesheet" href="./pytest文档17_files/readthedocs-doc-embed.css" type="text/css">
+
+<script type="text/javascript" src="./pytest文档17_files/readthedocs-data.js"></script>
+
+<!-- Add page-specific data, which must exist in the page js, not global -->
+<script type="text/javascript">
+READTHEDOCS_DATA['page'] = 'xunit_setup'
+READTHEDOCS_DATA['source_suffix'] = '.rst'
+</script>
+
+<script type="text/javascript" src="./pytest文档17_files/readthedocs-analytics.js"></script>
+
+<!-- end RTD <extrahead> -->
+<link type="text/css" rel="stylesheet" charset="UTF-8" href="./pytest文档17_files/translateelement.css"></head><body>
+  
+  
+  
+
+
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">导航</font></font></h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="https://docs.pytest.org/en/latest/plugins.html" title="安装和使用插件" accesskey="N"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">下一个</font></font></a></li>
+        <li class="right">
+          <a href="https://docs.pytest.org/en/latest/nose.html" title="运行为鼻子写的测试" accesskey="P"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">上一个</font></font></a><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> |</font></font></li>
+        <li class="nav-item nav-item-0"><a href="https://docs.pytest.org/en/latest/contents.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">pytest-4.3</font></font></a><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> »</font></font></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="classic-xunit-style-setup">
+<span id="xunitsetup"></span><span id="classic-xunit"></span><h1><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">经典的xunit风格的设置</font></font><a class="headerlink" href="https://docs.pytest.org/en/latest/xunit_setup.html#classic-xunit-style-setup" title="永久链接到这个标题"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">¶</font></font></a></h1>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">本节介绍了如何在每个模块/类/功能的基础上实现夹具（设置和拆卸测试状态）的经典而流行的方法。</font></font></p>
+<div class="admonition note">
+<p class="first admonition-title"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">注意</font></font></p>
+<p class="last"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">虽然这些设置/拆卸方法对于来自a </font></font><code class="docutils literal notranslate"><span class="pre">unittest</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">或nose的</font><font style="vertical-align: inherit;">人来说简单且熟悉，但</font></font><code class="docutils literal notranslate"><span class="pre">background</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">您也可以考虑使用pytest更强大的</font></font><a class="reference internal" href="https://docs.pytest.org/en/latest/fixture.html#fixture"><span class="std std-ref"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">夹具机制</font></font></span></a><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">，该</font><a class="reference internal" href="https://docs.pytest.org/en/latest/fixture.html#fixture"><span class="std std-ref"><font style="vertical-align: inherit;">机制</font></span></a><font style="vertical-align: inherit;">利用依赖注入的概念，允许更模块化和更可扩展的方法来管理测试状态，特别是对于大型项目和功能测试。</font><font style="vertical-align: inherit;">您可以在同一文件中混合两种夹具机制，但</font></font><code class="docutils literal notranslate"><span class="pre">unittest.TestCase</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">子类的</font><font style="vertical-align: inherit;">测试方法</font><font style="vertical-align: inherit;">不能接收夹具参数。</font></font></p>
+</div>
+<div class="section" id="module-level-setup-teardown">
+<h2><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">模块级别设置/拆卸</font></font><a class="headerlink" href="https://docs.pytest.org/en/latest/xunit_setup.html#module-level-setup-teardown" title="永久链接到这个标题"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">¶</font></font></a></h2>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">如果在单个模块中有多个测试函数和测试类，则可以选择实现以下fixture方法，这些方法通常会针对所有函数调用一次：</font></font></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">setup_module</span><span class="p">(</span><span class="n">module</span><span class="p">):</span>
+    <span class="sd">""" setup any state specific to the execution of the given module."""</span>
+
+<span class="k">def</span> <span class="nf">teardown_module</span><span class="p">(</span><span class="n">module</span><span class="p">):</span>
+    <span class="sd">""" teardown any state that was previously setup with a setup_module</span>
+<span class="sd">    method.</span>
+<span class="sd">    """</span>
+</pre></div>
+</div>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">从pytest-3.0开始，</font></font><code class="docutils literal notranslate"><span class="pre">module</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">参数是可选的。</font></font></p>
+</div>
+<div class="section" id="class-level-setup-teardown">
+<h2><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">班级设置/拆解</font></font><a class="headerlink" href="https://docs.pytest.org/en/latest/xunit_setup.html#class-level-setup-teardown" title="永久链接到这个标题"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">¶</font></font></a></h2>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">类似地，在调用类的所有测试方法之前和之后，在类级别调用以下方法：</font></font></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nd">@classmethod</span>
+<span class="k">def</span> <span class="nf">setup_class</span><span class="p">(</span><span class="bp">cls</span><span class="p">):</span>
+    <span class="sd">""" setup any state specific to the execution of the given class (which</span>
+<span class="sd">    usually contains tests).</span>
+<span class="sd">    """</span>
+
+<span class="nd">@classmethod</span>
+<span class="k">def</span> <span class="nf">teardown_class</span><span class="p">(</span><span class="bp">cls</span><span class="p">):</span>
+    <span class="sd">""" teardown any state that was previously setup with a call to</span>
+<span class="sd">    setup_class.</span>
+<span class="sd">    """</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="method-and-function-level-setup-teardown">
+<h2><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">方法和功能级别设置/拆卸</font></font><a class="headerlink" href="https://docs.pytest.org/en/latest/xunit_setup.html#method-and-function-level-setup-teardown" title="永久链接到这个标题"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">¶</font></font></a></h2>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">同样，围绕每个方法调用调用以下方法：</font></font></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">setup_method</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">method</span><span class="p">):</span>
+    <span class="sd">""" setup any state tied to the execution of the given method in a</span>
+<span class="sd">    class.  setup_method is invoked for every test method of a class.</span>
+<span class="sd">    """</span>
+
+<span class="k">def</span> <span class="nf">teardown_method</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">method</span><span class="p">):</span>
+    <span class="sd">""" teardown any state that was previously setup with a setup_method</span>
+<span class="sd">    call.</span>
+<span class="sd">    """</span>
+</pre></div>
+</div>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">从pytest-3.0开始，</font></font><code class="docutils literal notranslate"><span class="pre">method</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">参数是可选的。</font></font></p>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">如果您希望直接在模块级别定义测试函数，还可以使用以下函数来实现fixture：</font></font></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">setup_function</span><span class="p">(</span><span class="n">function</span><span class="p">):</span>
+    <span class="sd">""" setup any state tied to the execution of the given function.</span>
+<span class="sd">    Invoked for every test function in the module.</span>
+<span class="sd">    """</span>
+
+<span class="k">def</span> <span class="nf">teardown_function</span><span class="p">(</span><span class="n">function</span><span class="p">):</span>
+    <span class="sd">""" teardown any state that was previously setup with a setup_function</span>
+<span class="sd">    call.</span>
+<span class="sd">    """</span>
+</pre></div>
+</div>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">从pytest-3.0开始，</font></font><code class="docutils literal notranslate"><span class="pre">function</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">参数是可选的。</font></font></p>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">备注：</font></font></p>
+<ul>
+<li><p class="first"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">每个测试过程可以多次调用setup / teardown对。</font></font></p>
+</li>
+<li><p class="first"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">如果存在相应的设置功能并且跳过了失败/，则不会调用拆卸功能。</font></font></p>
+</li>
+<li><p class="first"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">在pytest-4.2之前，xunit样式的函数不遵守fixture的范围规则，因此例如</font></font><code class="docutils literal notranslate"><span class="pre">setup_method</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">可以在会话范围的autouse fixture之前调用a。</font></font></p>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">现在，xunit风格的功能与夹具机制集成在一起，并遵守调用中涉及的灯具的适当范围规则。</font></font></p>
+</li>
+</ul>
+</div>
+</div>
+
+
+          <div id="rtd-xvxkm53k" class="ethical-alabaster"></div></div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="https://docs.pytest.org/en/latest/contents.html">
+              <img class="logo" src="./pytest文档17_files/pytest1.png" alt="商标">
+            </a></p><h3><a href="https://docs.pytest.org/en/latest/contents.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">目录</font></font></a></h3>
+
+<ul>
+  <li><a href="https://docs.pytest.org/en/latest/index.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">家</font></font></a></li>
+  <li><a href="https://docs.pytest.org/en/latest/getting-started.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">安装</font></font></a></li>
+  <li><a href="https://docs.pytest.org/en/latest/contents.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">内容</font></font></a></li>
+  <li><a href="https://docs.pytest.org/en/latest/reference.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">参考</font></font></a></li>
+  <li><a href="https://docs.pytest.org/en/latest/example/index.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">例子</font></font></a></li>
+  <li><a href="https://docs.pytest.org/en/latest/customize.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">定制</font></font></a></li>
+  <li><a href="https://docs.pytest.org/en/latest/changelog.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">更新日志</font></font></a></li>
+  <li><a href="https://docs.pytest.org/en/latest/contributing.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">特约</font></font></a></li>
+  <li><a href="https://docs.pytest.org/en/latest/backwards-compatibility.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">向后兼容性</font></font></a></li>
+  <li><a href="https://docs.pytest.org/en/latest/license.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">执照</font></font></a></li>
+  <li><a href="https://docs.pytest.org/en/latest/contact.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">联系渠道</font></font></a></li>
+</ul>
+  <hr>
+  <ul>
+<li><a class="reference internal" href="https://docs.pytest.org/en/latest/xunit_setup.html#"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">经典的xunit风格的设置</font></font></a><ul>
+<li><a class="reference internal" href="https://docs.pytest.org/en/latest/xunit_setup.html#module-level-setup-teardown"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">模块级别设置/拆卸</font></font></a></li>
+<li><a class="reference internal" href="https://docs.pytest.org/en/latest/xunit_setup.html#class-level-setup-teardown"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">班级设置/拆解</font></font></a></li>
+<li><a class="reference internal" href="https://docs.pytest.org/en/latest/xunit_setup.html#method-and-function-level-setup-teardown"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">方法和功能级别设置/拆卸</font></font></a></li>
+</ul>
+</li>
+</ul>
+<h3><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">相关话题</font></font></h3>
+<ul>
+  <li><a href="https://docs.pytest.org/en/latest/contents.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">文档概述</font></font></a><ul>
+      <li><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">上</font><a href="https://docs.pytest.org/en/latest/nose.html" title="前一章"><font style="vertical-align: inherit;">一篇</font></a><font style="vertical-align: inherit;">：</font></font><a href="https://docs.pytest.org/en/latest/nose.html" title="前一章"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">运行为鼻子编写的测试</font></font></a></li>
+      <li><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">下一页：</font></font><a href="https://docs.pytest.org/en/latest/plugins.html" title="下一章"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">安装和使用插件</font></font></a></li>
+  </ul></li>
+</ul><h3><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">有用的链接</font></font></h3>
+<ul>
+  <li><a href="https://pypi.org/project/pytest/"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">pytest @ PyPI</font></font></a></li>
+  <li><a href="https://github.com/pytest-dev/pytest/"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">pytest @ GitHub</font></font></a></li>
+  <li><a href="http://plugincompat.herokuapp.com/"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">第三方插件</font></font></a></li>
+  <li><a href="https://github.com/pytest-dev/pytest/issues"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">问题跟踪器</font></font></a></li>
+  <li><a href="https://media.readthedocs.org/pdf/pytest/latest/pytest.pdf"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">PDF文档</font></font></a>
+</li></ul>
+<div id="searchbox" style="" role="search">
+  <h3><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">快速搜索</font></font></h3>
+    <div class="searchformwrapper">
+    <form class="search" action="https://docs.pytest.org/en/latest/search.html" method="get">
+      <input type="text" name="q">
+      <font style="vertical-align: inherit;"><font style="vertical-align: inherit;"><input type="submit" value="走"></font></font>
+      <input type="hidden" name="check_keywords" value="yes">
+      <input type="hidden" name="area" value="default">
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        <div id="rtd-dq24ejh4" class="ethical-alabaster"><div class="ethical-sidebar"><div class="ethical-content"><a href="https://readthedocs.org/sustainability/click/305/TUzxyTGMsO3r/" rel="nofollow" target="_blank" class="ethical-image-link"><img src="./pytest文档17_files/readthedocs-logo-fs8.png"></a><div class="ethical-text"><a href="https://readthedocs.org/sustainability/click/305/TUzxyTGMsO3r/" rel="nofollow" target="_blank"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">私人回购和优先支持</font></font><br><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">尝试阅读今日商业文档！</font></font></a></div></div><div class="ethical-callout"><small><em><a href="https://readthedocs.org/sustainability/advertising/"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">赞助商</font></font></a><span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">· </font></font></span><a href="https://docs.readthedocs.io/en/latest/ethical-advertising.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">道德服务广告</font></font></a></em></small></div></div><img src="./pytest文档17_files/saved_resource" style="display: none;"></div></div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+
+  <div class="footer"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+    ©版权所有2015-2019，holger krekel和pytest-dev团队。</font><font style="vertical-align: inherit;">使用</font></font><a href="http://sphinx.pocoo.org/"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Sphinx</font></font></a><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">创建</font><font style="vertical-align: inherit;">。
+  </font></font></div>
+  
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-7597274-13']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script><div id="goog-gt-tt" class="skiptranslate" dir="ltr"><div style="padding: 8px;"><div><div class="logo"><img src="./pytest文档17_files/translate_24dp.png" width="20" height="20" alt="Google 翻译"></div></div></div><div class="top" style="padding: 8px; float: left; width: 100%;"><h1 class="title gray">原文</h1></div><div class="middle" style="padding: 8px;"><div class="original-text"></div></div><div class="bottom" style="padding: 8px;"><div class="activity-links"><span class="activity-link">提供更好的翻译建议</span><span class="activity-link"></span></div><div class="started-activity-container"><hr style="color: #CCC; background-color: #CCC; height: 1px; border: none;"><div class="activity-root"></div></div></div><div class="status-message" style="display: none;"></div></div>
+
+  
+<div class="goog-te-spinner-pos"><div class="goog-te-spinner-animation"><svg xmlns="http://www.w3.org/2000/svg" class="goog-te-spinner" width="96px" height="96px" viewBox="0 0 66 66"><circle class="goog-te-spinner-path" fill="none" stroke-width="6" stroke-linecap="round" cx="33" cy="33" r="30"></circle></svg></div></div><!-- Inserted RTD Footer -->
+<div class="injected">
+
+  
+  <div class="rst-versions rst-badge" data-toggle="rst-versions">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      <span class="fa fa-book">&nbsp;</span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+      v：最新的
+      </font></font><span class="fa fa-caret-down"></span>
+    </span>
+    <div class="rst-other-versions">
+      
+
+      
+      
+      
+      <dl>
+        <dt><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">版本</font></font></dt>
+        
+         <strong> 
+        <dd><a href="http://doc.pytest.org/en/latest/xunit_setup.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">最新</font></font></a></dd>
+         </strong> 
+        
+        
+        <dd><a href="http://doc.pytest.org/en/stable/xunit_setup.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">稳定</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/4.3.1/xunit_setup.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">4.3.1</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/4.3.0/xunit_setup.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">4.3.0</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/4.2.1/xunit_setup.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">4.2.1</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/4.2.0/xunit_setup.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">4.2.0</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/4.1.1/xunit_setup.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">4.1.1</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/4.1.0/xunit_setup.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">4.1.0</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/4.0.2/xunit_setup.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">4.0.2</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/4.0.1/xunit_setup.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">4.0.1</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/4.0.0/xunit_setup.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">4.0.0</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.10.1/xunit_setup.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.10.1</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.10.0/xunit_setup.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.10.0</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.9.3/xunit_setup.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.9.3</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.9.2/xunit_setup.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.9.2</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.9.1/xunit_setup.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.9.1</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.9.0/xunit_setup.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.9.0</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.8.2/xunit_setup.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.8.2</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.8.1/xunit_setup.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.8.1</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.8.0/xunit_setup.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.8.0</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.7.4/xunit_setup.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.7.4</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.7.3/xunit_setup.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.7.3</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.7.2/xunit_setup.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.7.2</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.7.1/xunit_setup.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.7.1</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.7.0/xunit_setup.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.7.0</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.6.4/xunit_setup.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.6.4</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.6.3/xunit_setup.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.6.3</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.6.2/xunit_setup.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.6.2</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.6.1/xunit_setup.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.6.1</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.6.0/xunit_setup.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.6.0</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.5.1/xunit_setup.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.5.1</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.5.0/xunit_setup.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.5.0</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.4.2/xunit_setup.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.4.2</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.4.1/xunit_setup.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.4.1</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.4.0/xunit_setup.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.4.0</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.3.2/xunit_setup.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.3.2</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.3.1/xunit_setup.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.3.1</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.3.0/xunit_setup.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.3.0</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.2.5/xunit_setup.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.2.5</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.2.4/xunit_setup.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.2.4</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.2.3/xunit_setup.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.2.3</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.2.2/xunit_setup.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.2.2</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.2.1/xunit_setup.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.2.1</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.2.0/xunit_setup.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.2.0</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.1.3/xunit_setup.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.1.3</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.1.2/xunit_setup.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.1.2</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.1.1/xunit_setup.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.1.1</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.1.0/xunit_setup.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.1.0</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.0.7/xunit_setup.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.0.7</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.0.6/xunit_setup.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.0.6</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.0.5/xunit_setup.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.0.5</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.0.4/xunit_setup.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.0.4</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.0.3/xunit_setup.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.0.3</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.0.2/xunit_setup.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.0.2</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.0.1/xunit_setup.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.0.1</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.0.0/xunit_setup.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.0.0</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/2.9.2/xunit_setup.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">2.9.2</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/2.9.1/xunit_setup.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">2.9.1</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/2.9.0/xunit_setup.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">2.9.0</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/2.8.7/xunit_setup.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">2.8.7</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/2.7.3/xunit_setup.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">2.7.3</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/sphinx-removed-in/xunit_setup.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">斯芬克斯-除去式</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/features/xunit_setup.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">特征</font></font></a></dd>
+        
+        
+      </dl>
+      
+      
+
+      
+      
+      <dl>
+        <dt><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">下载</font></font></dt>
+        
+        <dd><a href="https://readthedocs.org/projects/pytest/downloads/pdf/latest/"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">PDF</font></font></a></dd>
+        
+        <dd><a href="https://readthedocs.org/projects/pytest/downloads/htmlzip/latest/"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">HTML</font></font></a></dd>
+        
+        <dd><a href="https://readthedocs.org/projects/pytest/downloads/epub/latest/"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">EPUB</font></font></a></dd>
+        
+      </dl>
+      
+      
+
+      
+      <dl>
+        <!-- These are kept as relative links for internal installs that are http -->
+        <dt><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">阅读文档</font></font></dt>
+        <dd>
+          <a href="https://readthedocs.org/projects/pytest/"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">项目主页</font></font></a>
+        </dd>
+        <dd>
+          <a href="https://readthedocs.org/projects/pytest/builds/"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">构建</font></font></a>
+        </dd>
+        <dd>
+          <a href="https://readthedocs.org/projects/pytest/downloads/"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">下载</font></font></a>
+        </dd>
+      </dl>
+      
+
+      
+
+      
+      <dl>
+        <dt><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">在GitHub上</font></font></dt>
+        <dd>
+          <a href="https://github.com/pytest-dev/pytest/blob/master/doc/en/xunit_setup.rst"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">视图</font></font></a>
+        </dd>
+        
+      </dl>
+      
+      
+
+      
+      <dl>
+        <dt><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">搜索</font></font></dt>
+        <dd>
+          <div style="padding: 6px;">
+            <form id="flyout-search-form" class="wy-form" target="_blank" action="https://readthedocs.org/projects/pytest/search/" method="get">
+              <input type="text" name="q" placeholder="Search docs">
+              </form>
+          </div>
+        </dd>
+      </dl>
+      
+
+
+
+      <hr>
+      
+        <small>
+          <span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">主持人</font></font><a href="https://readthedocs.org/"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">阅读文档</font></font></a></span>
+          <span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> · </font></font></span>
+          <a href="https://docs.readthedocs.io/page/privacy-policy.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">隐私政策</font></font></a>
+        </small>
+      
+
+      
+    </div>
+  </div>
+  
+
+</div>
+</body></html>

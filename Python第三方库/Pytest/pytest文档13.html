@@ -1,0 +1,827 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- saved from url=(0047)https://docs.pytest.org/en/latest/skipping.html -->
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh-CN" class="translated-ltr"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+    
+    <title>Skip和xfail：处理无法成功的测试 -  pytest文档</title>
+    <link rel="stylesheet" href="./pytest文档13_files/flasky.css" type="text/css">
+    <link rel="stylesheet" href="./pytest文档13_files/pygments.css" type="text/css">
+    <link rel="stylesheet" type="text/css" href="./pytest文档13_files/pygments_pytest.css">
+    <link rel="stylesheet" type="text/css" href="./pytest文档13_files/badge_only.css">
+    <script type="text/javascript" async="" src="./pytest文档13_files/ga.js"></script><script async="" src="./pytest文档13_files/analytics.js"></script><script type="text/javascript" id="documentation_options" data-url_root="./" src="./pytest文档13_files/documentation_options.js"></script>
+    <script type="text/javascript" src="./pytest文档13_files/jquery.js"></script>
+    <script type="text/javascript" src="./pytest文档13_files/underscore.js"></script>
+    <script type="text/javascript" src="./pytest文档13_files/doctools.js"></script>
+    <script type="text/javascript" src="./pytest文档13_files/language_data.js"></script>
+    <script type="text/javascript" src="./pytest文档13_files/readthedocs-doc-embed.js"></script>
+    <link rel="shortcut icon" href="https://docs.pytest.org/en/latest/_static/pytest1favi.ico">
+    <link rel="search" title="搜索" href="https://docs.pytest.org/en/latest/search.html">
+    <link rel="next" title="参数化夹具和测试功能" href="https://docs.pytest.org/en/latest/parametrize.html">
+    <link rel="prev" title="Doctest integration for modules and test files" href="https://docs.pytest.org/en/latest/doctest.html">
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9">
+
+  
+<!-- RTD Extra Head -->
+
+<!-- 
+Always link to the latest version, as canonical.
+http://docs.readthedocs.org/en/latest/canonical.html
+-->
+<link rel="canonical" href="http://doc.pytest.org/en/latest/skipping.html">
+
+<link rel="stylesheet" href="./pytest文档13_files/readthedocs-doc-embed.css" type="text/css">
+
+<script type="text/javascript" src="./pytest文档13_files/readthedocs-data.js"></script>
+
+<!-- Add page-specific data, which must exist in the page js, not global -->
+<script type="text/javascript">
+READTHEDOCS_DATA['page'] = 'skipping'
+READTHEDOCS_DATA['source_suffix'] = '.rst'
+</script>
+
+<script type="text/javascript" src="./pytest文档13_files/readthedocs-analytics.js"></script>
+
+<!-- end RTD <extrahead> -->
+<link type="text/css" rel="stylesheet" charset="UTF-8" href="./pytest文档13_files/translateelement.css"></head><body>
+  
+  
+  
+
+
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="https://docs.pytest.org/en/latest/parametrize.html" title="Parametrizing fixtures and test functions" accesskey="N">next</a></li>
+        <li class="right">
+          <a href="https://docs.pytest.org/en/latest/doctest.html" title="Doctest integration for modules and test files" accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="https://docs.pytest.org/en/latest/contents.html">pytest-4.3</a> »</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="skip-and-xfail-dealing-with-tests-that-cannot-succeed">
+<span id="skipping"></span><span id="skip-and-xfail"></span><h1><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Skip和xfail：处理无法成功的测试</font></font><a class="headerlink" href="https://docs.pytest.org/en/latest/skipping.html#skip-and-xfail-dealing-with-tests-that-cannot-succeed" title="永久链接到这个标题"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">¶</font></font></a></h1>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">您可以标记无法在某些平台上运行的测试函数或您希望失败的测试函数，以便pytest可以相应地处理它们并提供测试会话的摘要，同时保持测试套件为</font></font><em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">绿色</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">。</font></font></p>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">一个</font></font><strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">跳跃</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">意味着你希望如果某些条件得到满足你的测试只通过，否则pytest应该跳过运行测试完全。</font><font style="vertical-align: inherit;">常见示例是在非Windows平台上跳过仅限Windows的测试，或者跳过依赖于当前不可用的外部资源的测试（例如数据库）。</font></font></p>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">一个</font></font><strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">xfail</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">意味着您希望测试失败的某些原因。</font><font style="vertical-align: inherit;">一个常见的例子是对尚未实现的功能的测试，或者尚未修复的错误。</font><font style="vertical-align: inherit;">当测试通过时尽管预计会失败（标记为</font></font><code class="docutils literal notranslate"><span class="pre">pytest.mark.xfail</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">），但它是一个</font></font><strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">xpass</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">并将在测试摘要中报告。</font></font></p>
+<p><code class="docutils literal notranslate"><span class="pre">pytest</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">分别计算并列出</font></font><em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">skip</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">和</font></font><em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">xfail</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">测试。</font><font style="vertical-align: inherit;">默认情况下不显示有关跳过/ xfailed测试的详细信息，以避免混乱输出。</font><font style="vertical-align: inherit;">您可以使用该</font></font><code class="docutils literal notranslate"><span class="pre">-r</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">选项查看与测试进度中显示的“短”字母对应的详细信息：</font></font></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pytest -rxXs  <span class="c1"># show extra info on xfailed, xpassed, and skipped tests</span>
+</pre></div>
+</div>
+<p><font style="vertical-align: inherit;"></font><code class="docutils literal notranslate"><span class="pre">-r</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">可以通过运行找到</font><font style="vertical-align: inherit;">有关该</font><font style="vertical-align: inherit;">选项的</font><font style="vertical-align: inherit;">更多详细信息</font><font style="vertical-align: inherit;">。</font></font><code class="docutils literal notranslate"><span class="pre">pytest</span> <span class="pre">-h</span></code><font style="vertical-align: inherit;"></font></p>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">（请参阅</font></font><a class="reference internal" href="https://docs.pytest.org/en/latest/customize.html#how-to-change-command-line-options-defaults"><span class="std std-ref"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">如何更改命令行选项默认值</font></font></span></a><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">）</font></font></p>
+<div class="section" id="skipping-test-functions">
+<span id="condition-booleans"></span><span id="skip"></span><span id="skipif"></span><h2><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">跳过测试功能</font></font><a class="headerlink" href="https://docs.pytest.org/en/latest/skipping.html#skipping-test-functions" title="永久链接到这个标题"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">¶</font></font></a></h2>
+<div class="versionadded">
+<p><span class="versionmodified"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">版本2.9中的新功能。</font></font></span></p>
+</div>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">跳过测试函数的最简单方法是使用</font></font><code class="docutils literal notranslate"><span class="pre">skip</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">装饰器</font><font style="vertical-align: inherit;">标记它，</font><font style="vertical-align: inherit;">可以传递一个可选的</font></font><code class="docutils literal notranslate"><span class="pre">reason</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">：</font></font></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nd">@pytest.mark.skip</span><span class="p">(</span><span class="n">reason</span><span class="o">=</span><span class="s2">"no way of currently testing this"</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">test_the_unknown</span><span class="p">():</span>
+    <span class="o">...</span>
+</pre></div>
+</div>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">或者，也可以通过调用</font></font><code class="docutils literal notranslate"><span class="pre">pytest.skip(reason)</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">函数</font><font style="vertical-align: inherit;">在测试执行或设置期间强制跳过</font><font style="vertical-align: inherit;">：</font></font></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">test_function</span><span class="p">():</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">valid_config</span><span class="p">():</span>
+        <span class="n">pytest</span><span class="o">.</span><span class="n">skip</span><span class="p">(</span><span class="s2">"unsupported configuration"</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">当在导入时间内无法评估跳过条件时，命令性方法很有用。</font></font></p>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">也可以</font><font style="vertical-align: inherit;">在模块级别</font><font style="vertical-align: inherit;">跳过整个模块
+ </font><font style="vertical-align: inherit;">：</font></font><code class="docutils literal notranslate"><span class="pre">pytest.skip(reason,</span> <span class="pre">allow_module_level=True)</span></code><font style="vertical-align: inherit;"></font></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">pytest</span>
+
+<span class="k">if</span> <span class="ow">not</span> <span class="n">sys</span><span class="o">.</span><span class="n">platform</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">"win"</span><span class="p">):</span>
+    <span class="n">pytest</span><span class="o">.</span><span class="n">skip</span><span class="p">(</span><span class="s2">"skipping windows-only tests"</span><span class="p">,</span> <span class="n">allow_module_level</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">参考</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">：</font></font><a class="reference internal" href="https://docs.pytest.org/en/latest/reference.html#pytest-mark-skip-ref"><span class="std std-ref"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">pytest.mark.skip</font></font></span></a></p>
+<div class="section" id="id1">
+<h3><code class="docutils literal notranslate"><span class="pre">skipif</span></code><a class="headerlink" href="https://docs.pytest.org/en/latest/skipping.html#id1" title="永久链接到这个标题"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">¶</font></font></a></h3>
+<div class="versionadded">
+<p><span class="versionmodified"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">2.0版中的新功能。</font></font></span></p>
+</div>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">如果您希望有条件地跳过某些内容，则可以使用</font></font><code class="docutils literal notranslate"><span class="pre">skipif</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">。</font><font style="vertical-align: inherit;">下面是一个标记在Python3.6之前的解释器上运行时要跳过的测试函数的示例：</font></font></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">sys</span>
+<span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">skipif</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">version_info</span> <span class="o">&lt;</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">6</span><span class="p">),</span>
+                    <span class="n">reason</span><span class="o">=</span><span class="s2">"requires python3.6 or higher"</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">test_function</span><span class="p">():</span>
+    <span class="o">...</span>
+</pre></div>
+</div>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">如果条件</font></font><code class="docutils literal notranslate"><span class="pre">True</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">在收集期间</font><font style="vertical-align: inherit;">评估为</font><font style="vertical-align: inherit;">，则将跳过测试函数，使用时会在摘要中显示指定的原因</font></font><code class="docutils literal notranslate"><span class="pre">-rs</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">。</font></font></p>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">您可以</font></font><code class="docutils literal notranslate"><span class="pre">skipif</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">在模块之间</font><font style="vertical-align: inherit;">共享</font><font style="vertical-align: inherit;">标记。</font><font style="vertical-align: inherit;">考虑这个测试模块：</font></font></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># content of test_mymodule.py</span>
+<span class="kn">import</span> <span class="nn">mymodule</span>
+<span class="n">minversion</span> <span class="o">=</span> <span class="n">pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">skipif</span><span class="p">(</span><span class="n">mymodule</span><span class="o">.</span><span class="n">__versioninfo__</span> <span class="o">&lt;</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span>
+                                <span class="n">reason</span><span class="o">=</span><span class="s2">"at least mymodule-1.1 required"</span><span class="p">)</span>
+<span class="nd">@minversion</span>
+<span class="k">def</span> <span class="nf">test_function</span><span class="p">():</span>
+    <span class="o">...</span>
+</pre></div>
+</div>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">您可以导入标记并在另一个测试模块中重复使用它：</font></font></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># test_myothermodule.py</span>
+<span class="kn">from</span> <span class="nn">test_mymodule</span> <span class="k">import</span> <span class="n">minversion</span>
+
+<span class="nd">@minversion</span>
+<span class="k">def</span> <span class="nf">test_anotherfunction</span><span class="p">():</span>
+    <span class="o">...</span>
+</pre></div>
+</div>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">对于较大的测试套件，通常最好有一个文件来定义标记，然后在整个测试套件中一致地应用这些标记。</font></font></p>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">或者，您可以使用</font></font><a class="reference internal" href="https://docs.pytest.org/en/latest/historical-notes.html#string-conditions"><span class="std std-ref"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">条件字符串</font></font></span></a><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">而不是布尔值，但它们不能在模块之间轻松共享，因此主要出于向后兼容性原因支持它们。</font></font></p>
+<p><strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">参考</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">：</font></font><a class="reference internal" href="https://docs.pytest.org/en/latest/reference.html#pytest-mark-skipif-ref"><span class="std std-ref"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">pytest.mark.skipif</font></font></span></a></p>
+</div>
+<div class="section" id="skip-all-test-functions-of-a-class-or-module">
+<h3><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">跳过类或模块的所有测试功能</font></font><a class="headerlink" href="https://docs.pytest.org/en/latest/skipping.html#skip-all-test-functions-of-a-class-or-module" title="永久链接到这个标题"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">¶</font></font></a></h3>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">您可以</font></font><code class="docutils literal notranslate"><span class="pre">skipif</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">在类上</font><font style="vertical-align: inherit;">使用</font><font style="vertical-align: inherit;">标记（与任何其他标记一样）：</font></font></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">skipif</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">platform</span> <span class="o">==</span> <span class="s1">'win32'</span><span class="p">,</span>
+                    <span class="n">reason</span><span class="o">=</span><span class="s2">"does not run on windows"</span><span class="p">)</span>
+<span class="k">class</span> <span class="nc">TestPosixCalls</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+
+    <span class="k">def</span> <span class="nf">test_function</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="s2">"will not be setup or run under 'win32' platform"</span>
+</pre></div>
+</div>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">如果条件是</font></font><code class="docutils literal notranslate"><span class="pre">True</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">，则此标记将为该类的每个测试方法生成跳过结果。</font></font></p>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">如果要跳过模块的所有测试功能，可以</font></font><code class="docutils literal notranslate"><span class="pre">pytestmark</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">在全局级别</font><font style="vertical-align: inherit;">使用该</font><font style="vertical-align: inherit;">名称：</font></font></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># test_module.py</span>
+<span class="n">pytestmark</span> <span class="o">=</span> <span class="n">pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">skipif</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">如果将多个</font></font><code class="docutils literal notranslate"><span class="pre">skipif</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">装饰器应用于测试函数，则如果任何跳过条件为真，则将跳过该装饰器。</font></font></p>
+</div>
+<div class="section" id="skipping-files-or-directories">
+<h3><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">跳过文件或目录</font></font><a class="headerlink" href="https://docs.pytest.org/en/latest/skipping.html#skipping-files-or-directories" title="永久链接到这个标题"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">¶</font></font></a></h3>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">有时您可能需要跳过整个文件或目录，例如，如果测试依赖于Python版本特定的功能或包含您不希望运行pytest的代码。</font><font style="vertical-align: inherit;">在这种情况下，您必须从集合中排除文件和目录。</font><font style="vertical-align: inherit;">有关更多信息，</font><font style="vertical-align: inherit;">请参阅</font></font><a class="reference internal" href="https://docs.pytest.org/en/latest/example/pythoncollection.html#customizing-test-collection"><span class="std std-ref"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">自定义测试集合</font></font></span></a><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">。</font></font></p>
+</div>
+<div class="section" id="skipping-on-a-missing-import-dependency">
+<h3><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">跳过缺少的导入依赖关系</font></font><a class="headerlink" href="https://docs.pytest.org/en/latest/skipping.html#skipping-on-a-missing-import-dependency" title="永久链接到这个标题"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">¶</font></font></a></h3>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">您可以在模块级别或测试或测试设置功能中使用以下帮助程序：</font></font></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">docutils</span> <span class="o">=</span> <span class="n">pytest</span><span class="o">.</span><span class="n">importorskip</span><span class="p">(</span><span class="s2">"docutils"</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">如果</font></font><code class="docutils literal notranslate"><span class="pre">docutils</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">无法在此处导入，则会导致测试跳过结果。</font><font style="vertical-align: inherit;">您还可以根据库的版本号跳过：</font></font></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">docutils</span> <span class="o">=</span> <span class="n">pytest</span><span class="o">.</span><span class="n">importorskip</span><span class="p">(</span><span class="s2">"docutils"</span><span class="p">,</span> <span class="n">minversion</span><span class="o">=</span><span class="s2">"0.3"</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">将从指定模块的</font></font><code class="docutils literal notranslate"><span class="pre">__version__</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">属性中</font><font style="vertical-align: inherit;">读取版本</font><font style="vertical-align: inherit;">。</font></font></p>
+</div>
+<div class="section" id="summary">
+<h3><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">摘要</font></font><a class="headerlink" href="https://docs.pytest.org/en/latest/skipping.html#summary" title="永久链接到这个标题"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">¶</font></font></a></h3>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">以下是如何在不同情况下跳过模块中的测试的快速指南：</font></font></p>
+<ol class="arabic simple">
+<li><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">无条件地跳过模块中的所有测试：</font></font></li>
+</ol>
+<blockquote>
+<div><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">pytestmark</span> <span class="o">=</span> <span class="n">pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">skip</span><span class="p">(</span><span class="s2">"all tests still WIP"</span><span class="p">)</span>
+</pre></div>
+</div>
+</div></blockquote>
+<ol class="arabic simple" start="2">
+<li><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">根据某些条件跳过模块中的所有测试：</font></font></li>
+</ol>
+<blockquote>
+<div><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">pytestmark</span> <span class="o">=</span> <span class="n">pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">skipif</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">platform</span> <span class="o">==</span> <span class="s2">"win32"</span><span class="p">,</span> <span class="s2">"tests for linux only"</span><span class="p">)</span>
+</pre></div>
+</div>
+</div></blockquote>
+<ol class="arabic simple" start="3">
+<li><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">如果缺少某些导入，则跳过模块中的所有测试：</font></font></li>
+</ol>
+<blockquote>
+<div><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">pexpect</span> <span class="o">=</span> <span class="n">pytest</span><span class="o">.</span><span class="n">importorskip</span><span class="p">(</span><span class="s2">"pexpect"</span><span class="p">)</span>
+</pre></div>
+</div>
+</div></blockquote>
+</div>
+</div>
+<div class="section" id="xfail-mark-test-functions-as-expected-to-fail">
+<span id="xfail"></span><h2><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">XFail：将测试函数标记为预期失败</font></font><a class="headerlink" href="https://docs.pytest.org/en/latest/skipping.html#xfail-mark-test-functions-as-expected-to-fail" title="永久链接到这个标题"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">¶</font></font></a></h2>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">您可以使用</font></font><code class="docutils literal notranslate"><span class="pre">xfail</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">标记指示您希望测试失败：</font></font></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">xfail</span>
+<span class="k">def</span> <span class="nf">test_function</span><span class="p">():</span>
+    <span class="o">...</span>
+</pre></div>
+</div>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">将运行此测试，但在失败时不会报告回溯。</font><font style="vertical-align: inherit;">相反，终端报告会将其列在“预期失败”（</font></font><code class="docutils literal notranslate"><span class="pre">XFAIL</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">）或“意外传递”（</font></font><code class="docutils literal notranslate"><span class="pre">XPASS</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">）部分中。</font></font></p>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">或者，您也可以</font></font><code class="docutils literal notranslate"><span class="pre">XFAIL</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">在测试或设置功能中强制</font><font style="vertical-align: inherit;">标记测试</font><font style="vertical-align: inherit;">：</font></font></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">test_function</span><span class="p">():</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">valid_config</span><span class="p">():</span>
+        <span class="n">pytest</span><span class="o">.</span><span class="n">xfail</span><span class="p">(</span><span class="s2">"failing configuration (but should work)"</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">这将无条件地制作</font></font><code class="docutils literal notranslate"><span class="pre">test_function</span></code> <code class="docutils literal notranslate"><span class="pre">XFAIL</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">。</font><font style="vertical-align: inherit;">请注意，</font></font><code class="docutils literal notranslate"><span class="pre">pytest.xfail</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">调用</font><font style="vertical-align: inherit;">后不会执行其他代码</font><font style="vertical-align: inherit;">，与标记不同。</font><font style="vertical-align: inherit;">那是因为它是通过引发已知异常在内部实​​现的。</font></font></p>
+<p><strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">参考</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">：</font></font><a class="reference internal" href="https://docs.pytest.org/en/latest/reference.html#pytest-mark-xfail-ref"><span class="std std-ref"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">pytest.mark.xfail</font></font></span></a></p>
+<div class="section" id="strict-parameter">
+<span id="xfail-strict-tutorial"></span><h3><code class="docutils literal notranslate"><span class="pre">strict</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">参数</font></font><a class="headerlink" href="https://docs.pytest.org/en/latest/skipping.html#strict-parameter" title="永久链接到这个标题"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">¶</font></font></a></h3>
+<div class="versionadded">
+<p><span class="versionmodified"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">版本2.9中的新功能。</font></font></span></p>
+</div>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">双方</font></font><code class="docutils literal notranslate"><span class="pre">XFAIL</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">并</font></font><code class="docutils literal notranslate"><span class="pre">XPASS</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">除非不失败的测试套件，</font></font><code class="docutils literal notranslate"><span class="pre">strict</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">只有关键字的参数作为传递</font></font><code class="docutils literal notranslate"><span class="pre">True</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">：</font></font></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nd">@pytest.mark.xfail</span><span class="p">(</span><span class="n">strict</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">test_function</span><span class="p">():</span>
+    <span class="o">...</span>
+</pre></div>
+</div>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">这将导致</font></font><code class="docutils literal notranslate"><span class="pre">XPASS</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">（“意外通过”）此测试的结果导致测试套件失败。</font></font></p>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">您可以</font></font><code class="docutils literal notranslate"><span class="pre">strict</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">使用</font></font><code class="docutils literal notranslate"><span class="pre">xfail_strict</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">ini选项</font><font style="vertical-align: inherit;">更改</font><font style="vertical-align: inherit;">参数
+ </font><font style="vertical-align: inherit;">的默认值</font><font style="vertical-align: inherit;">：</font></font></p>
+<div class="highlight-ini notranslate"><div class="highlight"><pre><span></span><span class="k">[pytest]</span>
+<span class="na">xfail_strict</span><span class="o">=</span><span class="s">true</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="reason-parameter">
+<h3><code class="docutils literal notranslate"><span class="pre">reason</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">参数</font></font><a class="headerlink" href="https://docs.pytest.org/en/latest/skipping.html#reason-parameter" title="永久链接到这个标题"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">¶</font></font></a></h3>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">与</font></font><a class="reference internal" href="https://docs.pytest.org/en/latest/skipping.html#skipif"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">skipif一样，</font></font></a><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">您也可以在特定平台上标记您对失败的期望：</font></font></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">xfail</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">version_info</span> <span class="o">&gt;=</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">6</span><span class="p">),</span>
+                   <span class="n">reason</span><span class="o">=</span><span class="s2">"python3.6 api changes"</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">test_function</span><span class="p">():</span>
+    <span class="o">...</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="raises-parameter">
+<h3><code class="docutils literal notranslate"><span class="pre">raises</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">参数</font></font><a class="headerlink" href="https://docs.pytest.org/en/latest/skipping.html#raises-parameter" title="永久链接到这个标题"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">¶</font></font></a></h3>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">如果您想更具体地说明测试失败的原因，可以在</font></font><code class="docutils literal notranslate"><span class="pre">raises</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">参数中</font><font style="vertical-align: inherit;">指定单个异常或异常元组</font><font style="vertical-align: inherit;">。</font></font></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nd">@pytest.mark.xfail</span><span class="p">(</span><span class="n">raises</span><span class="o">=</span><span class="ne">RuntimeError</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">test_function</span><span class="p">():</span>
+    <span class="o">...</span>
+</pre></div>
+</div>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">然后，如果测试失败并且没有提到的例外，那么测试将被报告为常规失败</font></font><code class="docutils literal notranslate"><span class="pre">raises</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">。</font></font></p>
+</div>
+<div class="section" id="run-parameter">
+<h3><code class="docutils literal notranslate"><span class="pre">run</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">参数</font></font><a class="headerlink" href="https://docs.pytest.org/en/latest/skipping.html#run-parameter" title="永久链接到这个标题"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">¶</font></font></a></h3>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">如果测试应标记为xfail并且如此报告但不应该执行，请使用以下</font></font><code class="docutils literal notranslate"><span class="pre">run</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">参数</font></font><code class="docutils literal notranslate"><span class="pre">False</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">：</font></font></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nd">@pytest.mark.xfail</span><span class="p">(</span><span class="n">run</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">test_function</span><span class="p">():</span>
+    <span class="o">...</span>
+</pre></div>
+</div>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">这对于崩溃解释器的xfailing测试特别有用，应该稍后进行调查。</font></font></p>
+</div>
+<div class="section" id="ignoring-xfail">
+<h3><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">忽略xfail </font></font><a class="headerlink" href="https://docs.pytest.org/en/latest/skipping.html#ignoring-xfail" title="永久链接到这个标题"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">¶</font></font></a></h3>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">通过在命令行上指定：</font></font></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pytest --runxfail
+</pre></div>
+</div>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">您可以强制运行并报告</font></font><code class="docutils literal notranslate"><span class="pre">xfail</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">标记的测试，就像它根本没有标记一样。</font><font style="vertical-align: inherit;">这也导致</font></font><code class="docutils literal notranslate"><span class="pre">pytest.xfail</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">没有效果。</font></font></p>
+</div>
+<div class="section" id="examples">
+<h3><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">示例</font></font><a class="headerlink" href="https://docs.pytest.org/en/latest/skipping.html#examples" title="永久链接到这个标题"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">¶</font></font></a></h3>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">这是一个简单的测试文件，有几个用法：</font></font></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pytest</span>
+
+<span class="n">xfail</span> <span class="o">=</span> <span class="n">pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">xfail</span>
+
+
+<span class="nd">@xfail</span>
+<span class="k">def</span> <span class="nf">test_hello</span><span class="p">():</span>
+    <span class="k">assert</span> <span class="mi">0</span>
+
+
+<span class="nd">@xfail</span><span class="p">(</span><span class="n">run</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">test_hello2</span><span class="p">():</span>
+    <span class="k">assert</span> <span class="mi">0</span>
+
+
+<span class="nd">@xfail</span><span class="p">(</span><span class="s2">"hasattr(os, 'sep')"</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">test_hello3</span><span class="p">():</span>
+    <span class="k">assert</span> <span class="mi">0</span>
+
+
+<span class="nd">@xfail</span><span class="p">(</span><span class="n">reason</span><span class="o">=</span><span class="s2">"bug 110"</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">test_hello4</span><span class="p">():</span>
+    <span class="k">assert</span> <span class="mi">0</span>
+
+
+<span class="nd">@xfail</span><span class="p">(</span><span class="s1">'pytest.__version__[0] != "17"'</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">test_hello5</span><span class="p">():</span>
+    <span class="k">assert</span> <span class="mi">0</span>
+
+
+<span class="k">def</span> <span class="nf">test_hello6</span><span class="p">():</span>
+    <span class="n">pytest</span><span class="o">.</span><span class="n">xfail</span><span class="p">(</span><span class="s2">"reason"</span><span class="p">)</span>
+
+
+<span class="nd">@xfail</span><span class="p">(</span><span class="n">raises</span><span class="o">=</span><span class="ne">IndexError</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">test_hello7</span><span class="p">():</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+</pre></div>
+</div>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">使用report-on-xfail选项运行它会提供以下输出：</font></font></p>
+<div class="highlight-pytest notranslate"><div class="highlight"><pre><span></span>example $ pytest -rx xfail_demo.py
+<span class=" -Color -Color-Bold">=========================== test session starts ============================</span>
+platform linux -- Python 3.x.y, pytest-4.x.y, py-1.x.y, pluggy-0.x.y
+cachedir: $PYTHON_PREFIX/.pytest_cache
+rootdir: $REGENDOC_TMPDIR/example, inifile:
+collected 7 items
+
+xfail_demo.py <span class=" -Color -Color-Yellow">xxxxxxx</span>                                                <span class=" -Color -Color-Cyan">[100%]</span>
+========================= short test summary info ==========================
+XFAIL xfail_demo.py::test_hello
+XFAIL xfail_demo.py::test_hello2
+  reason: [NOTRUN]
+XFAIL xfail_demo.py::test_hello3
+  condition: hasattr(os, 'sep')
+XFAIL xfail_demo.py::test_hello4
+  bug 110
+XFAIL xfail_demo.py::test_hello5
+  condition: pytest.__version__[0] != "17"
+XFAIL xfail_demo.py::test_hello6
+  reason: reason
+XFAIL xfail_demo.py::test_hello7
+
+<span class=" -Color -Color-BoldYellow">======================== 7 xfailed in 0.12 seconds =========================</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="skip-xfail-with-parametrize">
+<span id="id2"></span><h2><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">跳过/ xfail与参数多态</font></font><a class="headerlink" href="https://docs.pytest.org/en/latest/skipping.html#skip-xfail-with-parametrize" title="永久链接到这个标题"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">¶</font></font></a></h2>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">使用参数化时，可以将skip和xfail等标记应用于各个测试实例：</font></font></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pytest</span>
+
+
+<span class="nd">@pytest.mark.parametrize</span><span class="p">(</span>
+    <span class="p">(</span><span class="s2">"n"</span><span class="p">,</span> <span class="s2">"expected"</span><span class="p">),</span>
+    <span class="p">[</span>
+        <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span>
+        <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">marks</span><span class="o">=</span><span class="n">pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">xfail</span><span class="p">),</span>
+        <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">marks</span><span class="o">=</span><span class="n">pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">xfail</span><span class="p">(</span><span class="n">reason</span><span class="o">=</span><span class="s2">"some bug"</span><span class="p">)),</span>
+        <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span>
+        <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span>
+        <span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span>
+        <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
+            <span class="mi">10</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="n">marks</span><span class="o">=</span><span class="n">pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">skipif</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">version_info</span> <span class="o">&gt;=</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="n">reason</span><span class="o">=</span><span class="s2">"py2k"</span><span class="p">)</span>
+        <span class="p">),</span>
+    <span class="p">],</span>
+<span class="p">)</span>
+<span class="k">def</span> <span class="nf">test_increment</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">expected</span><span class="p">):</span>
+    <span class="k">assert</span> <span class="n">n</span> <span class="o">+</span> <span class="mi">1</span> <span class="o">==</span> <span class="n">expected</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+          <div id="rtd-wgjw2208" class="ethical-alabaster"></div></div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="https://docs.pytest.org/en/latest/contents.html">
+              <img class="logo" src="./pytest文档13_files/pytest1.png" alt="商标">
+            </a></p><h3><a href="https://docs.pytest.org/en/latest/contents.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">目录</font></font></a></h3>
+
+<ul>
+  <li><a href="https://docs.pytest.org/en/latest/index.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">家</font></font></a></li>
+  <li><a href="https://docs.pytest.org/en/latest/getting-started.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">安装</font></font></a></li>
+  <li><a href="https://docs.pytest.org/en/latest/contents.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">内容</font></font></a></li>
+  <li><a href="https://docs.pytest.org/en/latest/reference.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">参考</font></font></a></li>
+  <li><a href="https://docs.pytest.org/en/latest/example/index.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">例子</font></font></a></li>
+  <li><a href="https://docs.pytest.org/en/latest/customize.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">定制</font></font></a></li>
+  <li><a href="https://docs.pytest.org/en/latest/changelog.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">更新日志</font></font></a></li>
+  <li><a href="https://docs.pytest.org/en/latest/contributing.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">特约</font></font></a></li>
+  <li><a href="https://docs.pytest.org/en/latest/backwards-compatibility.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">向后兼容性</font></font></a></li>
+  <li><a href="https://docs.pytest.org/en/latest/license.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">执照</font></font></a></li>
+  <li><a href="https://docs.pytest.org/en/latest/contact.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">联系渠道</font></font></a></li>
+</ul>
+  <hr>
+  <ul>
+<li><a class="reference internal" href="https://docs.pytest.org/en/latest/skipping.html#"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Skip和xfail：处理无法成功的测试</font></font></a><ul>
+<li><a class="reference internal" href="https://docs.pytest.org/en/latest/skipping.html#skipping-test-functions"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">跳过测试功能</font></font></a><ul>
+<li><a class="reference internal" href="https://docs.pytest.org/en/latest/skipping.html#id1"><code class="docutils literal notranslate"><span class="pre">skipif</span></code></a></li>
+<li><a class="reference internal" href="https://docs.pytest.org/en/latest/skipping.html#skip-all-test-functions-of-a-class-or-module"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">跳过类或模块的所有测试功能</font></font></a></li>
+<li><a class="reference internal" href="https://docs.pytest.org/en/latest/skipping.html#skipping-files-or-directories"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">跳过文件或目录</font></font></a></li>
+<li><a class="reference internal" href="https://docs.pytest.org/en/latest/skipping.html#skipping-on-a-missing-import-dependency"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">跳过缺少导入依赖项</font></font></a></li>
+<li><a class="reference internal" href="https://docs.pytest.org/en/latest/skipping.html#summary"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">摘要</font></font></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="https://docs.pytest.org/en/latest/skipping.html#xfail-mark-test-functions-as-expected-to-fail"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">XFail：将测试函数标记为预期失败</font></font></a><ul>
+<li><a class="reference internal" href="https://docs.pytest.org/en/latest/skipping.html#strict-parameter"><code class="docutils literal notranslate"><span class="pre">strict</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> 参数</font></font></a></li>
+<li><a class="reference internal" href="https://docs.pytest.org/en/latest/skipping.html#reason-parameter"><code class="docutils literal notranslate"><span class="pre">reason</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> 参数</font></font></a></li>
+<li><a class="reference internal" href="https://docs.pytest.org/en/latest/skipping.html#raises-parameter"><code class="docutils literal notranslate"><span class="pre">raises</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> 参数</font></font></a></li>
+<li><a class="reference internal" href="https://docs.pytest.org/en/latest/skipping.html#run-parameter"><code class="docutils literal notranslate"><span class="pre">run</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> 参数</font></font></a></li>
+<li><a class="reference internal" href="https://docs.pytest.org/en/latest/skipping.html#ignoring-xfail"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">忽略xfail</font></font></a></li>
+<li><a class="reference internal" href="https://docs.pytest.org/en/latest/skipping.html#examples"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">例子</font></font></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="https://docs.pytest.org/en/latest/skipping.html#skip-xfail-with-parametrize"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">使用参数化跳过/ xfail</font></font></a></li>
+</ul>
+</li>
+</ul>
+<h3><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">相关话题</font></font></h3>
+<ul>
+  <li><a href="https://docs.pytest.org/en/latest/contents.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">文档概述</font></font></a><ul>
+      <li><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">上一页：</font></font><a href="https://docs.pytest.org/en/latest/doctest.html" title="前一章"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">模块和测试文件的Doctest集成</font></font></a></li>
+      <li><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">下一步：</font></font><a href="https://docs.pytest.org/en/latest/parametrize.html" title="下一章"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">参数化夹具和测试功能</font></font></a></li>
+  </ul></li>
+</ul><h3><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">有用的链接</font></font></h3>
+<ul>
+  <li><a href="https://pypi.org/project/pytest/"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">pytest @ PyPI</font></font></a></li>
+  <li><a href="https://github.com/pytest-dev/pytest/"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">pytest @ GitHub</font></font></a></li>
+  <li><a href="http://plugincompat.herokuapp.com/"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">第三方插件</font></font></a></li>
+  <li><a href="https://github.com/pytest-dev/pytest/issues"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">问题跟踪器</font></font></a></li>
+  <li><a href="https://media.readthedocs.org/pdf/pytest/latest/pytest.pdf"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">PDF文档</font></font></a>
+</li></ul>
+<div id="searchbox" style="" role="search">
+  <h3><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">快速搜索</font></font></h3>
+    <div class="searchformwrapper">
+    <form class="search" action="https://docs.pytest.org/en/latest/search.html" method="get">
+      <input type="text" name="q">
+      <font style="vertical-align: inherit;"><font style="vertical-align: inherit;"><input type="submit" value="走"></font></font>
+      <input type="hidden" name="check_keywords" value="yes">
+      <input type="hidden" name="area" value="default">
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        <div id="rtd-dlg85vi" class="ethical-alabaster"><div class="ethical-sidebar"><div class="ethical-content"><a href="https://readthedocs.org/sustainability/click/305/0QUig180ol8P/" rel="nofollow" target="_blank" class="ethical-image-link"><img src="./pytest文档13_files/readthedocs-logo-fs8.png"></a><div class="ethical-text"><a href="https://readthedocs.org/sustainability/click/305/0QUig180ol8P/" rel="nofollow" target="_blank"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">私人回购和优先支持</font></font><br><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">尝试阅读今日商业文档！</font></font></a></div></div><div class="ethical-callout"><small><em><a href="https://readthedocs.org/sustainability/advertising/"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">赞助商</font></font></a><span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">· </font></font></span><a href="https://docs.readthedocs.io/en/latest/ethical-advertising.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">道德服务广告</font></font></a></em></small></div></div><img src="./pytest文档13_files/saved_resource" style="display: none;"></div></div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+
+  <div class="footer"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+    ©版权所有2015-2019，holger krekel和pytest-dev团队。</font><font style="vertical-align: inherit;">使用</font></font><a href="http://sphinx.pocoo.org/"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Sphinx</font></font></a><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">创建</font><font style="vertical-align: inherit;">。
+  </font></font></div>
+  
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-7597274-13']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script><div id="goog-gt-tt" class="skiptranslate" dir="ltr"><div style="padding: 8px;"><div><div class="logo"><img src="./pytest文档13_files/translate_24dp.png" width="20" height="20" alt="Google 翻译"></div></div></div><div class="top" style="padding: 8px; float: left; width: 100%;"><h1 class="title gray">原文</h1></div><div class="middle" style="padding: 8px;"><div class="original-text"></div></div><div class="bottom" style="padding: 8px;"><div class="activity-links"><span class="activity-link">提供更好的翻译建议</span><span class="activity-link"></span></div><div class="started-activity-container"><hr style="color: #CCC; background-color: #CCC; height: 1px; border: none;"><div class="activity-root"></div></div></div><div class="status-message" style="display: none;"></div></div>
+
+  
+<div class="goog-te-spinner-pos"><div class="goog-te-spinner-animation"><svg xmlns="http://www.w3.org/2000/svg" class="goog-te-spinner" width="96px" height="96px" viewBox="0 0 66 66"><circle class="goog-te-spinner-path" fill="none" stroke-width="6" stroke-linecap="round" cx="33" cy="33" r="30"></circle></svg></div></div><!-- Inserted RTD Footer -->
+<div class="injected">
+
+  
+  <div class="rst-versions rst-badge" data-toggle="rst-versions">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      <span class="fa fa-book">&nbsp;</span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+      v：最新的
+      </font></font><span class="fa fa-caret-down"></span>
+    </span>
+    <div class="rst-other-versions">
+      
+
+      
+      
+      
+      <dl>
+        <dt><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">版本</font></font></dt>
+        
+         <strong> 
+        <dd><a href="http://doc.pytest.org/en/latest/skipping.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">最新</font></font></a></dd>
+         </strong> 
+        
+        
+        <dd><a href="http://doc.pytest.org/en/stable/skipping.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">稳定</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/4.3.1/skipping.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">4.3.1</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/4.3.0/skipping.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">4.3.0</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/4.2.1/skipping.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">4.2.1</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/4.2.0/skipping.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">4.2.0</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/4.1.1/skipping.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">4.1.1</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/4.1.0/skipping.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">4.1.0</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/4.0.2/skipping.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">4.0.2</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/4.0.1/skipping.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">4.0.1</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/4.0.0/skipping.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">4.0.0</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.10.1/skipping.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.10.1</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.10.0/skipping.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.10.0</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.9.3/skipping.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.9.3</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.9.2/skipping.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.9.2</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.9.1/skipping.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.9.1</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.9.0/skipping.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.9.0</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.8.2/skipping.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.8.2</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.8.1/skipping.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.8.1</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.8.0/skipping.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.8.0</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.7.4/skipping.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.7.4</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.7.3/skipping.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.7.3</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.7.2/skipping.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.7.2</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.7.1/skipping.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.7.1</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.7.0/skipping.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.7.0</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.6.4/skipping.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.6.4</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.6.3/skipping.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.6.3</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.6.2/skipping.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.6.2</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.6.1/skipping.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.6.1</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.6.0/skipping.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.6.0</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.5.1/skipping.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.5.1</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.5.0/skipping.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.5.0</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.4.2/skipping.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.4.2</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.4.1/skipping.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.4.1</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.4.0/skipping.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.4.0</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.3.2/skipping.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.3.2</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.3.1/skipping.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.3.1</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.3.0/skipping.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.3.0</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.2.5/skipping.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.2.5</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.2.4/skipping.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.2.4</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.2.3/skipping.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.2.3</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.2.2/skipping.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.2.2</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.2.1/skipping.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.2.1</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.2.0/skipping.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.2.0</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.1.3/skipping.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.1.3</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.1.2/skipping.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.1.2</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.1.1/skipping.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.1.1</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.1.0/skipping.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.1.0</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.0.7/skipping.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.0.7</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.0.6/skipping.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.0.6</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.0.5/skipping.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.0.5</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.0.4/skipping.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.0.4</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.0.3/skipping.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.0.3</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.0.2/skipping.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.0.2</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.0.1/skipping.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.0.1</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.0.0/skipping.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.0.0</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/2.9.2/skipping.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">2.9.2</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/2.9.1/skipping.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">2.9.1</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/2.9.0/skipping.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">2.9.0</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/2.8.7/skipping.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">2.8.7</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/2.7.3/skipping.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">2.7.3</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/sphinx-removed-in/skipping.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">斯芬克斯-除去式</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/features/skipping.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">特征</font></font></a></dd>
+        
+        
+      </dl>
+      
+      
+
+      
+      
+      <dl>
+        <dt><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">下载</font></font></dt>
+        
+        <dd><a href="https://readthedocs.org/projects/pytest/downloads/pdf/latest/"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">PDF</font></font></a></dd>
+        
+        <dd><a href="https://readthedocs.org/projects/pytest/downloads/htmlzip/latest/"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">HTML</font></font></a></dd>
+        
+        <dd><a href="https://readthedocs.org/projects/pytest/downloads/epub/latest/"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">EPUB</font></font></a></dd>
+        
+      </dl>
+      
+      
+
+      
+      <dl>
+        <!-- These are kept as relative links for internal installs that are http -->
+        <dt><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">阅读文档</font></font></dt>
+        <dd>
+          <a href="https://readthedocs.org/projects/pytest/"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">项目主页</font></font></a>
+        </dd>
+        <dd>
+          <a href="https://readthedocs.org/projects/pytest/builds/"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">构建</font></font></a>
+        </dd>
+        <dd>
+          <a href="https://readthedocs.org/projects/pytest/downloads/"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">下载</font></font></a>
+        </dd>
+      </dl>
+      
+
+      
+
+      
+      <dl>
+        <dt><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">在GitHub上</font></font></dt>
+        <dd>
+          <a href="https://github.com/pytest-dev/pytest/blob/master/doc/en/skipping.rst"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">视图</font></font></a>
+        </dd>
+        
+      </dl>
+      
+      
+
+      
+      <dl>
+        <dt><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">搜索</font></font></dt>
+        <dd>
+          <div style="padding: 6px;">
+            <form id="flyout-search-form" class="wy-form" target="_blank" action="https://readthedocs.org/projects/pytest/search/" method="get">
+              <input type="text" name="q" placeholder="Search docs">
+              </form>
+          </div>
+        </dd>
+      </dl>
+      
+
+
+
+      <hr>
+      
+        <small>
+          <span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">主持人</font></font><a href="https://readthedocs.org/"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">阅读文档</font></font></a></span>
+          <span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> · </font></font></span>
+          <a href="https://docs.readthedocs.io/page/privacy-policy.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">隐私政策</font></font></a>
+        </small>
+      
+
+      
+    </div>
+  </div>
+  
+
+</div>
+</body></html>

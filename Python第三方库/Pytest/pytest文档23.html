@@ -1,0 +1,622 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- saved from url=(0044)https://docs.pytest.org/en/latest/flaky.html -->
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh-CN" class="translated-ltr"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+    
+    <title>片状测试 -  pytest文档</title>
+    <link rel="stylesheet" href="./pytest文档23_files/flasky.css" type="text/css">
+    <link rel="stylesheet" href="./pytest文档23_files/pygments.css" type="text/css">
+    <link rel="stylesheet" type="text/css" href="./pytest文档23_files/pygments_pytest.css">
+    <link rel="stylesheet" type="text/css" href="./pytest文档23_files/badge_only.css">
+    <script type="text/javascript" async="" src="./pytest文档23_files/ga.js"></script><script async="" src="./pytest文档23_files/analytics.js"></script><script type="text/javascript" id="documentation_options" data-url_root="./" src="./pytest文档23_files/documentation_options.js"></script>
+    <script type="text/javascript" src="./pytest文档23_files/jquery.js"></script>
+    <script type="text/javascript" src="./pytest文档23_files/underscore.js"></script>
+    <script type="text/javascript" src="./pytest文档23_files/doctools.js"></script>
+    <script type="text/javascript" src="./pytest文档23_files/language_data.js"></script>
+    <script type="text/javascript" src="./pytest文档23_files/readthedocs-doc-embed.js"></script>
+    <link rel="shortcut icon" href="https://docs.pytest.org/en/latest/_static/pytest1favi.ico">
+    <link rel="search" title="搜索" href="https://docs.pytest.org/en/latest/search.html">
+    <link rel="next" title="pytest导入机制和sys.path / PYTHONPATH" href="https://docs.pytest.org/en/latest/pythonpath.html">
+    <link rel="prev" title="良好的整合实践" href="https://docs.pytest.org/en/latest/goodpractices.html">
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9">
+
+  
+<!-- RTD Extra Head -->
+
+<!-- 
+Always link to the latest version, as canonical.
+http://docs.readthedocs.org/en/latest/canonical.html
+-->
+<link rel="canonical" href="http://doc.pytest.org/en/latest/flaky.html">
+
+<link rel="stylesheet" href="./pytest文档23_files/readthedocs-doc-embed.css" type="text/css">
+
+<script type="text/javascript" src="./pytest文档23_files/readthedocs-data.js"></script>
+
+<!-- Add page-specific data, which must exist in the page js, not global -->
+<script type="text/javascript">
+READTHEDOCS_DATA['page'] = 'flaky'
+READTHEDOCS_DATA['source_suffix'] = '.rst'
+</script>
+
+<script type="text/javascript" src="./pytest文档23_files/readthedocs-analytics.js"></script>
+
+<!-- end RTD <extrahead> -->
+<link type="text/css" rel="stylesheet" charset="UTF-8" href="./pytest文档23_files/translateelement.css"></head><body>
+  
+  
+  
+
+
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">导航</font></font></h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="https://docs.pytest.org/en/latest/pythonpath.html" title="pytest import mechanisms and sys.path/PYTHONPATH" accesskey="N"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">下一个</font></font></a></li>
+        <li class="right">
+          <a href="https://docs.pytest.org/en/latest/goodpractices.html" title="Good Integration Practices" accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="https://docs.pytest.org/en/latest/contents.html">pytest-4.3</a> »</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="flaky-tests">
+<h1><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">片状测试</font></font><a class="headerlink" href="https://docs.pytest.org/en/latest/flaky.html#flaky-tests" title="永久链接到这个标题"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">¶</font></font></a></h1>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">“片状”测试是表现出间歇性或偶发性失败的测试，似乎具有非确定性行为。</font><font style="vertical-align: inherit;">有时它会通过，有时会失败，而且不清楚为什么。</font><font style="vertical-align: inherit;">本页讨论了可以提供帮助的pytest功能以及识别，修复或减轻它们的其他一般策略。</font></font></p>
+<div class="section" id="why-flaky-tests-are-a-problem">
+<h2><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">为什么片状测试是个问题</font></font><a class="headerlink" href="https://docs.pytest.org/en/latest/flaky.html#why-flaky-tests-are-a-problem" title="永久链接到这个标题"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">¶</font></font></a></h2>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">当使用连续集成（CI）服务器时，片状测试尤其麻烦，因此在合并新代码更改之前必须通过所有测试。</font><font style="vertical-align: inherit;">如果测试结果不是一个可靠的信号 - 测试失败意味着代码更改破坏了测试 - 开发人员可能会对测试结果产生不信任，这可能导致忽略真正的失败。</font><font style="vertical-align: inherit;">它也是浪费时间的一个来源，因为开发人员必须重新运行测试套件并调查虚假故障。</font></font></p>
+</div>
+<div class="section" id="potential-root-causes">
+<h2><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">潜在的根本原因</font></font><a class="headerlink" href="https://docs.pytest.org/en/latest/flaky.html#potential-root-causes" title="永久链接到这个标题"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">¶</font></font></a></h2>
+<div class="section" id="system-state">
+<h3><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">系统状态</font></font><a class="headerlink" href="https://docs.pytest.org/en/latest/flaky.html#system-state" title="永久链接到这个标题"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">¶</font></font></a></h3>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">从广义上讲，一个片状测试表明测试依赖于一些未被适当控制的系统状态 - 测试环境没有充分隔离。</font><font style="vertical-align: inherit;">更高级别的测试更有可能是因为他们依赖更多的状态。</font></font></p>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">当测试套件并行运行时（例如使用pytest-xdist），有时会出现片状测试。</font><font style="vertical-align: inherit;">这可以表明测试依赖于测试排序。</font></font></p>
+<ul class="simple">
+<li><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">也许不同的测试是在自身之后无法清理并留下导致片状测试失败的数据。</font></font></li>
+<li><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">片状测试依赖于先前测试的数据，该测试不会自行清理，并且并行运行以前的测试并不总是存在</font></font></li>
+<li><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">修改全局状态的测试通常不能并行运行。</font></font></li>
+</ul>
+</div>
+<div class="section" id="overly-strict-assertion">
+<h3><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">过于严格的断言</font></font><a class="headerlink" href="https://docs.pytest.org/en/latest/flaky.html#overly-strict-assertion" title="永久链接到这个标题"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">¶</font></font></a></h3>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">过于严格的断言可能会导致浮点比较以及时序问题。</font></font><a class="reference external" href="https://docs.pytest.org/en/latest/reference.html#pytest-approx"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">pytest.approx</font></font></a><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">在这里很有用。</font></font></p>
+</div>
+</div>
+<div class="section" id="pytest-features">
+<h2><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Pytest功能</font></font><a class="headerlink" href="https://docs.pytest.org/en/latest/flaky.html#pytest-features" title="永久链接到这个标题"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">¶</font></font></a></h2>
+<div class="section" id="xfail-strict">
+<h3><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Xfail严格</font></font><a class="headerlink" href="https://docs.pytest.org/en/latest/flaky.html#xfail-strict" title="永久链接到这个标题"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">¶</font></font></a></h3>
+<p><a class="reference internal" href="https://docs.pytest.org/en/latest/reference.html#pytest-mark-xfail-ref"><span class="std std-ref"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">pytest.mark.xfail</font></font></span></a><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> with</font></font><code class="docutils literal notranslate"><span class="pre">strict=False</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">可用于标记测试，以便其失败不会导致整个构建中断。</font><font style="vertical-align: inherit;">这可以被视为手动隔离，永久使用是相当危险的。</font></font></p>
+</div>
+<div class="section" id="pytest-current-test">
+<h3><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">PYTEST_CURRENT_TEST </font></font><a class="headerlink" href="https://docs.pytest.org/en/latest/flaky.html#pytest-current-test" title="永久链接到这个标题"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">¶</font></font></a></h3>
+<p><a class="reference internal" href="https://docs.pytest.org/en/latest/example/simple.html#pytest-current-test-env"><span class="std std-ref"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">PYTEST_CURRENT_TEST环境变量</font></font></span></a><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">可用于确定“哪个测试卡住了”。</font></font></p>
+</div>
+<div class="section" id="plugins">
+<h3><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">插件</font></font><a class="headerlink" href="https://docs.pytest.org/en/latest/flaky.html#plugins" title="永久链接到这个标题"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">¶</font></font></a></h3>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">重新运行任何失败的测试可以通过给予他们额外的机会来减轻片状测试的负面影响，这样整体构建就不会失败。</font><font style="vertical-align: inherit;">几个pytest插件支持这个：</font></font></p>
+<ul class="simple">
+<li><a class="reference external" href="https://github.com/box/flaky"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">片状</font></font></a></li>
+<li><a class="reference external" href="https://github.com/dropbox/pytest-flakefinder"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">pytest-flakefinder</font></font></a><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> - </font></font><a class="reference external" href="https://blogs.dropbox.com/tech/2016/03/open-sourcing-pytest-tools/"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">博客文章</font></font></a></li>
+<li><a class="reference external" href="https://github.com/pytest-dev/pytest-rerunfailures"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">pytest-rerunfailures</font></font></a></li>
+<li><a class="reference external" href="https://github.com/ESSS/pytest-replay"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">pytest-replay</font></font></a><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">：这个插件有助于重现CI运行期间观察到的局部崩溃或片状测试。</font></font></li>
+</ul>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">故意随机化测试的插件可以帮助公开测试状态问题：</font></font></p>
+<ul class="simple">
+<li><a class="reference external" href="https://github.com/jbasko/pytest-random-order"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">pytest随机顺序</font></font></a></li>
+<li><a class="reference external" href="https://github.com/pytest-dev/pytest-randomly"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">pytest随机</font></font></a></li>
+</ul>
+</div>
+</div>
+<div class="section" id="other-general-strategies">
+<h2><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">其他一般策略</font></font><a class="headerlink" href="https://docs.pytest.org/en/latest/flaky.html#other-general-strategies" title="永久链接到这个标题"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">¶</font></font></a></h2>
+<div class="section" id="split-up-test-suites">
+<h3><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">拆分测试套件</font></font><a class="headerlink" href="https://docs.pytest.org/en/latest/flaky.html#split-up-test-suites" title="永久链接到这个标题"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">¶</font></font></a></h3>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">将单个测试套件拆分为两个是常见的，例如单元与集成，并且仅将单元测试套件用作CI门。</font><font style="vertical-align: inherit;">这也有助于保持构建时间的可管理性，因为高级别测试往往更慢。</font><font style="vertical-align: inherit;">但是，这意味着打破构建的代码可能会合并，因此需要额外的警惕来监视集成测试结果。</font></font></p>
+</div>
+<div class="section" id="video-screenshot-on-failure">
+<h3><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">失败的视频/截图</font></font><a class="headerlink" href="https://docs.pytest.org/en/latest/flaky.html#video-screenshot-on-failure" title="永久链接到这个标题"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">¶</font></font></a></h3>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">对于UI测试，这些对于了解测试失败时UI的状态非常重要。</font><font style="vertical-align: inherit;">pytest-splinter可以与pytest-bdd这样的插件一起使用，并且可以</font></font><a class="reference external" href="https://pytest-splinter.readthedocs.io/en/latest/#automatic-screenshots-on-test-failure"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">在测试失败时保存屏幕截图</font></font></a><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">，这有助于隔离原因。</font></font></p>
+</div>
+<div class="section" id="delete-or-rewrite-the-test">
+<h3><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">删除或重写测试</font></font><a class="headerlink" href="https://docs.pytest.org/en/latest/flaky.html#delete-or-rewrite-the-test" title="永久链接到这个标题"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">¶</font></font></a></h3>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">如果其他测试涵盖了该功能，则可能会删除该测试。</font><font style="vertical-align: inherit;">如果没有，也许它可以在较低的水平重写，这将消除片状或使其来源更明显。</font></font></p>
+</div>
+<div class="section" id="quarantine">
+<h3><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">隔离</font></font><a class="headerlink" href="https://docs.pytest.org/en/latest/flaky.html#quarantine" title="永久链接到这个标题"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">¶</font></font></a></h3>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Mark Lapierre </font><font style="vertical-align: inherit;">在2018年的一篇文章中</font><font style="vertical-align: inherit;">讨论了</font></font><a class="reference external" href="https://dev.to/mlapierre/pros-and-cons-of-quarantined-tests-2emj"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">隔离测试的</font></font></a><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">优缺点</font><font style="vertical-align: inherit;">。</font></font></p>
+</div>
+<div class="section" id="ci-tools-that-rerun-on-failure">
+<h3><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">在失败时重新运行的CI工具</font></font><a class="headerlink" href="https://docs.pytest.org/en/latest/flaky.html#ci-tools-that-rerun-on-failure" title="永久链接到这个标题"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">¶</font></font></a></h3>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Azure管道（Azure云CI / CD工具，以前称为Visual Studio Team Services或VSTS）具有</font></font><a class="reference external" href="https://docs.microsoft.com/en-us/azure/devops/release-notes/2017/dec-11-vsts#identify-flaky-tests"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">识别片状测试</font></font></a><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">和重新运行失败测试的功能。</font></font></p>
+</div>
+</div>
+<div class="section" id="research">
+<h2><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">研究</font></font><a class="headerlink" href="https://docs.pytest.org/en/latest/flaky.html#research" title="永久链接到这个标题"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">¶</font></font></a></h2>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">这是一个有限的列表，请提交问题或拉取请求以扩展它！</font></font></p>
+<ul class="simple">
+<li><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Gao，Zebao，Yalan Liang，Myra B. Cohen，Atif M. Memon和Zhen Wang。</font><font style="vertical-align: inherit;">“使系统用户交互式测试可重复：何时以及我们应该控制什么？”在</font></font><em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">软件工程（ICSE），2015 IEEE / ACM第37届IEEE国际会议上</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">，第一卷。</font><font style="vertical-align: inherit;">1，pp.55-65。</font><font style="vertical-align: inherit;">IEEE，2015年   </font></font><a class="reference external" href="http://www.cs.umd.edu/~atif/pubs/gao-icse15.pdf"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">PDF</font></font></a></li>
+<li><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Palomba，Fabio和Andy Zaidman。</font><font style="vertical-align: inherit;">“测试气味的重构是否会导致固定片状测试？”在</font></font><em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">软件维护和演进（ICSME），2017 IEEE国际会议上</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">，第1-12页。</font><font style="vertical-align: inherit;">IEEE，2017.Google </font></font><a class="reference external" href="https://drive.google.com/file/d/10HdcCQiuQVgW3yYUJD-TSTq1NbYEprl0/view"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Drive中的PDF</font></font></a></li>
+<li><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Bell，Jonathan，Owolabi Legunsen，Michael Hilton，Lamyaa Eloussi，Tifany Yung和Darko Marinov。</font><font style="vertical-align: inherit;">“DeFlaker：自动检测片状测试。”在</font></font><em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">2018年国际软件工程会议论文集中</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">。</font><font style="vertical-align: inherit;">2018. </font></font><a class="reference external" href="https://www.jonbell.net/icse18-deflaker.pdf"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">PDF</font></font></a></li>
+</ul>
+</div>
+<div class="section" id="resources">
+<h2><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">资源</font></font><a class="headerlink" href="https://docs.pytest.org/en/latest/flaky.html#resources" title="永久链接到这个标题"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">¶</font></font></a></h2>
+<ul class="simple">
+<li><a class="reference external" href="https://martinfowler.com/articles/nonDeterminism.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">在</font></font></a><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">马丁福勒，2011年</font><a class="reference external" href="https://martinfowler.com/articles/nonDeterminism.html"><font style="vertical-align: inherit;">消除测试中</font></a><font style="vertical-align: inherit;">的</font><a class="reference external" href="https://martinfowler.com/articles/nonDeterminism.html"><font style="vertical-align: inherit;">非决定论</font></a></font></li>
+<li><a class="reference external" href="https://www.thoughtworks.com/insights/blog/no-more-flaky-tests-go-team"><font style="vertical-align: inherit;"></font></a><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">2012年，Pavan Sudarshan </font><a class="reference external" href="https://www.thoughtworks.com/insights/blog/no-more-flaky-tests-go-team"><font style="vertical-align: inherit;">对Go团队</font></a><font style="vertical-align: inherit;">的</font><a class="reference external" href="https://www.thoughtworks.com/insights/blog/no-more-flaky-tests-go-team"><font style="vertical-align: inherit;">测试没有更多</font></a></font></li>
+<li><a class="reference external" href="https://www.youtube.com/embed/VotJqV4n8ig"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">破碎的建筑：在持续集成测试中建立信任测试</font></font></a><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">由</font></font><a class="reference external" href="http://angiejones.tech/"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Angie Jones</font></font></a><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">在2017年奥斯汀SeleniumConf上</font><font style="vertical-align: inherit;">讲话（视频）</font></font></li>
+<li><a class="reference external" href="https://testandcode.com/50"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">测试和代码播客：片状测试以及如何处理它们</font></font></a><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">由Brian Okken和Anthony Shaw，2018年</font></font></li>
+<li><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">微软：</font></font><ul>
+<li><a class="reference external" href="https://blogs.msdn.microsoft.com/bharry/2017/06/28/testing-in-a-cloud-delivery-cadence/"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">我们如何通过测试VSTS来实现</font></font></a><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> 2017年Brian Harry MS的</font><a class="reference external" href="https://blogs.msdn.microsoft.com/bharry/2017/06/28/testing-in-a-cloud-delivery-cadence/"><font style="vertical-align: inherit;">持续交付</font></a></font></li>
+<li><a class="reference external" href="https://docs.microsoft.com/en-us/azure/devops/learn/devops-at-microsoft/eliminating-flaky-tests"><font style="vertical-align: inherit;"></font></a><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">2017年，Munil Shah </font><a class="reference external" href="https://docs.microsoft.com/en-us/azure/devops/learn/devops-at-microsoft/eliminating-flaky-tests"><font style="vertical-align: inherit;">消除</font></a><font style="vertical-align: inherit;">了Flaky </font><a class="reference external" href="https://docs.microsoft.com/en-us/azure/devops/learn/devops-at-microsoft/eliminating-flaky-tests"><font style="vertical-align: inherit;">Tests的</font></a><font style="vertical-align: inherit;">博客和谈话（视频）</font></font></li>
+</ul>
+</li>
+<li><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">谷歌：</font></font><ul>
+<li><a class="reference external" href="https://testing.googleblog.com/2016/05/flaky-tests-at-google-and-how-we.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">谷歌的片状测试和我们如何减轻他们的影响</font></font></a><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">，约翰米科，2016年</font></font></li>
+<li><a class="reference external" href="https://docs.google.com/document/d/1mZ0-Kc97DI_F3tf_GBW_NB_aqka-P1jVOsFfufxqUUM/edit#heading=h.ec0r4fypsleh"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">谷歌的片状测试来自哪里？</font></font></a><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">  作者：Jeff Listfield，2017</font></font></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+
+          <div id="rtd-n9kgrvjl" class="ethical-alabaster"></div></div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="https://docs.pytest.org/en/latest/contents.html">
+              <img class="logo" src="./pytest文档23_files/pytest1.png" alt="商标">
+            </a></p><h3><a href="https://docs.pytest.org/en/latest/contents.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">目录</font></font></a></h3>
+
+<ul>
+  <li><a href="https://docs.pytest.org/en/latest/index.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">家</font></font></a></li>
+  <li><a href="https://docs.pytest.org/en/latest/getting-started.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">安装</font></font></a></li>
+  <li><a href="https://docs.pytest.org/en/latest/contents.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">内容</font></font></a></li>
+  <li><a href="https://docs.pytest.org/en/latest/reference.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">参考</font></font></a></li>
+  <li><a href="https://docs.pytest.org/en/latest/example/index.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">例子</font></font></a></li>
+  <li><a href="https://docs.pytest.org/en/latest/customize.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">定制</font></font></a></li>
+  <li><a href="https://docs.pytest.org/en/latest/changelog.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">更新日志</font></font></a></li>
+  <li><a href="https://docs.pytest.org/en/latest/contributing.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">特约</font></font></a></li>
+  <li><a href="https://docs.pytest.org/en/latest/backwards-compatibility.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">向后兼容性</font></font></a></li>
+  <li><a href="https://docs.pytest.org/en/latest/license.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">执照</font></font></a></li>
+  <li><a href="https://docs.pytest.org/en/latest/contact.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">联系渠道</font></font></a></li>
+</ul>
+  <hr>
+  <ul>
+<li><a class="reference internal" href="https://docs.pytest.org/en/latest/flaky.html#"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">片状测试</font></font></a><ul>
+<li><a class="reference internal" href="https://docs.pytest.org/en/latest/flaky.html#why-flaky-tests-are-a-problem"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">为什么片状测试是一个问题</font></font></a></li>
+<li><a class="reference internal" href="https://docs.pytest.org/en/latest/flaky.html#potential-root-causes"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">潜在的根本原因</font></font></a><ul>
+<li><a class="reference internal" href="https://docs.pytest.org/en/latest/flaky.html#system-state"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">系统状态</font></font></a></li>
+<li><a class="reference internal" href="https://docs.pytest.org/en/latest/flaky.html#overly-strict-assertion"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">过于严格的断言</font></font></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="https://docs.pytest.org/en/latest/flaky.html#pytest-features"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Pytest功能</font></font></a><ul>
+<li><a class="reference internal" href="https://docs.pytest.org/en/latest/flaky.html#xfail-strict"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Xfail严格</font></font></a></li>
+<li><a class="reference internal" href="https://docs.pytest.org/en/latest/flaky.html#pytest-current-test"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">PYTEST_CURRENT_TEST</font></font></a></li>
+<li><a class="reference internal" href="https://docs.pytest.org/en/latest/flaky.html#plugins"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">插件</font></font></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="https://docs.pytest.org/en/latest/flaky.html#other-general-strategies"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">其他一般策略</font></font></a><ul>
+<li><a class="reference internal" href="https://docs.pytest.org/en/latest/flaky.html#split-up-test-suites"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">拆分测试套件</font></font></a></li>
+<li><a class="reference internal" href="https://docs.pytest.org/en/latest/flaky.html#video-screenshot-on-failure"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">失败的视频/截图</font></font></a></li>
+<li><a class="reference internal" href="https://docs.pytest.org/en/latest/flaky.html#delete-or-rewrite-the-test"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">删除或重写测试</font></font></a></li>
+<li><a class="reference internal" href="https://docs.pytest.org/en/latest/flaky.html#quarantine"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">隔离</font></font></a></li>
+<li><a class="reference internal" href="https://docs.pytest.org/en/latest/flaky.html#ci-tools-that-rerun-on-failure"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">CI工具在失败时重新运行</font></font></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="https://docs.pytest.org/en/latest/flaky.html#research"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">研究</font></font></a></li>
+<li><a class="reference internal" href="https://docs.pytest.org/en/latest/flaky.html#resources"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">资源</font></font></a></li>
+</ul>
+</li>
+</ul>
+<h3><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">相关话题</font></font></h3>
+<ul>
+  <li><a href="https://docs.pytest.org/en/latest/contents.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">文档概述</font></font></a><ul>
+      <li><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">上一篇：</font></font><a href="https://docs.pytest.org/en/latest/goodpractices.html" title="前一章"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">良好的集成实践</font></font></a></li>
+      <li><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">下一篇：</font></font><a href="https://docs.pytest.org/en/latest/pythonpath.html" title="下一章"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">pytest导入机制和</font></font><code class="docutils literal notranslate"><span class="pre">sys.path</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">/</font></font><code class="docutils literal notranslate"><span class="pre">PYTHONPATH</span></code></a></li>
+  </ul></li>
+</ul><h3><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">有用的链接</font></font></h3>
+<ul>
+  <li><a href="https://pypi.org/project/pytest/"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">pytest @ PyPI</font></font></a></li>
+  <li><a href="https://github.com/pytest-dev/pytest/"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">pytest @ GitHub</font></font></a></li>
+  <li><a href="http://plugincompat.herokuapp.com/"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">第三方插件</font></font></a></li>
+  <li><a href="https://github.com/pytest-dev/pytest/issues"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">问题跟踪器</font></font></a></li>
+  <li><a href="https://media.readthedocs.org/pdf/pytest/latest/pytest.pdf"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">PDF文档</font></font></a>
+</li></ul>
+<div id="searchbox" style="" role="search">
+  <h3><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">快速搜索</font></font></h3>
+    <div class="searchformwrapper">
+    <form class="search" action="https://docs.pytest.org/en/latest/search.html" method="get">
+      <input type="text" name="q">
+      <font style="vertical-align: inherit;"><font style="vertical-align: inherit;"><input type="submit" value="走"></font></font>
+      <input type="hidden" name="check_keywords" value="yes">
+      <input type="hidden" name="area" value="default">
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        <div id="rtd-has0nwhx" class="ethical-alabaster"><div class="ethical-sidebar"><div class="ethical-content"><a href="https://readthedocs.org/sustainability/click/194/PCkysVKctyvg/" rel="nofollow" target="_blank" class="ethical-image-link"><img src="./pytest文档23_files/english-house.png"></a><div class="ethical-text"><a href="https://readthedocs.org/sustainability/click/194/PCkysVKctyvg/" rel="nofollow" target="_blank"><b><font style="vertical-align: inherit;"></font></b><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">当您使用“阅读文档”进行广告宣传时，每个月</font><b><font style="vertical-align: inherit;">达到700多万开发者</font></b></font></a><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">。</font></font></div></div><div class="ethical-callout"><small><em><a href="https://readthedocs.org/sustainability/advertising/"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">赞助商</font></font></a><span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">· </font></font></span><a href="https://docs.readthedocs.io/en/latest/ethical-advertising.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">道德服务广告</font></font></a></em></small></div></div><img src="./pytest文档23_files/saved_resource" style="display: none;"></div></div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+
+  <div class="footer"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+    ©版权所有2015-2019，holger krekel和pytest-dev团队。</font><font style="vertical-align: inherit;">使用</font></font><a href="http://sphinx.pocoo.org/"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Sphinx</font></font></a><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">创建</font><font style="vertical-align: inherit;">。
+  </font></font></div>
+  
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-7597274-13']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script><div id="goog-gt-tt" class="skiptranslate" dir="ltr"><div style="padding: 8px;"><div><div class="logo"><img src="./pytest文档23_files/translate_24dp.png" width="20" height="20" alt="Google 翻译"></div></div></div><div class="top" style="padding: 8px; float: left; width: 100%;"><h1 class="title gray">原文</h1></div><div class="middle" style="padding: 8px;"><div class="original-text"></div></div><div class="bottom" style="padding: 8px;"><div class="activity-links"><span class="activity-link">提供更好的翻译建议</span><span class="activity-link"></span></div><div class="started-activity-container"><hr style="color: #CCC; background-color: #CCC; height: 1px; border: none;"><div class="activity-root"></div></div></div><div class="status-message" style="display: none;"></div></div>
+
+  
+<div class="goog-te-spinner-pos"><div class="goog-te-spinner-animation"><svg xmlns="http://www.w3.org/2000/svg" class="goog-te-spinner" width="96px" height="96px" viewBox="0 0 66 66"><circle class="goog-te-spinner-path" fill="none" stroke-width="6" stroke-linecap="round" cx="33" cy="33" r="30"></circle></svg></div></div><!-- Inserted RTD Footer -->
+<div class="injected">
+
+  
+  <div class="rst-versions rst-badge" data-toggle="rst-versions">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      <span class="fa fa-book">&nbsp;</span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+      v：最新的
+      </font></font><span class="fa fa-caret-down"></span>
+    </span>
+    <div class="rst-other-versions">
+      
+
+      
+      
+      
+      <dl>
+        <dt><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">版本</font></font></dt>
+        
+         <strong> 
+        <dd><a href="http://doc.pytest.org/en/latest/flaky.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">最新</font></font></a></dd>
+         </strong> 
+        
+        
+        <dd><a href="http://doc.pytest.org/en/stable/flaky.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">稳定</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/4.3.1/flaky.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">4.3.1</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/4.3.0/flaky.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">4.3.0</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/4.2.1/flaky.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">4.2.1</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/4.2.0/flaky.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">4.2.0</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/4.1.1/flaky.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">4.1.1</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/4.1.0/flaky.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">4.1.0</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/4.0.2/flaky.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">4.0.2</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/4.0.1/flaky.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">4.0.1</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/4.0.0/flaky.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">4.0.0</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.10.1/flaky.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.10.1</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.10.0/flaky.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.10.0</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.9.3/flaky.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.9.3</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.9.2/flaky.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.9.2</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.9.1/flaky.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.9.1</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.9.0/flaky.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.9.0</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.8.2/flaky.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.8.2</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.8.1/flaky.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.8.1</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.8.0/flaky.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.8.0</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.7.4/flaky.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.7.4</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.7.3/flaky.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.7.3</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.7.2/flaky.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.7.2</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.7.1/flaky.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.7.1</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.7.0/flaky.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.7.0</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.6.4/flaky.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.6.4</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.6.3/flaky.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.6.3</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.6.2/flaky.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.6.2</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.6.1/flaky.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.6.1</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.6.0/flaky.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.6.0</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.5.1/flaky.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.5.1</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.5.0/flaky.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.5.0</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.4.2/flaky.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.4.2</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.4.1/flaky.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.4.1</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.4.0/flaky.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.4.0</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.3.2/flaky.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.3.2</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.3.1/flaky.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.3.1</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.3.0/flaky.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.3.0</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.2.5/flaky.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.2.5</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.2.4/flaky.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.2.4</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.2.3/flaky.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.2.3</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.2.2/flaky.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.2.2</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.2.1/flaky.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.2.1</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.2.0/flaky.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.2.0</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.1.3/flaky.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.1.3</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.1.2/flaky.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.1.2</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.1.1/flaky.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.1.1</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.1.0/flaky.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.1.0</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.0.7/flaky.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.0.7</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.0.6/flaky.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.0.6</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.0.5/flaky.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.0.5</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.0.4/flaky.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.0.4</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.0.3/flaky.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.0.3</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.0.2/flaky.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.0.2</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.0.1/flaky.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.0.1</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.0.0/flaky.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.0.0</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/2.9.2/flaky.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">2.9.2</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/2.9.1/flaky.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">2.9.1</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/2.9.0/flaky.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">2.9.0</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/2.8.7/flaky.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">2.8.7</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/2.7.3/flaky.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">2.7.3</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/sphinx-removed-in/flaky.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">斯芬克斯-除去式</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/features/flaky.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">特征</font></font></a></dd>
+        
+        
+      </dl>
+      
+      
+
+      
+      
+      <dl>
+        <dt><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">下载</font></font></dt>
+        
+        <dd><a href="https://readthedocs.org/projects/pytest/downloads/pdf/latest/"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">PDF</font></font></a></dd>
+        
+        <dd><a href="https://readthedocs.org/projects/pytest/downloads/htmlzip/latest/"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">HTML</font></font></a></dd>
+        
+        <dd><a href="https://readthedocs.org/projects/pytest/downloads/epub/latest/"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">EPUB</font></font></a></dd>
+        
+      </dl>
+      
+      
+
+      
+      <dl>
+        <!-- These are kept as relative links for internal installs that are http -->
+        <dt><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">阅读文档</font></font></dt>
+        <dd>
+          <a href="https://readthedocs.org/projects/pytest/"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">项目主页</font></font></a>
+        </dd>
+        <dd>
+          <a href="https://readthedocs.org/projects/pytest/builds/"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">构建</font></font></a>
+        </dd>
+        <dd>
+          <a href="https://readthedocs.org/projects/pytest/downloads/"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">下载</font></font></a>
+        </dd>
+      </dl>
+      
+
+      
+
+      
+      <dl>
+        <dt><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">在GitHub上</font></font></dt>
+        <dd>
+          <a href="https://github.com/pytest-dev/pytest/blob/master/doc/en/flaky.rst"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">视图</font></font></a>
+        </dd>
+        
+      </dl>
+      
+      
+
+      
+      <dl>
+        <dt><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">搜索</font></font></dt>
+        <dd>
+          <div style="padding: 6px;">
+            <form id="flyout-search-form" class="wy-form" target="_blank" action="https://readthedocs.org/projects/pytest/search/" method="get">
+              <input type="text" name="q" placeholder="Search docs">
+              </form>
+          </div>
+        </dd>
+      </dl>
+      
+
+
+
+      <hr>
+      
+        <small>
+          <span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">主持人</font></font><a href="https://readthedocs.org/"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">阅读文档</font></font></a></span>
+          <span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> · </font></font></span>
+          <a href="https://docs.readthedocs.io/page/privacy-policy.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">隐私政策</font></font></a>
+        </small>
+      
+
+      
+    </div>
+  </div>
+  
+
+</div>
+</body></html>

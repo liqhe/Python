@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<!-- saved from url=(0064)https://docs.locust.io/en/stable/running-locust-distributed.html -->
+<html class="js flexbox canvas canvastext webgl no-touch geolocation postmessage websqldatabase indexeddb hashchange history draganddrop websockets rgba hsla multiplebgs backgroundsize borderimage borderradius boxshadow textshadow opacity cssanimations csscolumns cssgradients cssreflections csstransforms csstransforms3d csstransitions fontface generatedcontent video audio localstorage sessionstorage webworkers applicationcache svg inlinesvg smil svgclippaths translated-ltr" lang="zh-CN" style=""><!--<![endif]--><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>运行Locust分布式 -  Locust 0.9.0文档</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="./Locust 0.9.0文档6_files/theme.css" type="text/css">
+  <link rel="stylesheet" href="./Locust 0.9.0文档6_files/pygments.css" type="text/css">
+    <link rel="index" title="指数" href="https://docs.locust.io/en/stable/genindex.html">
+    <link rel="search" title="搜索" href="https://docs.locust.io/en/stable/search.html">
+    <link rel="next" title="在没有Web UI的情况下运行Locust" href="https://docs.locust.io/en/stable/running-locust-without-web-ui.html">
+    <link rel="prev" title="编写一个locustfile" href="https://docs.locust.io/en/stable/writing-a-locustfile.html"> 
+
+  
+  <script async="" src="./Locust 0.9.0文档6_files/analytics.js"></script><script src="./Locust 0.9.0文档6_files/modernizr.min.js"></script>
+
+
+<!-- RTD Extra Head -->
+
+<!-- 
+Always link to the latest version, as canonical.
+http://docs.readthedocs.org/en/latest/canonical.html
+-->
+<link rel="canonical" href="http://docs.locust.io/en/stable/running-locust-distributed.html">
+
+<link rel="stylesheet" href="./Locust 0.9.0文档6_files/readthedocs-doc-embed.css" type="text/css">
+
+<script type="text/javascript" src="./Locust 0.9.0文档6_files/readthedocs-data.js"></script>
+
+<!-- Add page-specific data, which must exist in the page js, not global -->
+<script type="text/javascript">
+READTHEDOCS_DATA['page'] = 'running-locust-distributed'
+READTHEDOCS_DATA['source_suffix'] = '.rst'
+</script>
+
+<script type="text/javascript" src="./Locust 0.9.0文档6_files/readthedocs-analytics.js"></script>
+
+<!-- end RTD <extrahead> -->
+<link type="text/css" rel="stylesheet" charset="UTF-8" href="./Locust 0.9.0文档6_files/translateelement.css"></head>
+
+<body class="wy-body-for-nav" style="">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="https://docs.locust.io/en/stable/index.html" class="icon icon-home"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> 刺槐
+          
+
+          
+          </font></font></a>
+
+          
+            
+            
+            
+              <div class="version"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+                稳定
+              </font></font></div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="https://docs.locust.io/en/stable/search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs">
+    <input type="hidden" name="check_keywords" value="yes">
+    <input type="hidden" name="area" value="default">
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="https://docs.locust.io/en/stable/what-is-locust.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">什么是蝗虫？</font></font></a></li>
+<li class="toctree-l1"><a class="reference internal" href="https://docs.locust.io/en/stable/installation.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">安装</font></font></a></li>
+<li class="toctree-l1"><a class="reference internal" href="https://docs.locust.io/en/stable/quickstart.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">快速开始</font></font></a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="https://docs.locust.io/en/stable/writing-a-locustfile.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">编写一个locustfile</font></font></a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal current" href="https://docs.locust.io/en/stable/running-locust-distributed.html#"><span class="toctree-expand"></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">运行Locust分布式</font></font></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="https://docs.locust.io/en/stable/running-locust-distributed.html#example"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">例</font></font></a></li>
+<li class="toctree-l2"><a class="reference internal" href="https://docs.locust.io/en/stable/running-locust-distributed.html#options"><span class="toctree-expand"></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">选项</font></font></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="https://docs.locust.io/en/stable/running-locust-distributed.html#master"><code class="docutils literal notranslate"><span class="pre">--master</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="https://docs.locust.io/en/stable/running-locust-distributed.html#slave"><code class="docutils literal notranslate"><span class="pre">--slave</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="https://docs.locust.io/en/stable/running-locust-distributed.html#master-host-x-x-x-x"><code class="docutils literal notranslate"><span class="pre">--master-host=X.X.X.X</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="https://docs.locust.io/en/stable/running-locust-distributed.html#master-port-5557"><code class="docutils literal notranslate"><span class="pre">--master-port=5557</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="https://docs.locust.io/en/stable/running-locust-distributed.html#master-bind-host-x-x-x-x"><code class="docutils literal notranslate"><span class="pre">--master-bind-host=X.X.X.X</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="https://docs.locust.io/en/stable/running-locust-distributed.html#master-bind-port-5557"><code class="docutils literal notranslate"><span class="pre">--master-bind-port=5557</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="https://docs.locust.io/en/stable/running-locust-distributed.html#expect-slaves-x"><code class="docutils literal notranslate"><span class="pre">--expect-slaves=X</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="https://docs.locust.io/en/stable/running-locust-distributed.html#running-locust-distributed-without-the-web-ui"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">在没有Web UI的情况下运行Locust</font></font></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="https://docs.locust.io/en/stable/running-locust-without-web-ui.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">在没有Web UI的情况下运行Locust</font></font></a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="https://docs.locust.io/en/stable/retrieving-stats.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">以CSV格式检索测试统计信息</font></font></a></li>
+<li class="toctree-l1"><a class="reference internal" href="https://docs.locust.io/en/stable/testing-other-systems.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">使用自定义客户端测试其他系统</font></font></a></li>
+<li class="toctree-l1"><a class="reference internal" href="https://docs.locust.io/en/stable/api.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">API</font></font></a></li>
+<li class="toctree-l1"><a class="reference internal" href="https://docs.locust.io/en/stable/extending-locust.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">扩大蝗虫</font></font></a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="https://docs.locust.io/en/stable/third-party-tools.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">第三方工具</font></font></a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="https://docs.locust.io/en/stable/changelog.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">变更日志亮点</font></font></a></li>
+</ul>
+
+            
+          
+        </div>
+      <div id="rtd-0p6ozf76" class="ethical-rtd ethical-dark-theme"><div class="ethical-sidebar"><div class="ethical-content"><a href="https://readthedocs.org/sustainability/click/194/fbZ9McUYaVMX/" rel="nofollow" target="_blank" class="ethical-image-link"><img src="./Locust 0.9.0文档6_files/english-house.png"></a><div class="ethical-text"><a href="https://readthedocs.org/sustainability/click/194/fbZ9McUYaVMX/" rel="nofollow" target="_blank"><b><font style="vertical-align: inherit;"></font></b><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">当您使用“阅读文档”进行广告宣传时，每个月</font><b><font style="vertical-align: inherit;">达到700多万开发者</font></b></font></a><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">。</font></font></div></div><div class="ethical-callout"><small><em><a href="https://readthedocs.org/sustainability/advertising/"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">赞助商</font></font></a><span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">· </font></font></span><a href="https://docs.readthedocs.io/en/latest/ethical-advertising.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">道德服务广告</font></font></a></em></small></div></div><img src="./Locust 0.9.0文档6_files/saved_resource" style="display: none;"></div></div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="https://docs.locust.io/en/stable/index.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">刺槐</font></font></a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="https://docs.locust.io/en/stable/index.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">文件</font></font></a><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> »</font></font></li>
+        
+      <li><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">运行Locust分布式</font></font></li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            
+              <a href="https://github.com/locustio/locust/blob/4bde2ca90f28bde649ff4ce2c86e36a6e6260856/docs/running-locust-distributed.rst" class="fa fa-github"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> 在GitHub上编辑</font></font></a>
+            
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="running-locust-distributed">
+<span id="id1"></span><h1><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">运行Locust分发</font></font><a class="headerlink" href="https://docs.locust.io/en/stable/running-locust-distributed.html#running-locust-distributed" title="永久链接到这个标题"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">¶</font></font></a></h1>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">一旦单个机器不足以模拟您需要的用户数量，Locust就支持运行分布在多台机器上的负载测试。</font></font></p>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">为此，您可以使用</font></font><code class="docutils literal notranslate"><span class="pre">--master</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">标志</font><font style="vertical-align: inherit;">以主模式启动一个Locust实例</font><font style="vertical-align: inherit;">。</font><font style="vertical-align: inherit;">这是将运行Locust的Web界面的实例，您可以在其中开始测试并查看实时统计信息。</font><font style="vertical-align: inherit;">主节点不会模拟任何用户本身。</font><font style="vertical-align: inherit;">相反，您必须使用该</font></font><code class="docutils literal notranslate"><span class="pre">--slave</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">标志以及
+ </font></font><code class="docutils literal notranslate"><span class="pre">--master-host</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">（指定主节点的IP /主机名）</font><font style="vertical-align: inherit;">启动一个或多个可能的多个从属Locust节点</font><font style="vertical-align: inherit;">。</font></font></p>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">常见的设置是在一台计算机上运行单个主服务器，然后在从属计算机上为每个处理器核心运行一个从属实例。</font></font></p>
+<div class="admonition note">
+<p class="first admonition-title"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">注意</font></font></p>
+<p class="last"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">在运行Locust分布式时，主机和每台从机都必须有一个蝗虫测试脚本的副本。</font></font></p>
+</div>
+<div class="section" id="example">
+<h2><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">示例</font></font><a class="headerlink" href="https://docs.locust.io/en/stable/running-locust-distributed.html#example" title="永久链接到这个标题"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">¶</font></font></a></h2>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">要在主模式下启动蝗虫：</font></font></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">locust</span> <span class="o">-</span><span class="n">f</span> <span class="n">my_locustfile</span><span class="o">.</span><span class="n">py</span> <span class="o">--</span><span class="n">master</span>
+</pre></div>
+</div>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">然后在每个从站上（</font></font><code class="docutils literal notranslate"><span class="pre">192.168.0.14</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">用主机的IP </font><font style="vertical-align: inherit;">替换</font><font style="vertical-align: inherit;">）：</font></font></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">locust</span> <span class="o">-</span><span class="n">f</span> <span class="n">my_locustfile</span><span class="o">.</span><span class="n">py</span> <span class="o">--</span><span class="n">slave</span> <span class="o">--</span><span class="n">master</span><span class="o">-</span><span class="n">host</span><span class="o">=</span><span class="mf">192.168</span><span class="o">.</span><span class="mf">0.14</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="options">
+<h2><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">选项</font></font><a class="headerlink" href="https://docs.locust.io/en/stable/running-locust-distributed.html#options" title="永久链接到这个标题"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">¶</font></font></a></h2>
+<div class="section" id="master">
+<h3><code class="docutils literal notranslate"><span class="pre">--master</span></code><a class="headerlink" href="https://docs.locust.io/en/stable/running-locust-distributed.html#master" title="永久链接到这个标题"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">¶</font></font></a></h3>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">在主模式下设置蝗虫。</font><font style="vertical-align: inherit;">Web界面将在此节点上运行。</font></font></p>
+</div>
+<div class="section" id="slave">
+<h3><code class="docutils literal notranslate"><span class="pre">--slave</span></code><a class="headerlink" href="https://docs.locust.io/en/stable/running-locust-distributed.html#slave" title="永久链接到这个标题"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">¶</font></font></a></h3>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">将蝗虫设置为从属模式。</font></font></p>
+</div>
+<div class="section" id="master-host-x-x-x-x">
+<h3><code class="docutils literal notranslate"><span class="pre">--master-host=X.X.X.X</span></code><a class="headerlink" href="https://docs.locust.io/en/stable/running-locust-distributed.html#master-host-x-x-x-x" title="永久链接到这个标题"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">¶</font></font></a></h3>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">可选择与</font></font><code class="docutils literal notranslate"><span class="pre">--slave</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">设置主节点的主机名/ IP </font><font style="vertical-align: inherit;">一起使用</font><font style="vertical-align: inherit;">（默认为127.0.0.1）</font></font></p>
+</div>
+<div class="section" id="master-port-5557">
+<h3><code class="docutils literal notranslate"><span class="pre">--master-port=5557</span></code><a class="headerlink" href="https://docs.locust.io/en/stable/running-locust-distributed.html#master-port-5557" title="永久链接到这个标题"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">¶</font></font></a></h3>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">可选择与</font></font><code class="docutils literal notranslate"><span class="pre">--slave</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">设置主节点的端口号</font><font style="vertical-align: inherit;">一起使用</font><font style="vertical-align: inherit;">（默认为5557）。</font><font style="vertical-align: inherit;">请注意，locust将使用指定的端口以及端口号+1。</font><font style="vertical-align: inherit;">因此，如果使用5557，蝗虫将使用端口5557和5558。</font></font></p>
+</div>
+<div class="section" id="master-bind-host-x-x-x-x">
+<h3><code class="docutils literal notranslate"><span class="pre">--master-bind-host=X.X.X.X</span></code><a class="headerlink" href="https://docs.locust.io/en/stable/running-locust-distributed.html#master-bind-host-x-x-x-x" title="永久链接到这个标题"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">¶</font></font></a></h3>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">可选择与</font></font><code class="docutils literal notranslate"><span class="pre">--master</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">。</font><font style="vertical-align: inherit;">一起使用</font><font style="vertical-align: inherit;">。</font><font style="vertical-align: inherit;">确定主节点将绑定到哪个网络接口。</font><font style="vertical-align: inherit;">默认为*（所有可用接口）。</font></font></p>
+</div>
+<div class="section" id="master-bind-port-5557">
+<h3><code class="docutils literal notranslate"><span class="pre">--master-bind-port=5557</span></code><a class="headerlink" href="https://docs.locust.io/en/stable/running-locust-distributed.html#master-bind-port-5557" title="永久链接到这个标题"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">¶</font></font></a></h3>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">可选择与</font></font><code class="docutils literal notranslate"><span class="pre">--master</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">。</font><font style="vertical-align: inherit;">一起使用</font><font style="vertical-align: inherit;">。</font><font style="vertical-align: inherit;">确定主节点将侦听的网络端口。</font><font style="vertical-align: inherit;">默认为5557.请注意，locust将使用指定的端口以及端口号+1。</font><font style="vertical-align: inherit;">因此，如果使用5557，蝗虫将使用端口5557和5558。</font></font></p>
+</div>
+<div class="section" id="expect-slaves-x">
+<h3><code class="docutils literal notranslate"><span class="pre">--expect-slaves=X</span></code><a class="headerlink" href="https://docs.locust.io/en/stable/running-locust-distributed.html#expect-slaves-x" title="永久链接到这个标题"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">¶</font></font></a></h3>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">在使用时启动主节点时使用</font></font><code class="docutils literal notranslate"><span class="pre">--no-web</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">。</font><font style="vertical-align: inherit;">然后主节点将等待，直到测试开始之前X从节点已连接。</font></font></p>
+</div>
+</div>
+<div class="section" id="running-locust-distributed-without-the-web-ui">
+<h2><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">在没有Web UI的情况下运行</font></font><a class="headerlink" href="https://docs.locust.io/en/stable/running-locust-distributed.html#running-locust-distributed-without-the-web-ui" title="永久链接到这个标题"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Locust¶</font></font></a></h2>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">请参阅在</font></font><a class="reference internal" href="https://docs.locust.io/en/stable/running-locust-without-web-ui.html#running-locust-distributed-without-web-ui"><span class="std std-ref"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">没有Web UI的情况下运行Locust</font></font></span></a></p>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="https://docs.locust.io/en/stable/running-locust-without-web-ui.html" class="btn btn-neutral float-right" title="在没有Web UI的情况下运行Locust" accesskey="n" rel="next"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">下一个 </font></font><span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="https://docs.locust.io/en/stable/writing-a-locustfile.html" class="btn btn-neutral" title="编写一个locustfile" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> 以前</font></font></a>
+      
+    </div>
+  
+
+  <hr><div><div id="rtd-hlbmd51k" class="ethical-rtd"></div></div>
+
+  <div role="contentinfo">
+    <p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+        ©版权所有。
+      
+        </font></font><span class="commit"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+          修订</font></font><code>4bde2ca9</code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">。
+        </font></font></span>
+      
+
+    </p>
+  </div><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">使用</font><a href="https://readthedocs.org/"><font style="vertical-align: inherit;">Read the Docs</font></a><font style="vertical-align: inherit;">提供</font><font style="vertical-align: inherit;">的</font><a href="https://github.com/rtfd/sphinx_rtd_theme"><font style="vertical-align: inherit;">主题</font></a><font style="vertical-align: inherit;"> 
+  使用</font></font><a href="http://sphinx-doc.org/"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Sphinx</font></font></a><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">构建</font><font style="vertical-align: inherit;">。 
+
+</font></font><a href="https://github.com/rtfd/sphinx_rtd_theme"><font style="vertical-align: inherit;"></font></a><font style="vertical-align: inherit;"></font><a href="https://readthedocs.org/"><font style="vertical-align: inherit;"></font></a><font style="vertical-align: inherit;"></font></footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      <span class="fa fa-book"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">阅读文档</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> 
+      v：stable
+      </font></font><span class="fa fa-caret-down"></span>
+    </span>
+    <div class="rst-other-versions"><!-- Inserted RTD Footer -->
+<div class="injected">
+
+  
+
+      
+      
+      
+      <dl>
+        <dt>Versions</dt>
+        
+        
+        <dd><a href="http://docs.locust.io/en/latest/running-locust-distributed.html">latest</a></dd>
+        
+        
+         <strong> 
+        <dd><a href="http://docs.locust.io/en/stable/running-locust-distributed.html">stable</a></dd>
+         </strong> 
+        
+        
+        <dd><a href="http://docs.locust.io/en/0.9.0/running-locust-distributed.html">0.9.0</a></dd>
+        
+        
+        
+        <dd><a href="http://docs.locust.io/en/v0.8.1/running-locust-distributed.html">v0.8.1</a></dd>
+        
+        
+        
+        <dd><a href="http://docs.locust.io/en/v0.8/running-locust-distributed.html">v0.8</a></dd>
+        
+        
+        
+        <dd><a href="http://docs.locust.io/en/v0.7.5/running-locust-distributed.html">v0.7.5</a></dd>
+        
+        
+        
+        <dd><a href="http://docs.locust.io/en/v0.7.2/running-locust-distributed.html">v0.7.2</a></dd>
+        
+        
+        
+        <dd><a href="http://docs.locust.io/en/v0.7.1/running-locust-distributed.html">v0.7.1</a></dd>
+        
+        
+        
+        <dd><a href="http://docs.locust.io/en/v0.7/running-locust-distributed.html">v0.7</a></dd>
+        
+        
+        
+        <dd><a href="http://docs.locust.io/en/v0.6.2/running-locust-distributed.html">v0.6.2</a></dd>
+        
+        
+        
+        <dd><a href="http://docs.locust.io/en/v0.6.1/running-locust-distributed.html">v0.6.1</a></dd>
+        
+        
+        
+        <dd><a href="http://docs.locust.io/en/v0.6/running-locust-distributed.html">v0.6</a></dd>
+        
+        
+        
+        <dd><a href="http://docs.locust.io/en/v0.5.1/running-locust-distributed.html">v0.5.1</a></dd>
+        
+        
+        
+        <dd><a href="http://docs.locust.io/en/0.4/running-locust-distributed.html">0.4</a></dd>
+        
+        
+      </dl>
+      
+      
+
+      
+      
+      <dl>
+        <dt>Downloads</dt>
+        
+        <dd><a href="https://readthedocs.org/projects/locust/downloads/pdf/stable/">PDF</a></dd>
+        
+        <dd><a href="https://readthedocs.org/projects/locust/downloads/htmlzip/stable/">HTML</a></dd>
+        
+        <dd><a href="https://readthedocs.org/projects/locust/downloads/epub/stable/">Epub</a></dd>
+        
+      </dl>
+      
+      
+
+      
+      <dl>
+        <!-- These are kept as relative links for internal installs that are http -->
+        <dt>On Read the Docs</dt>
+        <dd>
+          <a href="https://readthedocs.org/projects/locust/">Project Home</a>
+        </dd>
+        <dd>
+          <a href="https://readthedocs.org/projects/locust/builds/">Builds</a>
+        </dd>
+        <dd>
+          <a href="https://readthedocs.org/projects/locust/downloads/">Downloads</a>
+        </dd>
+      </dl>
+      
+
+      
+
+      
+      <dl>
+        <dt>On GitHub</dt>
+        <dd>
+          <a href="https://github.com/locustio/locust/blob/4bde2ca90f28bde649ff4ce2c86e36a6e6260856/docs/running-locust-distributed.rst">View</a>
+        </dd>
+        
+      </dl>
+      
+      
+
+      
+      <dl>
+        <dt>Search</dt>
+        <dd>
+          <div style="padding: 6px;">
+            <form id="flyout-search-form" class="wy-form" target="_blank" action="https://readthedocs.org/projects/locust/search/" method="get">
+              <input type="text" name="q" placeholder="Search docs">
+              </form>
+          </div>
+        </dd>
+      </dl>
+      
+
+
+
+      <hr>
+      
+        <small>
+          <span>Hosted by <a href="https://readthedocs.org/">Read the Docs</a></span>
+          <span> · </span>
+          <a href="https://docs.readthedocs.io/page/privacy-policy.html">Privacy Policy</a>
+        </small>
+      
+
+      
+
+</div>
+</div>
+  </div>
+
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'0.9.0',
+            LANGUAGE:'en',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="./Locust 0.9.0文档6_files/jquery-2.0.3.min.js"></script>
+      <script type="text/javascript" src="./Locust 0.9.0文档6_files/jquery-migrate-1.2.1.min.js"></script>
+      <script type="text/javascript" src="./Locust 0.9.0文档6_files/underscore.js"></script>
+      <script type="text/javascript" src="./Locust 0.9.0文档6_files/doctools.js"></script>
+      <script type="text/javascript" src="./Locust 0.9.0文档6_files/readthedocs-doc-embed.js"></script>
+
+  
+
+  <script type="text/javascript" src="./Locust 0.9.0文档6_files/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script><div id="goog-gt-tt" class="skiptranslate" dir="ltr"><div style="padding: 8px;"><div><div class="logo"><img src="./Locust 0.9.0文档6_files/translate_24dp.png" width="20" height="20" alt="Google 翻译"></div></div></div><div class="top" style="padding: 8px; float: left; width: 100%;"><h1 class="title gray">原文</h1></div><div class="middle" style="padding: 8px;"><div class="original-text"></div></div><div class="bottom" style="padding: 8px;"><div class="activity-links"><span class="activity-link">提供更好的翻译建议</span><span class="activity-link"></span></div><div class="started-activity-container"><hr style="color: #CCC; background-color: #CCC; height: 1px; border: none;"><div class="activity-root"></div></div></div><div class="status-message" style="display: none;"></div></div> 
+
+
+<div class="goog-te-spinner-pos"><div class="goog-te-spinner-animation"><svg xmlns="http://www.w3.org/2000/svg" class="goog-te-spinner" width="96px" height="96px" viewBox="0 0 66 66"><circle class="goog-te-spinner-path" fill="none" stroke-width="6" stroke-linecap="round" cx="33" cy="33" r="30"></circle></svg></div></div></body></html>

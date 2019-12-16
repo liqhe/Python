@@ -1,0 +1,21 @@
+F test_demo.py::TestClass::test_func
+ self = <test_demo.TestClass object at 0x10ed12908>
+ 
+     def test_func(self):
+ >       assert self.func(3) == 5
+ E       assert 4 == 5
+ E         -4
+ E         +5
+ 
+ test_demo.py:10: AssertionError
+. test_demo.py::TestClass::test_one
+F test_demo.py::TestClass::test_two
+ self = <test_demo.TestClass object at 0x10eb96e48>
+ 
+     def test_two(self):
+         x = "hello"
+ >       assert hasattr(x, 'check')
+ E       AssertionError: assert False
+ E        +  where False = hasattr('hello', 'check')
+ 
+ test_demo.py:18: AssertionError

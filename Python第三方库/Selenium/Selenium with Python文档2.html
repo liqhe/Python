@@ -1,0 +1,325 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- saved from url=(0056)https://selenium-python.readthedocs.io/installation.html -->
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh-CN" class="translated-ltr"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+    
+    <title>1.安装 -  Selenium Python Bindings 2文档</title>
+    <link rel="stylesheet" href="./Selenium with Python文档2_files/alabaster.css" type="text/css">
+    <link rel="stylesheet" href="./Selenium with Python文档2_files/pygments.css" type="text/css">
+    <link rel="stylesheet" href="./Selenium with Python文档2_files/badge_only.css" type="text/css">
+    <script async="" src="./Selenium with Python文档2_files/analytics.js"></script><script type="text/javascript" id="documentation_options" data-url_root="./" src="./Selenium with Python文档2_files/documentation_options.js"></script>
+    <script type="text/javascript" src="./Selenium with Python文档2_files/jquery-2.0.3.min.js"></script>
+    <script type="text/javascript" src="./Selenium with Python文档2_files/jquery-migrate-1.2.1.min.js"></script>
+    <script type="text/javascript" src="./Selenium with Python文档2_files/underscore.js"></script>
+    <script type="text/javascript" src="./Selenium with Python文档2_files/doctools.js"></script>
+    <script type="text/javascript" src="./Selenium with Python文档2_files/readthedocs-doc-embed.js"></script>
+    <link rel="index" title="指数" href="https://selenium-python.readthedocs.io/genindex.html">
+    <link rel="search" title="搜索" href="https://selenium-python.readthedocs.io/search.html">
+    <link rel="next" title="2.入门" href="https://selenium-python.readthedocs.io/getting-started.html">
+    <link rel="prev" title="硒与Python" href="https://selenium-python.readthedocs.io/index.html">
+   
+  <link rel="stylesheet" href="./Selenium with Python文档2_files/custom.css" type="text/css">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9">
+
+  
+<!-- RTD Extra Head -->
+
+<!-- 
+Always link to the latest version, as canonical.
+http://docs.readthedocs.org/en/latest/canonical.html
+-->
+<link rel="canonical" href="https://selenium-python.readthedocs.io/installation.html">
+
+<link rel="stylesheet" href="./Selenium with Python文档2_files/readthedocs-doc-embed.css" type="text/css">
+
+<script type="text/javascript" src="./Selenium with Python文档2_files/readthedocs-data.js"></script>
+
+<!-- Add page-specific data, which must exist in the page js, not global -->
+<script type="text/javascript">
+READTHEDOCS_DATA['page'] = 'installation'
+READTHEDOCS_DATA['source_suffix'] = '.rst'
+</script>
+
+<script type="text/javascript" src="./Selenium with Python文档2_files/readthedocs-analytics.js"></script>
+
+<!-- end RTD <extrahead> -->
+<link type="text/css" rel="stylesheet" charset="UTF-8" href="./Selenium with Python文档2_files/translateelement.css"></head><body style="">
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="installation">
+<span id="id1"></span><h1><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">1.安装</font></font><a class="headerlink" href="https://selenium-python.readthedocs.io/installation.html#installation" title="永久链接到这个标题"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">¶</font></font></a></h1>
+<div class="section" id="introduction">
+<h2><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">1.1。</font><font style="vertical-align: inherit;">介绍</font></font><a class="headerlink" href="https://selenium-python.readthedocs.io/installation.html#introduction" title="永久链接到这个标题"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">¶</font></font></a></h2>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Selenium Python绑定提供了一个简单的API，可以使用Selenium WebDriver编写功能/验收测试。</font><font style="vertical-align: inherit;">通过Selenium Python API，您可以直观地访问Selenium WebDriver的所有功能。</font></font></p>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Selenium Python绑定提供了一个方便的API来访问Selenium WebDrivers，如Firefox，Ie，Chrome，Remote等。目前支持的Python版本是2.7,3.5及更高版本。</font></font></p>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">本文档介绍了Selenium 2 WebDriver API。</font><font style="vertical-align: inherit;">Selenium 1 / Selenium RC API不在此处。</font></font></p>
+</div>
+<div class="section" id="downloading-python-bindings-for-selenium">
+<h2><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">1.2。</font><font style="vertical-align: inherit;">下载Selenium的Python绑定</font></font><a class="headerlink" href="https://selenium-python.readthedocs.io/installation.html#downloading-python-bindings-for-selenium" title="永久链接到这个标题"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">¶</font></font></a></h2>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">您可以从Selenium </font></font><a class="reference external" href="https://pypi.python.org/pypi/selenium"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">包</font></font></a><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">的</font><a class="reference external" href="https://pypi.python.org/pypi/selenium"><font style="vertical-align: inherit;">PyPI页面</font></a><font style="vertical-align: inherit;">下载Selenium的Python绑定</font><font style="vertical-align: inherit;">。</font><font style="vertical-align: inherit;">但是，更好的方法是使用
+ </font></font><a class="reference external" href="https://pip.pypa.io/en/latest/installing/"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">pip</font></font></a><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">来安装selenium包。</font><font style="vertical-align: inherit;">Python 3.6在</font></font><a class="reference external" href="https://docs.python.org/3.6/installing/index.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">标准库中</font></font></a><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">提供了pip
+ </font><font style="vertical-align: inherit;">。</font><font style="vertical-align: inherit;">使用</font></font><cite><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">pip</font></font></cite><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">，你可以像这样安装selenium：</font></font></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="n">selenium</span>
+</pre></div>
+</div>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">您可以考虑使用</font></font><a class="reference external" href="http://www.virtualenv.org/"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">virtualenv</font></font></a><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> 
+来创建隔离的Python环境。</font><font style="vertical-align: inherit;">Python 3.6有</font></font><a class="reference external" href="https://docs.python.org/3.6/using/scripts.html#scripts-pyvenv"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">pyvenv</font></font></a><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> 
+，几乎与virtualenv相同。</font></font></p>
+</div>
+<div class="section" id="drivers">
+<h2><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">1.3。</font><font style="vertical-align: inherit;">驱动程序</font></font><a class="headerlink" href="https://selenium-python.readthedocs.io/installation.html#drivers" title="永久链接到这个标题"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">¶</font></font></a></h2>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Selenium需要驱动程序与所选浏览器进行交互。</font><font style="vertical-align: inherit;">例如，Firefox需要</font></font><a class="reference external" href="https://github.com/mozilla/geckodriver/releases"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">geckodriver</font></font></a><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">，需要在运行以下示例之前安装</font><a class="reference external" href="https://github.com/mozilla/geckodriver/releases"><font style="vertical-align: inherit;">geckodriver</font></a><font style="vertical-align: inherit;">。</font><font style="vertical-align: inherit;">确保它在您的</font></font><cite><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">PATH中</font></font></cite><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">，例如，将其放在</font></font><cite><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">/ usr / bin</font></font></cite><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">或</font></font><cite><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">/ usr / local / bin中</font></font></cite><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">。</font></font></p>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">如果不遵守此步骤，将会出现错误</font></font><cite><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">selenium.common.exceptions.WebDriverException：消息：'geckodriver'可执行文件需要位于PATH中。</font></font></cite></p>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">其他支持的浏览器将有自己的驱动程序可用。</font><font style="vertical-align: inherit;">下面是一些比较流行的浏览器驱动程序的链接。</font></font></p>
+<div class="wy-table-responsive"><table border="1" class="docutils">
+<colgroup>
+<col width="16%">
+<col width="84%">
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Chrome</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">：</font></font></td>
+<td><a class="reference external" href="https://sites.google.com/a/chromium.org/chromedriver/downloads"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">https://sites.google.com/a/chromium.org/chromedriver/downloads</font></font></a></td>
+</tr>
+<tr class="row-even"><td><strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">边缘</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">：</font></font></td>
+<td><a class="reference external" href="https://developer.microsoft.com/en-us/microsoft-edge/tools/webdriver/"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">https://developer.microsoft.com/en-us/microsoft-edge/tools/webdriver/</font></font></a></td>
+</tr>
+<tr class="row-odd"><td><strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Firefox</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">：</font></font></td>
+<td><a class="reference external" href="https://github.com/mozilla/geckodriver/releases"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">https://github.com/mozilla/geckodriver/releases</font></font></a></td>
+</tr>
+<tr class="row-even"><td><strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Safari</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">：</font></font></td>
+<td><a class="reference external" href="https://webkit.org/blog/6900/webdriver-support-in-safari-10/"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">https://webkit.org/blog/6900/webdriver-support-in-safari-10/</font></font></a></td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<div class="section" id="detailed-instructions-for-windows-users">
+<h2><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">1.4。</font><font style="vertical-align: inherit;">Windows用户的详细说明</font></font><a class="headerlink" href="https://selenium-python.readthedocs.io/installation.html#detailed-instructions-for-windows-users" title="永久链接到这个标题"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">¶</font></font></a></h2>
+<div class="admonition note">
+<p class="first admonition-title"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">注意</font></font></p>
+<p class="last"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">您应该有Internet连接来执行此安装。</font></font></p>
+</div>
+<ol class="arabic">
+<li><p class="first"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">使用</font></font><a class="reference external" href="http://www.python.org/download"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">python.org下载页面中提供</font></font></a><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">的</font><a class="reference external" href="http://www.python.org/download"><font style="vertical-align: inherit;">MSI</font></a><font style="vertical-align: inherit;">安装Python 3.6 </font><font style="vertical-align: inherit;">。</font></font></p>
+</li>
+<li><p class="first"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">使用该</font></font><code class="docutils literal notranslate"><span class="pre">cmd.exe</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">程序</font><font style="vertical-align: inherit;">启动命令提示符</font><font style="vertical-align: inherit;">并运行</font></font><code class="docutils literal notranslate"><span class="pre">pip</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">下面给出</font><font style="vertical-align: inherit;">的
+ </font><font style="vertical-align: inherit;">命令以安装</font></font><cite><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">selenium</font></font></cite><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">。</font></font></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">C</span><span class="p">:</span>\<span class="n">Python35</span>\<span class="n">Scripts</span>\<span class="n">pip</span><span class="o">.</span><span class="n">exe</span> <span class="n">install</span> <span class="n">selenium</span>
+</pre></div>
+</div>
+</li>
+</ol>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">现在您可以使用Python运行测试脚本。</font><font style="vertical-align: inherit;">例如，如果您已创建基于Selenium的脚本并将其保存在内部
+ </font></font><code class="docutils literal notranslate"><span class="pre">C:\my_selenium_script.py</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">，则可以像这样运行它：</font></font></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">C</span><span class="p">:</span>\<span class="n">Python35</span>\<span class="n">python</span><span class="o">.</span><span class="n">exe</span> <span class="n">C</span><span class="p">:</span>\<span class="n">my_selenium_script</span><span class="o">.</span><span class="n">py</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="downloading-selenium-server">
+<h2><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">1.5。</font><font style="vertical-align: inherit;">下载Selenium服务器</font></font><a class="headerlink" href="https://selenium-python.readthedocs.io/installation.html#downloading-selenium-server" title="永久链接到这个标题"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">¶</font></font></a></h2>
+<div class="admonition note">
+<p class="first admonition-title"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">注意</font></font></p>
+<p class="last"><strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">仅当您要使用远程WebDriver时才需要Selenium服务器</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">。</font><font style="vertical-align: inherit;">有关</font><font style="vertical-align: inherit;">详细信息，</font><font style="vertical-align: inherit;">请参阅</font></font><a class="reference internal" href="https://selenium-python.readthedocs.io/getting-started.html#selenium-remote-webdriver"><span class="std std-ref"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">使用Selenium和远程WebDriver</font></font></span></a><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">部分。</font><font style="vertical-align: inherit;">如果您是初学者学习Selenium，可以跳过本节并继续下一章。</font></font></p>
+</div>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Selenium服务器是一个Java程序。</font><font style="vertical-align: inherit;">建议使用Java Runtime Environment（JRE）1.6或更高版本来运行Selenium服务器。</font></font></p>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">您可以从下载Selenium服务器2.x的</font></font><a class="reference external" href="http://seleniumhq.org/download/"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">硒网站的下载页面</font></font></a><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">。</font><font style="vertical-align: inherit;">文件名应该是这样的：
+ </font></font><code class="docutils literal notranslate"><span class="pre">selenium-server-standalone-2.x.x.jar</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">。</font><font style="vertical-align: inherit;">您始终可以下载最新的2.x版Selenium服务器。</font></font></p>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">如果系统中未安装Java Runtime Environment（JRE），则可以</font></font><a class="reference external" href="http://www.oracle.com/technetwork/java/javase/downloads/index.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">从Oracle网站</font></font></a><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">下载</font><a class="reference external" href="http://www.oracle.com/technetwork/java/javase/downloads/index.html"><font style="vertical-align: inherit;">JRE</font></a><font style="vertical-align: inherit;">。</font><font style="vertical-align: inherit;">如果您使用的是GNU / Linux系统并且在系统中具有root访问权限，则还可以使用操作系统说明安装JRE。</font></font></p>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">如果</font><font style="vertical-align: inherit;">PATH（环境变量）中有</font></font><cite><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">java</font></font></cite><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">命令，则可以使用以下命令启动Selenium服务器：</font></font></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">java</span> <span class="o">-</span><span class="n">jar</span> <span class="n">selenium</span><span class="o">-</span><span class="n">server</span><span class="o">-</span><span class="n">standalone</span><span class="o">-</span><span class="mf">2.</span><span class="n">x</span><span class="o">.</span><span class="n">x</span><span class="o">.</span><span class="n">jar</span>
+</pre></div>
+</div>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">将</font></font><cite><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">2.xx</font></font></cite><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">替换</font><font style="vertical-align: inherit;">为从站点下载的Selenium服务器的实际版本。</font></font></p>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">如果JRE以非root用户身份安装和/或在PATH（环境变量）中不可用，则可以键入</font></font><cite><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">java</font></font></cite><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">命令</font><font style="vertical-align: inherit;">的相对路径或绝对路径</font><font style="vertical-align: inherit;">。</font><font style="vertical-align: inherit;">同样，您可以提供Selenium服务器jar文件的相对路径或绝对路径。</font><font style="vertical-align: inherit;">然后，该命令将如下所示：</font></font></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">/</span><span class="n">path</span><span class="o">/</span><span class="n">to</span><span class="o">/</span><span class="n">java</span> <span class="o">-</span><span class="n">jar</span> <span class="o">/</span><span class="n">path</span><span class="o">/</span><span class="n">to</span><span class="o">/</span><span class="n">selenium</span><span class="o">-</span><span class="n">server</span><span class="o">-</span><span class="n">standalone</span><span class="o">-</span><span class="mf">2.</span><span class="n">x</span><span class="o">.</span><span class="n">x</span><span class="o">.</span><span class="n">jar</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+          <div id="rtd-rjsvrzud" class="ethical-alabaster"></div></div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<p class="logo">
+  <a href="https://selenium-python.readthedocs.io/index.html">
+    <img class="logo" src="./Selenium with Python文档2_files/logo.png" alt="商标">
+    
+  </a>
+</p>
+
+
+
+
+
+
+
+
+<h3><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">导航</font></font></h3>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="https://selenium-python.readthedocs.io/installation.html#"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">1.安装</font></font></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="https://selenium-python.readthedocs.io/installation.html#introduction"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">1.1。</font><font style="vertical-align: inherit;">介绍</font></font></a></li>
+<li class="toctree-l2"><a class="reference internal" href="https://selenium-python.readthedocs.io/installation.html#downloading-python-bindings-for-selenium"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">1.2。</font><font style="vertical-align: inherit;">下载Selenium的Python绑定</font></font></a></li>
+<li class="toctree-l2"><a class="reference internal" href="https://selenium-python.readthedocs.io/installation.html#drivers"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">1.3。</font><font style="vertical-align: inherit;">驱动程序</font></font></a></li>
+<li class="toctree-l2"><a class="reference internal" href="https://selenium-python.readthedocs.io/installation.html#detailed-instructions-for-windows-users"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">1.4。</font><font style="vertical-align: inherit;">Windows用户的详细说明</font></font></a></li>
+<li class="toctree-l2"><a class="reference internal" href="https://selenium-python.readthedocs.io/installation.html#downloading-selenium-server"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">1.5。</font><font style="vertical-align: inherit;">下载Selenium服务器</font></font></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="https://selenium-python.readthedocs.io/getting-started.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">2.入门</font></font></a></li>
+<li class="toctree-l1"><a class="reference internal" href="https://selenium-python.readthedocs.io/navigating.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.导航</font></font></a></li>
+<li class="toctree-l1"><a class="reference internal" href="https://selenium-python.readthedocs.io/locating-elements.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">4.定位元素</font></font></a></li>
+<li class="toctree-l1"><a class="reference internal" href="https://selenium-python.readthedocs.io/waits.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">等待</font></font></a></li>
+<li class="toctree-l1"><a class="reference internal" href="https://selenium-python.readthedocs.io/page-objects.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">6.页面对象</font></font></a></li>
+<li class="toctree-l1"><a class="reference internal" href="https://selenium-python.readthedocs.io/api.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">7. WebDriver API</font></font></a></li>
+<li class="toctree-l1"><a class="reference internal" href="https://selenium-python.readthedocs.io/faq.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">8.附录：常见问题</font></font></a></li>
+</ul>
+
+<div class="relations">
+<h3><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">相关话题</font></font></h3>
+<ul>
+  <li><a href="https://selenium-python.readthedocs.io/index.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">文档概述</font></font></a><ul>
+      <li><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">上</font><a href="https://selenium-python.readthedocs.io/index.html" title="前一章"><font style="vertical-align: inherit;">一篇</font></a><font style="vertical-align: inherit;">：</font></font><a href="https://selenium-python.readthedocs.io/index.html" title="前一章"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Selenium与Python</font></font></a></li>
+      <li><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">下一页：</font></font><a href="https://selenium-python.readthedocs.io/getting-started.html" title="下一章"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">2。入门</font></font></a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="" role="search">
+  <h3><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">快速搜索</font></font></h3>
+    <div class="searchformwrapper">
+    <form class="search" action="https://selenium-python.readthedocs.io/search.html" method="get">
+      <input type="text" name="q">
+      <font style="vertical-align: inherit;"><font style="vertical-align: inherit;"><input type="submit" value="走"></font></font>
+      <input type="hidden" name="check_keywords" value="yes">
+      <input type="hidden" name="area" value="default">
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        <div id="rtd-abbg4bwzi" class="ethical-alabaster"><div class="ethical-sidebar"><div class="ethical-content"><a href="https://readthedocs.org/sustainability/click/194/gZ2KQMNgZ86h/" rel="nofollow" target="_blank" class="ethical-image-link"><img src="./Selenium with Python文档2_files/english-house.png"></a><div class="ethical-text"><a href="https://readthedocs.org/sustainability/click/194/gZ2KQMNgZ86h/" rel="nofollow" target="_blank"><b><font style="vertical-align: inherit;"></font></b><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">当您使用“阅读文档”进行广告宣传时，每个月</font><b><font style="vertical-align: inherit;">达到700多万开发者</font></b></font></a><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">。</font></font></div></div><div class="ethical-callout"><small><em><a href="https://readthedocs.org/sustainability/advertising/"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">赞助商</font></font></a><span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">· </font></font></span><a href="https://docs.readthedocs.io/en/latest/ethical-advertising.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">道德服务广告</font></font></a></em></small></div></div><img src="./Selenium with Python文档2_files/saved_resource" style="display: none;"></div></div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+      ©2011-2018，Baiju Muthukadan。</font><font style="vertical-align: inherit;">| </font><font style="vertical-align: inherit;">技术</font></font><a href="http://sphinx-doc.org/"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">狮身人面像1.7.9</font></font></a><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> 
+      与</font></font><a href="https://github.com/bitprophet/alabaster"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">雪花0.7.12</font></font></a><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> 
+      
+      |
+      </font></font><a href="https://selenium-python.readthedocs.io/_sources/installation.rst.txt" rel="nofollow"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">页面来源</font></font></a>
+    </div><div id="goog-gt-tt" class="skiptranslate" dir="ltr"><div style="padding: 8px;"><div><div class="logo"><img src="./Selenium with Python文档2_files/translate_24dp.png" width="20" height="20" alt="Google 翻译"></div></div></div><div class="top" style="padding: 8px; float: left; width: 100%;"><h1 class="title gray">原文</h1></div><div class="middle" style="padding: 8px;"><div class="original-text"></div></div><div class="bottom" style="padding: 8px;"><div class="activity-links"><span class="activity-link">提供更好的翻译建议</span><span class="activity-link"></span></div><div class="started-activity-container"><hr style="color: #CCC; background-color: #CCC; height: 1px; border: none;"><div class="activity-root"></div></div></div><div class="status-message" style="display: none;"></div></div>
+
+    
+
+    
+  
+<div class="goog-te-spinner-pos"><div class="goog-te-spinner-animation"><svg xmlns="http://www.w3.org/2000/svg" class="goog-te-spinner" width="96px" height="96px" viewBox="0 0 66 66"><circle class="goog-te-spinner-path" fill="none" stroke-width="6" stroke-linecap="round" cx="33" cy="33" r="30"></circle></svg></div></div><!-- Inserted RTD Footer -->
+<div class="injected">
+
+  
+  <div class="rst-versions rst-badge" data-toggle="rst-versions">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      <span class="fa fa-book">&nbsp;</span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+      v：最新的
+      </font></font><span class="fa fa-caret-down"></span>
+    </span>
+    <div class="rst-other-versions">
+      
+
+      
+      
+      
+      
+
+      
+      
+      <dl>
+        <dt><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">下载</font></font></dt>
+        
+        <dd><a href="https://readthedocs.org/projects/selenium-python/downloads/pdf/latest/"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">PDF</font></font></a></dd>
+        
+        <dd><a href="https://readthedocs.org/projects/selenium-python/downloads/htmlzip/latest/"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">HTML</font></font></a></dd>
+        
+        <dd><a href="https://readthedocs.org/projects/selenium-python/downloads/epub/latest/"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">EPUB</font></font></a></dd>
+        
+      </dl>
+      
+      
+
+      
+      <dl>
+        <!-- These are kept as relative links for internal installs that are http -->
+        <dt><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">阅读文档</font></font></dt>
+        <dd>
+          <a href="https://readthedocs.org/projects/selenium-python/"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">项目主页</font></font></a>
+        </dd>
+        <dd>
+          <a href="https://readthedocs.org/projects/selenium-python/builds/"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">构建</font></font></a>
+        </dd>
+        <dd>
+          <a href="https://readthedocs.org/projects/selenium-python/downloads/"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">下载</font></font></a>
+        </dd>
+      </dl>
+      
+
+      
+
+      
+      <dl>
+        <dt><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">在GitHub上</font></font></dt>
+        <dd>
+          <a href="https://github.com/baijum/selenium-python/blob/master/source/installation.rst"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">视图</font></font></a>
+        </dd>
+        
+      </dl>
+      
+      
+
+      
+      <dl>
+        <dt><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">搜索</font></font></dt>
+        <dd>
+          <div style="padding: 6px;">
+            <form id="flyout-search-form" class="wy-form" target="_blank" action="https://readthedocs.org/projects/selenium-python/search/" method="get">
+              <input type="text" name="q" placeholder="Search docs">
+              </form>
+          </div>
+        </dd>
+      </dl>
+      
+
+
+
+      <hr>
+      
+        <small>
+          <span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">主持人</font></font><a href="https://readthedocs.org/"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">阅读文档</font></font></a></span>
+          <span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> · </font></font></span>
+          <a href="https://docs.readthedocs.io/page/privacy-policy.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">隐私政策</font></font></a>
+        </small>
+      
+
+      
+    </div>
+  </div>
+  
+
+</div>
+</body></html>

@@ -1,0 +1,731 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- saved from url=(0052)https://docs.pytest.org/en/latest/goodpractices.html -->
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh-CN" class="translated-ltr"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+    
+    <title>Good Integration Practices — pytest documentation</title>
+    <link rel="stylesheet" href="./pytest文档22_files/flasky.css" type="text/css">
+    <link rel="stylesheet" href="./pytest文档22_files/pygments.css" type="text/css">
+    <link rel="stylesheet" type="text/css" href="./pytest文档22_files/pygments_pytest.css">
+    <link rel="stylesheet" type="text/css" href="./pytest文档22_files/badge_only.css">
+    <script type="text/javascript" async="" src="./pytest文档22_files/ga.js"></script><script async="" src="./pytest文档22_files/analytics.js"></script><script type="text/javascript" id="documentation_options" data-url_root="./" src="./pytest文档22_files/documentation_options.js"></script>
+    <script type="text/javascript" src="./pytest文档22_files/jquery.js"></script>
+    <script type="text/javascript" src="./pytest文档22_files/underscore.js"></script>
+    <script type="text/javascript" src="./pytest文档22_files/doctools.js"></script>
+    <script type="text/javascript" src="./pytest文档22_files/language_data.js"></script>
+    <script type="text/javascript" src="./pytest文档22_files/readthedocs-doc-embed.js"></script>
+    <link rel="shortcut icon" href="https://docs.pytest.org/en/latest/_static/pytest1favi.ico">
+    <link rel="search" title="Search" href="https://docs.pytest.org/en/latest/search.html">
+    <link rel="next" title="Flaky tests" href="https://docs.pytest.org/en/latest/flaky.html">
+    <link rel="prev" title="Reference" href="https://docs.pytest.org/en/latest/reference.html">
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9">
+
+  
+<!-- RTD Extra Head -->
+
+<!-- 
+Always link to the latest version, as canonical.
+http://docs.readthedocs.org/en/latest/canonical.html
+-->
+<link rel="canonical" href="http://doc.pytest.org/en/latest/goodpractices.html">
+
+<link rel="stylesheet" href="./pytest文档22_files/readthedocs-doc-embed.css" type="text/css">
+
+<script type="text/javascript" src="./pytest文档22_files/readthedocs-data.js"></script>
+
+<!-- Add page-specific data, which must exist in the page js, not global -->
+<script type="text/javascript">
+READTHEDOCS_DATA['page'] = 'goodpractices'
+READTHEDOCS_DATA['source_suffix'] = '.rst'
+</script>
+
+<script type="text/javascript" src="./pytest文档22_files/readthedocs-analytics.js"></script>
+
+<!-- end RTD <extrahead> -->
+<link type="text/css" rel="stylesheet" charset="UTF-8" href="./pytest文档22_files/translateelement.css"></head><body>
+  
+  
+  
+
+
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="https://docs.pytest.org/en/latest/flaky.html" title="Flaky tests" accesskey="N">next</a></li>
+        <li class="right">
+          <a href="https://docs.pytest.org/en/latest/reference.html" title="Reference" accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="https://docs.pytest.org/en/latest/contents.html">pytest-4.3</a> »</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="good-integration-practices">
+<span id="goodpractices"></span><h1><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">良好的集成实践</font></font><a class="headerlink" href="https://docs.pytest.org/en/latest/goodpractices.html#good-integration-practices" title="永久链接到这个标题"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">¶</font></font></a></h1>
+<div class="section" id="install-package-with-pip">
+<h2><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">使用pip安装包</font></font><a class="headerlink" href="https://docs.pytest.org/en/latest/goodpractices.html#install-package-with-pip" title="永久链接到这个标题"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">¶</font></font></a></h2>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">对于开发，我们建议您将</font></font><a class="reference external" href="https://docs.python.org/3/library/venv.html/"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">venv</font></font></a><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">用于虚拟环境（或者</font><font style="vertical-align: inherit;">用于Python 2.7的</font></font><a class="reference external" href="https://pypi.org/project/virtualenv/"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">virtualenv</font></font></a><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">），并使用
+ </font></font><a class="reference external" href="https://pypi.org/project/pip/"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">pip</font></font></a><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">来安装应用程序和任何依赖项，以及</font></font><code class="docutils literal notranslate"><span class="pre">pytest</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">包本身。</font><font style="vertical-align: inherit;">这可确保您的代码和依赖项与系统Python安装隔离。</font></font></p>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">接下来，</font></font><code class="docutils literal notranslate"><span class="pre">setup.py</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">使用以下最低内容</font><font style="vertical-align: inherit;">将</font><font style="vertical-align: inherit;">文件放在包的根目录中：</font></font></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">setuptools</span> <span class="kn">import</span> <span class="n">setup</span><span class="p">,</span> <span class="n">find_packages</span>
+
+<span class="n">setup</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">"PACKAGENAME"</span><span class="p">,</span> <span class="n">packages</span><span class="o">=</span><span class="n">find_packages</span><span class="p">())</span>
+</pre></div>
+</div>
+<p><font style="vertical-align: inherit;"></font><code class="docutils literal notranslate"><span class="pre">PACKAGENAME</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">包裹的名称</font><font style="vertical-align: inherit;">在哪里</font><font style="vertical-align: inherit;">。</font><font style="vertical-align: inherit;">然后，您可以通过从同一目录运行，以“可编辑”模式安装程序包：</font></font></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="o">-</span><span class="n">e</span> <span class="o">.</span>
+</pre></div>
+</div>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">它允许您更改源代码（测试和应用程序）并随意重新运行测试。</font><font style="vertical-align: inherit;">这与运行类似，</font><font style="vertical-align: inherit;">或者</font><font style="vertical-align: inherit;">使用符号链接将您的包安装到开发代码中。</font></font><code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">setup.py</span> <span class="pre">develop</span></code><font style="vertical-align: inherit;"></font><code class="docutils literal notranslate"><span class="pre">conda</span> <span class="pre">develop</span></code><font style="vertical-align: inherit;"></font></p>
+</div>
+<div class="section" id="conventions-for-python-test-discovery">
+<span id="python-test-discovery"></span><span id="test-discovery"></span><h2><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Python测试发现的约定</font></font><a class="headerlink" href="https://docs.pytest.org/en/latest/goodpractices.html#conventions-for-python-test-discovery" title="永久链接到这个标题"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">¶</font></font></a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">pytest</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> 实现以下标准测试发现：</font></font></p>
+<ul class="simple">
+<li><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">如果未指定参数，则从</font></font><a class="reference internal" href="https://docs.pytest.org/en/latest/reference.html#confval-testpaths"><code class="xref std std-confval docutils literal notranslate"><span class="pre">testpaths</span></code></a><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+（如果已配置）或当前目录</font><font style="vertical-align: inherit;">开始收集</font><font style="vertical-align: inherit;">。</font><font style="vertical-align: inherit;">或者，命令行参数可以用于目录，文件名或节点ID的任意组合。</font></font></li>
+<li><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">递归到目录，除非它们匹配</font></font><a class="reference internal" href="https://docs.pytest.org/en/latest/reference.html#confval-norecursedirs"><code class="xref std std-confval docutils literal notranslate"><span class="pre">norecursedirs</span></code></a><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">。</font></font></li>
+<li><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">在这些目录，搜索</font></font><code class="docutils literal notranslate"><span class="pre">test_*.py</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">或</font></font><code class="docutils literal notranslate"><span class="pre">*_test.py</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">文件，由他们进口</font></font><a class="reference internal" href="https://docs.pytest.org/en/latest/goodpractices.html#test-package-name"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">的测试包名</font></font></a><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">。</font></font></li>
+<li><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">从这些文件中收集测试项目：</font></font><ul>
+<li><code class="docutils literal notranslate"><span class="pre">test</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> 在课堂之外的前缀测试函数或方法</font></font></li>
+<li><code class="docutils literal notranslate"><span class="pre">test</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">前缀测试</font></font><code class="docutils literal notranslate"><span class="pre">Test</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">类中的</font><font style="vertical-align: inherit;">前缀测试函数或方法</font><font style="vertical-align: inherit;">（没有</font></font><code class="docutils literal notranslate"><span class="pre">__init__</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">方法）</font></font></li>
+</ul>
+</li>
+</ul>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">有关如何自定义测试发现的示例</font></font><a class="reference internal" href="https://docs.pytest.org/en/latest/example/pythoncollection.html"><span class="doc"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">更改标准（Python）测试发现</font></font></span></a><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">。</font></font></p>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">在Python模块中，</font></font><code class="docutils literal notranslate"><span class="pre">pytest</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">还使用标准的</font></font><a class="reference internal" href="https://docs.pytest.org/en/latest/unittest.html#unittest-testcase"><span class="std std-ref"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">unittest.TestCase</font></font></span></a><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">子类化技术</font><font style="vertical-align: inherit;">发现测试
+ </font><font style="vertical-align: inherit;">。</font></font></p>
+</div>
+<div class="section" id="choosing-a-test-layout-import-rules">
+<h2><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">选择测试布局/导入规则</font></font><a class="headerlink" href="https://docs.pytest.org/en/latest/goodpractices.html#choosing-a-test-layout-import-rules" title="永久链接到这个标题"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">¶</font></font></a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">pytest</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> 支持两种常见的测试布局：</font></font></p>
+<div class="section" id="tests-outside-application-code">
+<h3><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">在应用程序代码外测试</font></font><a class="headerlink" href="https://docs.pytest.org/en/latest/goodpractices.html#tests-outside-application-code" title="永久链接到这个标题"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">¶</font></font></a></h3>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">如果您有许多功能测试，或者出于其他原因希望将测试与实际应用程序代码分开（通常是个好主意），那么将测试放入实际应用程序代码之外的额外目录可能会很有用：</font></font></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">setup</span><span class="o">.</span><span class="n">py</span>
+<span class="n">mypkg</span><span class="o">/</span>
+    <span class="fm">__init__</span><span class="o">.</span><span class="n">py</span>
+    <span class="n">app</span><span class="o">.</span><span class="n">py</span>
+    <span class="n">view</span><span class="o">.</span><span class="n">py</span>
+<span class="n">tests</span><span class="o">/</span>
+    <span class="n">test_app</span><span class="o">.</span><span class="n">py</span>
+    <span class="n">test_view</span><span class="o">.</span><span class="n">py</span>
+    <span class="o">...</span>
+</pre></div>
+</div>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">这有以下好处：</font></font></p>
+<ul class="simple">
+<li><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">执行后，您的测试可以针对已安装的版本运行</font><font style="vertical-align: inherit;">。</font></font><code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">.</span></code><font style="vertical-align: inherit;"></font></li>
+<li><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">执行后，您可以使用可编辑安装对本地副本运行测试</font><font style="vertical-align: inherit;">。</font></font><code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">--editable</span> <span class="pre">.</span></code><font style="vertical-align: inherit;"></font></li>
+<li><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">如果您没有</font></font><code class="docutils literal notranslate"><span class="pre">setup.py</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">文件并且依赖于默认情况下Python将当前目录放入</font></font><code class="docutils literal notranslate"><span class="pre">sys.path</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">以导入您的包，则可以执行</font><font style="vertical-align: inherit;">直接对本地副本执行测试，而不使用</font><font style="vertical-align: inherit;">。</font></font><code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">-m</span> <span class="pre">pytest</span></code><font style="vertical-align: inherit;"></font><code class="docutils literal notranslate"><span class="pre">pip</span></code><font style="vertical-align: inherit;"></font></li>
+</ul>
+<div class="admonition note">
+<p class="first admonition-title"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">注意</font></font></p>
+<p class="last"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">有关</font><font style="vertical-align: inherit;">调用</font><font style="vertical-align: inherit;">和
+ </font><font style="vertical-align: inherit;">调用之间差异的更多信息，</font><font style="vertical-align: inherit;">请参阅</font></font><a class="reference internal" href="https://docs.pytest.org/en/latest/pythonpath.html#pythonpath"><span class="std std-ref"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">pytest导入机制和sys.path / PYTHONPATH</font></font></span></a><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">。</font></font><code class="docutils literal notranslate"><span class="pre">pytest</span></code><font style="vertical-align: inherit;"></font><code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">-m</span> <span class="pre">pytest</span></code><font style="vertical-align: inherit;"></font></p>
+</div>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">请注意，使用此方案时，您的测试文件必须具有</font></font><strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">唯一的名称</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">，因为</font></font><code class="docutils literal notranslate"><span class="pre">pytest</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">将它们作为</font></font><em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">顶级</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">模块</font><font style="vertical-align: inherit;">导入</font><font style="vertical-align: inherit;">，因为
+ </font><font style="vertical-align: inherit;">没有包来从中获取完整的包名称。</font><font style="vertical-align: inherit;">换句话说，在上面的示例中的试验文件将被导入为</font></font><code class="docutils literal notranslate"><span class="pre">test_app</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">和</font></font><code class="docutils literal notranslate"><span class="pre">test_view</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">通过加入顶层模块</font></font><code class="docutils literal notranslate"><span class="pre">tests/</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">到
+ </font></font><code class="docutils literal notranslate"><span class="pre">sys.path</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">。</font></font></p>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">如果需要具有相同名称的测试模块，可以将</font></font><code class="docutils literal notranslate"><span class="pre">__init__.py</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">文件</font><font style="vertical-align: inherit;">添加</font><font style="vertical-align: inherit;">到
+ </font></font><code class="docutils literal notranslate"><span class="pre">tests</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">文件夹和子文件夹，并将其更改为包：</font></font></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">setup</span><span class="o">.</span><span class="n">py</span>
+<span class="n">mypkg</span><span class="o">/</span>
+    <span class="o">...</span>
+<span class="n">tests</span><span class="o">/</span>
+    <span class="fm">__init__</span><span class="o">.</span><span class="n">py</span>
+    <span class="n">foo</span><span class="o">/</span>
+        <span class="fm">__init__</span><span class="o">.</span><span class="n">py</span>
+        <span class="n">test_view</span><span class="o">.</span><span class="n">py</span>
+    <span class="n">bar</span><span class="o">/</span>
+        <span class="fm">__init__</span><span class="o">.</span><span class="n">py</span>
+        <span class="n">test_view</span><span class="o">.</span><span class="n">py</span>
+</pre></div>
+</div>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">现在pytest将加载模块，</font></font><code class="docutils literal notranslate"><span class="pre">tests.foo.test_view</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">并</font></font><code class="docutils literal notranslate"><span class="pre">tests.bar.test_view</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">允许您使用相同名称的模块。</font><font style="vertical-align: inherit;">但是现在这引入了一个微妙的问题：为了从</font></font><code class="docutils literal notranslate"><span class="pre">tests</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">目录中</font><font style="vertical-align: inherit;">加载测试模块</font><font style="vertical-align: inherit;">，pytest将存储库的根目录</font></font><code class="docutils literal notranslate"><span class="pre">sys.path</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">添加</font><font style="vertical-align: inherit;">到
+ </font><font style="vertical-align: inherit;">，这增加了现在</font></font><code class="docutils literal notranslate"><span class="pre">mypkg</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">也可导入</font><font style="vertical-align: inherit;">的副作用</font><font style="vertical-align: inherit;">。</font><font style="vertical-align: inherit;">如果您使用像</font></font><a class="reference external" href="http://testrun.org/tox"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">tox</font></font></a><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">这样的工具</font><font style="vertical-align: inherit;">在虚拟环境中测试程序包，</font><font style="vertical-align: inherit;">则会出现问题</font><font style="vertical-align: inherit;">，因为您要测试</font></font><em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">程序</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">包</font><font style="vertical-align: inherit;">的</font><em><font style="vertical-align: inherit;">已安装</font></em><font style="vertical-align: inherit;">版本，而不是存储库中的本地代码。</font></font></p>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">在这种情况下，</font></font><strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">强烈</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">建议使用</font></font><code class="docutils literal notranslate"><span class="pre">src</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">应用程序根包位于根目录的子目录中</font><font style="vertical-align: inherit;">的</font><font style="vertical-align: inherit;">布局：</font></font></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">setup</span><span class="o">.</span><span class="n">py</span>
+<span class="n">src</span><span class="o">/</span>
+    <span class="n">mypkg</span><span class="o">/</span>
+        <span class="fm">__init__</span><span class="o">.</span><span class="n">py</span>
+        <span class="n">app</span><span class="o">.</span><span class="n">py</span>
+        <span class="n">view</span><span class="o">.</span><span class="n">py</span>
+<span class="n">tests</span><span class="o">/</span>
+    <span class="fm">__init__</span><span class="o">.</span><span class="n">py</span>
+    <span class="n">foo</span><span class="o">/</span>
+        <span class="fm">__init__</span><span class="o">.</span><span class="n">py</span>
+        <span class="n">test_view</span><span class="o">.</span><span class="n">py</span>
+    <span class="n">bar</span><span class="o">/</span>
+        <span class="fm">__init__</span><span class="o">.</span><span class="n">py</span>
+        <span class="n">test_view</span><span class="o">.</span><span class="n">py</span>
+</pre></div>
+</div>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">这种布局可以防止许多常见的陷阱，并且有很多好处，这在</font></font><a class="reference external" href="https://blog.ionelmc.ro/2014/05/25/python-packaging/#the-structure"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">IonelCristianMărieş的</font></font></a><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">优秀</font><a class="reference external" href="https://blog.ionelmc.ro/2014/05/25/python-packaging/#the-structure"><font style="vertical-align: inherit;">博客文章中</font></a><font style="vertical-align: inherit;">有更好的解释
+ </font><font style="vertical-align: inherit;">。</font></font></p>
+</div>
+<div class="section" id="tests-as-part-of-application-code">
+<h3><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">测试作为应用程序代码的一部分</font></font><a class="headerlink" href="https://docs.pytest.org/en/latest/goodpractices.html#tests-as-part-of-application-code" title="永久链接到这个标题"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">¶</font></font></a></h3>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">如果测试和应用程序模块之间存在直接关系并希望将它们与应用程序一起分发，则将测试目录内联到应用程序包中非常有用：</font></font></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">setup</span><span class="o">.</span><span class="n">py</span>
+<span class="n">mypkg</span><span class="o">/</span>
+    <span class="fm">__init__</span><span class="o">.</span><span class="n">py</span>
+    <span class="n">app</span><span class="o">.</span><span class="n">py</span>
+    <span class="n">view</span><span class="o">.</span><span class="n">py</span>
+    <span class="n">test</span><span class="o">/</span>
+        <span class="fm">__init__</span><span class="o">.</span><span class="n">py</span>
+        <span class="n">test_app</span><span class="o">.</span><span class="n">py</span>
+        <span class="n">test_view</span><span class="o">.</span><span class="n">py</span>
+        <span class="o">...</span>
+</pre></div>
+</div>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">在此方案中，使用以下</font></font><code class="docutils literal notranslate"><span class="pre">--pyargs</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">选项</font><font style="vertical-align: inherit;">可以轻松运行测试</font><font style="vertical-align: inherit;">：</font></font></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">pytest</span> <span class="o">--</span><span class="n">pyargs</span> <span class="n">mypkg</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">pytest</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">将发现</font></font><code class="docutils literal notranslate"><span class="pre">mypkg</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">安装位置并从那里收集测试。</font></font></p>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">请注意，此布局也与</font></font><code class="docutils literal notranslate"><span class="pre">src</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">上一节中提到</font><font style="vertical-align: inherit;">的</font><font style="vertical-align: inherit;">布局</font><font style="vertical-align: inherit;">一起使用</font><font style="vertical-align: inherit;">。</font></font></p>
+<div class="admonition note">
+<p class="first admonition-title"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">注意</font></font></p>
+<p class="last"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">您可以为您的应用程序使用Python3命名空间包（PEP420），但pytest仍将</font><font style="vertical-align: inherit;">根据</font><font style="vertical-align: inherit;">文件</font><font style="vertical-align: inherit;">的存在</font><font style="vertical-align: inherit;">执行</font></font><a class="reference internal" href="https://docs.pytest.org/en/latest/goodpractices.html#test-package-name"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">测试包名称</font></font></a><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">发现</font></font><code class="docutils literal notranslate"><span class="pre">__init__.py</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">。</font><font style="vertical-align: inherit;">如果你使用上面两个推荐的文件系统布局中的一个，但是</font></font><code class="docutils literal notranslate"><span class="pre">__init__.py</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+从你的目录中删除它们，那么它应该适用于Python3.3及更高版本。</font><font style="vertical-align: inherit;">但是，从“内联测试”开始，您将需要使用绝对导入来获取应用程序代码。</font></font></p>
+</div>
+<div class="admonition note" id="test-package-name">
+<p class="first admonition-title"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">注意</font></font></p>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">如果</font></font><code class="docutils literal notranslate"><span class="pre">pytest</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">在递归到文件系统时找到“a / b / test_module.py”测试文件，它将确定导入名称，如下所示：</font></font></p>
+<ul class="simple">
+<li><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">确定</font></font><code class="docutils literal notranslate"><span class="pre">basedir</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">：这是第一个“向上”（朝向根）目录，不包含</font></font><code class="docutils literal notranslate"><span class="pre">__init__.py</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">。</font><font style="vertical-align: inherit;">如果如两者</font></font><code class="docutils literal notranslate"><span class="pre">a</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+并</font></font><code class="docutils literal notranslate"><span class="pre">b</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">包含一个</font></font><code class="docutils literal notranslate"><span class="pre">__init__.py</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">文件，然后父目录</font></font><code class="docutils literal notranslate"><span class="pre">a</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">将成为</font></font><code class="docutils literal notranslate"><span class="pre">basedir</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">。</font></font></li>
+<li><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">执行</font><font style="vertical-align: inherit;">以使测试模块可以在完全限定的导入名称下导入。</font></font><code class="docutils literal notranslate"><span class="pre">sys.path.insert(0,</span> <span class="pre">basedir)</span></code><font style="vertical-align: inherit;"></font></li>
+<li><code class="docutils literal notranslate"><span class="pre">import</span> <span class="pre">a.b.test_module</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">其中路径是通过将路径分隔符</font></font><code class="docutils literal notranslate"><span class="pre">/</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">转换为“。”字符</font><font style="vertical-align: inherit;">来确定的</font><font style="vertical-align: inherit;">。</font><font style="vertical-align: inherit;">这意味着您必须遵循将目录和文件名直接映射到导入名称的约定。</font></font></li>
+</ul>
+<p class="last"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">这种有点进化的导入技术的原因在于，在较大的项目中，多个测试模块可能相互导入，因此导出规范的导入名称有助于避免出现意外情况，例如测试模块导入两次。</font></font></p>
+</div>
+</div>
+</div>
+<div class="section" id="tox">
+<span id="use-tox"></span><h2><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">TOX </font></font><a class="headerlink" href="https://docs.pytest.org/en/latest/goodpractices.html#tox" title="永久链接到这个标题"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">¶</font></font></a></h2>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">一旦完成了您的工作并希望确保您的实际软件包通过所有测试，您可能需要查看</font></font><a class="reference external" href="http://testrun.org/tox"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">tox</font></font></a><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">，virtualenv测试自动化工具及其</font></font><a class="reference external" href="https://tox.readthedocs.io/en/latest/example/pytest.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">pytest支持</font></font></a><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">。</font><font style="vertical-align: inherit;">tox帮助您使用预定义的依赖项设置virtualenv环境，然后使用选项执行预配置的测试命令。</font><font style="vertical-align: inherit;">它将针对已安装的软件包运行测试，而不是针对源代码检查，从而有助于检测包装故障。</font></font></p>
+</div>
+<div class="section" id="integrating-with-setuptools-python-setup-py-test-pytest-runner">
+<h2><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">与setuptools集成/ </font><font style="vertical-align: inherit;">/ </font><a class="headerlink" href="https://docs.pytest.org/en/latest/goodpractices.html#integrating-with-setuptools-python-setup-py-test-pytest-runner" title="永久链接到这个标题"><font style="vertical-align: inherit;">¶</font></a></font><code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">setup.py</span> <span class="pre">test</span></code><font style="vertical-align: inherit;"></font><code class="docutils literal notranslate"><span class="pre">pytest-runner</span></code><a class="headerlink" href="https://docs.pytest.org/en/latest/goodpractices.html#integrating-with-setuptools-python-setup-py-test-pytest-runner" title="永久链接到这个标题"><font style="vertical-align: inherit;"></font></a></h2>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">您可以使用</font></font><a class="reference external" href="https://pypi.org/project/pytest-runner/"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">pytest-runner</font></font></a><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">插件</font><font style="vertical-align: inherit;">将测试运行集成到基于setuptools的项目中</font><font style="vertical-align: inherit;">。</font></font></p>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">将此添加到</font></font><code class="docutils literal notranslate"><span class="pre">setup.py</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">文件：</font></font></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">setuptools</span> <span class="kn">import</span> <span class="n">setup</span>
+
+<span class="n">setup</span><span class="p">(</span>
+    <span class="c1"># ...,</span>
+    <span class="n">setup_requires</span><span class="o">=</span><span class="p">[</span><span class="s2">"pytest-runner"</span><span class="p">,</span> <span class="o">...</span><span class="p">],</span>
+    <span class="n">tests_require</span><span class="o">=</span><span class="p">[</span><span class="s2">"pytest"</span><span class="p">,</span> <span class="o">...</span><span class="p">],</span>
+    <span class="c1"># ...,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">并在</font></font><code class="docutils literal notranslate"><span class="pre">setup.cfg</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">文件中</font><font style="vertical-align: inherit;">创建一个别名</font><font style="vertical-align: inherit;">：</font></font></p>
+<div class="highlight-ini notranslate"><div class="highlight"><pre><span></span><span class="k">[aliases]</span>
+<span class="na">test</span><span class="o">=</span><span class="s">pytest</span>
+</pre></div>
+</div>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">如果你现在输入：</font></font></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">setup</span><span class="o">.</span><span class="n">py</span> <span class="n">test</span>
+</pre></div>
+</div>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">这将使用执行您的测试</font></font><code class="docutils literal notranslate"><span class="pre">pytest-runner</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">。</font><font style="vertical-align: inherit;">因为这是一个独立版本，</font></font><code class="docutils literal notranslate"><span class="pre">pytest</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">无需事先安装</font><font style="vertical-align: inherit;">，</font><font style="vertical-align: inherit;">无论如何都需要调用test命令。</font><font style="vertical-align: inherit;">您还可以使用其他参数传递给pytest，例如测试目录或其他选项</font></font><code class="docutils literal notranslate"><span class="pre">--addopts</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">。</font></font></p>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">您还可以</font></font><code class="docutils literal notranslate"><span class="pre">setup.cfg</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">通过将文件放入以下</font></font><code class="docutils literal notranslate"><span class="pre">[tool:pytest]</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">部分</font><font style="vertical-align: inherit;">来指定文件中的其他pytest-ini选项</font><font style="vertical-align: inherit;">：</font></font></p>
+<div class="highlight-ini notranslate"><div class="highlight"><pre><span></span><span class="k">[tool:pytest]</span>
+<span class="na">addopts</span> <span class="o">=</span> <span class="s">--verbose</span>
+<span class="na">python_files</span> <span class="o">=</span> <span class="s">testing/*/*.py</span>
+</pre></div>
+</div>
+<div class="section" id="manual-integration">
+<h3><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">手动积分</font></font><a class="headerlink" href="https://docs.pytest.org/en/latest/goodpractices.html#manual-integration" title="永久链接到这个标题"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">¶</font></font></a></h3>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">如果由于某种原因你不想/不能使用</font></font><code class="docutils literal notranslate"><span class="pre">pytest-runner</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">，你可以编写自己的setuptools测试命令来调用pytest。</font></font></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">sys</span>
+
+<span class="kn">from</span> <span class="nn">setuptools.command.test</span> <span class="kn">import</span> <span class="n">test</span> <span class="k">as</span> <span class="n">TestCommand</span>
+
+
+<span class="k">class</span> <span class="nc">PyTest</span><span class="p">(</span><span class="n">TestCommand</span><span class="p">):</span>
+    <span class="n">user_options</span> <span class="o">=</span> <span class="p">[(</span><span class="s2">"pytest-args="</span><span class="p">,</span> <span class="s2">"a"</span><span class="p">,</span> <span class="s2">"Arguments to pass to pytest"</span><span class="p">)]</span>
+
+    <span class="k">def</span> <span class="nf">initialize_options</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">TestCommand</span><span class="o">.</span><span class="n">initialize_options</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pytest_args</span> <span class="o">=</span> <span class="s2">""</span>
+
+    <span class="k">def</span> <span class="nf">run_tests</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="kn">import</span> <span class="nn">shlex</span>
+
+        <span class="c1"># import here, cause outside the eggs aren't loaded</span>
+        <span class="kn">import</span> <span class="nn">pytest</span>
+
+        <span class="n">errno</span> <span class="o">=</span> <span class="n">pytest</span><span class="o">.</span><span class="n">main</span><span class="p">(</span><span class="n">shlex</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pytest_args</span><span class="p">))</span>
+        <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="n">errno</span><span class="p">)</span>
+
+
+<span class="n">setup</span><span class="p">(</span>
+    <span class="c1"># ...,</span>
+    <span class="n">tests_require</span><span class="o">=</span><span class="p">[</span><span class="s2">"pytest"</span><span class="p">],</span>
+    <span class="n">cmdclass</span><span class="o">=</span><span class="p">{</span><span class="s2">"pytest"</span><span class="p">:</span> <span class="n">PyTest</span><span class="p">},</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">现在，如果您运行：</font></font></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">setup</span><span class="o">.</span><span class="n">py</span> <span class="n">test</span>
+</pre></div>
+</div>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">这将</font></font><code class="docutils literal notranslate"><span class="pre">pytest</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">在需要</font><font style="vertical-align: inherit;">时下载</font><font style="vertical-align: inherit;">，然后按照您的预期运行测试。</font><font style="vertical-align: inherit;">您可以使用</font></font><code class="docutils literal notranslate"><span class="pre">--pytest-args</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">或</font></font><code class="docutils literal notranslate"><span class="pre">-a</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">命令行选项</font><font style="vertical-align: inherit;">传递单个参数字符串</font><font style="vertical-align: inherit;">。</font><font style="vertical-align: inherit;">例如：</font></font></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">setup</span><span class="o">.</span><span class="n">py</span> <span class="n">test</span> <span class="o">-</span><span class="n">a</span> <span class="s2">"--durations=5"</span>
+</pre></div>
+</div>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">相当于跑步</font><font style="vertical-align: inherit;">。</font></font><code class="docutils literal notranslate"><span class="pre">pytest</span> <span class="pre">--durations=5</span></code><font style="vertical-align: inherit;"></font></p>
+</div>
+</div>
+</div>
+
+
+          <div id="rtd-960vzy28i" class="ethical-alabaster"></div></div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="https://docs.pytest.org/en/latest/contents.html">
+              <img class="logo" src="./pytest文档22_files/pytest1.png" alt="商标">
+            </a></p><h3><a href="https://docs.pytest.org/en/latest/contents.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">目录</font></font></a></h3>
+
+<ul>
+  <li><a href="https://docs.pytest.org/en/latest/index.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">家</font></font></a></li>
+  <li><a href="https://docs.pytest.org/en/latest/getting-started.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">安装</font></font></a></li>
+  <li><a href="https://docs.pytest.org/en/latest/contents.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">内容</font></font></a></li>
+  <li><a href="https://docs.pytest.org/en/latest/reference.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">参考</font></font></a></li>
+  <li><a href="https://docs.pytest.org/en/latest/example/index.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">例子</font></font></a></li>
+  <li><a href="https://docs.pytest.org/en/latest/customize.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">定制</font></font></a></li>
+  <li><a href="https://docs.pytest.org/en/latest/changelog.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">更新日志</font></font></a></li>
+  <li><a href="https://docs.pytest.org/en/latest/contributing.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">特约</font></font></a></li>
+  <li><a href="https://docs.pytest.org/en/latest/backwards-compatibility.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">向后兼容性</font></font></a></li>
+  <li><a href="https://docs.pytest.org/en/latest/license.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">执照</font></font></a></li>
+  <li><a href="https://docs.pytest.org/en/latest/contact.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">联系渠道</font></font></a></li>
+</ul>
+  <hr>
+  <ul>
+<li><a class="reference internal" href="https://docs.pytest.org/en/latest/goodpractices.html#"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">良好的整合实践</font></font></a><ul>
+<li><a class="reference internal" href="https://docs.pytest.org/en/latest/goodpractices.html#install-package-with-pip"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">用pip安装包</font></font></a></li>
+<li><a class="reference internal" href="https://docs.pytest.org/en/latest/goodpractices.html#conventions-for-python-test-discovery"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Python测试发现的约定</font></font></a></li>
+<li><a class="reference internal" href="https://docs.pytest.org/en/latest/goodpractices.html#choosing-a-test-layout-import-rules"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">选择测试布局/导入规则</font></font></a><ul>
+<li><a class="reference internal" href="https://docs.pytest.org/en/latest/goodpractices.html#tests-outside-application-code"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">在应用程序代码外测试</font></font></a></li>
+<li><a class="reference internal" href="https://docs.pytest.org/en/latest/goodpractices.html#tests-as-part-of-application-code"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">测试作为应用程序代码的一部分</font></font></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="https://docs.pytest.org/en/latest/goodpractices.html#tox"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">TOX</font></font></a></li>
+<li><a class="reference internal" href="https://docs.pytest.org/en/latest/goodpractices.html#integrating-with-setuptools-python-setup-py-test-pytest-runner"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">与setuptools集成</font><font style="vertical-align: inherit;">//</font></font><code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">setup.py</span> <span class="pre">test</span></code><font style="vertical-align: inherit;"></font><code class="docutils literal notranslate"><span class="pre">pytest-runner</span></code></a><ul>
+<li><a class="reference internal" href="https://docs.pytest.org/en/latest/goodpractices.html#manual-integration"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">手动整合</font></font></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">相关话题</font></font></h3>
+<ul>
+  <li><a href="https://docs.pytest.org/en/latest/contents.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">文档概述</font></font></a><ul>
+      <li><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">上一篇：</font></font><a href="https://docs.pytest.org/en/latest/reference.html" title="前一章"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">参考</font></font></a></li>
+      <li><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">下一篇：</font></font><a href="https://docs.pytest.org/en/latest/flaky.html" title="下一章"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">片状测试</font></font></a></li>
+  </ul></li>
+</ul><h3><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">有用的链接</font></font></h3>
+<ul>
+  <li><a href="https://pypi.org/project/pytest/"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">pytest @ PyPI</font></font></a></li>
+  <li><a href="https://github.com/pytest-dev/pytest/"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">pytest @ GitHub</font></font></a></li>
+  <li><a href="http://plugincompat.herokuapp.com/"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">第三方插件</font></font></a></li>
+  <li><a href="https://github.com/pytest-dev/pytest/issues"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">问题跟踪器</font></font></a></li>
+  <li><a href="https://media.readthedocs.org/pdf/pytest/latest/pytest.pdf"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">PDF文档</font></font></a>
+</li></ul>
+<div id="searchbox" style="" role="search">
+  <h3><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">快速搜索</font></font></h3>
+    <div class="searchformwrapper">
+    <form class="search" action="https://docs.pytest.org/en/latest/search.html" method="get">
+      <input type="text" name="q">
+      <font style="vertical-align: inherit;"><font style="vertical-align: inherit;"><input type="submit" value="走"></font></font>
+      <input type="hidden" name="check_keywords" value="yes">
+      <input type="hidden" name="area" value="default">
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        <div id="rtd-5v9q63qf" class="ethical-alabaster"><div class="ethical-sidebar"><div class="ethical-content"><a href="https://readthedocs.org/sustainability/click/194/KjUHrsHjpMF6/" rel="nofollow" target="_blank" class="ethical-image-link"><img src="./pytest文档22_files/english-house.png"></a><div class="ethical-text"><a href="https://readthedocs.org/sustainability/click/194/KjUHrsHjpMF6/" rel="nofollow" target="_blank"><b><font style="vertical-align: inherit;"></font></b><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">当您使用“阅读文档”进行广告宣传时，每个月</font><b><font style="vertical-align: inherit;">达到700多万开发者</font></b></font></a><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">。</font></font></div></div><div class="ethical-callout"><small><em><a href="https://readthedocs.org/sustainability/advertising/"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">赞助商</font></font></a><span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">· </font></font></span><a href="https://docs.readthedocs.io/en/latest/ethical-advertising.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">道德服务广告</font></font></a></em></small></div></div><img src="./pytest文档22_files/saved_resource" style="display: none;"></div></div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+
+  <div class="footer"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+    ©版权所有2015-2019，holger krekel和pytest-dev团队。</font><font style="vertical-align: inherit;">使用</font></font><a href="http://sphinx.pocoo.org/"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Sphinx</font></font></a><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">创建</font><font style="vertical-align: inherit;">。
+  </font></font></div>
+  
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-7597274-13']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script><div id="goog-gt-tt" class="skiptranslate" dir="ltr"><div style="padding: 8px;"><div><div class="logo"><img src="./pytest文档22_files/translate_24dp.png" width="20" height="20" alt="Google 翻译"></div></div></div><div class="top" style="padding: 8px; float: left; width: 100%;"><h1 class="title gray">原文</h1></div><div class="middle" style="padding: 8px;"><div class="original-text"></div></div><div class="bottom" style="padding: 8px;"><div class="activity-links"><span class="activity-link">提供更好的翻译建议</span><span class="activity-link"></span></div><div class="started-activity-container"><hr style="color: #CCC; background-color: #CCC; height: 1px; border: none;"><div class="activity-root"></div></div></div><div class="status-message" style="display: none;"></div></div>
+
+  
+<div class="goog-te-spinner-pos"><div class="goog-te-spinner-animation"><svg xmlns="http://www.w3.org/2000/svg" class="goog-te-spinner" width="96px" height="96px" viewBox="0 0 66 66"><circle class="goog-te-spinner-path" fill="none" stroke-width="6" stroke-linecap="round" cx="33" cy="33" r="30"></circle></svg></div></div><!-- Inserted RTD Footer -->
+<div class="injected">
+
+  
+  <div class="rst-versions rst-badge" data-toggle="rst-versions">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      <span class="fa fa-book">&nbsp;</span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+      v：最新的
+      </font></font><span class="fa fa-caret-down"></span>
+    </span>
+    <div class="rst-other-versions">
+      
+
+      
+      
+      
+      <dl>
+        <dt><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">版本</font></font></dt>
+        
+         <strong> 
+        <dd><a href="http://doc.pytest.org/en/latest/goodpractices.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">最新</font></font></a></dd>
+         </strong> 
+        
+        
+        <dd><a href="http://doc.pytest.org/en/stable/goodpractices.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">稳定</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/4.3.1/goodpractices.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">4.3.1</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/4.3.0/goodpractices.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">4.3.0</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/4.2.1/goodpractices.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">4.2.1</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/4.2.0/goodpractices.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">4.2.0</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/4.1.1/goodpractices.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">4.1.1</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/4.1.0/goodpractices.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">4.1.0</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/4.0.2/goodpractices.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">4.0.2</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/4.0.1/goodpractices.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">4.0.1</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/4.0.0/goodpractices.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">4.0.0</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.10.1/goodpractices.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.10.1</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.10.0/goodpractices.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.10.0</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.9.3/goodpractices.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.9.3</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.9.2/goodpractices.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.9.2</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.9.1/goodpractices.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.9.1</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.9.0/goodpractices.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.9.0</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.8.2/goodpractices.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.8.2</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.8.1/goodpractices.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.8.1</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.8.0/goodpractices.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.8.0</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.7.4/goodpractices.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.7.4</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.7.3/goodpractices.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.7.3</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.7.2/goodpractices.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.7.2</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.7.1/goodpractices.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.7.1</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.7.0/goodpractices.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.7.0</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.6.4/goodpractices.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.6.4</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.6.3/goodpractices.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.6.3</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.6.2/goodpractices.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.6.2</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.6.1/goodpractices.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.6.1</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.6.0/goodpractices.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.6.0</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.5.1/goodpractices.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.5.1</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.5.0/goodpractices.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.5.0</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.4.2/goodpractices.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.4.2</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.4.1/goodpractices.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.4.1</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.4.0/goodpractices.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.4.0</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.3.2/goodpractices.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.3.2</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.3.1/goodpractices.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.3.1</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.3.0/goodpractices.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.3.0</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.2.5/goodpractices.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.2.5</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.2.4/goodpractices.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.2.4</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.2.3/goodpractices.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.2.3</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.2.2/goodpractices.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.2.2</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.2.1/goodpractices.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.2.1</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.2.0/goodpractices.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.2.0</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.1.3/goodpractices.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.1.3</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.1.2/goodpractices.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.1.2</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.1.1/goodpractices.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.1.1</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.1.0/goodpractices.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.1.0</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.0.7/goodpractices.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.0.7</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.0.6/goodpractices.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.0.6</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.0.5/goodpractices.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.0.5</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.0.4/goodpractices.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.0.4</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.0.3/goodpractices.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.0.3</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.0.2/goodpractices.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.0.2</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.0.1/goodpractices.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.0.1</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.0.0/goodpractices.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.0.0</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/2.9.2/goodpractices.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">2.9.2</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/2.9.1/goodpractices.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">2.9.1</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/2.9.0/goodpractices.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">2.9.0</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/2.8.7/goodpractices.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">2.8.7</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/2.7.3/goodpractices.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">2.7.3</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/sphinx-removed-in/goodpractices.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">斯芬克斯-除去式</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/features/goodpractices.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">特征</font></font></a></dd>
+        
+        
+      </dl>
+      
+      
+
+      
+      
+      <dl>
+        <dt><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">下载</font></font></dt>
+        
+        <dd><a href="https://readthedocs.org/projects/pytest/downloads/pdf/latest/"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">PDF</font></font></a></dd>
+        
+        <dd><a href="https://readthedocs.org/projects/pytest/downloads/htmlzip/latest/"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">HTML</font></font></a></dd>
+        
+        <dd><a href="https://readthedocs.org/projects/pytest/downloads/epub/latest/"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">EPUB</font></font></a></dd>
+        
+      </dl>
+      
+      
+
+      
+      <dl>
+        <!-- These are kept as relative links for internal installs that are http -->
+        <dt><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">阅读文档</font></font></dt>
+        <dd>
+          <a href="https://readthedocs.org/projects/pytest/"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">项目主页</font></font></a>
+        </dd>
+        <dd>
+          <a href="https://readthedocs.org/projects/pytest/builds/"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">构建</font></font></a>
+        </dd>
+        <dd>
+          <a href="https://readthedocs.org/projects/pytest/downloads/"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">下载</font></font></a>
+        </dd>
+      </dl>
+      
+
+      
+
+      
+      <dl>
+        <dt><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">在GitHub上</font></font></dt>
+        <dd>
+          <a href="https://github.com/pytest-dev/pytest/blob/master/doc/en/goodpractices.rst"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">视图</font></font></a>
+        </dd>
+        
+      </dl>
+      
+      
+
+      
+      <dl>
+        <dt><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">搜索</font></font></dt>
+        <dd>
+          <div style="padding: 6px;">
+            <form id="flyout-search-form" class="wy-form" target="_blank" action="https://readthedocs.org/projects/pytest/search/" method="get">
+              <input type="text" name="q" placeholder="Search docs">
+              </form>
+          </div>
+        </dd>
+      </dl>
+      
+
+
+
+      <hr>
+      
+        <small>
+          <span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">主持人</font></font><a href="https://readthedocs.org/"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">阅读文档</font></font></a></span>
+          <span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> · </font></font></span>
+          <a href="https://docs.readthedocs.io/page/privacy-policy.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">隐私政策</font></font></a>
+        </small>
+      
+
+      
+    </div>
+  </div>
+  
+
+</div>
+</body></html>

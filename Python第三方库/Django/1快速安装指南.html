@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<!-- saved from url=(0057)https://docs.djangoproject.com/zh-hans/2.1/intro/install/ -->
+<html lang="zh-hans" class=" mdzr-js mdzr-borderradius mdzr-boxshadow mdzr-cssanimations mdzr-svg"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="ROBOTS" content="ALL">
+    <meta name="MSSmartTagsPreventParsing" content="true">
+    <meta name="Copyright" content="Django Software Foundation">
+    <meta name="keywords" content="Python, Django, framework, open-source">
+    <meta name="description" content="">
+
+    
+  
+    
+      
+    
+  
+  <link rel="canonical" href="https://docs.djangoproject.com/zh-hans/2.2/intro/install/">
+  
+    
+      
+    
+    <link rel="alternate" hreflang="el" href="https://docs.djangoproject.com/el/2.1/intro/install/">
+  
+    
+      
+    
+    <link rel="alternate" hreflang="en" href="https://docs.djangoproject.com/en/2.1/intro/install/">
+  
+    
+      
+    
+    <link rel="alternate" hreflang="es" href="https://docs.djangoproject.com/es/2.1/intro/install/">
+  
+    
+      
+    
+    <link rel="alternate" hreflang="fr" href="https://docs.djangoproject.com/fr/2.1/intro/install/">
+  
+    
+      
+    
+    <link rel="alternate" hreflang="id" href="https://docs.djangoproject.com/id/2.1/intro/install/">
+  
+    
+      
+    
+    <link rel="alternate" hreflang="ja" href="https://docs.djangoproject.com/ja/2.1/intro/install/">
+  
+    
+      
+    
+    <link rel="alternate" hreflang="ko" href="https://docs.djangoproject.com/ko/2.1/intro/install/">
+  
+    
+      
+    
+    <link rel="alternate" hreflang="pl" href="https://docs.djangoproject.com/pl/2.1/intro/install/">
+  
+    
+      
+    
+    <link rel="alternate" hreflang="pt-br" href="https://docs.djangoproject.com/pt-br/2.1/intro/install/">
+  
+    
+      
+    
+    <link rel="alternate" hreflang="zh-hans" href="https://docs.djangoproject.com/zh-hans/2.1/intro/install/">
+  
+
+  <link rel="search" type="application/opensearchdescription+xml" href="https://docs.djangoproject.com/zh-hans/2.1/search/description/" title="Django 文档">
+
+    <!-- Favicons -->
+    <link rel="apple-touch-icon" href="https://static.djangoproject.com/img/icon-touch.e4872c4da341.png">
+    <link rel="icon" sizes="192x192" href="https://static.djangoproject.com/img/icon-touch.e4872c4da341.png">
+    <link rel="shortcut icon" href="https://static.djangoproject.com/img/favicon.6dbf28c0650e.ico">
+    <meta name="msapplication-TileColor" content="#113228">
+    <meta name="msapplication-TileImage" content="https://static.djangoproject.com/img/icon-tile.b01ac0ef9f67.png">
+
+    <title>快速安装指南 | Django 文档 | Django</title>
+
+    <link rel="stylesheet" href="./1快速安装指南_files/output.beb34528fd55.css">
+    <script src="./1快速安装指南_files/webfontloader.e75218f5f090.js"></script>
+    <link rel="stylesheet" href="./1快速安装指南_files/css"><script>
+    WebFont.load({
+      custom: {
+        families: ['FontAwesome', 'Fira+Mono'],
+      },
+      google: {
+        families: ['Roboto:400italic,700italic,300,700,400:latin'
+        ]
+      },
+      classes: false,
+      events: false,
+      timeout: 1000
+    });
+    </script>
+    <script src="./1快速安装指南_files/modernizr.3b36762e418a.js"></script>
+    
+  <script type="text/javascript" charset="utf-8" async="" data-requirecontext="_" data-requiremodule="main.07884ebc4865" src="./1快速安装指南_files/main.07884ebc4865.js"></script><script type="text/javascript" charset="utf-8" async="" data-requirecontext="_" data-requiremodule="mod/mobile-menu" src="./1快速安装指南_files/mobile-menu.841726ee903a.js"></script><script type="text/javascript" charset="utf-8" async="" data-requirecontext="_" data-requiremodule="mod/version-switcher" src="./1快速安装指南_files/version-switcher.c28bb83972bb.js"></script><script type="text/javascript" charset="utf-8" async="" data-requirecontext="_" data-requiremodule="mod/search-key" src="./1快速安装指南_files/search-key.f3c0a6fcfedd.js"></script><script type="text/javascript" charset="utf-8" async="" data-requirecontext="_" data-requiremodule="jquery" src="./1快速安装指南_files/jquery.min.87e69028f78d.js"></script></head>
+
+  <body id="generic" class="">
+
+    <div role="banner" id="top">
+  <div class="container">
+    <a class="logo" href="https://www.djangoproject.com/">Django</a>
+    <p class="meta">The web framework for perfectionists with deadlines.</p>
+    <div class="menu-button"><i class="icon icon-reorder"></i><span>Menu</span></div><div role="navigation" class="nav-menu-on">
+      <ul>
+        <li>
+          <a href="https://www.djangoproject.com/start/overview/">Overview</a>
+        </li>
+        <li>
+          <a href="https://www.djangoproject.com/download/">Download</a>
+        </li>
+        <li class="active">
+          <a href="https://docs.djangoproject.com/">Documentation</a>
+        </li>
+        <li>
+          <a href="https://www.djangoproject.com/weblog/">News</a>
+        </li>
+        <li>
+          <a href="https://www.djangoproject.com/community/">Community</a>
+        </li>
+        <li>
+          <a href="https://code.djangoproject.com/">Code</a>
+        </li>
+        <li>
+          <a href="https://www.djangoproject.com/foundation/">About</a>
+        </li>
+        <li>
+          <a href="https://www.djangoproject.com/fundraising/">♥ Donate</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+
+    <div class="copy-banner">
+      <div class="container">
+        
+  <h1><a href="https://docs.djangoproject.com/zh-hans/2.1/">文档</a></h1>
+
+      </div>
+    </div>
+    <div id="billboard"></div>
+
+    <div class="container sidebar-right">
+      <div role="main">
+
+        
+          
+        
+
+        
+<div id="version-switcher">
+  <ul id="doc-languages" class="language-switcher">
+  
+  
+  <li class="other">
+    
+      
+    
+    <a href="https://docs.djangoproject.com/el/2.1/intro/install/">el</a>
+  </li>
+  
+  
+  
+  <li class="other">
+    
+      
+    
+    <a href="https://docs.djangoproject.com/en/2.1/intro/install/">en</a>
+  </li>
+  
+  
+  
+  <li class="other">
+    
+      
+    
+    <a href="https://docs.djangoproject.com/es/2.1/intro/install/">es</a>
+  </li>
+  
+  
+  
+  <li class="other">
+    
+      
+    
+    <a href="https://docs.djangoproject.com/fr/2.1/intro/install/">fr</a>
+  </li>
+  
+  
+  
+  <li class="other">
+    
+      
+    
+    <a href="https://docs.djangoproject.com/id/2.1/intro/install/">id</a>
+  </li>
+  
+  
+  
+  <li class="other">
+    
+      
+    
+    <a href="https://docs.djangoproject.com/ja/2.1/intro/install/">ja</a>
+  </li>
+  
+  
+  
+  <li class="other">
+    
+      
+    
+    <a href="https://docs.djangoproject.com/ko/2.1/intro/install/">ko</a>
+  </li>
+  
+  
+  
+  <li class="other">
+    
+      
+    
+    <a href="https://docs.djangoproject.com/pl/2.1/intro/install/">pl</a>
+  </li>
+  
+  
+  
+  <li class="other">
+    
+      
+    
+    <a href="https://docs.djangoproject.com/pt-br/2.1/intro/install/">pt-br</a>
+  </li>
+  
+  
+  
+  
+    <li class="current" title="点击左侧的链接以切换到另一种语言。">
+      <span>语言： <strong>zh-hans</strong></span>
+    </li>
+  </ul>
+
+  
+  <ul id="doc-versions" class="version-switcher">
+    
+    
+    <li class="other">
+      
+        
+      
+      <a href="https://docs.djangoproject.com/zh-hans/2.0/intro/install/">2.0</a>
+    </li>
+    
+    
+    
+    
+    
+    <li class="other">
+      
+        
+      
+      <a href="https://docs.djangoproject.com/zh-hans/2.2/intro/install/">2.2</a>
+    </li>
+    
+    
+    
+    <li class="other">
+      
+        
+      
+      <a href="https://docs.djangoproject.com/zh-hans/dev/intro/install/">dev</a>
+    </li>
+    
+    
+    <li class="current" title="此文档是为 Django 2.1 编写的。 点击左侧的链接查看其它版本">
+       <span>文档版本：
+         <strong>2.1</strong>
+       </span>
+    </li>
+  </ul>
+</div>
+
+
+<div id="docs-content">
+<div class="section" id="s-quick-install-guide">
+<span id="quick-install-guide"></span><h1>快速安装指南<a class="headerlink" href="https://docs.djangoproject.com/zh-hans/2.1/intro/install/#quick-install-guide" title="永久链接至标题">¶</a></h1>
+<p>开始用 Django 前，需要先进行安装。我们写了 <a class="reference internal" href="https://docs.djangoproject.com/zh-hans/2.1/topics/install/"><span class="doc">complete installation guide</span></a> 罗列了各种安装方法；它会指导你完成最小，快速安装。</p>
+<div class="section" id="s-install-python">
+<span id="install-python"></span><h2>安装 Python<a class="headerlink" href="https://docs.djangoproject.com/zh-hans/2.1/intro/install/#install-python" title="永久链接至标题">¶</a></h2>
+<p>作为一个 Python Web 框架，Django 需要 Python。更多细节请参见 <a class="reference internal" href="https://docs.djangoproject.com/zh-hans/2.1/faq/install/#faq-python-version-support"><span class="std std-ref">我应该使用哪个版本的 Python 来配合 Django?</span></a>。Python 包含了一个名为 <a class="reference external" href="https://sqlite.org/">SQLite</a> 的轻量级数据库，所以你暂时不必自行设置一个数据库。</p>
+<p>最新版本的 Python 可以通过访问 <a class="reference external" href="https://www.python.org/downloads/">https://www.python.org/downloads/</a> 或者操作系统的包管理工具获取。</p>
+<p>你可以在你的 shell 中输入 <code class="docutils literal notranslate"><span class="pre">python</span></code> 来确定你是否安装过 Python；你看到的可能是像这样子的:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Python</span> <span class="mf">3.</span><span class="n">x</span><span class="o">.</span><span class="n">y</span>
+<span class="p">[</span><span class="n">GCC</span> <span class="mf">4.</span><span class="n">x</span><span class="p">]</span> <span class="n">on</span> <span class="n">linux</span>
+<span class="n">Type</span> <span class="s2">"help"</span><span class="p">,</span> <span class="s2">"copyright"</span><span class="p">,</span> <span class="s2">"credits"</span> <span class="ow">or</span> <span class="s2">"license"</span> <span class="k">for</span> <span class="n">more</span> <span class="n">information</span><span class="o">.</span>
+<span class="o">&gt;&gt;&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="s-set-up-a-database">
+<span id="set-up-a-database"></span><h2>设置数据库<a class="headerlink" href="https://docs.djangoproject.com/zh-hans/2.1/intro/install/#set-up-a-database" title="永久链接至标题">¶</a></h2>
+<p>此步骤仅在你打算使用诸如 PostgreSQL, MySQL, 或者 Oracle 这些大型数据库引擎时需要。要安装这种数据库, 请参考 <a class="reference internal" href="https://docs.djangoproject.com/zh-hans/2.1/topics/install/#database-installation"><span class="std std-ref">database installation information</span></a>。</p>
+</div>
+<div class="section" id="s-install-django">
+<span id="install-django"></span><h2>安装 Django<a class="headerlink" href="https://docs.djangoproject.com/zh-hans/2.1/intro/install/#install-django" title="永久链接至标题">¶</a></h2>
+<p>你有三个简单的方法来安装 Django：</p>
+<ul class="simple">
+<li><a class="reference internal" href="https://docs.djangoproject.com/zh-hans/2.1/topics/install/#installing-official-release"><span class="std std-ref">Install an official release</span></a> 适合大部分用户。</li>
+<li>安装 Django <a class="reference internal" href="https://docs.djangoproject.com/zh-hans/2.1/topics/install/#installing-distribution-package"><span class="std std-ref">provided by your operating system distribution</span></a>。</li>
+<li><a class="reference internal" href="https://docs.djangoproject.com/zh-hans/2.1/topics/install/#installing-development-version"><span class="std std-ref">Install the latest development version</span></a> 这个选择是针对那些想要体验最新和最好的特性的爱好者们，并不怕运行全新代码。你在开发版中可能会遇到新的 bug，可以报告给社区团队帮助 Django 开发。此外，第三方发行的软件包也可能不与开发版进行兼容。</li>
+</ul>
+<div class="admonition-always-refer-to-the-documentation-that-corresponds-to-the-version-of-django-you-re-using admonition">
+<p class="first admonition-title">请始终参考与你所使用的版本对应的 Django 文档！</p>
+<p class="last">如果采用了前两种方式进行安装，你需要注意在文档中标明  <strong>在开发版中新增</strong>。这个标记表明这个特性仅适用开发版 Django，并且他们可能不会在官方发布的稳定版中出现。</p>
+</div>
+</div>
+<div class="section" id="s-verifying">
+<span id="verifying"></span><h2>验证<a class="headerlink" href="https://docs.djangoproject.com/zh-hans/2.1/intro/install/#verifying" title="永久链接至标题">¶</a></h2>
+<p>若要验证 Django 是否能被 Python 识别，可以在 shell 中输入 <code class="docutils literal notranslate"><span class="pre">python</span></code>。 然后在 Python 提示符下，尝试导入 Django：</p>
+<pre class="literal-block">&gt;&gt;&gt; import django
+&gt;&gt;&gt; print(django.get_version())
+2.1
+</pre>
+<p>当然了，你也可能安装的是其它版本的 Django。</p>
+</div>
+<div class="section" id="s-that-s-it">
+<span id="that-s-it"></span><h2>搞定！<a class="headerlink" href="https://docs.djangoproject.com/zh-hans/2.1/intro/install/#that-s-it" title="永久链接至标题">¶</a></h2>
+<p>搞定，现在你可以 <a class="reference internal" href="https://docs.djangoproject.com/zh-hans/2.1/intro/tutorial01/"><span class="doc">move onto the tutorial</span></a>。</p>
+</div>
+</div>
+
+</div>
+
+
+
+<div class="browse-horizontal">
+  
+  <div class="left"><a href="https://docs.djangoproject.com/zh-hans/2.1/intro/overview/"><i class="icon icon-chevron-left"></i> 初识 Django</a></div>
+  
+  
+  <div class="right"><a href="https://docs.djangoproject.com/zh-hans/2.1/intro/tutorial01/">编写你的第一个 Django 应用，第 1 部分 <i class="icon icon-chevron-right"></i></a></div>
+  
+</div>
+
+
+
+        <a href="https://docs.djangoproject.com/zh-hans/2.1/intro/install/#top" class="backtotop"><i class="icon icon-chevron-up"></i> Back to Top</a>
+      </div>
+
+      
+<h1 class="visuallyhidden">附加信息</h1>
+<div role="complementary">
+  
+  
+
+<form action="https://docs.djangoproject.com/zh-hans/2.1/search/" class="search form-input" role="search">
+  <label class="visuallyhidden" for="id_q">Search:</label>
+    <input type="search" name="q" placeholder="搜索 2.1 文档" id="id_q">
+
+    <button type="submit">
+      <i class="icon icon-search"></i>
+      <span class="visuallyhidden">搜索</span>
+    </button>
+</form>
+
+  
+
+  
+
+
+  <div class="fundraising-sidebar">
+    <h2>Support Django!</h2>
+
+    <div class="small-heart">
+      <img src="./1快速安装指南_files/small-fundraising-heart.d255f6e934e5.png" alt="Support Django!">
+    </div>
+
+    <div class="small-cta">
+      <ul class="list-links-small">
+        <li><a href="https://www.djangoproject.com/fundraising/">
+          Jeff Triplett donated to the Django Software Foundation to
+          support Django development. Donate today!
+        </a></li>
+      </ul>
+    </div>
+  </div>
+
+
+
+  
+    <h2>内容</h2>
+    
+    <ul>
+<li><a class="reference internal" href="https://docs.djangoproject.com/zh-hans/2.1/intro/install/#">快速安装指南</a><ul>
+<li><a class="reference internal" href="https://docs.djangoproject.com/zh-hans/2.1/intro/install/#install-python">安装 Python</a></li>
+<li><a class="reference internal" href="https://docs.djangoproject.com/zh-hans/2.1/intro/install/#set-up-a-database">设置数据库</a></li>
+<li><a class="reference internal" href="https://docs.djangoproject.com/zh-hans/2.1/intro/install/#install-django">安装 Django</a></li>
+<li><a class="reference internal" href="https://docs.djangoproject.com/zh-hans/2.1/intro/install/#verifying">验证</a></li>
+<li><a class="reference internal" href="https://docs.djangoproject.com/zh-hans/2.1/intro/install/#that-s-it">搞定！</a></li>
+</ul>
+</li>
+</ul>
+
+    
+  
+
+  
+  <h2>浏览</h2>
+  <ul>
+    
+    
+    <li>上一个： <a href="https://docs.djangoproject.com/zh-hans/2.1/intro/overview/">初识 Django</a></li>
+    
+    
+    <li>下一个： <a href="https://docs.djangoproject.com/zh-hans/2.1/intro/tutorial01/">编写你的第一个 Django 应用，第 1 部分</a></li>
+    
+    <li><a href="https://docs.djangoproject.com/zh-hans/2.1/contents/">目录</a></li>
+    
+    <li><a href="https://docs.djangoproject.com/zh-hans/2.1/genindex/">总目录</a></li>
+    
+    <li><a href="https://docs.djangoproject.com/zh-hans/2.1/py-modindex/">Python 模块索引</a></li>
+    
+    
+  </ul>
+  
+
+  
+  <h2>当前位置</h2>
+  <ul>
+    <li>
+      <a href="https://docs.djangoproject.com/zh-hans/2.1/">Django 2.1 文档</a>
+      
+      <ul><li><a href="https://docs.djangoproject.com/zh-hans/2.1/intro/">开始</a>
+      
+      <ul><li>快速安装指南</li></ul>
+      </li></ul>
+    </li>
+  </ul>
+  
+
+  
+  <h2 id="getting-help-sidebar">获取帮助</h2>
+  <dl class="list-links">
+    <dt><a href="https://docs.djangoproject.com/zh-hans/2.1/faq/">FAQ</a></dt>
+    <dd>尝试查看 FAQ — 它包括了很多常见问题的答案</dd>
+
+    <dt><a href="https://docs.djangoproject.com/en/stable/genindex/">索引</a>, <a href="https://docs.djangoproject.com/en/stable/py-modindex/">模块索引</a>, or <a href="https://docs.djangoproject.com/en/stable/contents/">目录</a></dt>
+    <dd>查找特定信息时比较容易</dd>
+
+    <dt><a href="https://groups.google.com/group/django-users/">django-users mailing list</a></dt>
+    <dd>在 django-users 邮件列表存档中搜索信息，或者发布一个问题。</dd>
+
+    <dt><a href="irc://irc.freenode.net/django">#django IRC channel</a></dt>
+    <dd>在 #django IRC 频道上提问，或者搜索 IRC 历史找到相似的问题与解答。</dd>
+
+    <dt><a href="https://code.djangoproject.com/">Ticket tracker</a></dt>
+    <dd>在我们的 `ticket tracker`_ 中报告 Django 或 Django 文档的 Bug。</dd>
+  </dl>
+  
+
+  
+  <h2>下载：</h2>
+  <p>
+    离线 (Django 2.1):
+    <a href="https://media.djangoproject.com/docs/django-docs-2.1-zh-hans.zip">HTML</a> |
+    <a href="https://media.readthedocs.org/pdf/django/2.1.x/django.pdf">PDF</a> |
+    <a href="https://media.readthedocs.org/epub/django/2.1.x/django.epub">ePub</a>
+    <br>
+    <span class="quiet">
+      由 <a href="https://readthedocs.org/">Read the Docs</a> 提供。
+    </span>
+  </p>
+  
+</div>
+
+      
+
+    </div>
+
+     
+     
+
+    
+    
+    
+
+    
+      
+<div role="contentinfo">
+  <div class="subfooter">
+    <div class="container">
+      <h1 class="visuallyhidden">Django Links</h1>
+
+      <div class="col learn">
+        <h2>Learn More</h2>
+        <ul>
+          <li><a href="https://www.djangoproject.com/start/overview/">About Django</a></li>
+          
+          <li><a href="https://www.djangoproject.com/start/">Getting Started with Django</a></li>
+          <li><a href="https://docs.djangoproject.com/en/dev/internals/organization/">Team Organization</a></li>
+          <li><a href="https://www.djangoproject.com/foundation/">Django Software Foundation</a></li>
+          <li><a href="https://www.djangoproject.com/conduct/">Code of Conduct</a></li>
+          <li><a href="https://www.djangoproject.com/diversity/">Diversity Statement</a></li>
+        </ul>
+      </div>
+
+      <div class="col involved">
+        <h2>Get Involved</h2>
+        <ul>
+          <li><a href="https://www.djangoproject.com/community/">Join a Group</a></li>
+          <li><a href="https://docs.djangoproject.com/en/dev/internals/contributing/">Contribute to Django</a></li>
+          <li><a href="https://docs.djangoproject.com/en/dev/internals/contributing/bugs-and-features/">Submit a Bug</a></li>
+          <li><a href="https://docs.djangoproject.com/en/dev/internals/security/#reporting-security-issues">Report a Security Issue</a></li>
+        </ul>
+      </div>
+
+      <div class="col follow last-child">
+        <h2>Follow Us</h2>
+        <ul>
+          <li><a href="https://github.com/django">GitHub</a></li>
+          <li><a href="https://twitter.com/djangoproject">Twitter</a></li>
+          <li><a href="https://www.djangoproject.com/rss/weblog/">News RSS</a></li>
+          <li><a href="https://groups.google.com/forum/#!forum/django-users">Django Users Mailing List</a></li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="footer">
+    <div class="container">
+      <div class="footer-logo">
+        <a class="logo" href="https://www.djangoproject.com/">Django</a>
+      </div>
+      <ul class="thanks">
+        <li>
+          <span>Hosting by</span> <a class="rackspace" href="https://www.rackspace.com/">Rackspace</a>
+        </li>
+        <li class="design"><span>Design by</span> <a class="threespot" href="https://www.threespot.com/">Threespot</a> <span class="ampersand">&amp;</span> <a class="andrevv" href="http://andrevv.com/"></a></li>
+      </ul>
+      <p class="copyright">© 2005-2019
+        <a href="https://www.djangoproject.com/foundation/"> Django Software
+        Foundation</a> and individual contributors. Django is a
+        <a href="https://www.djangoproject.com/trademarks/">registered
+        trademark</a> of the Django Software Foundation.
+      </p>
+    </div>
+  </div>
+
+</div>
+
+    
+
+    
+    <script>
+    function extless(input) {
+        return input.replace(/(.*)\.[^.]+$/, '$1');
+    }
+    var require = {
+        shim: {
+            'jquery': [],
+            'jquery.inview': ["jquery"],
+            'jquery.payment': ["jquery"],
+            'jquery.flot': ["jquery"],
+            'jquery.unveil': ["jquery"],
+            'stripe': {
+              exports: 'Stripe'
+            }
+        },
+        paths: {
+            "jquery": extless("https://static.djangoproject.com/js/lib/jquery/dist/jquery.min.87e69028f78d.js"),
+            "jquery.inview": extless("https://static.djangoproject.com/js/lib/jquery.inview/jquery.inview.min.4edba1c65592.js"),
+            "jquery.payment": extless("https://static.djangoproject.com/js/lib/jquery.payment/lib/jquery.payment.e99c05ca79ae.js"),
+            "jquery.unveil": extless("https://static.djangoproject.com/js/lib/unveil/jquery.unveil.min.ac79eb277093.js"),
+            "jquery.flot": extless("https://static.djangoproject.com/js/lib/jquery-flot/jquery.flot.min.9964206e9d7f.js"),
+            "clipboard": extless("https://static.djangoproject.com/js/lib/clipboard/dist/clipboard.min.bd70fd596a23.js"),
+            "mod/floating-warning": extless("https://static.djangoproject.com/js/mod/floating-warning.a21b2abd2884.js"),
+            "mod/list-collapsing": extless("https://static.djangoproject.com/js/mod/list-collapsing.c1a08d3ef9e9.js"),
+            "mod/list-feature": extless("https://static.djangoproject.com/js/mod/list-feature.73529480f25b.js"),
+            "mod/mobile-menu": extless("https://static.djangoproject.com/js/mod/mobile-menu.841726ee903a.js"),
+            "mod/version-switcher": extless("https://static.djangoproject.com/js/mod/version-switcher.c28bb83972bb.js"),
+            "mod/search-key": extless("https://static.djangoproject.com/js/mod/search-key.f3c0a6fcfedd.js"),
+            "mod/stripe-custom-checkout": extless("https://static.djangoproject.com/js/mod/stripe-custom-checkout.aac1352045b7.js"),
+            "mod/stripe-change-card": extless("https://static.djangoproject.com/js/mod/stripe-change-card.682c710317a8.js"),
+            "mod/console-tabs": extless("https://static.djangoproject.com/js/mod/console-tabs.70ce882faaf3.js"),
+            "stripe-checkout": "https://checkout.stripe.com/checkout",
+            "stripe": "https://js.stripe.com/v2/?"  // ? needed due to require.js
+        }
+    };
+    </script>
+    <script data-main="https://static.djangoproject.com/js/main.07884ebc4865.js" src="./1快速安装指南_files/require.177879fbe7dd.js"></script>
+    
+
+
+
+  
+
+</body></html>

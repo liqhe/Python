@@ -1,0 +1,779 @@
+<!DOCTYPE html>
+<!-- saved from url=(0063)https://docs.djangoproject.com/zh-hans/2.1/intro/reusable-apps/ -->
+<html lang="zh-hans" class=" mdzr-js mdzr-borderradius mdzr-boxshadow mdzr-cssanimations mdzr-svg"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="ROBOTS" content="ALL">
+    <meta name="MSSmartTagsPreventParsing" content="true">
+    <meta name="Copyright" content="Django Software Foundation">
+    <meta name="keywords" content="Python, Django, framework, open-source">
+    <meta name="description" content="">
+
+    
+  
+    
+      
+    
+  
+  <link rel="canonical" href="https://docs.djangoproject.com/zh-hans/2.2/intro/reusable-apps/">
+  
+    
+      
+    
+    <link rel="alternate" hreflang="el" href="https://docs.djangoproject.com/el/2.1/intro/reusable-apps/">
+  
+    
+      
+    
+    <link rel="alternate" hreflang="en" href="https://docs.djangoproject.com/en/2.1/intro/reusable-apps/">
+  
+    
+      
+    
+    <link rel="alternate" hreflang="es" href="https://docs.djangoproject.com/es/2.1/intro/reusable-apps/">
+  
+    
+      
+    
+    <link rel="alternate" hreflang="fr" href="https://docs.djangoproject.com/fr/2.1/intro/reusable-apps/">
+  
+    
+      
+    
+    <link rel="alternate" hreflang="id" href="https://docs.djangoproject.com/id/2.1/intro/reusable-apps/">
+  
+    
+      
+    
+    <link rel="alternate" hreflang="ja" href="https://docs.djangoproject.com/ja/2.1/intro/reusable-apps/">
+  
+    
+      
+    
+    <link rel="alternate" hreflang="ko" href="https://docs.djangoproject.com/ko/2.1/intro/reusable-apps/">
+  
+    
+      
+    
+    <link rel="alternate" hreflang="pl" href="https://docs.djangoproject.com/pl/2.1/intro/reusable-apps/">
+  
+    
+      
+    
+    <link rel="alternate" hreflang="pt-br" href="https://docs.djangoproject.com/pt-br/2.1/intro/reusable-apps/">
+  
+    
+      
+    
+    <link rel="alternate" hreflang="zh-hans" href="https://docs.djangoproject.com/zh-hans/2.1/intro/reusable-apps/">
+  
+
+  <link rel="search" type="application/opensearchdescription+xml" href="https://docs.djangoproject.com/zh-hans/2.1/search/description/" title="Django 文档">
+
+    <!-- Favicons -->
+    <link rel="apple-touch-icon" href="https://static.djangoproject.com/img/icon-touch.e4872c4da341.png">
+    <link rel="icon" sizes="192x192" href="https://static.djangoproject.com/img/icon-touch.e4872c4da341.png">
+    <link rel="shortcut icon" href="https://static.djangoproject.com/img/favicon.6dbf28c0650e.ico">
+    <meta name="msapplication-TileColor" content="#113228">
+    <meta name="msapplication-TileImage" content="https://static.djangoproject.com/img/icon-tile.b01ac0ef9f67.png">
+
+    <title>进阶指南：如何编写可重用程序 | Django 文档 | Django</title>
+
+    <link rel="stylesheet" href="./9进阶指南：如何编写可重用程序_files/output.beb34528fd55.css">
+    <script src="./9进阶指南：如何编写可重用程序_files/webfontloader.e75218f5f090.js"></script>
+    <link rel="stylesheet" href="./9进阶指南：如何编写可重用程序_files/css"><script>
+    WebFont.load({
+      custom: {
+        families: ['FontAwesome', 'Fira+Mono'],
+      },
+      google: {
+        families: ['Roboto:400italic,700italic,300,700,400:latin'
+        ]
+      },
+      classes: false,
+      events: false,
+      timeout: 1000
+    });
+    </script>
+    <script src="./9进阶指南：如何编写可重用程序_files/modernizr.3b36762e418a.js"></script>
+    
+  <script type="text/javascript" charset="utf-8" async="" data-requirecontext="_" data-requiremodule="main.07884ebc4865" src="./9进阶指南：如何编写可重用程序_files/main.07884ebc4865.js"></script><script type="text/javascript" charset="utf-8" async="" data-requirecontext="_" data-requiremodule="mod/mobile-menu" src="./9进阶指南：如何编写可重用程序_files/mobile-menu.841726ee903a.js"></script><script type="text/javascript" charset="utf-8" async="" data-requirecontext="_" data-requiremodule="mod/version-switcher" src="./9进阶指南：如何编写可重用程序_files/version-switcher.c28bb83972bb.js"></script><script type="text/javascript" charset="utf-8" async="" data-requirecontext="_" data-requiremodule="mod/search-key" src="./9进阶指南：如何编写可重用程序_files/search-key.f3c0a6fcfedd.js"></script><script type="text/javascript" charset="utf-8" async="" data-requirecontext="_" data-requiremodule="mod/clippify" src="./9进阶指南：如何编写可重用程序_files/clippify.js"></script><script type="text/javascript" charset="utf-8" async="" data-requirecontext="_" data-requiremodule="clipboard" src="./9进阶指南：如何编写可重用程序_files/clipboard.min.bd70fd596a23.js"></script><script type="text/javascript" charset="utf-8" async="" data-requirecontext="_" data-requiremodule="jquery" src="./9进阶指南：如何编写可重用程序_files/jquery.min.87e69028f78d.js"></script></head>
+
+  <body id="generic" class="">
+
+    <div role="banner" id="top">
+  <div class="container">
+    <a class="logo" href="https://www.djangoproject.com/">Django</a>
+    <p class="meta">The web framework for perfectionists with deadlines.</p>
+    <div class="menu-button"><i class="icon icon-reorder"></i><span>Menu</span></div><div role="navigation" class="nav-menu-on">
+      <ul>
+        <li>
+          <a href="https://www.djangoproject.com/start/overview/">Overview</a>
+        </li>
+        <li>
+          <a href="https://www.djangoproject.com/download/">Download</a>
+        </li>
+        <li class="active">
+          <a href="https://docs.djangoproject.com/">Documentation</a>
+        </li>
+        <li>
+          <a href="https://www.djangoproject.com/weblog/">News</a>
+        </li>
+        <li>
+          <a href="https://www.djangoproject.com/community/">Community</a>
+        </li>
+        <li>
+          <a href="https://code.djangoproject.com/">Code</a>
+        </li>
+        <li>
+          <a href="https://www.djangoproject.com/foundation/">About</a>
+        </li>
+        <li>
+          <a href="https://www.djangoproject.com/fundraising/">♥ Donate</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+
+    <div class="copy-banner">
+      <div class="container">
+        
+  <h1><a href="https://docs.djangoproject.com/zh-hans/2.1/">文档</a></h1>
+
+      </div>
+    </div>
+    <div id="billboard"></div>
+
+    <div class="container sidebar-right">
+      <div role="main">
+
+        
+          
+        
+
+        
+<div id="version-switcher">
+  <ul id="doc-languages" class="language-switcher">
+  
+  
+  <li class="other">
+    
+      
+    
+    <a href="https://docs.djangoproject.com/el/2.1/intro/reusable-apps/">el</a>
+  </li>
+  
+  
+  
+  <li class="other">
+    
+      
+    
+    <a href="https://docs.djangoproject.com/en/2.1/intro/reusable-apps/">en</a>
+  </li>
+  
+  
+  
+  <li class="other">
+    
+      
+    
+    <a href="https://docs.djangoproject.com/es/2.1/intro/reusable-apps/">es</a>
+  </li>
+  
+  
+  
+  <li class="other">
+    
+      
+    
+    <a href="https://docs.djangoproject.com/fr/2.1/intro/reusable-apps/">fr</a>
+  </li>
+  
+  
+  
+  <li class="other">
+    
+      
+    
+    <a href="https://docs.djangoproject.com/id/2.1/intro/reusable-apps/">id</a>
+  </li>
+  
+  
+  
+  <li class="other">
+    
+      
+    
+    <a href="https://docs.djangoproject.com/ja/2.1/intro/reusable-apps/">ja</a>
+  </li>
+  
+  
+  
+  <li class="other">
+    
+      
+    
+    <a href="https://docs.djangoproject.com/ko/2.1/intro/reusable-apps/">ko</a>
+  </li>
+  
+  
+  
+  <li class="other">
+    
+      
+    
+    <a href="https://docs.djangoproject.com/pl/2.1/intro/reusable-apps/">pl</a>
+  </li>
+  
+  
+  
+  <li class="other">
+    
+      
+    
+    <a href="https://docs.djangoproject.com/pt-br/2.1/intro/reusable-apps/">pt-br</a>
+  </li>
+  
+  
+  
+  
+    <li class="current" title="点击左侧的链接以切换到另一种语言。">
+      <span>语言： <strong>zh-hans</strong></span>
+    </li>
+  </ul>
+
+  
+  <ul id="doc-versions" class="version-switcher">
+    
+    
+    <li class="other">
+      
+        
+      
+      <a href="https://docs.djangoproject.com/zh-hans/2.0/intro/reusable-apps/">2.0</a>
+    </li>
+    
+    
+    
+    
+    
+    <li class="other">
+      
+        
+      
+      <a href="https://docs.djangoproject.com/zh-hans/2.2/intro/reusable-apps/">2.2</a>
+    </li>
+    
+    
+    
+    <li class="other">
+      
+        
+      
+      <a href="https://docs.djangoproject.com/zh-hans/dev/intro/reusable-apps/">dev</a>
+    </li>
+    
+    
+    <li class="current" title="此文档是为 Django 2.1 编写的。 点击左侧的链接查看其它版本">
+       <span>文档版本：
+         <strong>2.1</strong>
+       </span>
+    </li>
+  </ul>
+</div>
+
+
+<div id="docs-content">
+<div class="section" id="s-advanced-tutorial-how-to-write-reusable-apps">
+<span id="advanced-tutorial-how-to-write-reusable-apps"></span><h1>进阶指南：如何编写可重用程序<a class="headerlink" href="https://docs.djangoproject.com/zh-hans/2.1/intro/reusable-apps/#advanced-tutorial-how-to-write-reusable-apps" title="永久链接至标题">¶</a></h1>
+<p>这篇进阶指南从 <a class="reference internal" href="https://docs.djangoproject.com/zh-hans/2.1/intro/tutorial07/"><span class="doc">Tutorial 7</span></a> 结尾的地方继续讲起。我们将会把我们的 Web-poll 放进一个独立的 Python 包中，以便你在新的项目中重用它或将它与他人分享。</p>
+<p>如果你尚未完成教程 1-7，我们推荐你先浏览一遍教程，这样你的样例工程会和下面的一致。</p>
+<div class="section" id="s-reusability-matters">
+<span id="reusability-matters"></span><h2>可重用性很重要<a class="headerlink" href="https://docs.djangoproject.com/zh-hans/2.1/intro/reusable-apps/#reusability-matters" title="永久链接至标题">¶</a></h2>
+<p>设计，构建，测试以及维护一个 web 应用要做很多的工作。很多 Python 以及 Django 项目都有一些常见问题。如果我们能保存并利用这些重复的工作岂不是更好？</p>
+<p>可重用性是Python的生存方式。 <a class="reference external" href="https://pypi.org/">Python软件包索引（PyPI）</a> 有很多可以在你自己的Python程序中使用的软件包。查看 <a class="reference external" href="https://djangopackages.org/">Django Packages</a> 以了解您可以整合到项目中的现有可重用应用。Django本身也只是一个Python包。这意味着您可以将现有的Python包或Django应用组合到您自己的Web项目中。您只需编写您项目独一无二的部分。</p>
+<p>假设你现在创建了一个新的项目，并且需要一个类似我们之前做的投票应用。你该如何复用这个应用呢？庆幸的是，其实你已经知道了一些。在 <a class="reference internal" href="https://docs.djangoproject.com/zh-hans/2.1/intro/tutorial03/"><span class="doc">教程 3</span></a>，我们使用过 <code class="docutils literal notranslate"><span class="pre">include</span></code> 从项目级别的 URLconf 分割出 polls。在本教程中，我们将进一步使这个应用易用于新的项目中，并发布给其他人安装使用。</p>
+<div class="admonition-package-app admonition">
+<p class="first admonition-title">包？应用？</p>
+<p>一个 <a class="reference external" href="https://docs.python.org/3/glossary.html#term-package" title="(在 Python v3.7)"><span class="xref std std-term">package</span></a> 提供了一组关联的 Python 代码的简单复用方式。一个包（“模块”）包含了一个或多个 Python 代码文件。</p>
+<p>一个包通过 <code class="docutils literal notranslate"><span class="pre">import</span> <span class="pre">foo.bar</span></code> 或 <code class="docutils literal notranslate"><span class="pre">from</span> <span class="pre">foo</span> <span class="pre">import</span> <span class="pre">bar</span></code> 的形式导入。一个目录（例如 <code class="docutils literal notranslate"><span class="pre">polls</span></code>）要成为一个包，它必须包含一个特定的文件 <code class="docutils literal notranslate"><span class="pre">__init__.py</span></code>，即便这个文件是空的。</p>
+<p>Django <em>应用</em> 仅仅是专用于 Django 项目的 Python 包。应用会按照 Django 约定，创建好 <code class="docutils literal notranslate"><span class="pre">models</span></code>,  <code class="docutils literal notranslate"><span class="pre">tests</span></code>,  <code class="docutils literal notranslate"><span class="pre">urls</span></code>, 以及 <code class="docutils literal notranslate"><span class="pre">views</span></code> 等子模块。</p>
+<p class="last">稍后，我们将解释术语 <em>打包</em> ——为了方便其它人安装 Python 包的处理流程。我知道，这可能会使你感到一点点迷惑。</p>
+</div>
+</div>
+<div class="section" id="s-your-project-and-your-reusable-app">
+<span id="your-project-and-your-reusable-app"></span><h2>你的项目和可复用应用<a class="headerlink" href="https://docs.djangoproject.com/zh-hans/2.1/intro/reusable-apps/#your-project-and-your-reusable-app" title="永久链接至标题">¶</a></h2>
+<p>通过前面的教程，我们的工程应该看起来像这样:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mysite</span><span class="o">/</span>
+    <span class="n">manage</span><span class="o">.</span><span class="n">py</span>
+    <span class="n">mysite</span><span class="o">/</span>
+        <span class="fm">__init__</span><span class="o">.</span><span class="n">py</span>
+        <span class="n">settings</span><span class="o">.</span><span class="n">py</span>
+        <span class="n">urls</span><span class="o">.</span><span class="n">py</span>
+        <span class="n">wsgi</span><span class="o">.</span><span class="n">py</span>
+    <span class="n">polls</span><span class="o">/</span>
+        <span class="fm">__init__</span><span class="o">.</span><span class="n">py</span>
+        <span class="n">admin</span><span class="o">.</span><span class="n">py</span>
+        <span class="n">migrations</span><span class="o">/</span>
+            <span class="fm">__init__</span><span class="o">.</span><span class="n">py</span>
+            <span class="mi">0001</span><span class="n">_initial</span><span class="o">.</span><span class="n">py</span>
+        <span class="n">models</span><span class="o">.</span><span class="n">py</span>
+        <span class="n">static</span><span class="o">/</span>
+            <span class="n">polls</span><span class="o">/</span>
+                <span class="n">images</span><span class="o">/</span>
+                    <span class="n">background</span><span class="o">.</span><span class="n">gif</span>
+                <span class="n">style</span><span class="o">.</span><span class="n">css</span>
+        <span class="n">templates</span><span class="o">/</span>
+            <span class="n">polls</span><span class="o">/</span>
+                <span class="n">detail</span><span class="o">.</span><span class="n">html</span>
+                <span class="n">index</span><span class="o">.</span><span class="n">html</span>
+                <span class="n">results</span><span class="o">.</span><span class="n">html</span>
+        <span class="n">tests</span><span class="o">.</span><span class="n">py</span>
+        <span class="n">urls</span><span class="o">.</span><span class="n">py</span>
+        <span class="n">views</span><span class="o">.</span><span class="n">py</span>
+    <span class="n">templates</span><span class="o">/</span>
+        <span class="n">admin</span><span class="o">/</span>
+            <span class="n">base_site</span><span class="o">.</span><span class="n">html</span>
+</pre></div>
+</div>
+<p>1</p>
+<p>目录 <code class="docutils literal notranslate"><span class="pre">polls</span></code> 现在可以被拷贝至一个新的 Django 工程，且立刻被复用。不过现在还不是发布它的时候。为了这样做，我们需要打包这个应用，便于其他人安装它。</p>
+</div>
+<div class="section" id="s-installing-some-prerequisites">
+<span id="s-installing-reusable-apps-prerequisites"></span><span id="installing-some-prerequisites"></span><span id="installing-reusable-apps-prerequisites"></span><h2>安装必须环境<a class="headerlink" href="https://docs.djangoproject.com/zh-hans/2.1/intro/reusable-apps/#installing-some-prerequisites" title="永久链接至标题">¶</a></h2>
+<p>目前，打包 Python 程序需要工具，有许多工具可以完成此项工作。在此教程中，我们将使用 <a class="reference external" href="https://pypi.org/project/setuptools/">setuptools</a> 来打包我们的程序。这是推荐的打包工具（与 <code class="docutils literal notranslate"><span class="pre">发布</span></code> 分支合并）。我们仍旧使用 <a class="reference external" href="https://pypi.org/project/pip/">pip</a> 来安装和卸载这个工具。现在，你需要安装这两个包。如果你需要帮助，你可以参考 <a class="reference internal" href="https://docs.djangoproject.com/zh-hans/2.1/topics/install/#installing-official-release"><span class="std std-ref">如何通过 pip 安装 Django</span></a>，你可以通过相同的方式安装 <code class="docutils literal notranslate"><span class="pre">setuptools</span></code>。</p>
+</div>
+<div class="section" id="s-packaging-your-app">
+<span id="packaging-your-app"></span><h2>打包你的应用<a class="headerlink" href="https://docs.djangoproject.com/zh-hans/2.1/intro/reusable-apps/#packaging-your-app" title="永久链接至标题">¶</a></h2>
+<p>Python 的 <em>打包</em> 将以一种特殊的格式组织你的应用，意在方便安装和使用这个应用。Django 本身就被打包成类似的形式。对于一个小应用，例如 polls，这不会太难。</p>
+<ol class="arabic">
+<li><p class="first">首先，在你的 Django 项目目录外创建一个名为 <code class="docutils literal notranslate"><span class="pre">django-polls</span></code> 的文件夹，用于盛放 <code class="docutils literal notranslate"><span class="pre">polls</span></code>。</p>
+<div class="admonition-choosing-a-name-for-your-app admonition">
+<p class="first admonition-title">为你的应用选择一个名字</p>
+<p>当为你的包选一个名字时，避免使用像 PyPI 这样已存在的包名，否则会导致冲突。当你创建你的发布包时，可以在模块名前增加 <code class="docutils literal notranslate"><span class="pre">django-</span></code> 前缀，这是一个很常用也很有用的避免包名冲突的方法。同时也有助于他人在寻找 Django 应用时确认你的 app 是 Django 独有的。</p>
+<p class="last">应用标签（指用点分隔的包名的最后一部分）在 <a class="reference internal" href="https://docs.djangoproject.com/zh-hans/2.1/ref/settings/#std:setting-INSTALLED_APPS"><code class="xref std std-setting docutils literal notranslate"><span class="pre">INSTALLED_APPS</span></code></a> 中 <em>必须</em> 是独一无二的。避免使用任何与 Django <a class="reference internal" href="https://docs.djangoproject.com/zh-hans/2.1/ref/contrib/"><span class="doc">contrib packages</span></a> 文档中相同的标签名，比如 <code class="docutils literal notranslate"><span class="pre">auth</span></code>，<code class="docutils literal notranslate"><span class="pre">admin</span></code>，<code class="docutils literal notranslate"><span class="pre">messages</span></code>。</p>
+</div>
+</li>
+<li><p class="first">将 <code class="docutils literal notranslate"><span class="pre">polls</span></code> 目录移入 <code class="docutils literal notranslate"><span class="pre">django-polls</span></code> 目录。</p>
+</li>
+<li><p class="first">创建一个名为 <code class="docutils literal notranslate"><span class="pre">django-polls/README.rst</span></code> 的文件，包含以下内容：</p>
+<div class="literal-block-wrapper docutils container" id="id1">
+<div class="code-block-caption"><span class="caption-text">django-polls/README.rst</span><a class="headerlink" href="https://docs.djangoproject.com/zh-hans/2.1/intro/reusable-apps/#id1" title="永久链接至代码">¶</a><span class="btn-clipboard" title="Copy this code"><i class="icon icon-clipboard"></i></span></div>
+<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span><span class="gh">=====</span>
+<span class="gh">Polls</span>
+<span class="gh">=====</span>
+
+Polls is a simple Django app to conduct Web-based polls. For each
+question, visitors can choose between a fixed number of answers.
+
+Detailed documentation is in the "docs" directory.
+
+<span class="gh">Quick start</span>
+<span class="gh">-----------</span>
+
+<span class="m">1.</span> Add "polls" to your INSTALLED_APPS setting like this::
+
+    INSTALLED_APPS = [
+<span class="cp">        ...</span>
+<span class="cp">        'polls',</span>
+<span class="cp">    ]</span>
+
+<span class="m">2.</span> Include the polls URLconf in your project urls.py like this::
+
+    path('polls/', include('polls.urls')),
+
+<span class="m">3.</span> Run <span class="nv">`python manage.py migrate`</span> to create the polls models.
+
+<span class="m">4.</span> Start the development server and visit http://127.0.0.1:8000/admin/
+   to create a poll (you'll need the Admin app enabled).
+
+<span class="m">5.</span> Visit http://127.0.0.1:8000/polls/ to participate in the poll.
+</pre></div>
+</div>
+</div>
+</li>
+<li><p class="first">创建一个 <code class="docutils literal notranslate"><span class="pre">django-polls/LICENSE</span></code> 文件。选择一个非本教程使用的授权协议，但是要足以说明发布代码没有授权证书是 <em>不可能的</em> 。Django 和很多兼容 Django 的应用是以 BSD 授权协议发布的；不过，你可以自己选择一个授权协议。只要确定你选择的协议能够限制未来会使用你的代码的人。</p>
+</li>
+<li><p class="first">下一步我们将创建 <code class="docutils literal notranslate"><span class="pre">setup.py</span></code> 用于说明如何构建和安装应用的细节。关于此文件的完整介绍超出了此教程的范围，但是 <a class="reference external" href="https://setuptools.readthedocs.io/en/latest/">setuptools docs</a> 有详细的介绍。创建文件 <code class="docutils literal notranslate"><span class="pre">django-polls/setup.py</span></code> 包含以下内容：</p>
+<div class="literal-block-wrapper docutils container" id="id2">
+<div class="code-block-caption"><span class="caption-text">django-polls/setup.py</span><a class="headerlink" href="https://docs.djangoproject.com/zh-hans/2.1/intro/reusable-apps/#id2" title="永久链接至代码">¶</a><span class="btn-clipboard" title="Copy this code"><i class="icon icon-clipboard"></i></span></div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">from</span> <span class="nn">setuptools</span> <span class="kn">import</span> <span class="n">find_packages</span><span class="p">,</span> <span class="n">setup</span>
+
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="vm">__file__</span><span class="p">),</span> <span class="s1">'README.rst'</span><span class="p">))</span> <span class="k">as</span> <span class="n">readme</span><span class="p">:</span>
+    <span class="n">README</span> <span class="o">=</span> <span class="n">readme</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+
+<span class="c1"># allow setup.py to be run from any path</span>
+<span class="n">os</span><span class="o">.</span><span class="n">chdir</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">normpath</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="vm">__file__</span><span class="p">),</span> <span class="n">os</span><span class="o">.</span><span class="n">pardir</span><span class="p">)))</span>
+
+<span class="n">setup</span><span class="p">(</span>
+    <span class="n">name</span><span class="o">=</span><span class="s1">'django-polls'</span><span class="p">,</span>
+    <span class="n">version</span><span class="o">=</span><span class="s1">'0.1'</span><span class="p">,</span>
+    <span class="n">packages</span><span class="o">=</span><span class="n">find_packages</span><span class="p">(),</span>
+    <span class="n">include_package_data</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+    <span class="n">license</span><span class="o">=</span><span class="s1">'BSD License'</span><span class="p">,</span>  <span class="c1"># example license</span>
+    <span class="n">description</span><span class="o">=</span><span class="s1">'A simple Django app to conduct Web-based polls.'</span><span class="p">,</span>
+    <span class="n">long_description</span><span class="o">=</span><span class="n">README</span><span class="p">,</span>
+    <span class="n">url</span><span class="o">=</span><span class="s1">'https://www.example.com/'</span><span class="p">,</span>
+    <span class="n">author</span><span class="o">=</span><span class="s1">'Your Name'</span><span class="p">,</span>
+    <span class="n">author_email</span><span class="o">=</span><span class="s1">'yourname@example.com'</span><span class="p">,</span>
+    <span class="n">classifiers</span><span class="o">=</span><span class="p">[</span>
+        <span class="s1">'Environment :: Web Environment'</span><span class="p">,</span>
+        <span class="s1">'Framework :: Django'</span><span class="p">,</span>
+        <span class="s1">'Framework :: Django :: X.Y'</span><span class="p">,</span>  <span class="c1"># replace "X.Y" as appropriate</span>
+        <span class="s1">'Intended Audience :: Developers'</span><span class="p">,</span>
+        <span class="s1">'License :: OSI Approved :: BSD License'</span><span class="p">,</span>  <span class="c1"># example license</span>
+        <span class="s1">'Operating System :: OS Independent'</span><span class="p">,</span>
+        <span class="s1">'Programming Language :: Python'</span><span class="p">,</span>
+        <span class="s1">'Programming Language :: Python :: 3.5'</span><span class="p">,</span>
+        <span class="s1">'Programming Language :: Python :: 3.6'</span><span class="p">,</span>
+        <span class="s1">'Topic :: Internet :: WWW/HTTP'</span><span class="p">,</span>
+        <span class="s1">'Topic :: Internet :: WWW/HTTP :: Dynamic Content'</span><span class="p">,</span>
+    <span class="p">],</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</li>
+<li><p class="first">默认包中只包含 Python 模块和包。为了包含额外文件，我们需要创建一个名为 <code class="docutils literal notranslate"><span class="pre">MANIFEST.in</span></code> 的文件。上一步中关于 setuptools 的文档详细介绍了这个文件。为了包含模板、<code class="docutils literal notranslate"><span class="pre">README.rst</span></code> 和我们的 <code class="docutils literal notranslate"><span class="pre">LICENSE</span></code> 文件，创建文件 <code class="docutils literal notranslate"><span class="pre">django-polls/MANIFEST.in</span></code> 包含以下内容：</p>
+<div class="literal-block-wrapper docutils container" id="id3">
+<div class="code-block-caption"><span class="caption-text">django-polls/MANIFEST.in</span><a class="headerlink" href="https://docs.djangoproject.com/zh-hans/2.1/intro/reusable-apps/#id3" title="永久链接至代码">¶</a><span class="btn-clipboard" title="Copy this code"><i class="icon icon-clipboard"></i></span></div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>include LICENSE
+include README.rst
+recursive-include polls/static *
+recursive-include polls/templates *
+</pre></div>
+</div>
+</div>
+</li>
+<li><p class="first">在应用中包含详细文档是可选的，但我们推荐你这样做。创建一个空目录 <code class="docutils literal notranslate"><span class="pre">django-polls/docs</span></code> 用于未来编写文档。额外添加一行至 <code class="docutils literal notranslate"><span class="pre">django-polls/MANIFEST.in</span></code></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">recursive</span><span class="o">-</span><span class="n">include</span> <span class="n">docs</span> <span class="o">*</span>
+</pre></div>
+</div>
+<p>注意，现在 <code class="docutils literal notranslate"><span class="pre">docs</span></code> 目录不会被加入你的应用包，除非你往这个目录加几个文件。许多 Django 应用也提供他们的在线文档通过类似 <a class="reference external" href="https://readthedocs.org/">readthedocs.org</a> 这样的网站。</p>
+</li>
+<li><p class="first">试着构建你自己的应用包通过 <code class="docutils literal notranslate"><span class="pre">ptyhon</span> <span class="pre">setup.py</span> <span class="pre">sdist</span></code> （在 <code class="docutils literal notranslate"><span class="pre">django-polls``目录内）。这将创建一个名为</span> <span class="pre">``dist</span></code> 的目录并构建你自己的应用包， <code class="docutils literal notranslate"><span class="pre">django-polls-0.1.tar.gz</span></code>。</p>
+</li>
+</ol>
+<p>For more information on packaging, see Python's <a class="reference external" href="https://packaging.python.org/tutorials/packaging-projects/">Tutorial on Packaging and
+Distributing Projects</a>.</p>
+</div>
+<div class="section" id="s-using-your-own-package">
+<span id="using-your-own-package"></span><h2>使用你自己的包名<a class="headerlink" href="https://docs.djangoproject.com/zh-hans/2.1/intro/reusable-apps/#using-your-own-package" title="永久链接至标题">¶</a></h2>
+<p>由于我们把 <code class="docutils literal notranslate"><span class="pre">polls</span></code> 目录移出了项目，所以它无法工作了。我们现在要通过安装我们的新 <code class="docutils literal notranslate"><span class="pre">django-polls</span></code> 应用来修复这个问题。</p>
+<div class="admonition-installing-as-a-user-library admonition">
+<p class="first admonition-title">作为用户库安装</p>
+<p>以下步骤将 <code class="docutils literal notranslate"><span class="pre">django-polls</span></code> 以用户库的形式安装。与安装整个系统的软件包相比，用户安装具有许多优点，例如可在没有管理员访问权的系统上使用，以及防止应用包影响系统服务和其他用户。</p>
+<p class="last">注意，用户安装仍然会影响以这个用户身份运行的系统工具，所以 <code class="docutils literal notranslate"><span class="pre">virtualenv</span></code> 是一个更强大的解决方案（如下所示）。</p>
+</div>
+<ol class="arabic">
+<li><p class="first">为了安装这个包，使用 pip (你早已 <a class="reference internal" href="https://docs.djangoproject.com/zh-hans/2.1/intro/reusable-apps/#installing-reusable-apps-prerequisites"><span class="std std-ref">安装 pip</span></a>, 对吗？):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="o">--</span><span class="n">user</span> <span class="n">django</span><span class="o">-</span><span class="n">polls</span><span class="o">/</span><span class="n">dist</span><span class="o">/</span><span class="n">django</span><span class="o">-</span><span class="n">polls</span><span class="o">-</span><span class="mf">0.1</span><span class="o">.</span><span class="n">tar</span><span class="o">.</span><span class="n">gz</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">幸运的话，你的 Django 项目应该再一次正确运行。启动服务器确认这一点。</p>
+</li>
+<li><p class="first">通过 pip 卸载包:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">uninstall</span> <span class="n">django</span><span class="o">-</span><span class="n">polls</span>
+</pre></div>
+</div>
+</li>
+</ol>
+</div>
+<div class="section" id="s-publishing-your-app">
+<span id="publishing-your-app"></span><h2>发布你的应用<a class="headerlink" href="https://docs.djangoproject.com/zh-hans/2.1/intro/reusable-apps/#publishing-your-app" title="永久链接至标题">¶</a></h2>
+<p>现在，你已经对 <code class="docutils literal notranslate"><span class="pre">django-polls</span></code> 完成了打包和测试，准备好向世界分享它！如果这不是一个例子应用，你现在就可以这样做。</p>
+<ul class="simple">
+<li>通过邮件将你的包发送给朋友。</li>
+<li>将这个包上传至你的网站。</li>
+<li>Post the package on a public repository, such as <a class="reference internal" href="https://docs.djangoproject.com/zh-hans/2.1/intro/reusable-apps/#the-python-package-index-pypi">the Python Package Index
+(PyPI)</a>. <a class="reference external" href="https://packaging.python.org/">packaging.python.org</a> has <a class="reference external" href="https://packaging.python.org/tutorials/packaging-projects/#uploading-the-distribution-archives">a good
+tutorial</a>
+for doing this.</li>
+</ul>
+</div>
+<div class="section" id="s-installing-python-packages-with-virtualenv">
+<span id="installing-python-packages-with-virtualenv"></span><h2>通过 virtualenv 安装 Python 包<a class="headerlink" href="https://docs.djangoproject.com/zh-hans/2.1/intro/reusable-apps/#installing-python-packages-with-virtualenv" title="永久链接至标题">¶</a></h2>
+<p>早些时候，我们以用户库的形式安装了投票应用。这样做有一些缺点。</p>
+<ul class="simple">
+<li>修改用户库会影响你系统上的其他 Python 软件。</li>
+<li>你将不能运行此包的多个版本（或者其它用有相同包名的包）。</li>
+</ul>
+<p>一般来说，这些状况只在你同时运行多个 Django 项目时出现。当这个问题出现时，最好的解决办法是使用 <a class="reference external" href="https://virtualenv.pypa.io/">virtualenv</a>。这个工具允许你同时运行多个相互独立的Python环境，每个环境都有各自库和应用包命名空间的拷贝。</p>
+</div>
+</div>
+
+</div>
+
+
+
+<div class="browse-horizontal">
+  
+  <div class="left"><a href="https://docs.djangoproject.com/zh-hans/2.1/intro/tutorial07/"><i class="icon icon-chevron-left"></i> 编写你的第一个 Django 应用，第 7 部分</a></div>
+  
+  
+  <div class="right"><a href="https://docs.djangoproject.com/zh-hans/2.1/intro/whatsnext/">下一步看什么 <i class="icon icon-chevron-right"></i></a></div>
+  
+</div>
+
+
+
+        <a href="https://docs.djangoproject.com/zh-hans/2.1/intro/reusable-apps/#top" class="backtotop"><i class="icon icon-chevron-up"></i> Back to Top</a>
+      </div>
+
+      
+<h1 class="visuallyhidden">附加信息</h1>
+<div role="complementary">
+  
+  
+
+<form action="https://docs.djangoproject.com/zh-hans/2.1/search/" class="search form-input" role="search">
+  <label class="visuallyhidden" for="id_q">Search:</label>
+    <input type="search" name="q" placeholder="搜索 2.1 文档" id="id_q">
+
+    <button type="submit">
+      <i class="icon icon-search"></i>
+      <span class="visuallyhidden">搜索</span>
+    </button>
+</form>
+
+  
+
+  
+
+
+  <div class="fundraising-sidebar">
+    <h2>Support Django!</h2>
+
+    <div class="small-heart">
+      <img src="./9进阶指南：如何编写可重用程序_files/small-fundraising-heart.d255f6e934e5.png" alt="Support Django!">
+    </div>
+
+    <div class="small-cta">
+      <ul class="list-links-small">
+        <li><a href="https://www.djangoproject.com/fundraising/">
+          郑诚 donated to the Django Software Foundation to
+          support Django development. Donate today!
+        </a></li>
+      </ul>
+    </div>
+  </div>
+
+
+
+  
+    <h2>内容</h2>
+    
+    <ul>
+<li><a class="reference internal" href="https://docs.djangoproject.com/zh-hans/2.1/intro/reusable-apps/#">进阶指南：如何编写可重用程序</a><ul>
+<li><a class="reference internal" href="https://docs.djangoproject.com/zh-hans/2.1/intro/reusable-apps/#reusability-matters">可重用性很重要</a></li>
+<li><a class="reference internal" href="https://docs.djangoproject.com/zh-hans/2.1/intro/reusable-apps/#your-project-and-your-reusable-app">你的项目和可复用应用</a></li>
+<li><a class="reference internal" href="https://docs.djangoproject.com/zh-hans/2.1/intro/reusable-apps/#installing-some-prerequisites">安装必须环境</a></li>
+<li><a class="reference internal" href="https://docs.djangoproject.com/zh-hans/2.1/intro/reusable-apps/#packaging-your-app">打包你的应用</a></li>
+<li><a class="reference internal" href="https://docs.djangoproject.com/zh-hans/2.1/intro/reusable-apps/#using-your-own-package">使用你自己的包名</a></li>
+<li><a class="reference internal" href="https://docs.djangoproject.com/zh-hans/2.1/intro/reusable-apps/#publishing-your-app">发布你的应用</a></li>
+<li><a class="reference internal" href="https://docs.djangoproject.com/zh-hans/2.1/intro/reusable-apps/#installing-python-packages-with-virtualenv">通过 virtualenv 安装 Python 包</a></li>
+</ul>
+</li>
+</ul>
+
+    
+  
+
+  
+  <h2>浏览</h2>
+  <ul>
+    
+    
+    <li>上一个： <a href="https://docs.djangoproject.com/zh-hans/2.1/intro/tutorial07/">编写你的第一个 Django 应用，第 7 部分</a></li>
+    
+    
+    <li>下一个： <a href="https://docs.djangoproject.com/zh-hans/2.1/intro/whatsnext/">下一步看什么</a></li>
+    
+    <li><a href="https://docs.djangoproject.com/zh-hans/2.1/contents/">目录</a></li>
+    
+    <li><a href="https://docs.djangoproject.com/zh-hans/2.1/genindex/">总目录</a></li>
+    
+    <li><a href="https://docs.djangoproject.com/zh-hans/2.1/py-modindex/">Python 模块索引</a></li>
+    
+    
+  </ul>
+  
+
+  
+  <h2>当前位置</h2>
+  <ul>
+    <li>
+      <a href="https://docs.djangoproject.com/zh-hans/2.1/">Django 2.1 文档</a>
+      
+      <ul><li><a href="https://docs.djangoproject.com/zh-hans/2.1/intro/">开始</a>
+      
+      <ul><li>进阶指南：如何编写可重用程序</li></ul>
+      </li></ul>
+    </li>
+  </ul>
+  
+
+  
+  <h2 id="getting-help-sidebar">获取帮助</h2>
+  <dl class="list-links">
+    <dt><a href="https://docs.djangoproject.com/zh-hans/2.1/faq/">FAQ</a></dt>
+    <dd>尝试查看 FAQ — 它包括了很多常见问题的答案</dd>
+
+    <dt><a href="https://docs.djangoproject.com/en/stable/genindex/">索引</a>, <a href="https://docs.djangoproject.com/en/stable/py-modindex/">模块索引</a>, or <a href="https://docs.djangoproject.com/en/stable/contents/">目录</a></dt>
+    <dd>查找特定信息时比较容易</dd>
+
+    <dt><a href="https://groups.google.com/group/django-users/">django-users mailing list</a></dt>
+    <dd>在 django-users 邮件列表存档中搜索信息，或者发布一个问题。</dd>
+
+    <dt><a href="irc://irc.freenode.net/django">#django IRC channel</a></dt>
+    <dd>在 #django IRC 频道上提问，或者搜索 IRC 历史找到相似的问题与解答。</dd>
+
+    <dt><a href="https://code.djangoproject.com/">Ticket tracker</a></dt>
+    <dd>在我们的 `ticket tracker`_ 中报告 Django 或 Django 文档的 Bug。</dd>
+  </dl>
+  
+
+  
+  <h2>下载：</h2>
+  <p>
+    离线 (Django 2.1):
+    <a href="https://media.djangoproject.com/docs/django-docs-2.1-zh-hans.zip">HTML</a> |
+    <a href="https://media.readthedocs.org/pdf/django/2.1.x/django.pdf">PDF</a> |
+    <a href="https://media.readthedocs.org/epub/django/2.1.x/django.epub">ePub</a>
+    <br>
+    <span class="quiet">
+      由 <a href="https://readthedocs.org/">Read the Docs</a> 提供。
+    </span>
+  </p>
+  
+</div>
+
+      
+
+    </div>
+
+     
+     
+
+    
+    
+    
+
+    
+      
+<div role="contentinfo">
+  <div class="subfooter">
+    <div class="container">
+      <h1 class="visuallyhidden">Django Links</h1>
+
+      <div class="col learn">
+        <h2>Learn More</h2>
+        <ul>
+          <li><a href="https://www.djangoproject.com/start/overview/">About Django</a></li>
+          
+          <li><a href="https://www.djangoproject.com/start/">Getting Started with Django</a></li>
+          <li><a href="https://docs.djangoproject.com/en/dev/internals/organization/">Team Organization</a></li>
+          <li><a href="https://www.djangoproject.com/foundation/">Django Software Foundation</a></li>
+          <li><a href="https://www.djangoproject.com/conduct/">Code of Conduct</a></li>
+          <li><a href="https://www.djangoproject.com/diversity/">Diversity Statement</a></li>
+        </ul>
+      </div>
+
+      <div class="col involved">
+        <h2>Get Involved</h2>
+        <ul>
+          <li><a href="https://www.djangoproject.com/community/">Join a Group</a></li>
+          <li><a href="https://docs.djangoproject.com/en/dev/internals/contributing/">Contribute to Django</a></li>
+          <li><a href="https://docs.djangoproject.com/en/dev/internals/contributing/bugs-and-features/">Submit a Bug</a></li>
+          <li><a href="https://docs.djangoproject.com/en/dev/internals/security/#reporting-security-issues">Report a Security Issue</a></li>
+        </ul>
+      </div>
+
+      <div class="col follow last-child">
+        <h2>Follow Us</h2>
+        <ul>
+          <li><a href="https://github.com/django">GitHub</a></li>
+          <li><a href="https://twitter.com/djangoproject">Twitter</a></li>
+          <li><a href="https://www.djangoproject.com/rss/weblog/">News RSS</a></li>
+          <li><a href="https://groups.google.com/forum/#!forum/django-users">Django Users Mailing List</a></li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="footer">
+    <div class="container">
+      <div class="footer-logo">
+        <a class="logo" href="https://www.djangoproject.com/">Django</a>
+      </div>
+      <ul class="thanks">
+        <li>
+          <span>Hosting by</span> <a class="rackspace" href="https://www.rackspace.com/">Rackspace</a>
+        </li>
+        <li class="design"><span>Design by</span> <a class="threespot" href="https://www.threespot.com/">Threespot</a> <span class="ampersand">&amp;</span> <a class="andrevv" href="http://andrevv.com/"></a></li>
+      </ul>
+      <p class="copyright">© 2005-2019
+        <a href="https://www.djangoproject.com/foundation/"> Django Software
+        Foundation</a> and individual contributors. Django is a
+        <a href="https://www.djangoproject.com/trademarks/">registered
+        trademark</a> of the Django Software Foundation.
+      </p>
+    </div>
+  </div>
+
+</div>
+
+    
+
+    
+    <script>
+    function extless(input) {
+        return input.replace(/(.*)\.[^.]+$/, '$1');
+    }
+    var require = {
+        shim: {
+            'jquery': [],
+            'jquery.inview': ["jquery"],
+            'jquery.payment': ["jquery"],
+            'jquery.flot': ["jquery"],
+            'jquery.unveil': ["jquery"],
+            'stripe': {
+              exports: 'Stripe'
+            }
+        },
+        paths: {
+            "jquery": extless("https://static.djangoproject.com/js/lib/jquery/dist/jquery.min.87e69028f78d.js"),
+            "jquery.inview": extless("https://static.djangoproject.com/js/lib/jquery.inview/jquery.inview.min.4edba1c65592.js"),
+            "jquery.payment": extless("https://static.djangoproject.com/js/lib/jquery.payment/lib/jquery.payment.e99c05ca79ae.js"),
+            "jquery.unveil": extless("https://static.djangoproject.com/js/lib/unveil/jquery.unveil.min.ac79eb277093.js"),
+            "jquery.flot": extless("https://static.djangoproject.com/js/lib/jquery-flot/jquery.flot.min.9964206e9d7f.js"),
+            "clipboard": extless("https://static.djangoproject.com/js/lib/clipboard/dist/clipboard.min.bd70fd596a23.js"),
+            "mod/floating-warning": extless("https://static.djangoproject.com/js/mod/floating-warning.a21b2abd2884.js"),
+            "mod/list-collapsing": extless("https://static.djangoproject.com/js/mod/list-collapsing.c1a08d3ef9e9.js"),
+            "mod/list-feature": extless("https://static.djangoproject.com/js/mod/list-feature.73529480f25b.js"),
+            "mod/mobile-menu": extless("https://static.djangoproject.com/js/mod/mobile-menu.841726ee903a.js"),
+            "mod/version-switcher": extless("https://static.djangoproject.com/js/mod/version-switcher.c28bb83972bb.js"),
+            "mod/search-key": extless("https://static.djangoproject.com/js/mod/search-key.f3c0a6fcfedd.js"),
+            "mod/stripe-custom-checkout": extless("https://static.djangoproject.com/js/mod/stripe-custom-checkout.aac1352045b7.js"),
+            "mod/stripe-change-card": extless("https://static.djangoproject.com/js/mod/stripe-change-card.682c710317a8.js"),
+            "mod/console-tabs": extless("https://static.djangoproject.com/js/mod/console-tabs.70ce882faaf3.js"),
+            "stripe-checkout": "https://checkout.stripe.com/checkout",
+            "stripe": "https://js.stripe.com/v2/?"  // ? needed due to require.js
+        }
+    };
+    </script>
+    <script data-main="https://static.djangoproject.com/js/main.07884ebc4865.js" src="./9进阶指南：如何编写可重用程序_files/require.177879fbe7dd.js"></script>
+    
+
+
+
+  
+
+</body></html>

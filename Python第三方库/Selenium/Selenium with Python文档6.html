@@ -1,0 +1,322 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- saved from url=(0049)https://selenium-python.readthedocs.io/waits.html -->
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh-CN" class="translated-ltr"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+    
+    <title>5.等待 -  Selenium Python Bindings 2文档</title>
+    <link rel="stylesheet" href="./Selenium with Python文档6_files/alabaster.css" type="text/css">
+    <link rel="stylesheet" href="./Selenium with Python文档6_files/pygments.css" type="text/css">
+    <link rel="stylesheet" href="./Selenium with Python文档6_files/badge_only.css" type="text/css">
+    <script async="" src="./Selenium with Python文档6_files/analytics.js"></script><script type="text/javascript" id="documentation_options" data-url_root="./" src="./Selenium with Python文档6_files/documentation_options.js"></script>
+    <script type="text/javascript" src="./Selenium with Python文档6_files/jquery-2.0.3.min.js"></script>
+    <script type="text/javascript" src="./Selenium with Python文档6_files/jquery-migrate-1.2.1.min.js"></script>
+    <script type="text/javascript" src="./Selenium with Python文档6_files/underscore.js"></script>
+    <script type="text/javascript" src="./Selenium with Python文档6_files/doctools.js"></script>
+    <script type="text/javascript" src="./Selenium with Python文档6_files/readthedocs-doc-embed.js"></script>
+    <link rel="index" title="指数" href="https://selenium-python.readthedocs.io/genindex.html">
+    <link rel="search" title="搜索" href="https://selenium-python.readthedocs.io/search.html">
+    <link rel="next" title="6.页面对象" href="https://selenium-python.readthedocs.io/page-objects.html">
+    <link rel="prev" title="4.定位元素" href="https://selenium-python.readthedocs.io/locating-elements.html">
+   
+  <link rel="stylesheet" href="./Selenium with Python文档6_files/custom.css" type="text/css">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9">
+
+  
+<!-- RTD Extra Head -->
+
+<!-- 
+Always link to the latest version, as canonical.
+http://docs.readthedocs.org/en/latest/canonical.html
+-->
+<link rel="canonical" href="https://selenium-python.readthedocs.io/waits.html">
+
+<link rel="stylesheet" href="./Selenium with Python文档6_files/readthedocs-doc-embed.css" type="text/css">
+
+<script type="text/javascript" src="./Selenium with Python文档6_files/readthedocs-data.js"></script>
+
+<!-- Add page-specific data, which must exist in the page js, not global -->
+<script type="text/javascript">
+READTHEDOCS_DATA['page'] = 'waits'
+READTHEDOCS_DATA['source_suffix'] = '.rst'
+</script>
+
+<script type="text/javascript" src="./Selenium with Python文档6_files/readthedocs-analytics.js"></script>
+
+<!-- end RTD <extrahead> -->
+<link type="text/css" rel="stylesheet" charset="UTF-8" href="./Selenium with Python文档6_files/translateelement.css"></head><body style="">
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="waits">
+<span id="id1"></span><h1><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">5.等待</font></font><a class="headerlink" href="https://selenium-python.readthedocs.io/waits.html#waits" title="永久链接到这个标题"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">¶</font></font></a></h1>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">目前，大多数Web应用程序都在使用AJAX技术。</font><font style="vertical-align: inherit;">当浏览器加载页面时，该页面中的元素可能以不同的时间间隔加载。</font><font style="vertical-align: inherit;">这使定位元素变得困难：如果DOM中尚未存在元素，则locate函数将引发</font></font><cite><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">ElementNotVisibleException</font></font></cite><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">异常。</font><font style="vertical-align: inherit;">使用等待，我们可以解决这个问题。</font><font style="vertical-align: inherit;">等待在执行的操作之间提供了一些松弛 - 主要是使用元素定位元素或任何其他操作。</font></font></p>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Selenium Webdriver提供两种类型的等待 - 隐式和显式。</font><font style="vertical-align: inherit;">显式等待使WebDriver等待某个条件发生，然后再继续执行。</font><font style="vertical-align: inherit;">隐式等待使WebDriver在尝试定位元素时将DOM轮询一段时间。</font></font></p>
+<div class="section" id="explicit-waits">
+<h2><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">5.1。</font><font style="vertical-align: inherit;">显式等待</font></font><a class="headerlink" href="https://selenium-python.readthedocs.io/waits.html#explicit-waits" title="永久链接到这个标题"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">¶</font></font></a></h2>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">显式等待是您定义的代码，用于在进一步执行代码之前等待某个条件发生。</font><font style="vertical-align: inherit;">这种情况的极端情况是time.sleep（），它将条件设置为等待的确切时间段。</font><font style="vertical-align: inherit;">提供了一些便捷方法，可帮助您编写仅在需要时等待的代码。</font><font style="vertical-align: inherit;">WebDriverWait与ExpectedCondition相结合是一种可以实现的方法。</font></font></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">selenium</span> <span class="k">import</span> <span class="n">webdriver</span>
+<span class="kn">from</span> <span class="nn">selenium.webdriver.common.by</span> <span class="k">import</span> <span class="n">By</span>
+<span class="kn">from</span> <span class="nn">selenium.webdriver.support.ui</span> <span class="k">import</span> <span class="n">WebDriverWait</span>
+<span class="kn">from</span> <span class="nn">selenium.webdriver.support</span> <span class="k">import</span> <span class="n">expected_conditions</span> <span class="k">as</span> <span class="n">EC</span>
+
+<span class="n">driver</span> <span class="o">=</span> <span class="n">webdriver</span><span class="o">.</span><span class="n">Firefox</span><span class="p">()</span>
+<span class="n">driver</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"http://somedomain/url_that_delays_loading"</span><span class="p">)</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="n">element</span> <span class="o">=</span> <span class="n">WebDriverWait</span><span class="p">(</span><span class="n">driver</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span><span class="o">.</span><span class="n">until</span><span class="p">(</span>
+        <span class="n">EC</span><span class="o">.</span><span class="n">presence_of_element_located</span><span class="p">((</span><span class="n">By</span><span class="o">.</span><span class="n">ID</span><span class="p">,</span> <span class="s2">"myDynamicElement"</span><span class="p">))</span>
+    <span class="p">)</span>
+<span class="k">finally</span><span class="p">:</span>
+    <span class="n">driver</span><span class="o">.</span><span class="n">quit</span><span class="p">()</span>
+</pre></div>
+</div>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">这会在抛出TimeoutException之前等待最多10秒，除非它发现元素在10秒内返回。</font><font style="vertical-align: inherit;">WebDriverWait默认情况下每500毫秒调用一次ExpectedCondition，直到它成功返回。</font><font style="vertical-align: inherit;">对于所有其他ExpectedCondition类型，ExpectedCondition类型的布尔返回true或非null返回值成功返回。</font></font></p>
+<p><strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">预期条件</font></font></strong></p>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">在自动化Web浏览器时，常常会出现一些常见情况。</font><font style="vertical-align: inherit;">下面列出了每个的名称。</font><font style="vertical-align: inherit;">Selenium Python绑定提供了一些</font></font><a class="reference external" href="http://selenium-python.readthedocs.io/api.html#module-selenium.webdriver.support.expected_conditions"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">方便的方法，</font></font></a><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">因此您不必自己编写expected_condition类或为它们创建自己的实用程序包。</font></font></p>
+<ul class="simple">
+<li><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">title_is</font></font></li>
+<li><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">title_contains</font></font></li>
+<li><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">presence_of_element_located</font></font></li>
+<li><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">visibility_of_element_located</font></font></li>
+<li><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">visibility_of</font></font></li>
+<li><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">presence_of_all_elements_located</font></font></li>
+<li><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">text_to_be_present_in_element</font></font></li>
+<li><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">text_to_be_present_in_element_value</font></font></li>
+<li><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">frame_to_be_available_and_switch_to_it</font></font></li>
+<li><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">invisibility_of_element_located</font></font></li>
+<li><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">element_to_be_clickable</font></font></li>
+<li><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">staleness_of</font></font></li>
+<li><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">element_to_be_selected</font></font></li>
+<li><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">element_located_to_be_selected</font></font></li>
+<li><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">element_selection_state_to_be</font></font></li>
+<li><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">element_located_selection_state_to_be</font></font></li>
+<li><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">alert_is_present</font></font></li>
+</ul>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">selenium.webdriver.support</span> <span class="k">import</span> <span class="n">expected_conditions</span> <span class="k">as</span> <span class="n">EC</span>
+
+<span class="n">wait</span> <span class="o">=</span> <span class="n">WebDriverWait</span><span class="p">(</span><span class="n">driver</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+<span class="n">element</span> <span class="o">=</span> <span class="n">wait</span><span class="o">.</span><span class="n">until</span><span class="p">(</span><span class="n">EC</span><span class="o">.</span><span class="n">element_to_be_clickable</span><span class="p">((</span><span class="n">By</span><span class="o">.</span><span class="n">ID</span><span class="p">,</span> <span class="s1">'someid'</span><span class="p">)))</span>
+</pre></div>
+</div>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">expected_conditions模块包含一组用于WebDriverWait的预定义条件。</font></font></p>
+<p><strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">自定义等待条件</font></font></strong></p>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">如果以前的便捷方法都不符合您的要求，您还可以创建自定义等待条件。</font><font style="vertical-align: inherit;">可以使用带有</font></font><cite><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">__call__</font></font></cite><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">方法</font><font style="vertical-align: inherit;">的类创建自定义等待条件，该</font><font style="vertical-align: inherit;">方法</font><font style="vertical-align: inherit;">在条件不匹配时</font><font style="vertical-align: inherit;">返回</font></font><cite><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">False</font></font></cite><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">。</font></font></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">element_has_css_class</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+  <span class="sd">"""An expectation for checking that an element has a particular css class.</span>
+
+<span class="sd">  locator - used to find the element</span>
+<span class="sd">  returns the WebElement once it has the particular css class</span>
+<span class="sd">  """</span>
+  <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">locator</span><span class="p">,</span> <span class="n">css_class</span><span class="p">):</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">locator</span> <span class="o">=</span> <span class="n">locator</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">css_class</span> <span class="o">=</span> <span class="n">css_class</span>
+
+  <span class="k">def</span> <span class="nf">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">driver</span><span class="p">):</span>
+    <span class="n">element</span> <span class="o">=</span> <span class="n">driver</span><span class="o">.</span><span class="n">find_element</span><span class="p">(</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">locator</span><span class="p">)</span>   <span class="c1"># Finding the referenced element</span>
+    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">css_class</span> <span class="ow">in</span> <span class="n">element</span><span class="o">.</span><span class="n">get_attribute</span><span class="p">(</span><span class="s2">"class"</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">element</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">False</span>
+
+<span class="c1"># Wait until an element with id='myNewInput' has class 'myCSSClass'</span>
+<span class="n">wait</span> <span class="o">=</span> <span class="n">WebDriverWait</span><span class="p">(</span><span class="n">driver</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+<span class="n">element</span> <span class="o">=</span> <span class="n">wait</span><span class="o">.</span><span class="n">until</span><span class="p">(</span><span class="n">element_has_css_class</span><span class="p">((</span><span class="n">By</span><span class="o">.</span><span class="n">ID</span><span class="p">,</span> <span class="s1">'myNewInput'</span><span class="p">),</span> <span class="s2">"myCSSClass"</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="implicit-waits">
+<h2><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">5.2。</font><font style="vertical-align: inherit;">隐式等待</font></font><a class="headerlink" href="https://selenium-python.readthedocs.io/waits.html#implicit-waits" title="永久链接到这个标题"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">¶</font></font></a></h2>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">隐式等待告诉WebDriver在尝试查找不能立即可用的任何元素（或元素）时轮询DOM一段时间。</font><font style="vertical-align: inherit;">默认设置为0.设置后，将为WebDriver对象的生命周期设置隐式等待。</font></font></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">selenium</span> <span class="k">import</span> <span class="n">webdriver</span>
+
+<span class="n">driver</span> <span class="o">=</span> <span class="n">webdriver</span><span class="o">.</span><span class="n">Firefox</span><span class="p">()</span>
+<span class="n">driver</span><span class="o">.</span><span class="n">implicitly_wait</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span> <span class="c1"># seconds</span>
+<span class="n">driver</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"http://somedomain/url_that_delays_loading"</span><span class="p">)</span>
+<span class="n">myDynamicElement</span> <span class="o">=</span> <span class="n">driver</span><span class="o">.</span><span class="n">find_element_by_id</span><span class="p">(</span><span class="s2">"myDynamicElement"</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+          <div id="rtd-8kbkq6aw" class="ethical-alabaster"></div></div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<p class="logo">
+  <a href="https://selenium-python.readthedocs.io/index.html">
+    <img class="logo" src="./Selenium with Python文档6_files/logo.png" alt="商标">
+    
+  </a>
+</p>
+
+
+
+
+
+
+
+
+<h3><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">导航</font></font></h3>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="https://selenium-python.readthedocs.io/installation.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">1.安装</font></font></a></li>
+<li class="toctree-l1"><a class="reference internal" href="https://selenium-python.readthedocs.io/getting-started.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">2.入门</font></font></a></li>
+<li class="toctree-l1"><a class="reference internal" href="https://selenium-python.readthedocs.io/navigating.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.导航</font></font></a></li>
+<li class="toctree-l1"><a class="reference internal" href="https://selenium-python.readthedocs.io/locating-elements.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">4.定位元素</font></font></a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="https://selenium-python.readthedocs.io/waits.html#"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">等待</font></font></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="https://selenium-python.readthedocs.io/waits.html#explicit-waits"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">5.1。</font><font style="vertical-align: inherit;">明确的等待</font></font></a></li>
+<li class="toctree-l2"><a class="reference internal" href="https://selenium-python.readthedocs.io/waits.html#implicit-waits"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">5.2。</font><font style="vertical-align: inherit;">隐含等待</font></font></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="https://selenium-python.readthedocs.io/page-objects.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">6.页面对象</font></font></a></li>
+<li class="toctree-l1"><a class="reference internal" href="https://selenium-python.readthedocs.io/api.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">7. WebDriver API</font></font></a></li>
+<li class="toctree-l1"><a class="reference internal" href="https://selenium-python.readthedocs.io/faq.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">8.附录：常见问题</font></font></a></li>
+</ul>
+
+<div class="relations">
+<h3><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">相关话题</font></font></h3>
+<ul>
+  <li><a href="https://selenium-python.readthedocs.io/index.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">文档概述</font></font></a><ul>
+      <li><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">上一页：</font></font><a href="https://selenium-python.readthedocs.io/locating-elements.html" title="前一章"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">4。定位元素</font></font></a></li>
+      <li><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">下一页：</font></font><a href="https://selenium-python.readthedocs.io/page-objects.html" title="下一章"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">6。页面对象</font></font></a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="" role="search">
+  <h3><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">快速搜索</font></font></h3>
+    <div class="searchformwrapper">
+    <form class="search" action="https://selenium-python.readthedocs.io/search.html" method="get">
+      <input type="text" name="q">
+      <font style="vertical-align: inherit;"><font style="vertical-align: inherit;"><input type="submit" value="走"></font></font>
+      <input type="hidden" name="check_keywords" value="yes">
+      <input type="hidden" name="area" value="default">
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        <div id="rtd-cqtpv5m2" class="ethical-alabaster"><div class="ethical-sidebar"><div class="ethical-content"><a href="https://readthedocs.org/sustainability/click/194/vSV5j3kojwGb/" rel="nofollow" target="_blank" class="ethical-image-link"><img src="./Selenium with Python文档6_files/english-house.png"></a><div class="ethical-text"><a href="https://readthedocs.org/sustainability/click/194/vSV5j3kojwGb/" rel="nofollow" target="_blank"><b><font style="vertical-align: inherit;"></font></b><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">当您使用“阅读文档”进行广告宣传时，每个月</font><b><font style="vertical-align: inherit;">达到700多万开发者</font></b></font></a><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">。</font></font></div></div><div class="ethical-callout"><small><em><a href="https://readthedocs.org/sustainability/advertising/"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">赞助商</font></font></a><span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">· </font></font></span><a href="https://docs.readthedocs.io/en/latest/ethical-advertising.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">道德服务广告</font></font></a></em></small></div></div><img src="./Selenium with Python文档6_files/saved_resource" style="display: none;"></div></div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+      ©2011-2018，Baiju Muthukadan。</font><font style="vertical-align: inherit;">| </font><font style="vertical-align: inherit;">技术</font></font><a href="http://sphinx-doc.org/"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">狮身人面像1.7.9</font></font></a><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> 
+      与</font></font><a href="https://github.com/bitprophet/alabaster"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">雪花0.7.12</font></font></a><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> 
+      
+      |
+      </font></font><a href="https://selenium-python.readthedocs.io/_sources/waits.rst.txt" rel="nofollow"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">页面来源</font></font></a>
+    </div>
+
+    
+
+    
+  
+<!-- Inserted RTD Footer -->
+<div class="injected">
+
+  
+  <div class="rst-versions rst-badge" data-toggle="rst-versions">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      <span class="fa fa-book">&nbsp;</span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+      v：最新的
+      </font></font><span class="fa fa-caret-down"></span>
+    </span>
+    <div class="rst-other-versions">
+      
+
+      
+      
+      
+      
+
+      
+      
+      <dl>
+        <dt><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">下载</font></font></dt>
+        
+        <dd><a href="https://readthedocs.org/projects/selenium-python/downloads/pdf/latest/"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">PDF</font></font></a></dd>
+        
+        <dd><a href="https://readthedocs.org/projects/selenium-python/downloads/htmlzip/latest/"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">HTML</font></font></a></dd>
+        
+        <dd><a href="https://readthedocs.org/projects/selenium-python/downloads/epub/latest/"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">EPUB</font></font></a></dd>
+        
+      </dl>
+      
+      
+
+      
+      <dl>
+        <!-- These are kept as relative links for internal installs that are http -->
+        <dt><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">阅读文档</font></font></dt>
+        <dd>
+          <a href="https://readthedocs.org/projects/selenium-python/"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">项目主页</font></font></a>
+        </dd>
+        <dd>
+          <a href="https://readthedocs.org/projects/selenium-python/builds/"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">构建</font></font></a>
+        </dd>
+        <dd>
+          <a href="https://readthedocs.org/projects/selenium-python/downloads/"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">下载</font></font></a>
+        </dd>
+      </dl>
+      
+
+      
+
+      
+      <dl>
+        <dt><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">在GitHub上</font></font></dt>
+        <dd>
+          <a href="https://github.com/baijum/selenium-python/blob/master/source/waits.rst"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">视图</font></font></a>
+        </dd>
+        
+      </dl>
+      
+      
+
+      
+      <dl>
+        <dt><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">搜索</font></font></dt>
+        <dd>
+          <div style="padding: 6px;">
+            <form id="flyout-search-form" class="wy-form" target="_blank" action="https://readthedocs.org/projects/selenium-python/search/" method="get">
+              <input type="text" name="q" placeholder="Search docs">
+              </form>
+          </div>
+        </dd>
+      </dl>
+      
+
+
+
+      <hr>
+      
+        <small>
+          <span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">主持人</font></font><a href="https://readthedocs.org/"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">阅读文档</font></font></a></span>
+          <span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> · </font></font></span>
+          <a href="https://docs.readthedocs.io/page/privacy-policy.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">隐私政策</font></font></a>
+        </small>
+      
+
+      
+    </div>
+  </div>
+  
+
+</div><div id="goog-gt-tt" class="skiptranslate" dir="ltr"><div style="padding: 8px;"><div><div class="logo"><img src="./Selenium with Python文档6_files/translate_24dp.png" width="20" height="20" alt="Google 翻译"></div></div></div><div class="top" style="padding: 8px; float: left; width: 100%;"><h1 class="title gray">原文</h1></div><div class="middle" style="padding: 8px;"><div class="original-text"></div></div><div class="bottom" style="padding: 8px;"><div class="activity-links"><span class="activity-link">提供更好的翻译建议</span><span class="activity-link"></span></div><div class="started-activity-container"><hr style="color: #CCC; background-color: #CCC; height: 1px; border: none;"><div class="activity-root"></div></div></div><div class="status-message" style="display: none;"></div></div>
+<div class="goog-te-spinner-pos"><div class="goog-te-spinner-animation"><svg xmlns="http://www.w3.org/2000/svg" class="goog-te-spinner" width="96px" height="96px" viewBox="0 0 66 66"><circle class="goog-te-spinner-path" fill="none" stroke-width="6" stroke-linecap="round" cx="33" cy="33" r="30"></circle></svg></div></div></body></html>

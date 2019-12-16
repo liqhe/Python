@@ -1,0 +1,1497 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- saved from url=(0046)https://docs.pytest.org/en/latest/fixture.html -->
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh-CN" class="translated-ltr"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+    
+    <title>pytest fixtures：显式，模块化，可扩展 -  pytest文档</title>
+    <link rel="stylesheet" href="./pytest文档6_files/flasky.css" type="text/css">
+    <link rel="stylesheet" href="./pytest文档6_files/pygments.css" type="text/css">
+    <link rel="stylesheet" type="text/css" href="./pytest文档6_files/pygments_pytest.css">
+    <link rel="stylesheet" type="text/css" href="./pytest文档6_files/badge_only.css">
+    <script type="text/javascript" async="" src="./pytest文档6_files/ga.js"></script><script async="" src="./pytest文档6_files/analytics.js"></script><script type="text/javascript" id="documentation_options" data-url_root="./" src="./pytest文档6_files/documentation_options.js"></script>
+    <script type="text/javascript" src="./pytest文档6_files/jquery.js"></script>
+    <script type="text/javascript" src="./pytest文档6_files/underscore.js"></script>
+    <script type="text/javascript" src="./pytest文档6_files/doctools.js"></script>
+    <script type="text/javascript" src="./pytest文档6_files/language_data.js"></script>
+    <script type="text/javascript" src="./pytest文档6_files/readthedocs-doc-embed.js"></script>
+    <link rel="shortcut icon" href="https://docs.pytest.org/en/latest/_static/pytest1favi.ico">
+    <link rel="search" title="搜索" href="https://docs.pytest.org/en/latest/search.html">
+    <link rel="next" title="使用属性标记测试函数" href="https://docs.pytest.org/en/latest/mark.html">
+    <link rel="prev" title="在测试中编写和报告断言" href="https://docs.pytest.org/en/latest/assert.html">
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9">
+
+  
+<!-- RTD Extra Head -->
+
+<!-- 
+Always link to the latest version, as canonical.
+http://docs.readthedocs.org/en/latest/canonical.html
+-->
+<link rel="canonical" href="http://doc.pytest.org/en/latest/fixture.html">
+
+<link rel="stylesheet" href="./pytest文档6_files/readthedocs-doc-embed.css" type="text/css">
+
+<script type="text/javascript" src="./pytest文档6_files/readthedocs-data.js"></script>
+
+<!-- Add page-specific data, which must exist in the page js, not global -->
+<script type="text/javascript">
+READTHEDOCS_DATA['page'] = 'fixture'
+READTHEDOCS_DATA['source_suffix'] = '.rst'
+</script>
+
+<script type="text/javascript" src="./pytest文档6_files/readthedocs-analytics.js"></script>
+
+<!-- end RTD <extrahead> -->
+<link type="text/css" rel="stylesheet" charset="UTF-8" href="./pytest文档6_files/translateelement.css"></head><body>
+  
+  
+  
+
+
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">导航</font></font></h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="https://docs.pytest.org/en/latest/mark.html" title="使用属性标记测试函数" accesskey="N"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">下一个</font></font></a></li>
+        <li class="right">
+          <a href="https://docs.pytest.org/en/latest/assert.html" title="在测试中编写和报告断言" accesskey="P"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">上一个</font></font></a><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> |</font></font></li>
+        <li class="nav-item nav-item-0"><a href="https://docs.pytest.org/en/latest/contents.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">pytest-4.3</font></font></a><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> »</font></font></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="pytest-fixtures-explicit-modular-scalable">
+<span id="fixture-functions"></span><span id="fixtures"></span><span id="fixture"></span><h1><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">pytest fixtures：显式，模块化，可伸缩</font></font><a class="headerlink" href="https://docs.pytest.org/en/latest/fixture.html#pytest-fixtures-explicit-modular-scalable" title="永久链接到这个标题"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">¶</font></font></a></h1>
+<div class="versionadded">
+<p><span class="versionmodified"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">版本2.0 / 2.3 / 2.4中的新功能。</font></font></span></p>
+</div>
+<p><font style="vertical-align: inherit;"></font><a class="reference external" href="http://en.wikipedia.org/wiki/Test_fixture#Software"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">测试夹具</font></font></a><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">的</font><a class="reference external" href="http://en.wikipedia.org/wiki/Test_fixture#Software"><font style="vertical-align: inherit;">目的</font></a><font style="vertical-align: inherit;">是提供一个固定的基线，测试可以可靠地重复执行。</font><font style="vertical-align: inherit;">pytest fixture比经典的xUnit设置/拆卸功能提供了显着的改进：</font></font></p>
+<ul class="simple">
+<li><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">灯具具有明确的名称，并通过从测试功能，模块，类或整个项目中声明它们的使用来激活。</font></font></li>
+<li><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">夹具以模块化方式实现，因为每个夹具名称触发</font></font><em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">夹具功能</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">，</font><font style="vertical-align: inherit;">该</font><em><font style="vertical-align: inherit;">夹具功能</font></em><font style="vertical-align: inherit;">本身可以使用其他夹具。</font></font></li>
+<li><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">夹具管理从简单的单元扩展到复杂的功能测试，允许根据配置和组件选项对夹具和测试进行参数化，或者在功能，类，模块或整个测试会话范围内重复使用夹具。</font></font></li>
+</ul>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">此外，pytest继续支持</font></font><a class="reference internal" href="https://docs.pytest.org/en/latest/xunit_setup.html#xunitsetup"><span class="std std-ref"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">经典的</font></font></span></a><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> xunit </font><a class="reference internal" href="https://docs.pytest.org/en/latest/xunit_setup.html#xunitsetup"><span class="std std-ref"><font style="vertical-align: inherit;">风格设置</font></span></a><font style="vertical-align: inherit;">。</font><font style="vertical-align: inherit;">您可以根据需要混合使用两种样式，逐步从经典样式移动到新样式。</font><font style="vertical-align: inherit;">您也可以从现有的</font></font><a class="reference internal" href="https://docs.pytest.org/en/latest/unittest.html#unittest-testcase"><span class="std std-ref"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">unittest.TestCase样式</font></font></span></a><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">或</font></font><a class="reference internal" href="https://docs.pytest.org/en/latest/nose.html#nosestyle"><span class="std std-ref"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">基于鼻子的</font></font></span></a><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">项目开始。</font></font></p>
+<div class="section" id="fixtures-as-function-arguments">
+<span id="id1"></span><span id="pytest-fixture"></span><span id="fixture-function"></span><span id="funcarg-mechanism"></span><span id="funcargs"></span><h2><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">夹具作为函数参数</font></font><a class="headerlink" href="https://docs.pytest.org/en/latest/fixture.html#fixtures-as-function-arguments" title="永久链接到这个标题"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">¶</font></font></a></h2>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">测试函数可以通过将它们命名为输入参数来接收fixture对象。</font><font style="vertical-align: inherit;">对于每个参数名称，具有该名称的fixture函数提供fixture对象。</font><font style="vertical-align: inherit;">通过标记它们来注册夹具功能
+ </font></font><code class="xref py py-func docutils literal notranslate"><span class="pre">@pytest.fixture</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">。</font><font style="vertical-align: inherit;">让我们看一个简单的独立测试模块，它包含一个fixture和一个使用它的测试函数：</font></font></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># content of ./test_smtpsimple.py</span>
+<span class="kn">import</span> <span class="nn">pytest</span>
+
+<span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span>
+<span class="k">def</span> <span class="nf">smtp_connection</span><span class="p">():</span>
+    <span class="kn">import</span> <span class="nn">smtplib</span>
+    <span class="k">return</span> <span class="n">smtplib</span><span class="o">.</span><span class="n">SMTP</span><span class="p">(</span><span class="s2">"smtp.gmail.com"</span><span class="p">,</span> <span class="mi">587</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">test_ehlo</span><span class="p">(</span><span class="n">smtp_connection</span><span class="p">):</span>
+    <span class="n">response</span><span class="p">,</span> <span class="n">msg</span> <span class="o">=</span> <span class="n">smtp_connection</span><span class="o">.</span><span class="n">ehlo</span><span class="p">()</span>
+    <span class="k">assert</span> <span class="n">response</span> <span class="o">==</span> <span class="mi">250</span>
+    <span class="k">assert</span> <span class="mi">0</span> <span class="c1"># for demo purposes</span>
+</pre></div>
+</div>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">在这里，</font></font><code class="docutils literal notranslate"><span class="pre">test_ehlo</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">需要</font></font><code class="docutils literal notranslate"><span class="pre">smtp_connection</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">夹具价值。</font><font style="vertical-align: inherit;">pytest将发现并调用</font></font><code class="xref py py-func docutils literal notranslate"><span class="pre">@pytest.fixture</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+标记的</font></font><code class="docutils literal notranslate"><span class="pre">smtp_connection</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">fixture函数。</font><font style="vertical-align: inherit;">运行测试如下所示：</font></font></p>
+<div class="highlight-pytest notranslate"><div class="highlight"><pre><span></span>$ pytest test_smtpsimple.py
+<span class=" -Color -Color-Bold">=========================== test session starts ============================</span>
+platform linux -- Python 3.x.y, pytest-4.x.y, py-1.x.y, pluggy-0.x.y
+cachedir: $PYTHON_PREFIX/.pytest_cache
+rootdir: $REGENDOC_TMPDIR, inifile:
+collected 1 item
+
+test_smtpsimple.py <span class=" -Color -Color-Red">F</span>                                                 <span class=" -Color -Color-Cyan">[100%]</span>
+
+================================= FAILURES =================================
+<span class=" -Color -Color-BoldRed">________________________________ test_ehlo _________________________________</span>
+
+smtp_connection = &lt;smtplib.SMTP object at 0xdeadbeef&gt;
+
+<span class=" -Color -Color-Bold">    def test_ehlo(smtp_connection):</span>
+<span class=" -Color -Color-Bold">        response, msg = smtp_connection.ehlo()</span>
+<span class=" -Color -Color-Bold">        assert response == 250</span>
+<span class=" -Color -Color-Bold">&gt;       assert 0 # for demo purposes</span>
+<span class=" -Color -Color-BoldRed">E       assert 0</span>
+
+<span class=" -Color -Color-BoldRed">test_smtpsimple.py</span>:11: AssertionError
+<span class=" -Color -Color-BoldRed">========================= 1 failed in 0.12 seconds =========================</span>
+</pre></div>
+</div>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">在故障回溯中，我们看到测试函数是使用</font></font><code class="docutils literal notranslate"><span class="pre">smtp_connection</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">参数</font><font style="vertical-align: inherit;">调用的，该
+ </font><font style="vertical-align: inherit;">参数</font></font><code class="docutils literal notranslate"><span class="pre">smtplib.SMTP()</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">是由fixture函数创建的。</font><font style="vertical-align: inherit;">我们的故意测试功能失败了</font><font style="vertical-align: inherit;">。</font><font style="vertical-align: inherit;">以下是以</font><font style="vertical-align: inherit;">这种方式调用测试函数</font><font style="vertical-align: inherit;">所使用的确切协议</font><font style="vertical-align: inherit;">：</font></font><code class="docutils literal notranslate"><span class="pre">assert</span> <span class="pre">0</span></code><font style="vertical-align: inherit;"></font><code class="docutils literal notranslate"><span class="pre">pytest</span></code><font style="vertical-align: inherit;"></font></p>
+<ol class="arabic simple">
+<li><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">pytest </font></font><a class="reference internal" href="https://docs.pytest.org/en/latest/goodpractices.html#test-discovery"><span class="std std-ref"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">发现</font></font></span></a><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">了</font></font><code class="docutils literal notranslate"><span class="pre">test_ehlo</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">的，因为</font></font><code class="docutils literal notranslate"><span class="pre">test_</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">前缀。</font><font style="vertical-align: inherit;">测试函数需要一个名为的函数参数</font></font><code class="docutils literal notranslate"><span class="pre">smtp_connection</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">。</font><font style="vertical-align: inherit;">通过查找名为夹具标记的函数来发现匹配夹具功能</font></font><code class="docutils literal notranslate"><span class="pre">smtp_connection</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">。</font></font></li>
+<li><code class="docutils literal notranslate"><span class="pre">smtp_connection()</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> 被调用来创建一个实例。</font></font></li>
+<li><code class="docutils literal notranslate"><span class="pre">test_ehlo(&lt;smtp_connection</span> <span class="pre">instance&gt;)</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> 在测试函数的最后一行调用并失败。</font></font></li>
+</ol>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">请注意，如果拼错一个函数参数或想要使用一个不可用的函数参数，您将看到一个错误，其中包含可用函数参数列表。</font></font></p>
+<div class="admonition note">
+<p class="first admonition-title"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">注意</font></font></p>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">你总是可以发出：</font></font></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pytest --fixtures test_simplefactory.py
+</pre></div>
+</div>
+<p class="last"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">查看可用的灯具（</font></font><code class="docutils literal notranslate"><span class="pre">_</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">如果添加</font></font><code class="docutils literal notranslate"><span class="pre">-v</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">选项，</font><font style="vertical-align: inherit;">则仅显示</font><font style="vertical-align: inherit;">带有前导的灯具</font><font style="vertical-align: inherit;">）。</font></font></p>
+</div>
+</div>
+<div class="section" id="fixtures-a-prime-example-of-dependency-injection">
+<h2><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Fixtures：依赖注入的一个主要例子</font></font><a class="headerlink" href="https://docs.pytest.org/en/latest/fixture.html#fixtures-a-prime-example-of-dependency-injection" title="永久链接到这个标题"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">¶</font></font></a></h2>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Fixtures允许测试功能轻松接收和处理特定的预先初始化的应用程序对象，而无需关心导入/设置/清理细节。</font><font style="vertical-align: inherit;">这是</font></font><a class="reference external" href="http://en.wikipedia.org/wiki/Dependency_injection"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">依赖注入</font></font></a><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">的一个主要示例，</font><font style="vertical-align: inherit;">其中夹具功能扮演</font></font><em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">注入器</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">的角色，</font><font style="vertical-align: inherit;">测试功能是</font><font style="vertical-align: inherit;">夹具对象</font><font style="vertical-align: inherit;">的
+ </font></font><em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">消费者</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">。</font></font></p>
+</div>
+<div class="section" id="conftest-py-sharing-fixture-functions">
+<span id="conftest"></span><span id="conftest-py"></span><h2><code class="docutils literal notranslate"><span class="pre">conftest.py</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">：共享夹具功能</font></font><a class="headerlink" href="https://docs.pytest.org/en/latest/fixture.html#conftest-py-sharing-fixture-functions" title="永久链接到这个标题"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">¶</font></font></a></h2>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">如果在实施测试期间您意识到要使用多个测试文件中的夹具功能，则可以将其移动到</font></font><code class="docutils literal notranslate"><span class="pre">conftest.py</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">文件中。</font><font style="vertical-align: inherit;">您不需要导入要在测试中使用的夹具，它会自动被pytest发现。</font><font style="vertical-align: inherit;">夹具功能的发现从测试类开始，然后是测试模块，然后是
+ </font></font><code class="docutils literal notranslate"><span class="pre">conftest.py</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">文件，最后是内置和第三方插件。</font></font></p>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">您还可以使用该</font></font><code class="docutils literal notranslate"><span class="pre">conftest.py</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">文件来实现
+ </font></font><a class="reference internal" href="https://docs.pytest.org/en/latest/writing_plugins.html#conftest-py-plugins"><span class="std std-ref"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">本地每目录插件</font></font></span></a><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">。</font></font></p>
+</div>
+<div class="section" id="sharing-test-data">
+<h2><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">共享测试数据</font></font><a class="headerlink" href="https://docs.pytest.org/en/latest/fixture.html#sharing-test-data" title="永久链接到这个标题"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">¶</font></font></a></h2>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">如果要从测试可用的文件中生成测试数据，最好的方法是将这些数据加载到夹具中以供测试使用。</font><font style="vertical-align: inherit;">这利用了pytest的自动缓存机制。</font></font></p>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">另一个好方法是在</font></font><code class="docutils literal notranslate"><span class="pre">tests</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">文件夹中</font><font style="vertical-align: inherit;">添加数据文件</font><font style="vertical-align: inherit;">。</font><font style="vertical-align: inherit;">还有社区插件可用于帮助管理这方面的测试，例如</font></font><a class="reference external" href="https://pypi.org/project/pytest-datadir/"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">pytest-datadir</font></font></a><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> 
+和</font></font><a class="reference external" href="https://pypi.org/project/pytest-datafiles/"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">pytest-datafiles</font></font></a><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">。</font></font></p>
+</div>
+<div class="section" id="scope-sharing-a-fixture-instance-across-tests-in-a-class-module-or-session">
+<span id="smtpshared"></span><h2><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">范围：在类，模块或会话中跨测试共享夹具实例</font></font><a class="headerlink" href="https://docs.pytest.org/en/latest/fixture.html#scope-sharing-a-fixture-instance-across-tests-in-a-class-module-or-session" title="永久链接到这个标题"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">¶</font></font></a></h2>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">需要网络访问的固定装置取决于连接性，创建时间通常很长。</font><font style="vertical-align: inherit;">扩展前面的示例，我们可以</font></font><code class="docutils literal notranslate"><span class="pre">scope="module"</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">向</font></font><code class="xref py py-func docutils literal notranslate"><span class="pre">@pytest.fixture</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">调用</font><font style="vertical-align: inherit;">添加一个</font><font style="vertical-align: inherit;">参数，
+ </font><font style="vertical-align: inherit;">使得</font></font><code class="docutils literal notranslate"><span class="pre">smtp_connection</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">每个测试</font></font><em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">模块</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">只调用一次</font><font style="vertical-align: inherit;">修饰的</font><font style="vertical-align: inherit;">fixture函数</font><font style="vertical-align: inherit;">（默认是每个测试</font></font><em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">函数</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">调用一次</font><font style="vertical-align: inherit;">）。</font><font style="vertical-align: inherit;">因此，测试模块中的多个测试功能将接收相同的</font></font><code class="docutils literal notranslate"><span class="pre">smtp_connection</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">夹具实例，从而节省时间。</font><font style="vertical-align: inherit;">对于可能的值</font></font><code class="docutils literal notranslate"><span class="pre">scope</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">有：</font></font><code class="docutils literal notranslate"><span class="pre">function</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">，</font></font><code class="docutils literal notranslate"><span class="pre">class</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">，</font></font><code class="docutils literal notranslate"><span class="pre">module</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">，</font></font><code class="docutils literal notranslate"><span class="pre">package</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">或</font></font><code class="docutils literal notranslate"><span class="pre">session</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">。</font></font></p>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">下一个示例将fixture函数放入单独的</font></font><code class="docutils literal notranslate"><span class="pre">conftest.py</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">文件中，以便来自目录中多个测试模块的测试可以访问fixture函数：</font></font></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># content of conftest.py</span>
+<span class="kn">import</span> <span class="nn">pytest</span>
+<span class="kn">import</span> <span class="nn">smtplib</span>
+
+<span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span><span class="p">(</span><span class="n">scope</span><span class="o">=</span><span class="s2">"module"</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">smtp_connection</span><span class="p">():</span>
+    <span class="k">return</span> <span class="n">smtplib</span><span class="o">.</span><span class="n">SMTP</span><span class="p">(</span><span class="s2">"smtp.gmail.com"</span><span class="p">,</span> <span class="mi">587</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">再次使用夹具的名称，</font></font><code class="docutils literal notranslate"><span class="pre">smtp_connection</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">您可以通过</font></font><code class="docutils literal notranslate"><span class="pre">smtp_connection</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">在任何测试或夹具功能中（在所在目录中或下面</font></font><code class="docutils literal notranslate"><span class="pre">conftest.py</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">）</font><font style="vertical-align: inherit;">将名称</font><font style="vertical-align: inherit;">列为输入参数</font><font style="vertical-align: inherit;">来访问其结果</font><font style="vertical-align: inherit;">：</font></font></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># content of test_module.py</span>
+
+<span class="k">def</span> <span class="nf">test_ehlo</span><span class="p">(</span><span class="n">smtp_connection</span><span class="p">):</span>
+    <span class="n">response</span><span class="p">,</span> <span class="n">msg</span> <span class="o">=</span> <span class="n">smtp_connection</span><span class="o">.</span><span class="n">ehlo</span><span class="p">()</span>
+    <span class="k">assert</span> <span class="n">response</span> <span class="o">==</span> <span class="mi">250</span>
+    <span class="k">assert</span> <span class="sa">b</span><span class="s2">"smtp.gmail.com"</span> <span class="ow">in</span> <span class="n">msg</span>
+    <span class="k">assert</span> <span class="mi">0</span>  <span class="c1"># for demo purposes</span>
+
+<span class="k">def</span> <span class="nf">test_noop</span><span class="p">(</span><span class="n">smtp_connection</span><span class="p">):</span>
+    <span class="n">response</span><span class="p">,</span> <span class="n">msg</span> <span class="o">=</span> <span class="n">smtp_connection</span><span class="o">.</span><span class="n">noop</span><span class="p">()</span>
+    <span class="k">assert</span> <span class="n">response</span> <span class="o">==</span> <span class="mi">250</span>
+    <span class="k">assert</span> <span class="mi">0</span>  <span class="c1"># for demo purposes</span>
+</pre></div>
+</div>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">我们故意插入失败的</font><font style="vertical-align: inherit;">语句以检查发生了什么，现在可以运行测试：</font></font><code class="docutils literal notranslate"><span class="pre">assert</span> <span class="pre">0</span></code><font style="vertical-align: inherit;"></font></p>
+<div class="highlight-pytest notranslate"><div class="highlight"><pre><span></span>$ pytest test_module.py
+<span class=" -Color -Color-Bold">=========================== test session starts ============================</span>
+platform linux -- Python 3.x.y, pytest-4.x.y, py-1.x.y, pluggy-0.x.y
+cachedir: $PYTHON_PREFIX/.pytest_cache
+rootdir: $REGENDOC_TMPDIR, inifile:
+collected 2 items
+
+test_module.py <span class=" -Color -Color-Red">FF</span>                                                    <span class=" -Color -Color-Cyan">[100%]</span>
+
+================================= FAILURES =================================
+<span class=" -Color -Color-BoldRed">________________________________ test_ehlo _________________________________</span>
+
+smtp_connection = &lt;smtplib.SMTP object at 0xdeadbeef&gt;
+
+<span class=" -Color -Color-Bold">    def test_ehlo(smtp_connection):</span>
+<span class=" -Color -Color-Bold">        response, msg = smtp_connection.ehlo()</span>
+<span class=" -Color -Color-Bold">        assert response == 250</span>
+<span class=" -Color -Color-Bold">        assert b"smtp.gmail.com" in msg</span>
+<span class=" -Color -Color-Bold">&gt;       assert 0  # for demo purposes</span>
+<span class=" -Color -Color-BoldRed">E       assert 0</span>
+
+<span class=" -Color -Color-BoldRed">test_module.py</span>:6: AssertionError
+<span class=" -Color -Color-BoldRed">________________________________ test_noop _________________________________</span>
+
+smtp_connection = &lt;smtplib.SMTP object at 0xdeadbeef&gt;
+
+<span class=" -Color -Color-Bold">    def test_noop(smtp_connection):</span>
+<span class=" -Color -Color-Bold">        response, msg = smtp_connection.noop()</span>
+<span class=" -Color -Color-Bold">        assert response == 250</span>
+<span class=" -Color -Color-Bold">&gt;       assert 0  # for demo purposes</span>
+<span class=" -Color -Color-BoldRed">E       assert 0</span>
+
+<span class=" -Color -Color-BoldRed">test_module.py</span>:11: AssertionError
+<span class=" -Color -Color-BoldRed">========================= 2 failed in 0.12 seconds =========================</span>
+</pre></div>
+</div>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">您会看到两个</font><font style="vertical-align: inherit;">失败，更重要的是您还可以看到相同的（模块范围的）</font><font style="vertical-align: inherit;">对象被传递到两个测试函数中，因为pytest在回溯中显示传入的参数值。</font><font style="vertical-align: inherit;">因此，使用两个测试函数的</font><font style="vertical-align: inherit;">运行速度与单个</font><font style="vertical-align: inherit;">测试函数</font><font style="vertical-align: inherit;">一样快，因为它们重用相同的实例。</font></font><code class="docutils literal notranslate"><span class="pre">assert</span> <span class="pre">0</span></code><font style="vertical-align: inherit;"></font><code class="docutils literal notranslate"><span class="pre">smtp_connection</span></code><font style="vertical-align: inherit;"></font><code class="docutils literal notranslate"><span class="pre">smtp_connection</span></code><font style="vertical-align: inherit;"></font></p>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">如果您决定要使用会话范围的</font></font><code class="docutils literal notranslate"><span class="pre">smtp_connection</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+实例，则只需声明它：</font></font></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nd">@pytest.fixture</span><span class="p">(</span><span class="n">scope</span><span class="o">=</span><span class="s2">"session"</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">smtp_connection</span><span class="p">():</span>
+    <span class="c1"># the returned fixture value will be shared for</span>
+    <span class="c1"># all tests needing it</span>
+    <span class="o">...</span>
+</pre></div>
+</div>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">最后，</font></font><code class="docutils literal notranslate"><span class="pre">class</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">示波器将在每个测试</font></font><em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">类中</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">调用一次夹具</font><font style="vertical-align: inherit;">。</font></font></p>
+<div class="admonition note">
+<p class="first admonition-title"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">注意</font></font></p>
+<p class="last"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Pytest一次只会缓存一个灯具的一个实例。</font><font style="vertical-align: inherit;">这意味着当使用参数化夹具时，pytest可能会在给定范围内多次调用夹具。</font></font></p>
+</div>
+<div class="section" id="package-scope-experimental">
+<h3><code class="docutils literal notranslate"><span class="pre">package</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">范围（实验）</font></font><a class="headerlink" href="https://docs.pytest.org/en/latest/fixture.html#package-scope-experimental" title="永久链接到这个标题"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">¶</font></font></a></h3>
+<div class="versionadded">
+<p><span class="versionmodified"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">版本3.7中的新功能。</font></font></span></p>
+</div>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">在pytest 3.7中</font></font><code class="docutils literal notranslate"><span class="pre">package</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">引入</font><font style="vertical-align: inherit;">了</font><font style="vertical-align: inherit;">范围。</font><font style="vertical-align: inherit;">当</font></font><em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">包</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">的最后一次测试结束时，最终确定包装范围的夹具</font><font style="vertical-align: inherit;">。</font></font></p>
+<div class="admonition warning">
+<p class="first admonition-title"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">警告</font></font></p>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">此功能被认为是</font></font><strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">实验性的</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">，如果在获得更多使用后发现隐藏的角落情况或此功能的严重问题，可能会在将来的版本中删除。</font></font></p>
+<p class="last"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">谨慎使用此新功能，请务必报告您发现的任何问题。</font></font></p>
+</div>
+</div>
+</div>
+<div class="section" id="higher-scoped-fixtures-are-instantiated-first">
+<h2><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">更高范围的灯具首先被实例化</font></font><a class="headerlink" href="https://docs.pytest.org/en/latest/fixture.html#higher-scoped-fixtures-are-instantiated-first" title="永久链接到这个标题"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">¶</font></font></a></h2>
+<div class="versionadded">
+<p><span class="versionmodified"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">版本3.5中的新功能。</font></font></span></p>
+</div>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">在功能的功能请求中，较高范围（例如</font></font><code class="docutils literal notranslate"><span class="pre">session</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">）的夹具首先比较低范围的夹具（例如</font></font><code class="docutils literal notranslate"><span class="pre">function</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">或</font></font><code class="docutils literal notranslate"><span class="pre">class</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">）</font><font style="vertical-align: inherit;">实例化</font><font style="vertical-align: inherit;">。</font><font style="vertical-align: inherit;">相同范围的灯具的相对顺序遵循测试功能中声明的顺序，并尊重灯具之间的依赖关系。</font></font></p>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">请考虑以下代码：</font></font></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nd">@pytest.fixture</span><span class="p">(</span><span class="n">scope</span><span class="o">=</span><span class="s2">"session"</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">s1</span><span class="p">():</span>
+    <span class="k">pass</span>
+
+
+<span class="nd">@pytest.fixture</span><span class="p">(</span><span class="n">scope</span><span class="o">=</span><span class="s2">"module"</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">m1</span><span class="p">():</span>
+    <span class="k">pass</span>
+
+
+<span class="nd">@pytest.fixture</span>
+<span class="k">def</span> <span class="nf">f1</span><span class="p">(</span><span class="n">tmpdir</span><span class="p">):</span>
+    <span class="k">pass</span>
+
+
+<span class="nd">@pytest.fixture</span>
+<span class="k">def</span> <span class="nf">f2</span><span class="p">():</span>
+    <span class="k">pass</span>
+
+
+<span class="k">def</span> <span class="nf">test_foo</span><span class="p">(</span><span class="n">f1</span><span class="p">,</span> <span class="n">m1</span><span class="p">,</span> <span class="n">f2</span><span class="p">,</span> <span class="n">s1</span><span class="p">):</span>
+    <span class="o">...</span>
+</pre></div>
+</div>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">请求的灯具</font></font><code class="docutils literal notranslate"><span class="pre">test_foo</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">将按以下顺序实例化：</font></font></p>
+<ol class="arabic simple">
+<li><code class="docutils literal notranslate"><span class="pre">s1</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">：是最高范围的夹具（</font></font><code class="docutils literal notranslate"><span class="pre">session</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">）。</font></font></li>
+<li><code class="docutils literal notranslate"><span class="pre">m1</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">：是第二个最高范围的夹具（</font></font><code class="docutils literal notranslate"><span class="pre">module</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">）。</font></font></li>
+<li><code class="docutils literal notranslate"><span class="pre">tmpdir</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">：是一个</font></font><code class="docutils literal notranslate"><span class="pre">function</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">-scoped fixture，需要</font></font><code class="docutils literal notranslate"><span class="pre">f1</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">：它需要在这一点实例化，因为它是一个依赖项</font></font><code class="docutils literal notranslate"><span class="pre">f1</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">。</font></font></li>
+<li><code class="docutils literal notranslate"><span class="pre">f1</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">：是</font><font style="vertical-align: inherit;">参数列表中</font><font style="vertical-align: inherit;">的第一个</font></font><code class="docutils literal notranslate"><span class="pre">function</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">-scoped fixture </font></font><code class="docutils literal notranslate"><span class="pre">test_foo</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">。</font></font></li>
+<li><code class="docutils literal notranslate"><span class="pre">f2</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">：是</font><font style="vertical-align: inherit;">参数列表中</font><font style="vertical-align: inherit;">最后一个</font></font><code class="docutils literal notranslate"><span class="pre">function</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">-scoped fixture </font></font><code class="docutils literal notranslate"><span class="pre">test_foo</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">。</font></font></li>
+</ol>
+</div>
+<div class="section" id="fixture-finalization-executing-teardown-code">
+<span id="finalization"></span><h2><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">夹具定型/执行拆卸代码</font></font><a class="headerlink" href="https://docs.pytest.org/en/latest/fixture.html#fixture-finalization-executing-teardown-code" title="永久链接到这个标题"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">¶</font></font></a></h2>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">当灯具超出范围时，pytest支持灯具特定的终结代码的执行。</font><font style="vertical-align: inherit;">通过使用</font></font><code class="docutils literal notranslate"><span class="pre">yield</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">语句而不是</font></font><code class="docutils literal notranslate"><span class="pre">return</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">，</font></font><em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">yield</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">语句</font><font style="vertical-align: inherit;">之后的所有代码都</font><font style="vertical-align: inherit;">用作拆卸代码：</font></font></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># content of conftest.py</span>
+
+<span class="kn">import</span> <span class="nn">smtplib</span>
+<span class="kn">import</span> <span class="nn">pytest</span>
+
+
+<span class="nd">@pytest.fixture</span><span class="p">(</span><span class="n">scope</span><span class="o">=</span><span class="s2">"module"</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">smtp_connection</span><span class="p">():</span>
+    <span class="n">smtp_connection</span> <span class="o">=</span> <span class="n">smtplib</span><span class="o">.</span><span class="n">SMTP</span><span class="p">(</span><span class="s2">"smtp.gmail.com"</span><span class="p">,</span> <span class="mi">587</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+    <span class="k">yield</span> <span class="n">smtp_connection</span>  <span class="c1"># provide the fixture value</span>
+    <span class="k">print</span><span class="p">(</span><span class="s2">"teardown smtp"</span><span class="p">)</span>
+    <span class="n">smtp_connection</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</pre></div>
+</div>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">在</font></font><code class="docutils literal notranslate"><span class="pre">print</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">和</font></font><code class="docutils literal notranslate"><span class="pre">smtp.close()</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">当模块中的最后一次测试已经完成执行，无论测试的例外情况的语句将被执行。</font></font></p>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">让我们执行它：</font></font></p>
+<div class="highlight-pytest notranslate"><div class="highlight"><pre><span></span>$ pytest -s -q --tb=no
+FFteardown smtp
+
+<span class=" -Color -Color-BoldRed">2 failed in 0.12 seconds</span>
+</pre></div>
+</div>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">我们看到</font></font><code class="docutils literal notranslate"><span class="pre">smtp_connection</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">在两个测试完成执行后</font><font style="vertical-align: inherit;">，</font><font style="vertical-align: inherit;">实例已完成。</font><font style="vertical-align: inherit;">请注意，如果我们使用</font></font><code class="docutils literal notranslate"><span class="pre">scope='function'</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">夹具设置</font><font style="vertical-align: inherit;">修饰夹具功能，</font><font style="vertical-align: inherit;">则每次单独测试都会进行清理。</font><font style="vertical-align: inherit;">在任何一种情况下，测试模块本身都不需要改变或了解夹具设置的这些细节。</font></font></p>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">请注意，我们也可以无缝地使用</font></font><code class="docutils literal notranslate"><span class="pre">yield</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">语法</font></font><code class="docutils literal notranslate"><span class="pre">with</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">的语句：</font></font></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># content of test_yield2.py</span>
+
+<span class="kn">import</span> <span class="nn">smtplib</span>
+<span class="kn">import</span> <span class="nn">pytest</span>
+
+
+<span class="nd">@pytest.fixture</span><span class="p">(</span><span class="n">scope</span><span class="o">=</span><span class="s2">"module"</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">smtp_connection</span><span class="p">():</span>
+    <span class="k">with</span> <span class="n">smtplib</span><span class="o">.</span><span class="n">SMTP</span><span class="p">(</span><span class="s2">"smtp.gmail.com"</span><span class="p">,</span> <span class="mi">587</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span> <span class="k">as</span> <span class="n">smtp_connection</span><span class="p">:</span>
+        <span class="k">yield</span> <span class="n">smtp_connection</span>  <span class="c1"># provide the fixture value</span>
+</pre></div>
+</div>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">该</font></font><code class="docutils literal notranslate"><span class="pre">smtp_connection</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">测试后完成执行，因为连接将被关闭</font></font><code class="docutils literal notranslate"><span class="pre">smtp_connection</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">时，物体会自动关闭</font></font><code class="docutils literal notranslate"><span class="pre">with</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">语句结束。</font></font></p>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">请注意，如果在</font></font><em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">设置</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">代码</font><font style="vertical-align: inherit;">期间</font><font style="vertical-align: inherit;">（</font></font><code class="docutils literal notranslate"><span class="pre">yield</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">关键字</font><font style="vertical-align: inherit;">之前</font><font style="vertical-align: inherit;">）</font><font style="vertical-align: inherit;">发生异常</font><font style="vertical-align: inherit;">，
+ </font><font style="vertical-align: inherit;">则不会调用</font></font><em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">拆除</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">代码（之后</font></font><code class="docutils literal notranslate"><span class="pre">yield</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">）。</font></font></p>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">用于执行另一种选择</font></font><em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">拆卸</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">代码是利用所述的</font></font><code class="docutils literal notranslate"><span class="pre">addfinalizer</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">所述的方法</font></font><a class="reference internal" href="https://docs.pytest.org/en/latest/fixture.html#request-context"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">请求上下文</font></font></a><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">对象注册完成函数。</font></font></p>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">这里的</font></font><code class="docutils literal notranslate"><span class="pre">smtp_connection</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">夹具已更改为</font></font><code class="docutils literal notranslate"><span class="pre">addfinalizer</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">用于清理：</font></font></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># content of conftest.py</span>
+<span class="kn">import</span> <span class="nn">smtplib</span>
+<span class="kn">import</span> <span class="nn">pytest</span>
+
+
+<span class="nd">@pytest.fixture</span><span class="p">(</span><span class="n">scope</span><span class="o">=</span><span class="s2">"module"</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">smtp_connection</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+    <span class="n">smtp_connection</span> <span class="o">=</span> <span class="n">smtplib</span><span class="o">.</span><span class="n">SMTP</span><span class="p">(</span><span class="s2">"smtp.gmail.com"</span><span class="p">,</span> <span class="mi">587</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">fin</span><span class="p">():</span>
+        <span class="k">print</span><span class="p">(</span><span class="s2">"teardown smtp_connection"</span><span class="p">)</span>
+        <span class="n">smtp_connection</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+
+    <span class="n">request</span><span class="o">.</span><span class="n">addfinalizer</span><span class="p">(</span><span class="n">fin</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">smtp_connection</span>  <span class="c1"># provide the fixture value</span>
+</pre></div>
+</div>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">测试结束后调用代码，</font><font style="vertical-align: inherit;">两者</font></font><code class="docutils literal notranslate"><span class="pre">yield</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">和</font></font><code class="docutils literal notranslate"><span class="pre">addfinalizer</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">方法的工作方式类似，但</font></font><code class="docutils literal notranslate"><span class="pre">addfinalizer</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">有两个主要区别</font></font><code class="docutils literal notranslate"><span class="pre">yield</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">：</font></font></p>
+<ol class="arabic">
+<li><p class="first"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">可以注册多个终结器功能。</font></font></p>
+</li>
+<li><p class="first"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">无论夹具</font></font><em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">设置</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">代码是否引发异常，</font><font style="vertical-align: inherit;">都将始终调用终结器</font><font style="vertical-align: inherit;">。</font><font style="vertical-align: inherit;">即使其中一个资源无法创建/获取，也可以正确关闭夹具创建的所有资源：</font></font></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span>
+<span class="k">def</span> <span class="nf">equipments</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+    <span class="n">r</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">port</span> <span class="ow">in</span> <span class="p">(</span><span class="s1">'C1'</span><span class="p">,</span> <span class="s1">'C3'</span><span class="p">,</span> <span class="s1">'C28'</span><span class="p">):</span>
+        <span class="n">equip</span> <span class="o">=</span> <span class="n">connect</span><span class="p">(</span><span class="n">port</span><span class="p">)</span>
+        <span class="n">request</span><span class="o">.</span><span class="n">addfinalizer</span><span class="p">(</span><span class="n">equip</span><span class="o">.</span><span class="n">disconnect</span><span class="p">)</span>
+        <span class="n">r</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">equip</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">r</span>
+</pre></div>
+</div>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">在上面的例子中，如果</font></font><code class="docutils literal notranslate"><span class="pre">"C28"</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">失败，异常，</font></font><code class="docutils literal notranslate"><span class="pre">"C1"</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">并且</font></font><code class="docutils literal notranslate"><span class="pre">"C3"</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">将仍然被正确关闭。</font><font style="vertical-align: inherit;">当然，如果在注册finalize函数之前发生异常，那么它将不会被执行。</font></font></p>
+</li>
+</ol>
+</div>
+<div class="section" id="fixtures-can-introspect-the-requesting-test-context">
+<span id="request-context"></span><h2><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">夹具可以内省请求的测试上下文</font></font><a class="headerlink" href="https://docs.pytest.org/en/latest/fixture.html#fixtures-can-introspect-the-requesting-test-context" title="永久链接到这个标题"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">¶</font></font></a></h2>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Fixture函数可以接受</font></font><code class="xref py py-class docutils literal notranslate"><span class="pre">request</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">对象来内省“请求”测试函数，类或模块上下文。</font><font style="vertical-align: inherit;">进一步扩展前一个</font></font><code class="docutils literal notranslate"><span class="pre">smtp_connection</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">fixture例子，让我们从使用我们的fixture的测试模块中读取一个可选的服务器URL：</font></font></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># content of conftest.py</span>
+<span class="kn">import</span> <span class="nn">pytest</span>
+<span class="kn">import</span> <span class="nn">smtplib</span>
+
+<span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span><span class="p">(</span><span class="n">scope</span><span class="o">=</span><span class="s2">"module"</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">smtp_connection</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+    <span class="n">server</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">module</span><span class="p">,</span> <span class="s2">"smtpserver"</span><span class="p">,</span> <span class="s2">"smtp.gmail.com"</span><span class="p">)</span>
+    <span class="n">smtp_connection</span> <span class="o">=</span> <span class="n">smtplib</span><span class="o">.</span><span class="n">SMTP</span><span class="p">(</span><span class="n">server</span><span class="p">,</span> <span class="mi">587</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+    <span class="k">yield</span> <span class="n">smtp_connection</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"finalizing </span><span class="si">%s</span><span class="s2"> (</span><span class="si">%s</span><span class="s2">)"</span> <span class="o">%</span> <span class="p">(</span><span class="n">smtp_connection</span><span class="p">,</span> <span class="n">server</span><span class="p">))</span>
+    <span class="n">smtp_connection</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</pre></div>
+</div>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">我们使用该</font></font><code class="docutils literal notranslate"><span class="pre">request.module</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">属性可选地</font></font><code class="docutils literal notranslate"><span class="pre">smtpserver</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">从测试模块</font><font style="vertical-align: inherit;">获取
+ </font><font style="vertical-align: inherit;">属性。</font><font style="vertical-align: inherit;">如果我们再次执行，那么没有太大变化：</font></font></p>
+<div class="highlight-pytest notranslate"><div class="highlight"><pre><span></span>$ pytest -s -q --tb=no
+FFfinalizing &lt;smtplib.SMTP object at 0xdeadbeef&gt; (smtp.gmail.com)
+
+<span class=" -Color -Color-BoldRed">2 failed in 0.12 seconds</span>
+</pre></div>
+</div>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">让我们快速创建另一个测试模块，该模块实际上在其模块命名空间中设置服务器URL：</font></font></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># content of test_anothersmtp.py</span>
+
+<span class="n">smtpserver</span> <span class="o">=</span> <span class="s2">"mail.python.org"</span>  <span class="c1"># will be read by smtp fixture</span>
+
+<span class="k">def</span> <span class="nf">test_showhelo</span><span class="p">(</span><span class="n">smtp_connection</span><span class="p">):</span>
+    <span class="k">assert</span> <span class="mi">0</span><span class="p">,</span> <span class="n">smtp_connection</span><span class="o">.</span><span class="n">helo</span><span class="p">()</span>
+</pre></div>
+</div>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">运行它：</font></font></p>
+<div class="highlight-pytest notranslate"><div class="highlight"><pre><span></span>$ pytest -qq --tb=short test_anothersmtp.py
+<span class=" -Color -Color-Red">F</span>                                                                    <span class=" -Color -Color-Cyan">[100%]</span>
+================================= FAILURES =================================
+<span class=" -Color -Color-BoldRed">______________________________ test_showhelo _______________________________</span>
+<span class=" -Color -Color-BoldRed">test_anothersmtp.py</span>:5: in test_showhelo
+<span class=" -Color -Color-Bold">    assert 0, smtp_connection.helo()</span>
+<span class=" -Color -Color-BoldRed">E   AssertionError: (250, b'mail.python.org')</span>
+<span class=" -Color -Color-BoldRed">E   assert 0</span>
+------------------------- Captured stdout teardown -------------------------
+finalizing &lt;smtplib.SMTP object at 0xdeadbeef&gt; (mail.python.org)
+</pre></div>
+</div>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">瞧！</font><font style="vertical-align: inherit;">该</font></font><code class="docutils literal notranslate"><span class="pre">smtp_connection</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">夹具功能从模块命名空间拿起我们的邮件服务器名称。</font></font></p>
+</div>
+<div class="section" id="factories-as-fixtures">
+<span id="fixture-factory"></span><h2><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">工厂作为固定装置</font></font><a class="headerlink" href="https://docs.pytest.org/en/latest/fixture.html#factories-as-fixtures" title="永久链接到这个标题"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">¶</font></font></a></h2>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">“工厂作为夹具”模式可以在单个测试中多次需要夹具结果的情况下提供帮助。</font><font style="vertical-align: inherit;">而不是直接返回数据，而是返回一个生成数据的函数。</font><font style="vertical-align: inherit;">然后可以在测试中多次调用此函数。</font></font></p>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">工厂可以根据需要拥有参数：</font></font></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span>
+<span class="k">def</span> <span class="nf">make_customer_record</span><span class="p">():</span>
+
+    <span class="k">def</span> <span class="nf">_make_customer_record</span><span class="p">(</span><span class="n">name</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">{</span>
+            <span class="s2">"name"</span><span class="p">:</span> <span class="n">name</span><span class="p">,</span>
+            <span class="s2">"orders"</span><span class="p">:</span> <span class="p">[]</span>
+        <span class="p">}</span>
+
+    <span class="k">return</span> <span class="n">_make_customer_record</span>
+
+
+<span class="k">def</span> <span class="nf">test_customer_records</span><span class="p">(</span><span class="n">make_customer_record</span><span class="p">):</span>
+    <span class="n">customer_1</span> <span class="o">=</span> <span class="n">make_customer_record</span><span class="p">(</span><span class="s2">"Lisa"</span><span class="p">)</span>
+    <span class="n">customer_2</span> <span class="o">=</span> <span class="n">make_customer_record</span><span class="p">(</span><span class="s2">"Mike"</span><span class="p">)</span>
+    <span class="n">customer_3</span> <span class="o">=</span> <span class="n">make_customer_record</span><span class="p">(</span><span class="s2">"Meredith"</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">如果工厂创建的数据需要管理，那么夹具可以处理：</font></font></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span>
+<span class="k">def</span> <span class="nf">make_customer_record</span><span class="p">():</span>
+
+    <span class="n">created_records</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="k">def</span> <span class="nf">_make_customer_record</span><span class="p">(</span><span class="n">name</span><span class="p">):</span>
+        <span class="n">record</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">Customer</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span> <span class="n">orders</span><span class="o">=</span><span class="p">[])</span>
+        <span class="n">created_records</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">record</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">record</span>
+
+    <span class="k">yield</span> <span class="n">_make_customer_record</span>
+
+    <span class="k">for</span> <span class="n">record</span> <span class="ow">in</span> <span class="n">created_records</span><span class="p">:</span>
+        <span class="n">record</span><span class="o">.</span><span class="n">destroy</span><span class="p">()</span>
+
+
+<span class="k">def</span> <span class="nf">test_customer_records</span><span class="p">(</span><span class="n">make_customer_record</span><span class="p">):</span>
+    <span class="n">customer_1</span> <span class="o">=</span> <span class="n">make_customer_record</span><span class="p">(</span><span class="s2">"Lisa"</span><span class="p">)</span>
+    <span class="n">customer_2</span> <span class="o">=</span> <span class="n">make_customer_record</span><span class="p">(</span><span class="s2">"Mike"</span><span class="p">)</span>
+    <span class="n">customer_3</span> <span class="o">=</span> <span class="n">make_customer_record</span><span class="p">(</span><span class="s2">"Meredith"</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="parametrizing-fixtures">
+<span id="fixture-parametrize"></span><h2><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">参数化装置</font></font><a class="headerlink" href="https://docs.pytest.org/en/latest/fixture.html#parametrizing-fixtures" title="永久链接到这个标题"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">¶</font></font></a></h2>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">可以对夹具功能进行参数化，在这种情况下，它们将被多次调用，每次执行一组相关测试，即依赖于此夹具的测试。</font><font style="vertical-align: inherit;">测试功能通常不需要知道它们的重新运行。</font><font style="vertical-align: inherit;">夹具参数化有助于为可以以多种方式配置的组件编写详尽的功能测试。</font></font></p>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">扩展前面的示例，我们可以标记夹具以创建两个
+ </font></font><code class="docutils literal notranslate"><span class="pre">smtp_connection</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">夹具实例，这将导致使用夹具的所有测试运行两次。</font><font style="vertical-align: inherit;">fixture函数通过特殊</font></font><code class="xref py py-class docutils literal notranslate"><span class="pre">request</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">对象</font><font style="vertical-align: inherit;">访问每个参数</font><font style="vertical-align: inherit;">：</font></font></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># content of conftest.py</span>
+<span class="kn">import</span> <span class="nn">pytest</span>
+<span class="kn">import</span> <span class="nn">smtplib</span>
+
+<span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span><span class="p">(</span><span class="n">scope</span><span class="o">=</span><span class="s2">"module"</span><span class="p">,</span>
+                <span class="n">params</span><span class="o">=</span><span class="p">[</span><span class="s2">"smtp.gmail.com"</span><span class="p">,</span> <span class="s2">"mail.python.org"</span><span class="p">])</span>
+<span class="k">def</span> <span class="nf">smtp_connection</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+    <span class="n">smtp_connection</span> <span class="o">=</span> <span class="n">smtplib</span><span class="o">.</span><span class="n">SMTP</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">param</span><span class="p">,</span> <span class="mi">587</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+    <span class="k">yield</span> <span class="n">smtp_connection</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"finalizing </span><span class="si">%s</span><span class="s2">"</span> <span class="o">%</span> <span class="n">smtp_connection</span><span class="p">)</span>
+    <span class="n">smtp_connection</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</pre></div>
+</div>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">主要的变化是</font></font><code class="docutils literal notranslate"><span class="pre">params</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">with
+ </font><font style="vertical-align: inherit;">的声明</font></font><code class="xref py py-func docutils literal notranslate"><span class="pre">@pytest.fixture</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">，一个值列表，每个值的夹具功能将执行，并可以通过访问值</font></font><code class="docutils literal notranslate"><span class="pre">request.param</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">。</font><font style="vertical-align: inherit;">没有测试功能代码需要更改。</font><font style="vertical-align: inherit;">那么让我们再做一次：</font></font></p>
+<div class="highlight-pytest notranslate"><div class="highlight"><pre><span></span>$ pytest -q test_module.py
+<span class=" -Color -Color-Red">FFFF</span>                                                                 <span class=" -Color -Color-Cyan">[100%]</span>
+================================= FAILURES =================================
+<span class=" -Color -Color-BoldRed">________________________ test_ehlo[smtp.gmail.com] _________________________</span>
+
+smtp_connection = &lt;smtplib.SMTP object at 0xdeadbeef&gt;
+
+<span class=" -Color -Color-Bold">    def test_ehlo(smtp_connection):</span>
+<span class=" -Color -Color-Bold">        response, msg = smtp_connection.ehlo()</span>
+<span class=" -Color -Color-Bold">        assert response == 250</span>
+<span class=" -Color -Color-Bold">        assert b"smtp.gmail.com" in msg</span>
+<span class=" -Color -Color-Bold">&gt;       assert 0  # for demo purposes</span>
+<span class=" -Color -Color-BoldRed">E       assert 0</span>
+
+<span class=" -Color -Color-BoldRed">test_module.py</span>:6: AssertionError
+<span class=" -Color -Color-BoldRed">________________________ test_noop[smtp.gmail.com] _________________________</span>
+
+smtp_connection = &lt;smtplib.SMTP object at 0xdeadbeef&gt;
+
+<span class=" -Color -Color-Bold">    def test_noop(smtp_connection):</span>
+<span class=" -Color -Color-Bold">        response, msg = smtp_connection.noop()</span>
+<span class=" -Color -Color-Bold">        assert response == 250</span>
+<span class=" -Color -Color-Bold">&gt;       assert 0  # for demo purposes</span>
+<span class=" -Color -Color-BoldRed">E       assert 0</span>
+
+<span class=" -Color -Color-BoldRed">test_module.py</span>:11: AssertionError
+<span class=" -Color -Color-BoldRed">________________________ test_ehlo[mail.python.org] ________________________</span>
+
+smtp_connection = &lt;smtplib.SMTP object at 0xdeadbeef&gt;
+
+<span class=" -Color -Color-Bold">    def test_ehlo(smtp_connection):</span>
+<span class=" -Color -Color-Bold">        response, msg = smtp_connection.ehlo()</span>
+<span class=" -Color -Color-Bold">        assert response == 250</span>
+<span class=" -Color -Color-Bold">&gt;       assert b"smtp.gmail.com" in msg</span>
+<span class=" -Color -Color-BoldRed">E       AssertionError: assert b'smtp.gmail.com' in b'mail.python.org\nPIPELINING\nSIZE 51200000\nETRN\nSTARTTLS\nAUTH DIGEST-MD5 NTLM CRAM-MD5\nENHANCEDSTATUSCODES\n8BITMIME\nDSN\nSMTPUTF8\nCHUNKING'</span>
+
+<span class=" -Color -Color-BoldRed">test_module.py</span>:5: AssertionError
+-------------------------- Captured stdout setup ---------------------------
+finalizing &lt;smtplib.SMTP object at 0xdeadbeef&gt;
+<span class=" -Color -Color-BoldRed">________________________ test_noop[mail.python.org] ________________________</span>
+
+smtp_connection = &lt;smtplib.SMTP object at 0xdeadbeef&gt;
+
+<span class=" -Color -Color-Bold">    def test_noop(smtp_connection):</span>
+<span class=" -Color -Color-Bold">        response, msg = smtp_connection.noop()</span>
+<span class=" -Color -Color-Bold">        assert response == 250</span>
+<span class=" -Color -Color-Bold">&gt;       assert 0  # for demo purposes</span>
+<span class=" -Color -Color-BoldRed">E       assert 0</span>
+
+<span class=" -Color -Color-BoldRed">test_module.py</span>:11: AssertionError
+------------------------- Captured stdout teardown -------------------------
+finalizing &lt;smtplib.SMTP object at 0xdeadbeef&gt;
+<span class=" -Color -Color-BoldRed">4 failed in 0.12 seconds</span>
+</pre></div>
+</div>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">我们看到我们的两个测试函数分别针对不同的</font></font><code class="docutils literal notranslate"><span class="pre">smtp_connection</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">实例</font><font style="vertical-align: inherit;">运行了两次
+ </font><font style="vertical-align: inherit;">。</font><font style="vertical-align: inherit;">另请注意，对于</font></font><code class="docutils literal notranslate"><span class="pre">mail.python.org</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+连接，第二个测试失败，</font></font><code class="docutils literal notranslate"><span class="pre">test_ehlo</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">因为预期的服务器字符串不同于到达的服务器字符串。</font></font></p>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">pytest将建立一个字符串，它是用于在参数化夹具，例如每个器材值测试ID </font></font><code class="docutils literal notranslate"><span class="pre">test_ehlo[smtp.gmail.com]</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">和
+ </font></font><code class="docutils literal notranslate"><span class="pre">test_ehlo[mail.python.org]</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">在上述实施例。</font><font style="vertical-align: inherit;">这些ID可用于</font></font><code class="docutils literal notranslate"><span class="pre">-k</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">选择要运行的特定案例，并且还可以在失败时识别特定案例。</font><font style="vertical-align: inherit;">运行pytest </font></font><code class="docutils literal notranslate"><span class="pre">--collect-only</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">将显示生成的ID。</font></font></p>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">数字，字符串，布尔值和None将在测试ID中使用它们通常的字符串表示形式。</font><font style="vertical-align: inherit;">对于其他对象，pytest将根据参数名称生成一个字符串。</font><font style="vertical-align: inherit;">可以使用</font></font><code class="docutils literal notranslate"><span class="pre">ids</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">关键字参数</font><font style="vertical-align: inherit;">自定义测试ID中用于特定夹具值的字符串
+ </font><font style="vertical-align: inherit;">：</font></font></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># content of test_ids.py</span>
+<span class="kn">import</span> <span class="nn">pytest</span>
+
+<span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span><span class="p">(</span><span class="n">params</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">ids</span><span class="o">=</span><span class="p">[</span><span class="s2">"spam"</span><span class="p">,</span> <span class="s2">"ham"</span><span class="p">])</span>
+<span class="k">def</span> <span class="nf">a</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">request</span><span class="o">.</span><span class="n">param</span>
+
+<span class="k">def</span> <span class="nf">test_a</span><span class="p">(</span><span class="n">a</span><span class="p">):</span>
+    <span class="k">pass</span>
+
+<span class="k">def</span> <span class="nf">idfn</span><span class="p">(</span><span class="n">fixture_value</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">fixture_value</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="s2">"eggs"</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">None</span>
+
+<span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span><span class="p">(</span><span class="n">params</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">ids</span><span class="o">=</span><span class="n">idfn</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">b</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">request</span><span class="o">.</span><span class="n">param</span>
+
+<span class="k">def</span> <span class="nf">test_b</span><span class="p">(</span><span class="n">b</span><span class="p">):</span>
+    <span class="k">pass</span>
+</pre></div>
+</div>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">上面显示了如何</font></font><code class="docutils literal notranslate"><span class="pre">ids</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">使用要使用的字符串列表或将使用fixture值调用的函数，然后必须返回要使用的字符串。</font><font style="vertical-align: inherit;">在后一种情况下，如果函数返回，</font></font><code class="docutils literal notranslate"><span class="pre">None</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">则将使用pytest的自动生成的ID。</font></font></p>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">运行上述测试会导致使用以下测试ID：</font></font></p>
+<div class="highlight-pytest notranslate"><div class="highlight"><pre><span></span>$ pytest --collect-only
+<span class=" -Color -Color-Bold">=========================== test session starts ============================</span>
+platform linux -- Python 3.x.y, pytest-4.x.y, py-1.x.y, pluggy-0.x.y
+cachedir: $PYTHON_PREFIX/.pytest_cache
+rootdir: $REGENDOC_TMPDIR, inifile:
+collected 10 items
+&lt;Module test_anothersmtp.py&gt;
+  &lt;Function test_showhelo[smtp.gmail.com]&gt;
+  &lt;Function test_showhelo[mail.python.org]&gt;
+&lt;Module test_ids.py&gt;
+  &lt;Function test_a[spam]&gt;
+  &lt;Function test_a[ham]&gt;
+  &lt;Function test_b[eggs]&gt;
+  &lt;Function test_b[1]&gt;
+&lt;Module test_module.py&gt;
+  &lt;Function test_ehlo[smtp.gmail.com]&gt;
+  &lt;Function test_noop[smtp.gmail.com]&gt;
+  &lt;Function test_ehlo[mail.python.org]&gt;
+  &lt;Function test_noop[mail.python.org]&gt;
+
+<span class=" -Color -Color-BoldYellow">======================= no tests ran in 0.12 seconds =======================</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="using-marks-with-parametrized-fixtures">
+<span id="fixture-parametrize-marks"></span><h2><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">使用带参数化夹具的标记</font></font><a class="headerlink" href="https://docs.pytest.org/en/latest/fixture.html#using-marks-with-parametrized-fixtures" title="永久链接到这个标题"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">¶</font></font></a></h2>
+<p><a class="reference internal" href="https://docs.pytest.org/en/latest/reference.html#pytest.param" title="pytest.param"><code class="xref py py-func docutils literal notranslate"><span class="pre">pytest.param()</span></code></a><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">可用于在参数化夹具的值集中应用标记，其方式与</font></font><a class="reference internal" href="https://docs.pytest.org/en/latest/parametrize.html#pytest-mark-parametrize"><span class="std std-ref"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">@ pytest.mark.parametrize一样</font></font></span></a><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">。</font></font></p>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">例：</font></font></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># content of test_fixture_marks.py</span>
+<span class="kn">import</span> <span class="nn">pytest</span>
+<span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span><span class="p">(</span><span class="n">params</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">marks</span><span class="o">=</span><span class="n">pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">skip</span><span class="p">)])</span>
+<span class="k">def</span> <span class="nf">data_set</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">request</span><span class="o">.</span><span class="n">param</span>
+
+<span class="k">def</span> <span class="nf">test_data</span><span class="p">(</span><span class="n">data_set</span><span class="p">):</span>
+    <span class="k">pass</span>
+</pre></div>
+</div>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">运行此测试将</font></font><em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">跳过</font></font></em><font style="vertical-align: inherit;"></font><code class="docutils literal notranslate"><span class="pre">data_set</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">带值</font><font style="vertical-align: inherit;">的调用</font></font><code class="docutils literal notranslate"><span class="pre">2</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">：</font></font></p>
+<div class="highlight-pytest notranslate"><div class="highlight"><pre><span></span>$ pytest test_fixture_marks.py -v
+<span class=" -Color -Color-Bold">=========================== test session starts ============================</span>
+platform linux -- Python 3.x.y, pytest-4.x.y, py-1.x.y, pluggy-0.x.y -- $PYTHON_PREFIX/bin/python
+cachedir: $PYTHON_PREFIX/.pytest_cache
+rootdir: $REGENDOC_TMPDIR, inifile:
+<span class=" -Color -Color-Bold">collecting ...</span> collected 3 items
+
+test_fixture_marks.py::test_data[0] <span class=" -Color -Color-Green">PASSED</span>                           <span class=" -Color -Color-Cyan">[ 33%]</span>
+test_fixture_marks.py::test_data[1] <span class=" -Color -Color-Green">PASSED</span>                           <span class=" -Color -Color-Cyan">[ 66%]</span>
+test_fixture_marks.py::test_data[2] <span class=" -Color -Color-Yellow">SKIPPED</span>                          <span class=" -Color -Color-Cyan">[100%]</span>
+
+<span class=" -Color -Color-BoldGreen">=================== 2 passed, 1 skipped in 0.12 seconds ====================</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="modularity-using-fixtures-from-a-fixture-function">
+<span id="interdependent-fixtures"></span><h2><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">模块化：使用夹具功能中的夹具</font></font><a class="headerlink" href="https://docs.pytest.org/en/latest/fixture.html#modularity-using-fixtures-from-a-fixture-function" title="永久链接到这个标题"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">¶</font></font></a></h2>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">您不仅可以在测试功能中使用灯具，而且灯具功能可以自己使用其他灯具。</font><font style="vertical-align: inherit;">这有助于您的灯具的模块化设计，并允许在许多项目中重复使用特定于框架的灯具。</font><font style="vertical-align: inherit;">作为一个简单的例子，我们可以扩展前面的例子并实例化一个对象</font></font><code class="docutils literal notranslate"><span class="pre">app</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">，我们将已经定义的</font></font><code class="docutils literal notranslate"><span class="pre">smtp_connection</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">资源</font><font style="vertical-align: inherit;">粘贴
+ </font><font style="vertical-align: inherit;">到它中：</font></font></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># content of test_appsetup.py</span>
+
+<span class="kn">import</span> <span class="nn">pytest</span>
+
+<span class="k">class</span> <span class="nc">App</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">smtp_connection</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">smtp_connection</span> <span class="o">=</span> <span class="n">smtp_connection</span>
+
+<span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span><span class="p">(</span><span class="n">scope</span><span class="o">=</span><span class="s2">"module"</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">app</span><span class="p">(</span><span class="n">smtp_connection</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">App</span><span class="p">(</span><span class="n">smtp_connection</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">test_smtp_connection_exists</span><span class="p">(</span><span class="n">app</span><span class="p">):</span>
+    <span class="k">assert</span> <span class="n">app</span><span class="o">.</span><span class="n">smtp_connection</span>
+</pre></div>
+</div>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">这里我们声明一个</font></font><code class="docutils literal notranslate"><span class="pre">app</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">fixture，它接收先前定义的
+ </font></font><code class="docutils literal notranslate"><span class="pre">smtp_connection</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">fixture并</font></font><code class="docutils literal notranslate"><span class="pre">App</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">用它</font><font style="vertical-align: inherit;">实例化一个</font><font style="vertical-align: inherit;">对象。</font><font style="vertical-align: inherit;">我们来吧：</font></font></p>
+<div class="highlight-pytest notranslate"><div class="highlight"><pre><span></span>$ pytest -v test_appsetup.py
+<span class=" -Color -Color-Bold">=========================== test session starts ============================</span>
+platform linux -- Python 3.x.y, pytest-4.x.y, py-1.x.y, pluggy-0.x.y -- $PYTHON_PREFIX/bin/python
+cachedir: $PYTHON_PREFIX/.pytest_cache
+rootdir: $REGENDOC_TMPDIR, inifile:
+<span class=" -Color -Color-Bold">collecting ...</span> collected 2 items
+
+test_appsetup.py::test_smtp_connection_exists[smtp.gmail.com] <span class=" -Color -Color-Green">PASSED</span> <span class=" -Color -Color-Cyan">[ 50%]</span>
+test_appsetup.py::test_smtp_connection_exists[mail.python.org] <span class=" -Color -Color-Green">PASSED</span> <span class=" -Color -Color-Cyan">[100%]</span>
+
+<span class=" -Color -Color-BoldGreen">========================= 2 passed in 0.12 seconds =========================</span>
+</pre></div>
+</div>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">由于参数化</font></font><code class="docutils literal notranslate"><span class="pre">smtp_connection</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">，测试将使用两个不同的</font></font><code class="docutils literal notranslate"><span class="pre">App</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">实例和相应的smtp服务器</font><font style="vertical-align: inherit;">运行两次</font><font style="vertical-align: inherit;">。</font><font style="vertical-align: inherit;">没有必要为</font></font><code class="docutils literal notranslate"><span class="pre">app</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">灯具要意识到的</font></font><code class="docutils literal notranslate"><span class="pre">smtp_connection</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+参数化，因为pytest将全面分析夹具依赖关系图。</font></font></p>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">请注意，</font></font><code class="docutils literal notranslate"><span class="pre">app</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">夹具具有范围</font></font><code class="docutils literal notranslate"><span class="pre">module</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">并使用模块范围的</font></font><code class="docutils literal notranslate"><span class="pre">smtp_connection</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">夹具。</font><font style="vertical-align: inherit;">如果</font></font><code class="docutils literal notranslate"><span class="pre">smtp_connection</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">缓存在</font></font><code class="docutils literal notranslate"><span class="pre">session</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">范围</font><font style="vertical-align: inherit;">上，</font><font style="vertical-align: inherit;">该示例仍然可以工作
+ </font><font style="vertical-align: inherit;">：固定装置使用“更广泛”的范围固定装置，但不是相反的方式：会话范围的装置无法以有意义的方式使用模块范围的固定装置。</font></font></p>
+</div>
+<div class="section" id="automatic-grouping-of-tests-by-fixture-instances">
+<span id="automatic-per-resource-grouping"></span><h2><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">通过夹具实例自动分组测试</font></font><a class="headerlink" href="https://docs.pytest.org/en/latest/fixture.html#automatic-grouping-of-tests-by-fixture-instances" title="永久链接到这个标题"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">¶</font></font></a></h2>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">pytest在测试运行期间最大限度地减少了活动夹具的数量。</font><font style="vertical-align: inherit;">如果你有一个参数化夹具，那么使用它的所有测试将首先用一个实例执行，然后在创建下一个夹具实例之前调用终结器。</font><font style="vertical-align: inherit;">除此之外，这还可以简化对创建和使用全局状态的应用程序的测试。</font></font></p>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">以下示例使用两个参数化夹具，其中一个基于每个模块确定范围，并且所有函数执行</font></font><code class="docutils literal notranslate"><span class="pre">print</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">调用以显示设置/拆卸流程：</font></font></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># content of test_module.py</span>
+<span class="kn">import</span> <span class="nn">pytest</span>
+
+<span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span><span class="p">(</span><span class="n">scope</span><span class="o">=</span><span class="s2">"module"</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="p">[</span><span class="s2">"mod1"</span><span class="p">,</span> <span class="s2">"mod2"</span><span class="p">])</span>
+<span class="k">def</span> <span class="nf">modarg</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+    <span class="n">param</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">param</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"  SETUP modarg </span><span class="si">%s</span><span class="s2">"</span> <span class="o">%</span> <span class="n">param</span><span class="p">)</span>
+    <span class="k">yield</span> <span class="n">param</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"  TEARDOWN modarg </span><span class="si">%s</span><span class="s2">"</span> <span class="o">%</span> <span class="n">param</span><span class="p">)</span>
+
+<span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span><span class="p">(</span><span class="n">scope</span><span class="o">=</span><span class="s2">"function"</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">])</span>
+<span class="k">def</span> <span class="nf">otherarg</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+    <span class="n">param</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">param</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"  SETUP otherarg </span><span class="si">%s</span><span class="s2">"</span> <span class="o">%</span> <span class="n">param</span><span class="p">)</span>
+    <span class="k">yield</span> <span class="n">param</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"  TEARDOWN otherarg </span><span class="si">%s</span><span class="s2">"</span> <span class="o">%</span> <span class="n">param</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">test_0</span><span class="p">(</span><span class="n">otherarg</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"  RUN test0 with otherarg </span><span class="si">%s</span><span class="s2">"</span> <span class="o">%</span> <span class="n">otherarg</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">test_1</span><span class="p">(</span><span class="n">modarg</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"  RUN test1 with modarg </span><span class="si">%s</span><span class="s2">"</span> <span class="o">%</span> <span class="n">modarg</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">test_2</span><span class="p">(</span><span class="n">otherarg</span><span class="p">,</span> <span class="n">modarg</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"  RUN test2 with otherarg </span><span class="si">%s</span><span class="s2"> and modarg </span><span class="si">%s</span><span class="s2">"</span> <span class="o">%</span> <span class="p">(</span><span class="n">otherarg</span><span class="p">,</span> <span class="n">modarg</span><span class="p">))</span>
+</pre></div>
+</div>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">让我们以详细模式运行测试并查看打印输出：</font></font></p>
+<div class="highlight-pytest notranslate"><div class="highlight"><pre><span></span>$ pytest -v -s test_module.py
+<span class=" -Color -Color-Bold">=========================== test session starts ============================</span>
+platform linux -- Python 3.x.y, pytest-4.x.y, py-1.x.y, pluggy-0.x.y -- $PYTHON_PREFIX/bin/python
+cachedir: $PYTHON_PREFIX/.pytest_cache
+rootdir: $REGENDOC_TMPDIR, inifile:
+<span class=" -Color -Color-Bold">collecting ...</span> collected 8 items
+
+test_module.py::test_0[1]   SETUP otherarg 1
+  RUN test0 with otherarg 1
+PASSED  TEARDOWN otherarg 1
+
+test_module.py::test_0[2]   SETUP otherarg 2
+  RUN test0 with otherarg 2
+PASSED  TEARDOWN otherarg 2
+
+test_module.py::test_1[mod1]   SETUP modarg mod1
+  RUN test1 with modarg mod1
+PASSED
+test_module.py::test_2[mod1-1]   SETUP otherarg 1
+  RUN test2 with otherarg 1 and modarg mod1
+PASSED  TEARDOWN otherarg 1
+
+test_module.py::test_2[mod1-2]   SETUP otherarg 2
+  RUN test2 with otherarg 2 and modarg mod1
+PASSED  TEARDOWN otherarg 2
+
+test_module.py::test_1[mod2]   TEARDOWN modarg mod1
+  SETUP modarg mod2
+  RUN test1 with modarg mod2
+PASSED
+test_module.py::test_2[mod2-1]   SETUP otherarg 1
+  RUN test2 with otherarg 1 and modarg mod2
+PASSED  TEARDOWN otherarg 1
+
+test_module.py::test_2[mod2-2]   SETUP otherarg 2
+  RUN test2 with otherarg 2 and modarg mod2
+PASSED  TEARDOWN otherarg 2
+  TEARDOWN modarg mod2
+
+
+<span class=" -Color -Color-BoldGreen">========================= 8 passed in 0.12 seconds =========================</span>
+</pre></div>
+</div>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">您可以看到参数化模块范围的</font></font><code class="docutils literal notranslate"><span class="pre">modarg</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">资源导致测试执行的排序，从而导致可能的“活动”资源最少。</font></font><code class="docutils literal notranslate"><span class="pre">mod1</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">参数化资源</font><font style="vertical-align: inherit;">的终结器在</font></font><code class="docutils literal notranslate"><span class="pre">mod2</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">资源建立</font><font style="vertical-align: inherit;">之前执行
+ </font><font style="vertical-align: inherit;">。</font></font></p>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">特别注意test_0是完全独立的并且首先完成。</font><font style="vertical-align: inherit;">然后执行</font></font><code class="docutils literal notranslate"><span class="pre">mod1</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">test_1 </font></font><code class="docutils literal notranslate"><span class="pre">mod1</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">，然后</font><font style="vertical-align: inherit;">执行</font><font style="vertical-align: inherit;">test_2 </font><font style="vertical-align: inherit;">，然后执行test_1，</font></font><code class="docutils literal notranslate"><span class="pre">mod2</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">最后执行test_2 </font></font><code class="docutils literal notranslate"><span class="pre">mod2</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">。</font></font></p>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">该</font></font><code class="docutils literal notranslate"><span class="pre">otherarg</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">参数化资源（其功能范围）是之前设置和使用它的每一个测试后撕开了下来。</font></font></p>
+</div>
+<div class="section" id="using-fixtures-from-classes-modules-or-projects">
+<span id="usefixtures"></span><h2><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">使用来自类，模块或项目的装置</font></font><a class="headerlink" href="https://docs.pytest.org/en/latest/fixture.html#using-fixtures-from-classes-modules-or-projects" title="永久链接到这个标题"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">¶</font></font></a></h2>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">有时，测试功能不需要直接访问夹具对象。</font><font style="vertical-align: inherit;">例如，测试可能需要使用空目录作为当前工作目录，但不关心具体目录。</font><font style="vertical-align: inherit;">以下是如何使用标准</font></font><a class="reference external" href="http://docs.python.org/library/tempfile.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">tempfile</font></font></a><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">和pytest fixture来实现它。</font><font style="vertical-align: inherit;">我们将fixture的创建分成conftest.py文件：</font></font></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># content of conftest.py</span>
+
+<span class="kn">import</span> <span class="nn">pytest</span>
+<span class="kn">import</span> <span class="nn">tempfile</span>
+<span class="kn">import</span> <span class="nn">os</span>
+
+<span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span><span class="p">()</span>
+<span class="k">def</span> <span class="nf">cleandir</span><span class="p">():</span>
+    <span class="n">newpath</span> <span class="o">=</span> <span class="n">tempfile</span><span class="o">.</span><span class="n">mkdtemp</span><span class="p">()</span>
+    <span class="n">os</span><span class="o">.</span><span class="n">chdir</span><span class="p">(</span><span class="n">newpath</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">并通过</font></font><code class="docutils literal notranslate"><span class="pre">usefixtures</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">标记</font><font style="vertical-align: inherit;">在测试模块中声明它的用法</font><font style="vertical-align: inherit;">：</font></font></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># content of test_setenv.py</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">pytest</span>
+
+<span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">usefixtures</span><span class="p">(</span><span class="s2">"cleandir"</span><span class="p">)</span>
+<span class="k">class</span> <span class="nc">TestDirectoryInit</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">test_cwd_starts_empty</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">assert</span> <span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">())</span> <span class="o">==</span> <span class="p">[]</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">"myfile"</span><span class="p">,</span> <span class="s2">"w"</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+            <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">"hello"</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">test_cwd_again_starts_empty</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">assert</span> <span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">())</span> <span class="o">==</span> <span class="p">[]</span>
+</pre></div>
+</div>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">由于</font></font><code class="docutils literal notranslate"><span class="pre">usefixtures</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">标记，</font></font><code class="docutils literal notranslate"><span class="pre">cleandir</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">每个测试方法的执行都需要夹具，就像为每个测试方法指定了一个“cleandir”函数参数一样。</font><font style="vertical-align: inherit;">让我们运行它来验证我们的夹具是否已激活且测试通过：</font></font></p>
+<div class="highlight-pytest notranslate"><div class="highlight"><pre><span></span>$ pytest -q
+<span class=" -Color -Color-Green">..</span>                                                                   <span class=" -Color -Color-Cyan">[100%]</span>
+<span class=" -Color -Color-BoldGreen">2 passed in 0.12 seconds</span>
+</pre></div>
+</div>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">你可以像这样指定多个灯具：</font></font></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nd">@pytest.mark.usefixtures</span><span class="p">(</span><span class="s2">"cleandir"</span><span class="p">,</span> <span class="s2">"anotherfixture"</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">test</span><span class="p">():</span>
+    <span class="o">...</span>
+</pre></div>
+</div>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">您可以使用标记机制的通用功能在测试模块级别指定夹具使用情况：</font></font></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">pytestmark</span> <span class="o">=</span> <span class="n">pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">usefixtures</span><span class="p">(</span><span class="s2">"cleandir"</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">请注意，</font></font><em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">必须</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">调用</font><font style="vertical-align: inherit;">指定的变量</font></font><code class="docutils literal notranslate"><span class="pre">pytestmark</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">，分配例如
+ </font></font><code class="docutils literal notranslate"><span class="pre">foomark</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">不会激活灯具。</font></font></p>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">也可以将项目中所有测试所需的灯具放入ini文件中：</font></font></p>
+<div class="highlight-ini notranslate"><div class="highlight"><pre><span></span><span class="c1"># content of pytest.ini</span>
+<span class="k">[pytest]</span>
+<span class="na">usefixtures</span> <span class="o">=</span> <span class="s">cleandir</span>
+</pre></div>
+</div>
+<div class="admonition warning">
+<p class="first admonition-title"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">警告</font></font></p>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">请注意，此标记对</font></font><strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">夹具功能</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">没有影响</font><font style="vertical-align: inherit;">。</font><font style="vertical-align: inherit;">例如，这</font></font><strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">将无法按预期工作</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">：</font></font></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nd">@pytest.mark.usefixtures</span><span class="p">(</span><span class="s2">"my_other_fixture"</span><span class="p">)</span>
+<span class="nd">@pytest.fixture</span>
+<span class="k">def</span> <span class="nf">my_fixture_that_sadly_wont_use_my_other_fixture</span><span class="p">():</span>
+    <span class="o">...</span>
+</pre></div>
+</div>
+<p class="last"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">目前，这不会产生任何错误或警告，但这应由</font></font><a class="reference external" href="https://github.com/pytest-dev/pytest/issues/3664"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">＃3664</font></font></a><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">处理</font><font style="vertical-align: inherit;">。</font></font></p>
+</div>
+</div>
+<div class="section" id="autouse-fixtures-xunit-setup-on-steroids">
+<span id="autouse-fixtures"></span><span id="autouse"></span><h2><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Autouse灯具（类固醇上的xUnit设置）</font></font><a class="headerlink" href="https://docs.pytest.org/en/latest/fixture.html#autouse-fixtures-xunit-setup-on-steroids" title="永久链接到这个标题"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">¶</font></font></a></h2>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">有时，您可能希望自动调用fixture，而无需显式声明函数参数或使用</font></font><a class="reference internal" href="https://docs.pytest.org/en/latest/fixture.html#usefixtures"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">usefixtures</font></font></a><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">装饰器。</font><font style="vertical-align: inherit;">作为一个实际的例子，假设我们有一个数据库fixture，它有一个开始/回滚/提交架构，我们希望通过事务和回滚自动包围每个测试方法。</font><font style="vertical-align: inherit;">以下是这个想法的虚拟自包含实现：</font></font></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># content of test_db_transact.py</span>
+
+<span class="kn">import</span> <span class="nn">pytest</span>
+
+<span class="k">class</span> <span class="nc">DB</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">intransaction</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">def</span> <span class="nf">begin</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">intransaction</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">rollback</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">intransaction</span><span class="o">.</span><span class="n">pop</span><span class="p">()</span>
+
+<span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span><span class="p">(</span><span class="n">scope</span><span class="o">=</span><span class="s2">"module"</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">db</span><span class="p">():</span>
+    <span class="k">return</span> <span class="n">DB</span><span class="p">()</span>
+
+<span class="k">class</span> <span class="nc">TestClass</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span><span class="p">(</span><span class="n">autouse</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">transact</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">request</span><span class="p">,</span> <span class="n">db</span><span class="p">):</span>
+        <span class="n">db</span><span class="o">.</span><span class="n">begin</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">function</span><span class="o">.</span><span class="vm">__name__</span><span class="p">)</span>
+        <span class="k">yield</span>
+        <span class="n">db</span><span class="o">.</span><span class="n">rollback</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">test_method1</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">db</span><span class="p">):</span>
+        <span class="k">assert</span> <span class="n">db</span><span class="o">.</span><span class="n">intransaction</span> <span class="o">==</span> <span class="p">[</span><span class="s2">"test_method1"</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="nf">test_method2</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">db</span><span class="p">):</span>
+        <span class="k">assert</span> <span class="n">db</span><span class="o">.</span><span class="n">intransaction</span> <span class="o">==</span> <span class="p">[</span><span class="s2">"test_method2"</span><span class="p">]</span>
+</pre></div>
+</div>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">类级别的</font></font><code class="docutils literal notranslate"><span class="pre">transact</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">fixture用</font></font><em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">autouse = true</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">标记，</font><font style="vertical-align: inherit;">
+这意味着类中的所有测试方法都将使用此fixture而无需在测试函数签名中或使用类级</font></font><code class="docutils literal notranslate"><span class="pre">usefixtures</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">装饰器</font><font style="vertical-align: inherit;">进行陈述</font><font style="vertical-align: inherit;">。</font></font></p>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">如果我们运行它，我们得到两个通过测试：</font></font></p>
+<div class="highlight-pytest notranslate"><div class="highlight"><pre><span></span>$ pytest -q
+<span class=" -Color -Color-Green">..</span>                                                                   <span class=" -Color -Color-Cyan">[100%]</span>
+<span class=" -Color -Color-BoldGreen">2 passed in 0.12 seconds</span>
+</pre></div>
+</div>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">以下是autouse灯具在其他范围内的工作原理：</font></font></p>
+<ul class="simple">
+<li><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">autouse fixtures服从</font></font><code class="docutils literal notranslate"><span class="pre">scope=</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">关键字参数：如果autouse fixture具有</font></font><code class="docutils literal notranslate"><span class="pre">scope='session'</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">它，它将只运行一次，无论它在何处定义。</font></font><code class="docutils literal notranslate"><span class="pre">scope='class'</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">意味着它将每班运行一次，等等。</font></font></li>
+<li><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">如果在测试模块中定义了autouse fixture，则其所有测试函数都会自动使用它。</font></font></li>
+<li><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">如果在conftest.py文件中定义了autouse fixture，那么其目录下所有测试模块中的所有测试都将调用fixture。</font></font></li>
+<li><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">最后，</font></font><strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">请谨慎使用</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">：如果您在插件中定义了autouse fixture，则会在安装插件的所有项目中为所有测试调用它。</font><font style="vertical-align: inherit;">如果装置仅在任何情况下在某些设置（例如ini文件中）的情况下工作，则这可能是有用的。</font><font style="vertical-align: inherit;">这样的全局夹具应该总是快速确定它是否应该做任何工作并避免昂贵的进口或计算。</font></font></li>
+</ul>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">请注意，上述</font></font><code class="docutils literal notranslate"><span class="pre">transact</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">夹具很可能是您希望在项目中可用的夹具，而不是通常处于活动状态。</font><font style="vertical-align: inherit;">规范的方法是将transact定义放入conftest.py文件中，</font></font><strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">而不</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">使用</font></font><code class="docutils literal notranslate"><span class="pre">autouse</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">：</font></font></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># content of conftest.py</span>
+<span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span>
+<span class="k">def</span> <span class="nf">transact</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">db</span><span class="p">):</span>
+    <span class="n">db</span><span class="o">.</span><span class="n">begin</span><span class="p">()</span>
+    <span class="k">yield</span>
+    <span class="n">db</span><span class="o">.</span><span class="n">rollback</span><span class="p">()</span>
+</pre></div>
+</div>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">然后让一个TestClass通过声明需要使用它：</font></font></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">usefixtures</span><span class="p">(</span><span class="s2">"transact"</span><span class="p">)</span>
+<span class="k">class</span> <span class="nc">TestClass</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">test_method1</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="o">...</span>
+</pre></div>
+</div>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">此TestClass中的所有测试方法都将使用事务夹具，而模块中的其他测试类或函数将不使用它，除非它们还添加</font></font><code class="docutils literal notranslate"><span class="pre">transact</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">引用。</font></font></p>
+</div>
+<div class="section" id="overriding-fixtures-on-various-levels">
+<h2><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">覆盖各个级别的灯具</font></font><a class="headerlink" href="https://docs.pytest.org/en/latest/fixture.html#overriding-fixtures-on-various-levels" title="永久链接到这个标题"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">¶</font></font></a></h2>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">在比较大的测试套件，你很可能需要</font></font><code class="docutils literal notranslate"><span class="pre">override</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">一个</font></font><code class="docutils literal notranslate"><span class="pre">global</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">或</font></font><code class="docutils literal notranslate"><span class="pre">root</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">夹具与</font></font><code class="docutils literal notranslate"><span class="pre">locally</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+定义一个，保证测试代码可读性和可维护性。</font></font></p>
+<div class="section" id="override-a-fixture-on-a-folder-conftest-level">
+<h3><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">覆盖文件夹（conftest）级别的夹具</font></font><a class="headerlink" href="https://docs.pytest.org/en/latest/fixture.html#override-a-fixture-on-a-folder-conftest-level" title="永久链接到这个标题"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">¶</font></font></a></h3>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">鉴于测试文件结构是：</font></font></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">tests</span><span class="o">/</span>
+    <span class="fm">__init__</span><span class="o">.</span><span class="n">py</span>
+
+    <span class="n">conftest</span><span class="o">.</span><span class="n">py</span>
+        <span class="c1"># content of tests/conftest.py</span>
+        <span class="kn">import</span> <span class="nn">pytest</span>
+
+        <span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span>
+        <span class="k">def</span> <span class="nf">username</span><span class="p">():</span>
+            <span class="k">return</span> <span class="s1">'username'</span>
+
+    <span class="n">test_something</span><span class="o">.</span><span class="n">py</span>
+        <span class="c1"># content of tests/test_something.py</span>
+        <span class="k">def</span> <span class="nf">test_username</span><span class="p">(</span><span class="n">username</span><span class="p">):</span>
+            <span class="k">assert</span> <span class="n">username</span> <span class="o">==</span> <span class="s1">'username'</span>
+
+    <span class="n">subfolder</span><span class="o">/</span>
+        <span class="fm">__init__</span><span class="o">.</span><span class="n">py</span>
+
+        <span class="n">conftest</span><span class="o">.</span><span class="n">py</span>
+            <span class="c1"># content of tests/subfolder/conftest.py</span>
+            <span class="kn">import</span> <span class="nn">pytest</span>
+
+            <span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span>
+            <span class="k">def</span> <span class="nf">username</span><span class="p">(</span><span class="n">username</span><span class="p">):</span>
+                <span class="k">return</span> <span class="s1">'overridden-'</span> <span class="o">+</span> <span class="n">username</span>
+
+        <span class="n">test_something</span><span class="o">.</span><span class="n">py</span>
+            <span class="c1"># content of tests/subfolder/test_something.py</span>
+            <span class="k">def</span> <span class="nf">test_username</span><span class="p">(</span><span class="n">username</span><span class="p">):</span>
+                <span class="k">assert</span> <span class="n">username</span> <span class="o">==</span> <span class="s1">'overridden-username'</span>
+</pre></div>
+</div>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">如您所见，可以为某些测试文件夹级别覆盖具有相同名称的夹具。</font><font style="vertical-align: inherit;">请注意，</font><font style="vertical-align: inherit;">可以</font><font style="vertical-align: inherit;">
+轻松地</font><font style="vertical-align: inherit;">从</font><font style="vertical-align: inherit;">夹具</font><font style="vertical-align: inherit;">访问</font><font style="vertical-align: inherit;">夹具</font></font><code class="docutils literal notranslate"><span class="pre">base</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">或</font></font><code class="docutils literal notranslate"><span class="pre">super</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">夹具</font></font><code class="docutils literal notranslate"><span class="pre">overriding</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">- 在上面的示例中使用。</font></font></p>
+</div>
+<div class="section" id="override-a-fixture-on-a-test-module-level">
+<h3><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">覆盖测试模块级别的夹具</font></font><a class="headerlink" href="https://docs.pytest.org/en/latest/fixture.html#override-a-fixture-on-a-test-module-level" title="永久链接到这个标题"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">¶</font></font></a></h3>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">鉴于测试文件结构是：</font></font></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">tests</span><span class="o">/</span>
+    <span class="fm">__init__</span><span class="o">.</span><span class="n">py</span>
+
+    <span class="n">conftest</span><span class="o">.</span><span class="n">py</span>
+        <span class="c1"># content of tests/conftest.py</span>
+        <span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span>
+        <span class="k">def</span> <span class="nf">username</span><span class="p">():</span>
+            <span class="k">return</span> <span class="s1">'username'</span>
+
+    <span class="n">test_something</span><span class="o">.</span><span class="n">py</span>
+        <span class="c1"># content of tests/test_something.py</span>
+        <span class="kn">import</span> <span class="nn">pytest</span>
+
+        <span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span>
+        <span class="k">def</span> <span class="nf">username</span><span class="p">(</span><span class="n">username</span><span class="p">):</span>
+            <span class="k">return</span> <span class="s1">'overridden-'</span> <span class="o">+</span> <span class="n">username</span>
+
+        <span class="k">def</span> <span class="nf">test_username</span><span class="p">(</span><span class="n">username</span><span class="p">):</span>
+            <span class="k">assert</span> <span class="n">username</span> <span class="o">==</span> <span class="s1">'overridden-username'</span>
+
+    <span class="n">test_something_else</span><span class="o">.</span><span class="n">py</span>
+        <span class="c1"># content of tests/test_something_else.py</span>
+        <span class="kn">import</span> <span class="nn">pytest</span>
+
+        <span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span>
+        <span class="k">def</span> <span class="nf">username</span><span class="p">(</span><span class="n">username</span><span class="p">):</span>
+            <span class="k">return</span> <span class="s1">'overridden-else-'</span> <span class="o">+</span> <span class="n">username</span>
+
+        <span class="k">def</span> <span class="nf">test_username</span><span class="p">(</span><span class="n">username</span><span class="p">):</span>
+            <span class="k">assert</span> <span class="n">username</span> <span class="o">==</span> <span class="s1">'overridden-else-username'</span>
+</pre></div>
+</div>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">在上面的示例中，可以为某些测试模块覆盖具有相同名称的夹具。</font></font></p>
+</div>
+<div class="section" id="override-a-fixture-with-direct-test-parametrization">
+<h3><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">使用直接测试参数化覆盖夹具</font></font><a class="headerlink" href="https://docs.pytest.org/en/latest/fixture.html#override-a-fixture-with-direct-test-parametrization" title="永久链接到这个标题"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">¶</font></font></a></h3>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">鉴于测试文件结构是：</font></font></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">tests</span><span class="o">/</span>
+    <span class="fm">__init__</span><span class="o">.</span><span class="n">py</span>
+
+    <span class="n">conftest</span><span class="o">.</span><span class="n">py</span>
+        <span class="c1"># content of tests/conftest.py</span>
+        <span class="kn">import</span> <span class="nn">pytest</span>
+
+        <span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span>
+        <span class="k">def</span> <span class="nf">username</span><span class="p">():</span>
+            <span class="k">return</span> <span class="s1">'username'</span>
+
+        <span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span>
+        <span class="k">def</span> <span class="nf">other_username</span><span class="p">(</span><span class="n">username</span><span class="p">):</span>
+            <span class="k">return</span> <span class="s1">'other-'</span> <span class="o">+</span> <span class="n">username</span>
+
+    <span class="n">test_something</span><span class="o">.</span><span class="n">py</span>
+        <span class="c1"># content of tests/test_something.py</span>
+        <span class="kn">import</span> <span class="nn">pytest</span>
+
+        <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s1">'username'</span><span class="p">,</span> <span class="p">[</span><span class="s1">'directly-overridden-username'</span><span class="p">])</span>
+        <span class="k">def</span> <span class="nf">test_username</span><span class="p">(</span><span class="n">username</span><span class="p">):</span>
+            <span class="k">assert</span> <span class="n">username</span> <span class="o">==</span> <span class="s1">'directly-overridden-username'</span>
+
+        <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s1">'username'</span><span class="p">,</span> <span class="p">[</span><span class="s1">'directly-overridden-username-other'</span><span class="p">])</span>
+        <span class="k">def</span> <span class="nf">test_username_other</span><span class="p">(</span><span class="n">other_username</span><span class="p">):</span>
+            <span class="k">assert</span> <span class="n">other_username</span> <span class="o">==</span> <span class="s1">'other-directly-overridden-username-other'</span>
+</pre></div>
+</div>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">在上面的示例中，夹具值被测试参数值覆盖。</font><font style="vertical-align: inherit;">请注意，即使测试不直接使用（也未在函数原型中提及），也可以通过这种方式覆盖fixture的值。</font></font></p>
+</div>
+<div class="section" id="override-a-parametrized-fixture-with-non-parametrized-one-and-vice-versa">
+<h3><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">使用非参数化的夹具覆盖参数化夹具，反之亦然</font></font><a class="headerlink" href="https://docs.pytest.org/en/latest/fixture.html#override-a-parametrized-fixture-with-non-parametrized-one-and-vice-versa" title="永久链接到这个标题"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">¶</font></font></a></h3>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">鉴于测试文件结构是：</font></font></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">tests</span><span class="o">/</span>
+    <span class="fm">__init__</span><span class="o">.</span><span class="n">py</span>
+
+    <span class="n">conftest</span><span class="o">.</span><span class="n">py</span>
+        <span class="c1"># content of tests/conftest.py</span>
+        <span class="kn">import</span> <span class="nn">pytest</span>
+
+        <span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span><span class="p">(</span><span class="n">params</span><span class="o">=</span><span class="p">[</span><span class="s1">'one'</span><span class="p">,</span> <span class="s1">'two'</span><span class="p">,</span> <span class="s1">'three'</span><span class="p">])</span>
+        <span class="k">def</span> <span class="nf">parametrized_username</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">request</span><span class="o">.</span><span class="n">param</span>
+
+        <span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span>
+        <span class="k">def</span> <span class="nf">non_parametrized_username</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+            <span class="k">return</span> <span class="s1">'username'</span>
+
+    <span class="n">test_something</span><span class="o">.</span><span class="n">py</span>
+        <span class="c1"># content of tests/test_something.py</span>
+        <span class="kn">import</span> <span class="nn">pytest</span>
+
+        <span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span>
+        <span class="k">def</span> <span class="nf">parametrized_username</span><span class="p">():</span>
+            <span class="k">return</span> <span class="s1">'overridden-username'</span>
+
+        <span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span><span class="p">(</span><span class="n">params</span><span class="o">=</span><span class="p">[</span><span class="s1">'one'</span><span class="p">,</span> <span class="s1">'two'</span><span class="p">,</span> <span class="s1">'three'</span><span class="p">])</span>
+        <span class="k">def</span> <span class="nf">non_parametrized_username</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">request</span><span class="o">.</span><span class="n">param</span>
+
+        <span class="k">def</span> <span class="nf">test_username</span><span class="p">(</span><span class="n">parametrized_username</span><span class="p">):</span>
+            <span class="k">assert</span> <span class="n">parametrized_username</span> <span class="o">==</span> <span class="s1">'overridden-username'</span>
+
+        <span class="k">def</span> <span class="nf">test_parametrized_username</span><span class="p">(</span><span class="n">non_parametrized_username</span><span class="p">):</span>
+            <span class="k">assert</span> <span class="n">non_parametrized_username</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">'one'</span><span class="p">,</span> <span class="s1">'two'</span><span class="p">,</span> <span class="s1">'three'</span><span class="p">]</span>
+
+    <span class="n">test_something_else</span><span class="o">.</span><span class="n">py</span>
+        <span class="c1"># content of tests/test_something_else.py</span>
+        <span class="k">def</span> <span class="nf">test_username</span><span class="p">(</span><span class="n">parametrized_username</span><span class="p">):</span>
+            <span class="k">assert</span> <span class="n">parametrized_username</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">'one'</span><span class="p">,</span> <span class="s1">'two'</span><span class="p">,</span> <span class="s1">'three'</span><span class="p">]</span>
+
+        <span class="k">def</span> <span class="nf">test_username</span><span class="p">(</span><span class="n">non_parametrized_username</span><span class="p">):</span>
+            <span class="k">assert</span> <span class="n">non_parametrized_username</span> <span class="o">==</span> <span class="s1">'username'</span>
+</pre></div>
+</div>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">在上面的示例中，使用非参数化版本覆盖参数化夹具，并且使用参数化版本覆盖非参数化夹具以用于特定测试模块。</font><font style="vertical-align: inherit;">这同样适用于测试文件夹级别。</font></font></p>
+</div>
+</div>
+</div>
+
+
+          <div id="rtd-opg8eybqk" class="ethical-alabaster"></div></div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="https://docs.pytest.org/en/latest/contents.html">
+              <img class="logo" src="./pytest文档6_files/pytest1.png" alt="商标">
+            </a></p><h3><a href="https://docs.pytest.org/en/latest/contents.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">目录</font></font></a></h3>
+
+<ul>
+  <li><a href="https://docs.pytest.org/en/latest/index.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">家</font></font></a></li>
+  <li><a href="https://docs.pytest.org/en/latest/getting-started.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">安装</font></font></a></li>
+  <li><a href="https://docs.pytest.org/en/latest/contents.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">内容</font></font></a></li>
+  <li><a href="https://docs.pytest.org/en/latest/reference.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">参考</font></font></a></li>
+  <li><a href="https://docs.pytest.org/en/latest/example/index.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">例子</font></font></a></li>
+  <li><a href="https://docs.pytest.org/en/latest/customize.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">定制</font></font></a></li>
+  <li><a href="https://docs.pytest.org/en/latest/changelog.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">更新日志</font></font></a></li>
+  <li><a href="https://docs.pytest.org/en/latest/contributing.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">特约</font></font></a></li>
+  <li><a href="https://docs.pytest.org/en/latest/backwards-compatibility.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">向后兼容性</font></font></a></li>
+  <li><a href="https://docs.pytest.org/en/latest/license.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">执照</font></font></a></li>
+  <li><a href="https://docs.pytest.org/en/latest/contact.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">联系渠道</font></font></a></li>
+</ul>
+  <hr>
+  <ul>
+<li><a class="reference internal" href="https://docs.pytest.org/en/latest/fixture.html#"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">pytest灯具：显式，模块化，可扩展</font></font></a><ul>
+<li><a class="reference internal" href="https://docs.pytest.org/en/latest/fixture.html#fixtures-as-function-arguments"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">夹具作为函数参数</font></font></a></li>
+<li><a class="reference internal" href="https://docs.pytest.org/en/latest/fixture.html#fixtures-a-prime-example-of-dependency-injection"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Fixtures：依赖注入的一个主要例子</font></font></a></li>
+<li><a class="reference internal" href="https://docs.pytest.org/en/latest/fixture.html#conftest-py-sharing-fixture-functions"><code class="docutils literal notranslate"><span class="pre">conftest.py</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">：共享夹具功能</font></font></a></li>
+<li><a class="reference internal" href="https://docs.pytest.org/en/latest/fixture.html#sharing-test-data"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">共享测试数据</font></font></a></li>
+<li><a class="reference internal" href="https://docs.pytest.org/en/latest/fixture.html#scope-sharing-a-fixture-instance-across-tests-in-a-class-module-or-session"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">范围：在类，模块或会话中跨测试共享fixture实例</font></font></a><ul>
+<li><a class="reference internal" href="https://docs.pytest.org/en/latest/fixture.html#package-scope-experimental"><code class="docutils literal notranslate"><span class="pre">package</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> 范围（实验）</font></font></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="https://docs.pytest.org/en/latest/fixture.html#higher-scoped-fixtures-are-instantiated-first"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">首先实例化更高范围的灯具</font></font></a></li>
+<li><a class="reference internal" href="https://docs.pytest.org/en/latest/fixture.html#fixture-finalization-executing-teardown-code"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">夹具完成/执行拆卸代码</font></font></a></li>
+<li><a class="reference internal" href="https://docs.pytest.org/en/latest/fixture.html#fixtures-can-introspect-the-requesting-test-context"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Fixtures可以内省请求的测试上下文</font></font></a></li>
+<li><a class="reference internal" href="https://docs.pytest.org/en/latest/fixture.html#factories-as-fixtures"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">工厂作为固定装置</font></font></a></li>
+<li><a class="reference internal" href="https://docs.pytest.org/en/latest/fixture.html#parametrizing-fixtures"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">参数化夹具</font></font></a></li>
+<li><a class="reference internal" href="https://docs.pytest.org/en/latest/fixture.html#using-marks-with-parametrized-fixtures"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">使用带参数化夹具的标记</font></font></a></li>
+<li><a class="reference internal" href="https://docs.pytest.org/en/latest/fixture.html#modularity-using-fixtures-from-a-fixture-function"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">模块化：使用夹具功能的夹具</font></font></a></li>
+<li><a class="reference internal" href="https://docs.pytest.org/en/latest/fixture.html#automatic-grouping-of-tests-by-fixture-instances"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">通过夹具实例自动分组测试</font></font></a></li>
+<li><a class="reference internal" href="https://docs.pytest.org/en/latest/fixture.html#using-fixtures-from-classes-modules-or-projects"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">使用来自类，模块或项目的装置</font></font></a></li>
+<li><a class="reference internal" href="https://docs.pytest.org/en/latest/fixture.html#autouse-fixtures-xunit-setup-on-steroids"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Autouse灯具（类固醇上的xUnit设置）</font></font></a></li>
+<li><a class="reference internal" href="https://docs.pytest.org/en/latest/fixture.html#overriding-fixtures-on-various-levels"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">在各个级别上覆盖固定装置</font></font></a><ul>
+<li><a class="reference internal" href="https://docs.pytest.org/en/latest/fixture.html#override-a-fixture-on-a-folder-conftest-level"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">覆盖文件夹（conftest）级别的夹具</font></font></a></li>
+<li><a class="reference internal" href="https://docs.pytest.org/en/latest/fixture.html#override-a-fixture-on-a-test-module-level"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">覆盖测试模块级别的夹具</font></font></a></li>
+<li><a class="reference internal" href="https://docs.pytest.org/en/latest/fixture.html#override-a-fixture-with-direct-test-parametrization"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">使用直接测试参数化覆盖夹具</font></font></a></li>
+<li><a class="reference internal" href="https://docs.pytest.org/en/latest/fixture.html#override-a-parametrized-fixture-with-non-parametrized-one-and-vice-versa"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">使用非参数化的夹具覆盖参数化夹具，反之亦然</font></font></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">相关话题</font></font></h3>
+<ul>
+  <li><a href="https://docs.pytest.org/en/latest/contents.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">文档概述</font></font></a><ul>
+      <li><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">上</font><a href="https://docs.pytest.org/en/latest/assert.html" title="previous chapter"><font style="vertical-align: inherit;">一篇</font></a><font style="vertical-align: inherit;">：</font></font><a href="https://docs.pytest.org/en/latest/assert.html" title="前一章"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">在测试中编写和报告断言</font></font></a></li>
+      <li><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">下一页：</font></font><a href="https://docs.pytest.org/en/latest/mark.html" title="下一章"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">使用属性标记测试函数</font></font></a></li>
+  </ul></li>
+</ul><h3><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">有用的链接</font></font></h3>
+<ul>
+  <li><a href="https://pypi.org/project/pytest/"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">pytest @ PyPI</font></font></a></li>
+  <li><a href="https://github.com/pytest-dev/pytest/"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">pytest @ GitHub</font></font></a></li>
+  <li><a href="http://plugincompat.herokuapp.com/"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">第三方插件</font></font></a></li>
+  <li><a href="https://github.com/pytest-dev/pytest/issues"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">问题跟踪器</font></font></a></li>
+  <li><a href="https://media.readthedocs.org/pdf/pytest/latest/pytest.pdf"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">PDF文档</font></font></a>
+</li></ul>
+<div id="searchbox" style="" role="search">
+  <h3><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">快速搜索</font></font></h3>
+    <div class="searchformwrapper">
+    <form class="search" action="https://docs.pytest.org/en/latest/search.html" method="get">
+      <input type="text" name="q">
+      <font style="vertical-align: inherit;"><font style="vertical-align: inherit;"><input type="submit" value="走"></font></font>
+      <input type="hidden" name="check_keywords" value="yes">
+      <input type="hidden" name="area" value="default">
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        <div id="rtd-07o2lqnu" class="ethical-alabaster"><div class="ethical-sidebar"><div class="ethical-content"><a href="https://readthedocs.org/sustainability/click/194/lAoQHy4UMZLD/" rel="nofollow" target="_blank" class="ethical-image-link"><img src="./pytest文档6_files/english-house.png"></a><div class="ethical-text"><a href="https://readthedocs.org/sustainability/click/194/lAoQHy4UMZLD/" rel="nofollow" target="_blank"><b><font style="vertical-align: inherit;"></font></b><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">当您使用“阅读文档”进行广告宣传时，每个月</font><b><font style="vertical-align: inherit;">达到700多万开发者</font></b></font></a><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">。</font></font></div></div><div class="ethical-callout"><small><em><a href="https://readthedocs.org/sustainability/advertising/"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">赞助商</font></font></a><span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">· </font></font></span><a href="https://docs.readthedocs.io/en/latest/ethical-advertising.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">道德服务广告</font></font></a></em></small></div></div><img src="./pytest文档6_files/saved_resource" style="display: none;"></div></div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+
+  <div class="footer"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+    ©版权所有2015-2019，holger krekel和pytest-dev团队。</font><font style="vertical-align: inherit;">使用</font></font><a href="http://sphinx.pocoo.org/"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Sphinx</font></font></a><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">创建</font><font style="vertical-align: inherit;">。
+  </font></font></div>
+  
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-7597274-13']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script><div id="goog-gt-tt" class="skiptranslate" dir="ltr"><div style="padding: 8px;"><div><div class="logo"><img src="./pytest文档6_files/translate_24dp.png" width="20" height="20" alt="Google 翻译"></div></div></div><div class="top" style="padding: 8px; float: left; width: 100%;"><h1 class="title gray">原文</h1></div><div class="middle" style="padding: 8px;"><div class="original-text"></div></div><div class="bottom" style="padding: 8px;"><div class="activity-links"><span class="activity-link">提供更好的翻译建议</span><span class="activity-link"></span></div><div class="started-activity-container"><hr style="color: #CCC; background-color: #CCC; height: 1px; border: none;"><div class="activity-root"></div></div></div><div class="status-message" style="display: none;"></div></div>
+
+  
+<div class="goog-te-spinner-pos"><div class="goog-te-spinner-animation"><svg xmlns="http://www.w3.org/2000/svg" class="goog-te-spinner" width="96px" height="96px" viewBox="0 0 66 66"><circle class="goog-te-spinner-path" fill="none" stroke-width="6" stroke-linecap="round" cx="33" cy="33" r="30"></circle></svg></div></div><!-- Inserted RTD Footer -->
+<div class="injected">
+
+  
+  <div class="rst-versions rst-badge" data-toggle="rst-versions">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      <span class="fa fa-book">&nbsp;</span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+      v：最新的
+      </font></font><span class="fa fa-caret-down"></span>
+    </span>
+    <div class="rst-other-versions">
+      
+
+      
+      
+      
+      <dl>
+        <dt><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">版本</font></font></dt>
+        
+         <strong> 
+        <dd><a href="http://doc.pytest.org/en/latest/fixture.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">最新</font></font></a></dd>
+         </strong> 
+        
+        
+        <dd><a href="http://doc.pytest.org/en/stable/fixture.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">稳定</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/4.3.1/fixture.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">4.3.1</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/4.3.0/fixture.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">4.3.0</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/4.2.1/fixture.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">4.2.1</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/4.2.0/fixture.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">4.2.0</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/4.1.1/fixture.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">4.1.1</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/4.1.0/fixture.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">4.1.0</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/4.0.2/fixture.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">4.0.2</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/4.0.1/fixture.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">4.0.1</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/4.0.0/fixture.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">4.0.0</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.10.1/fixture.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.10.1</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.10.0/fixture.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.10.0</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.9.3/fixture.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.9.3</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.9.2/fixture.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.9.2</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.9.1/fixture.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.9.1</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.9.0/fixture.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.9.0</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.8.2/fixture.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.8.2</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.8.1/fixture.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.8.1</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.8.0/fixture.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.8.0</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.7.4/fixture.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.7.4</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.7.3/fixture.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.7.3</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.7.2/fixture.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.7.2</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.7.1/fixture.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.7.1</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.7.0/fixture.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.7.0</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.6.4/fixture.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.6.4</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.6.3/fixture.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.6.3</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.6.2/fixture.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.6.2</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.6.1/fixture.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.6.1</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.6.0/fixture.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.6.0</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.5.1/fixture.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.5.1</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.5.0/fixture.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.5.0</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.4.2/fixture.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.4.2</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.4.1/fixture.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.4.1</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.4.0/fixture.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.4.0</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.3.2/fixture.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.3.2</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.3.1/fixture.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.3.1</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.3.0/fixture.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.3.0</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.2.5/fixture.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.2.5</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.2.4/fixture.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.2.4</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.2.3/fixture.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.2.3</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.2.2/fixture.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.2.2</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.2.1/fixture.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.2.1</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.2.0/fixture.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.2.0</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.1.3/fixture.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.1.3</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.1.2/fixture.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.1.2</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.1.1/fixture.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.1.1</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.1.0/fixture.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.1.0</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.0.7/fixture.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.0.7</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.0.6/fixture.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.0.6</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.0.5/fixture.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.0.5</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.0.4/fixture.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.0.4</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.0.3/fixture.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.0.3</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.0.2/fixture.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.0.2</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.0.1/fixture.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.0.1</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.0.0/fixture.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.0.0</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/2.9.2/fixture.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">2.9.2</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/2.9.1/fixture.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">2.9.1</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/2.9.0/fixture.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">2.9.0</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/2.8.7/fixture.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">2.8.7</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/2.7.3/fixture.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">2.7.3</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/sphinx-removed-in/fixture.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">斯芬克斯-除去式</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/features/fixture.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">特征</font></font></a></dd>
+        
+        
+      </dl>
+      
+      
+
+      
+      
+      <dl>
+        <dt><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">下载</font></font></dt>
+        
+        <dd><a href="https://readthedocs.org/projects/pytest/downloads/pdf/latest/"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">PDF</font></font></a></dd>
+        
+        <dd><a href="https://readthedocs.org/projects/pytest/downloads/htmlzip/latest/"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">HTML</font></font></a></dd>
+        
+        <dd><a href="https://readthedocs.org/projects/pytest/downloads/epub/latest/"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">EPUB</font></font></a></dd>
+        
+      </dl>
+      
+      
+
+      
+      <dl>
+        <!-- These are kept as relative links for internal installs that are http -->
+        <dt><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">阅读文档</font></font></dt>
+        <dd>
+          <a href="https://readthedocs.org/projects/pytest/"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">项目主页</font></font></a>
+        </dd>
+        <dd>
+          <a href="https://readthedocs.org/projects/pytest/builds/"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">构建</font></font></a>
+        </dd>
+        <dd>
+          <a href="https://readthedocs.org/projects/pytest/downloads/"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">下载</font></font></a>
+        </dd>
+      </dl>
+      
+
+      
+
+      
+      <dl>
+        <dt><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">在GitHub上</font></font></dt>
+        <dd>
+          <a href="https://github.com/pytest-dev/pytest/blob/master/doc/en/fixture.rst"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">视图</font></font></a>
+        </dd>
+        
+      </dl>
+      
+      
+
+      
+      <dl>
+        <dt><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">搜索</font></font></dt>
+        <dd>
+          <div style="padding: 6px;">
+            <form id="flyout-search-form" class="wy-form" target="_blank" action="https://readthedocs.org/projects/pytest/search/" method="get">
+              <input type="text" name="q" placeholder="Search docs">
+              </form>
+          </div>
+        </dd>
+      </dl>
+      
+
+
+
+      <hr>
+      
+        <small>
+          <span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">主持人</font></font><a href="https://readthedocs.org/"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">阅读文档</font></font></a></span>
+          <span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> · </font></font></span>
+          <a href="https://docs.readthedocs.io/page/privacy-policy.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">隐私政策</font></font></a>
+        </small>
+      
+
+      
+    </div>
+  </div>
+  
+
+</div>
+</body></html>

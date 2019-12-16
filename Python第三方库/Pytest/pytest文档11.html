@@ -1,0 +1,821 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- saved from url=(0047)https://docs.pytest.org/en/latest/warnings.html -->
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh-CN" class="translated-ltr"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+    
+    <title>警告捕获 -  pytest文档</title>
+    <link rel="stylesheet" href="./pytest文档11_files/flasky.css" type="text/css">
+    <link rel="stylesheet" href="./pytest文档11_files/pygments.css" type="text/css">
+    <link rel="stylesheet" type="text/css" href="./pytest文档11_files/pygments_pytest.css">
+    <link rel="stylesheet" type="text/css" href="./pytest文档11_files/badge_only.css">
+    <script type="text/javascript" async="" src="./pytest文档11_files/ga.js"></script><script async="" src="./pytest文档11_files/analytics.js"></script><script type="text/javascript" id="documentation_options" data-url_root="./" src="./pytest文档11_files/documentation_options.js"></script>
+    <script type="text/javascript" src="./pytest文档11_files/jquery.js"></script>
+    <script type="text/javascript" src="./pytest文档11_files/underscore.js"></script>
+    <script type="text/javascript" src="./pytest文档11_files/doctools.js"></script>
+    <script type="text/javascript" src="./pytest文档11_files/language_data.js"></script>
+    <script type="text/javascript" src="./pytest文档11_files/readthedocs-doc-embed.js"></script>
+    <link rel="shortcut icon" href="https://docs.pytest.org/en/latest/_static/pytest1favi.ico">
+    <link rel="search" title="搜索" href="https://docs.pytest.org/en/latest/search.html">
+    <link rel="next" title="Doctest集成模块和测试文件" href="https://docs.pytest.org/en/latest/doctest.html">
+    <link rel="prev" title="捕获stdout / stderr输出" href="https://docs.pytest.org/en/latest/capture.html">
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9">
+
+  
+<!-- RTD Extra Head -->
+
+<!-- 
+Always link to the latest version, as canonical.
+http://docs.readthedocs.org/en/latest/canonical.html
+-->
+<link rel="canonical" href="http://doc.pytest.org/en/latest/warnings.html">
+
+<link rel="stylesheet" href="./pytest文档11_files/readthedocs-doc-embed.css" type="text/css">
+
+<script type="text/javascript" src="./pytest文档11_files/readthedocs-data.js"></script>
+
+<!-- Add page-specific data, which must exist in the page js, not global -->
+<script type="text/javascript">
+READTHEDOCS_DATA['page'] = 'warnings'
+READTHEDOCS_DATA['source_suffix'] = '.rst'
+</script>
+
+<script type="text/javascript" src="./pytest文档11_files/readthedocs-analytics.js"></script>
+
+<!-- end RTD <extrahead> -->
+<link type="text/css" rel="stylesheet" charset="UTF-8" href="./pytest文档11_files/translateelement.css"></head><body>
+  
+  
+  
+
+
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">导航</font></font></h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="https://docs.pytest.org/en/latest/doctest.html" title="Doctest集成模块和测试文件" accesskey="N"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">下一个</font></font></a></li>
+        <li class="right">
+          <a href="https://docs.pytest.org/en/latest/capture.html" title="捕获stdout / stderr输出" accesskey="P"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">上一个</font></font></a><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> |</font></font></li>
+        <li class="nav-item nav-item-0"><a href="https://docs.pytest.org/en/latest/contents.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">pytest-4.3</font></font></a><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> »</font></font></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="warnings-capture">
+<span id="warnings"></span><h1><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">警告捕获</font></font><a class="headerlink" href="https://docs.pytest.org/en/latest/warnings.html#warnings-capture" title="永久链接到这个标题"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">¶</font></font></a></h1>
+<div class="versionadded">
+<p><span class="versionmodified"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.1版中的新功能。</font></font></span></p>
+</div>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">从版本开始</font></font><code class="docutils literal notranslate"><span class="pre">3.1</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">，pytest现在会在测试执行期间自动捕获警告并在会话结束时显示它们：</font></font></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># content of test_show_warnings.py</span>
+<span class="kn">import</span> <span class="nn">warnings</span>
+
+<span class="k">def</span> <span class="nf">api_v1</span><span class="p">():</span>
+    <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="ne">UserWarning</span><span class="p">(</span><span class="s2">"api v1, should use functions from v2"</span><span class="p">))</span>
+    <span class="k">return</span> <span class="mi">1</span>
+
+<span class="k">def</span> <span class="nf">test_one</span><span class="p">():</span>
+    <span class="k">assert</span> <span class="n">api_v1</span><span class="p">()</span> <span class="o">==</span> <span class="mi">1</span>
+</pre></div>
+</div>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">运行pytest现在产生这个输出：</font></font></p>
+<div class="highlight-pytest notranslate"><div class="highlight"><pre><span></span>$ pytest test_show_warnings.py
+<span class=" -Color -Color-Bold">=========================== test session starts ============================</span>
+platform linux -- Python 3.x.y, pytest-4.x.y, py-1.x.y, pluggy-0.x.y
+cachedir: $PYTHON_PREFIX/.pytest_cache
+rootdir: $REGENDOC_TMPDIR, inifile:
+collected 1 item
+
+test_show_warnings.py <span class=" -Color -Color-Green">.</span>                                              <span class=" -Color -Color-Cyan">[100%]</span>
+
+<span class=" -Color -Color-Yellow">============================= warnings summary =============================</span>
+test_show_warnings.py::test_one
+  $REGENDOC_TMPDIR/test_show_warnings.py:4: UserWarning: api v1, should use functions from v2
+    warnings.warn(UserWarning("api v1, should use functions from v2"))
+
+-- Docs: https://docs.pytest.org/en/latest/warnings.html
+<span class=" -Color -Color-BoldYellow">=================== 1 passed, 1 warnings in 0.12 seconds ===================</span>
+</pre></div>
+</div>
+<p><font style="vertical-align: inherit;"></font><code class="docutils literal notranslate"><span class="pre">-W</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">可以传递</font><font style="vertical-align: inherit;">该</font><font style="vertical-align: inherit;">标志以控制将显示哪些警告，甚至将其转换为错误：</font></font></p>
+<div class="highlight-pytest notranslate"><div class="highlight"><pre><span></span>$ pytest -q test_show_warnings.py -W error::UserWarning
+<span class=" -Color -Color-Red">F</span>                                                                    <span class=" -Color -Color-Cyan">[100%]</span>
+================================= FAILURES =================================
+<span class=" -Color -Color-BoldRed">_________________________________ test_one _________________________________</span>
+
+<span class=" -Color -Color-Bold">    def test_one():</span>
+<span class=" -Color -Color-Bold">&gt;       assert api_v1() == 1</span>
+
+<span class=" -Color -Color-BoldRed">test_show_warnings.py</span>:8:
+<span class=" -Color -Color-BoldRed">_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _</span>
+
+<span class=" -Color -Color-Bold">    def api_v1():</span>
+<span class=" -Color -Color-Bold">&gt;       warnings.warn(UserWarning("api v1, should use functions from v2"))</span>
+<span class=" -Color -Color-BoldRed">E       UserWarning: api v1, should use functions from v2</span>
+
+<span class=" -Color -Color-BoldRed">test_show_warnings.py</span>:4: UserWarning
+<span class=" -Color -Color-BoldRed">1 failed in 0.12 seconds</span>
+</pre></div>
+</div>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">可以</font></font><code class="docutils literal notranslate"><span class="pre">pytest.ini</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">使用</font></font><code class="docutils literal notranslate"><span class="pre">filterwarnings</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">ini选项</font><font style="vertical-align: inherit;">在</font><font style="vertical-align: inherit;">文件中</font><font style="vertical-align: inherit;">设置相同</font><font style="vertical-align: inherit;">的</font><font style="vertical-align: inherit;">选项。</font><font style="vertical-align: inherit;">例如，以下配置将忽略所有用户警告，但会将所有其他警告转换为错误。</font></font></p>
+<div class="highlight-ini notranslate"><div class="highlight"><pre><span></span><span class="k">[pytest]</span>
+<span class="na">filterwarnings</span> <span class="o">=</span><span class="s"></span>
+<span class="s">    error</span>
+<span class="s">    ignore::UserWarning</span>
+</pre></div>
+</div>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">当警告与列表中的多个选项匹配时，将执行最后一个匹配选项的操作。</font></font></p>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">这两个</font></font><code class="docutils literal notranslate"><span class="pre">-W</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">命令行选项和</font></font><code class="docutils literal notranslate"><span class="pre">filterwarnings</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">INI选项是基于Python的
+ </font></font><a class="reference external" href="https://docs.python.org/3/using/cmdline.html?highlight=#cmdoption-W"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">-W选项</font></font></a><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">和</font></font><a class="reference external" href="https://docs.python.org/3/library/warnings.html#warnings.simplefilter"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">warnings.simplefilter</font></font></a><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">，所以请参考这些部分Python文档的其他例子和高级的用法英寸</font></font></p>
+<div class="section" id="pytest-mark-filterwarnings">
+<span id="filterwarnings"></span><h2><code class="docutils literal notranslate"><span class="pre">@pytest.mark.filterwarnings</span></code><a class="headerlink" href="https://docs.pytest.org/en/latest/warnings.html#pytest-mark-filterwarnings" title="永久链接到这个标题"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">¶</font></font></a></h2>
+<div class="versionadded">
+<p><span class="versionmodified"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">版本3.2中的新功能。</font></font></span></p>
+</div>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">您可以使用</font></font><code class="docutils literal notranslate"><span class="pre">@pytest.mark.filterwarnings</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">向特定测试项添加警告过滤器，以便更好地控制应在测试，类甚至模块级别捕获哪些警告：</font></font></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">warnings</span>
+
+
+<span class="k">def</span> <span class="nf">api_v1</span><span class="p">():</span>
+    <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="ne">UserWarning</span><span class="p">(</span><span class="s2">"api v1, should use functions from v2"</span><span class="p">))</span>
+    <span class="k">return</span> <span class="mi">1</span>
+
+
+<span class="nd">@pytest.mark.filterwarnings</span><span class="p">(</span><span class="s2">"ignore:api v1"</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">test_one</span><span class="p">():</span>
+    <span class="k">assert</span> <span class="n">api_v1</span><span class="p">()</span> <span class="o">==</span> <span class="mi">1</span>
+</pre></div>
+</div>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">使用标记应用的过滤器优先于在命令行上传递或由</font></font><code class="docutils literal notranslate"><span class="pre">filterwarnings</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">ini选项</font><font style="vertical-align: inherit;">配置的过滤器</font><font style="vertical-align: inherit;">。</font></font></p>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">您可以通过使用</font></font><code class="docutils literal notranslate"><span class="pre">filterwarnings</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">标记作为类装饰器或通过设置</font></font><code class="docutils literal notranslate"><span class="pre">pytestmark</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">变量</font><font style="vertical-align: inherit;">将模块中的所有测试应用于类的所有测试</font><font style="vertical-align: inherit;">：</font></font></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># turns all warnings into errors for this module</span>
+<span class="n">pytestmark</span> <span class="o">=</span> <span class="n">pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s2">"error"</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">积分转到Florian Schulze获取</font></font></em> <a class="reference external" href="https://github.com/fschulze/pytest-warnings"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">pytest-warnings </font></font></a>
+<font style="vertical-align: inherit;"><em><font style="vertical-align: inherit;">插件中</font></em><em><font style="vertical-align: inherit;">的参考实现</font></em></font><em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">。</font></font></em></p>
+</div>
+<div class="section" id="disabling-warnings-summary">
+<h2><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">禁用警告摘要</font></font><a class="headerlink" href="https://docs.pytest.org/en/latest/warnings.html#disabling-warnings-summary" title="永久链接到这个标题"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">¶</font></font></a></h2>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">虽然不推荐，但您可以使用</font></font><code class="docutils literal notranslate"><span class="pre">--disable-warnings</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">命令行选项从测试运行输出中完全禁止警告摘要。</font></font></p>
+</div>
+<div class="section" id="disabling-warning-capture-entirely">
+<h2><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">完全禁用警告捕获</font></font><a class="headerlink" href="https://docs.pytest.org/en/latest/warnings.html#disabling-warning-capture-entirely" title="永久链接到这个标题"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">¶</font></font></a></h2>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">此插件默认启用，但可以在您的</font></font><code class="docutils literal notranslate"><span class="pre">pytest.ini</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">文件中</font><font style="vertical-align: inherit;">完全禁用</font><font style="vertical-align: inherit;">：</font></font></p>
+<blockquote>
+<div><div class="highlight-ini notranslate"><div class="highlight"><pre><span></span><span class="k">[pytest]</span>
+<span class="na">addopts</span> <span class="o">=</span> <span class="s">-p no:warnings</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">或者传入</font><font style="vertical-align: inherit;">命令行。</font><font style="vertical-align: inherit;">如果测试套件使用外部系统处理警告，这可能很有用。</font></font><code class="docutils literal notranslate"><span class="pre">-p</span> <span class="pre">no:warnings</span></code><font style="vertical-align: inherit;"></font></p>
+</div>
+<div class="section" id="deprecationwarning-and-pendingdeprecationwarning">
+<span id="deprecation-warnings"></span><h2><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">弃用警告和待命记录警告</font></font><a class="headerlink" href="https://docs.pytest.org/en/latest/warnings.html#deprecationwarning-and-pendingdeprecationwarning" title="永久链接到这个标题"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">¶</font></font></a></h2>
+<div class="versionadded">
+<p><span class="versionmodified"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">版本3.8中的新功能。</font></font></span></p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">在3.9版中更改。</font></font></span></p>
+</div>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">默认情况下，pytest将显示</font></font><code class="docutils literal notranslate"><span class="pre">DeprecationWarning</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">和</font></font><code class="docutils literal notranslate"><span class="pre">PendingDeprecationWarning</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">从用户代码和第三方库警告，建议</font></font><a class="reference external" href="https://www.python.org/dev/peps/pep-0565"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">PEP-0565</font></font></a><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">。</font><font style="vertical-align: inherit;">这有助于用户保持代码现代化，并在有效删除已弃用的警告时避免破坏。</font></font></p>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">有时隐藏在您无法控制的代码（例如第三方库）中发生的某些特定弃用警告很有用，在这种情况下，您可以使用警告过滤器选项（ini或标记）来忽略这些警告。</font></font></p>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">例如：</font></font></p>
+<div class="highlight-ini notranslate"><div class="highlight"><pre><span></span><span class="k">[pytest]</span>
+<span class="na">filterwarnings</span> <span class="o">=</span><span class="s"></span>
+<span class="s">    ignore:.*U.*mode is deprecated:DeprecationWarning</span>
+</pre></div>
+</div>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">这将忽略</font></font><code class="docutils literal notranslate"><span class="pre">DeprecationWarning</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">消息开头与正则表达式匹配的</font><font style="vertical-align: inherit;">所有类型的警告</font><font style="vertical-align: inherit;">。</font></font><code class="docutils literal notranslate"><span class="pre">".*U.*mode</span> <span class="pre">is</span> <span class="pre">deprecated"</span></code><font style="vertical-align: inherit;"></font></p>
+<div class="admonition note">
+<p class="first admonition-title"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">注意</font></font></p>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">如果在解释器级别配置警告，使用</font></font><a class="reference external" href="https://docs.python.org/3/using/cmdline.html#envvar-PYTHONWARNINGS"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">PYTHONWARNINGS</font></font></a><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">环境变量或
+ </font></font><code class="docutils literal notranslate"><span class="pre">-W</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">命令行选项，pytest将默认不配置任何过滤器。</font></font></p>
+<p class="last"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">此外，pytest不遵循</font></font><code class="docutils literal notranslate"><span class="pre">PEP-0506</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">重置所有警告过滤器的建议，因为它可能会破坏通过调用自行配置警告过滤器的测试套件</font></font><code class="docutils literal notranslate"><span class="pre">warnings.simplefilter</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">（请参阅问题</font></font><a class="reference external" href="https://github.com/pytest-dev/pytest/issues/2430"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">＃2430</font></font></a><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> 
+以获取该示例）。</font></font></p>
+</div>
+</div>
+<div class="section" id="ensuring-code-triggers-a-deprecation-warning">
+<span id="ensuring-function-triggers"></span><span id="ensuring-a-function-triggers-a-deprecation-warning"></span><h2><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">确保代码触发弃用警告</font></font><a class="headerlink" href="https://docs.pytest.org/en/latest/warnings.html#ensuring-code-triggers-a-deprecation-warning" title="永久链接到这个标题"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">¶</font></font></a></h2>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">您还可以调用全局帮助程序来检查某个函数调用是否触发a </font></font><code class="docutils literal notranslate"><span class="pre">DeprecationWarning</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">或
+ </font></font><code class="docutils literal notranslate"><span class="pre">PendingDeprecationWarning</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">：</font></font></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pytest</span>
+
+<span class="k">def</span> <span class="nf">test_global</span><span class="p">():</span>
+    <span class="n">pytest</span><span class="o">.</span><span class="n">deprecated_call</span><span class="p">(</span><span class="n">myfunction</span><span class="p">,</span> <span class="mi">17</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">默认情况下，</font></font><code class="docutils literal notranslate"><span class="pre">DeprecationWarning</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">并</font></font><code class="docutils literal notranslate"><span class="pre">PendingDeprecationWarning</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">不会被使用时，捕捉</font></font><code class="docutils literal notranslate"><span class="pre">pytest.warns</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">或</font></font><code class="docutils literal notranslate"><span class="pre">recwarn</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">因为默认的Python警告过滤器隐藏起来。</font><font style="vertical-align: inherit;">如果您希望在自己的代码中记录它们，请使用以下命令</font></font><code class="docutils literal notranslate"><span class="pre">warnings.simplefilter('always')</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">：</font></font></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">warnings</span>
+<span class="kn">import</span> <span class="nn">pytest</span>
+
+<span class="k">def</span> <span class="nf">test_deprecation</span><span class="p">(</span><span class="n">recwarn</span><span class="p">):</span>
+    <span class="n">warnings</span><span class="o">.</span><span class="n">simplefilter</span><span class="p">(</span><span class="s1">'always'</span><span class="p">)</span>
+    <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s2">"deprecated"</span><span class="p">,</span> <span class="ne">DeprecationWarning</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">recwarn</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span>
+    <span class="k">assert</span> <span class="n">recwarn</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="ne">DeprecationWarning</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">您还可以将其用作上下文管理器：</font></font></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">test_global</span><span class="p">():</span>
+    <span class="k">with</span> <span class="n">pytest</span><span class="o">.</span><span class="n">deprecated_call</span><span class="p">():</span>
+        <span class="n">myobject</span><span class="o">.</span><span class="n">deprecated_method</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="warns">
+<span id="asserting-warnings-with-the-warns-function"></span><span id="assertwarnings"></span><span id="asserting-warnings"></span><span id="id2"></span><h2><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">用警告功能断言警告</font></font><a class="headerlink" href="https://docs.pytest.org/en/latest/warnings.html#warns" title="永久链接到这个标题"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">¶</font></font></a></h2>
+<div class="versionadded">
+<p><span class="versionmodified"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">版本2.8中的新功能。</font></font></span></p>
+</div>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">您可以检查代码是否引发了特定警告</font></font><code class="docutils literal notranslate"><span class="pre">pytest.warns</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">，其工作方式类似于</font></font><a class="reference internal" href="https://docs.pytest.org/en/latest/assert.html#assertraises"><span class="std std-ref"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">引发</font></font></span></a><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">：</font></font></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">warnings</span>
+<span class="kn">import</span> <span class="nn">pytest</span>
+
+<span class="k">def</span> <span class="nf">test_warning</span><span class="p">():</span>
+    <span class="k">with</span> <span class="n">pytest</span><span class="o">.</span><span class="n">warns</span><span class="p">(</span><span class="ne">UserWarning</span><span class="p">):</span>
+        <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s2">"my warning"</span><span class="p">,</span> <span class="ne">UserWarning</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">如果未提出相关警告，测试将失败。</font></font><code class="docutils literal notranslate"><span class="pre">match</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">断言异常与文本或正则表达式匹配</font><font style="vertical-align: inherit;">的关键字参数</font><font style="vertical-align: inherit;">：</font></font></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">with</span> <span class="n">warns</span><span class="p">(</span><span class="ne">UserWarning</span><span class="p">,</span> <span class="n">match</span><span class="o">=</span><span class="s1">'must be 0 or None'</span><span class="p">):</span>
+<span class="gp">... </span>    <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s2">"value must be 0 or None"</span><span class="p">,</span> <span class="ne">UserWarning</span><span class="p">)</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="k">with</span> <span class="n">warns</span><span class="p">(</span><span class="ne">UserWarning</span><span class="p">,</span> <span class="n">match</span><span class="o">=</span><span class="sa">r</span><span class="s1">'must be \d+$'</span><span class="p">):</span>
+<span class="gp">... </span>    <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s2">"value must be 42"</span><span class="p">,</span> <span class="ne">UserWarning</span><span class="p">)</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="k">with</span> <span class="n">warns</span><span class="p">(</span><span class="ne">UserWarning</span><span class="p">,</span> <span class="n">match</span><span class="o">=</span><span class="sa">r</span><span class="s1">'must be \d+$'</span><span class="p">):</span>
+<span class="gp">... </span>    <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s2">"this is not here"</span><span class="p">,</span> <span class="ne">UserWarning</span><span class="p">)</span>
+<span class="gt">Traceback (most recent call last):</span>
+  <span class="c">...</span>
+<span class="gr">Failed</span>: <span class="n">DID NOT WARN. No warnings of type ...UserWarning... was emitted...</span>
+</pre></div>
+</div>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">您还可以调用</font></font><code class="docutils literal notranslate"><span class="pre">pytest.warns</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">函数或代码字符串：</font></font></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pytest</span><span class="o">.</span><span class="n">warns</span><span class="p">(</span><span class="n">expected_warning</span><span class="p">,</span> <span class="n">func</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+<span class="n">pytest</span><span class="o">.</span><span class="n">warns</span><span class="p">(</span><span class="n">expected_warning</span><span class="p">,</span> <span class="s2">"func(*args, **kwargs)"</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">该函数还返回所有引发警告（作为</font></font><code class="docutils literal notranslate"><span class="pre">warnings.WarningMessage</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">对象）</font><font style="vertical-align: inherit;">的列表
+ </font><font style="vertical-align: inherit;">，您可以查询其他信息：</font></font></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">pytest</span><span class="o">.</span><span class="n">warns</span><span class="p">(</span><span class="ne">RuntimeWarning</span><span class="p">)</span> <span class="k">as</span> <span class="n">record</span><span class="p">:</span>
+    <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s2">"another warning"</span><span class="p">,</span> <span class="ne">RuntimeWarning</span><span class="p">)</span>
+
+<span class="c1"># check that only one warning was raised</span>
+<span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">record</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span>
+<span class="c1"># check that the message matches</span>
+<span class="k">assert</span> <span class="n">record</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">message</span><span class="o">.</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s2">"another warning"</span>
+</pre></div>
+</div>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">或者，您可以使用</font></font><a class="reference internal" href="https://docs.pytest.org/en/latest/warnings.html#recwarn"><span class="std std-ref"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">recwarn</font></font></span></a><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">夹具</font><font style="vertical-align: inherit;">详细检查凸起的警告
+ </font><font style="vertical-align: inherit;">（见下文）。</font></font></p>
+<div class="admonition note">
+<p class="first admonition-title"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">注意</font></font></p>
+<p class="last"><code class="docutils literal notranslate"><span class="pre">DeprecationWarning</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">并且</font></font><code class="docutils literal notranslate"><span class="pre">PendingDeprecationWarning</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">区别对待; </font><font style="vertical-align: inherit;">请参阅</font></font><a class="reference internal" href="https://docs.pytest.org/en/latest/warnings.html#ensuring-function-triggers"><span class="std std-ref"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">确保代码触发弃用警告</font></font></span></a><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">。</font></font></p>
+</div>
+</div>
+<div class="section" id="recwarn">
+<span id="recording-warnings"></span><span id="id3"></span><h2><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">录制警告</font></font><a class="headerlink" href="https://docs.pytest.org/en/latest/warnings.html#recwarn" title="永久链接到这个标题"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">¶</font></font></a></h2>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">您可以使用</font><font style="vertical-align: inherit;">夹具</font></font><code class="docutils literal notranslate"><span class="pre">pytest.warns</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">或使用</font></font><code class="docutils literal notranslate"><span class="pre">recwarn</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">夹具</font><font style="vertical-align: inherit;">记录凸起的警告</font><font style="vertical-align: inherit;">。</font></font></p>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">要在</font></font><code class="docutils literal notranslate"><span class="pre">pytest.warns</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">不声明任何有关警告的情况下进行</font><font style="vertical-align: inherit;">记录</font><font style="vertical-align: inherit;">，请传递</font></font><code class="docutils literal notranslate"><span class="pre">None</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">为预期的警告类型：</font></font></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">pytest</span><span class="o">.</span><span class="n">warns</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span> <span class="k">as</span> <span class="n">record</span><span class="p">:</span>
+    <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s2">"user"</span><span class="p">,</span> <span class="ne">UserWarning</span><span class="p">)</span>
+    <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s2">"runtime"</span><span class="p">,</span> <span class="ne">RuntimeWarning</span><span class="p">)</span>
+
+<span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">record</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span>
+<span class="k">assert</span> <span class="nb">str</span><span class="p">(</span><span class="n">record</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">message</span><span class="p">)</span> <span class="o">==</span> <span class="s2">"user"</span>
+<span class="k">assert</span> <span class="nb">str</span><span class="p">(</span><span class="n">record</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">message</span><span class="p">)</span> <span class="o">==</span> <span class="s2">"runtime"</span>
+</pre></div>
+</div>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">该</font></font><code class="docutils literal notranslate"><span class="pre">recwarn</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">夹具将记录整个函数的警告：</font></font></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">warnings</span>
+
+<span class="k">def</span> <span class="nf">test_hello</span><span class="p">(</span><span class="n">recwarn</span><span class="p">):</span>
+    <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s2">"hello"</span><span class="p">,</span> <span class="ne">UserWarning</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">recwarn</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span>
+    <span class="n">w</span> <span class="o">=</span> <span class="n">recwarn</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="ne">UserWarning</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="nb">issubclass</span><span class="p">(</span><span class="n">w</span><span class="o">.</span><span class="n">category</span><span class="p">,</span> <span class="ne">UserWarning</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="nb">str</span><span class="p">(</span><span class="n">w</span><span class="o">.</span><span class="n">message</span><span class="p">)</span> <span class="o">==</span> <span class="s2">"hello"</span>
+    <span class="k">assert</span> <span class="n">w</span><span class="o">.</span><span class="n">filename</span>
+    <span class="k">assert</span> <span class="n">w</span><span class="o">.</span><span class="n">lineno</span>
+</pre></div>
+</div>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">双方</font></font><code class="docutils literal notranslate"><span class="pre">recwarn</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">并</font></font><code class="docutils literal notranslate"><span class="pre">pytest.warns</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">返回相同的接口，用于记录警告：一个WarningsRecorder实例。</font><font style="vertical-align: inherit;">要查看记录的警告，您可以迭代此实例，调用</font></font><code class="docutils literal notranslate"><span class="pre">len</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">它以获取已记录警告的数量，或将其编入索引以获取特定记录的警告。</font></font></p>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">完整的API : </font></font><code class="xref py py-class docutils literal notranslate"><span class="pre">WarningsRecorder</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">.</font></font></p>
+</div>
+<div class="section" id="custom-failure-messages">
+<span id="id4"></span><h2><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">自定义失败消息</font></font><a class="headerlink" href="https://docs.pytest.org/en/latest/warnings.html#custom-failure-messages" title="永久链接到这个标题"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">¶</font></font></a></h2>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">记录警告提供了在未发出警告或满足其他条件时生成自定义测试失败消息的机会。</font></font></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">test</span><span class="p">():</span>
+    <span class="k">with</span> <span class="n">pytest</span><span class="o">.</span><span class="n">warns</span><span class="p">(</span><span class="ne">Warning</span><span class="p">)</span> <span class="k">as</span> <span class="n">record</span><span class="p">:</span>
+        <span class="n">f</span><span class="p">()</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">record</span><span class="p">:</span>
+            <span class="n">pytest</span><span class="o">.</span><span class="n">fail</span><span class="p">(</span><span class="s2">"Expected a warning!"</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">如果在呼叫时没有发出警告</font></font><code class="docutils literal notranslate"><span class="pre">f</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">，那么</font><font style="vertical-align: inherit;">将评估为</font><font style="vertical-align: inherit;">。</font><font style="vertical-align: inherit;">然后</font><font style="vertical-align: inherit;">，</font><font style="vertical-align: inherit;">您可以</font><font style="vertical-align: inherit;">使用自定义错误消息</font><font style="vertical-align: inherit;">进行调用</font><font style="vertical-align: inherit;">。</font></font><code class="docutils literal notranslate"><span class="pre">not</span> <span class="pre">record</span></code><font style="vertical-align: inherit;"></font><code class="docutils literal notranslate"><span class="pre">True</span></code><font style="vertical-align: inherit;"></font><code class="docutils literal notranslate"><span class="pre">pytest.fail</span></code><font style="vertical-align: inherit;"></font></p>
+</div>
+<div class="section" id="internal-pytest-warnings">
+<span id="internal-warnings"></span><h2><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">内部pytest警告</font></font><a class="headerlink" href="https://docs.pytest.org/en/latest/warnings.html#internal-pytest-warnings" title="永久链接到这个标题"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">¶</font></font></a></h2>
+<div class="versionadded">
+<p><span class="versionmodified"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">版本3.8中的新功能。</font></font></span></p>
+</div>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">pytest可能会在某些情况下生成自己的警告，例如使用不当或不推荐使用的功能。</font></font></p>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">例如，如果遇到匹配</font></font><a class="reference internal" href="https://docs.pytest.org/en/latest/reference.html#confval-python_classes"><code class="xref std std-confval docutils literal notranslate"><span class="pre">python_classes</span></code></a><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">但也定义</font></font><code class="docutils literal notranslate"><span class="pre">__init__</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">构造函数</font><font style="vertical-align: inherit;">的类，pytest将发出警告</font><font style="vertical-align: inherit;">，因为这会阻止实例化类：</font></font></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># content of test_pytest_warnings.py</span>
+<span class="k">class</span> <span class="nc">Test</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">pass</span>
+
+    <span class="k">def</span> <span class="nf">test_foo</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">assert</span> <span class="mi">1</span> <span class="o">==</span> <span class="mi">1</span>
+</pre></div>
+</div>
+<div class="highlight-pytest notranslate"><div class="highlight"><pre><span></span>$ pytest test_pytest_warnings.py -q
+
+<span class=" -Color -Color-Yellow">============================= warnings summary =============================</span>
+test_pytest_warnings.py:1
+  $REGENDOC_TMPDIR/test_pytest_warnings.py:1: PytestWarning: cannot collect test class 'Test' because it has a __init__ constructor
+    class Test:
+
+-- Docs: https://docs.pytest.org/en/latest/warnings.html
+1 warnings in 0.12 seconds
+</pre></div>
+</div>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">可以使用用于过滤其他类型警告的相同内置机制来过滤这些警告。</font></font></p>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">请阅读我们的</font></font><a class="reference internal" href="https://docs.pytest.org/en/latest/backwards-compatibility.html#backwards-compatibility"><span class="std std-ref"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">向后兼容性政策</font></font></span></a><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">，了解我们如何继续弃用并最终删除功能。</font></font></p>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">pytest使用以下警告类型，它们是公共API的一部分：</font></font></p>
+<dl class="class">
+<dt id="pytest.PytestWarning">
+<em class="property"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">class </font></font></em><code class="descname">PytestWarning</code><a class="reference internal" href="https://docs.pytest.org/en/latest/_modules/_pytest/warning_types.html#PytestWarning"><span class="viewcode-link"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">[source]</font></font></span></a><a class="headerlink" href="https://docs.pytest.org/en/latest/warnings.html#pytest.PytestWarning" title="这个定义的固定链接"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> ¶</font></font></a></dt>
+<dd><p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">基地：</font></font><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#UserWarning" title="（在Python v3.7中）"><code class="xref py py-class docutils literal notranslate"><span class="pre">UserWarning</span></code></a><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">。</font></font></p>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">pytest发出的所有警告的基类。</font></font></p>
+</dd></dl>
+
+<dl class="class">
+<dt id="pytest.PytestDeprecationWarning">
+<em class="property"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">class </font></font></em><code class="descname">PytestDeprecationWarning</code><a class="reference internal" href="https://docs.pytest.org/en/latest/_modules/_pytest/warning_types.html#PytestDeprecationWarning"><span class="viewcode-link"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">[source]</font></font></span></a><a class="headerlink" href="https://docs.pytest.org/en/latest/warnings.html#pytest.PytestDeprecationWarning" title="这个定义的固定链接"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> ¶</font></font></a></dt>
+<dd><p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">基地：</font></font><a class="reference internal" href="https://docs.pytest.org/en/latest/warnings.html#pytest.PytestWarning" title="pytest.PytestWarning"><code class="xref py py-class docutils literal notranslate"><span class="pre">pytest.PytestWarning</span></code></a><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">, </font></font><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#DeprecationWarning" title="（在Python v3.7中）"><code class="xref py py-class docutils literal notranslate"><span class="pre">DeprecationWarning</span></code></a><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">.</font></font></p>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">将来版本中将删除的功能的警告类。</font></font></p>
+</dd></dl>
+
+<dl class="class">
+<dt id="pytest.RemovedInPytest4Warning">
+<em class="property"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">class </font></font></em><code class="descname">RemovedInPytest4Warning</code><a class="reference internal" href="https://docs.pytest.org/en/latest/_modules/_pytest/warning_types.html#RemovedInPytest4Warning"><span class="viewcode-link"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">[source]</font></font></span></a><a class="headerlink" href="https://docs.pytest.org/en/latest/warnings.html#pytest.RemovedInPytest4Warning" title="这个定义的固定链接"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> ¶</font></font></a></dt>
+<dd><p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">基地：</font></font><a class="reference internal" href="https://docs.pytest.org/en/latest/warnings.html#pytest.PytestDeprecationWarning" title="pytest.PytestDeprecationWarning"><code class="xref py py-class docutils literal notranslate"><span class="pre">pytest.PytestDeprecationWarning</span></code></a><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">。</font></font></p>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">计划在pytest 4.0中删除的功能的警告类。</font></font></p>
+</dd></dl>
+
+<dl class="class">
+<dt id="pytest.PytestExperimentalApiWarning">
+<em class="property"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">class </font></font></em><code class="descname">PytestExperimentalApiWarning</code><a class="reference internal" href="https://docs.pytest.org/en/latest/_modules/_pytest/warning_types.html#PytestExperimentalApiWarning"><span class="viewcode-link"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">[source]</font></font></span></a><a class="headerlink" href="https://docs.pytest.org/en/latest/warnings.html#pytest.PytestExperimentalApiWarning" title="这个定义的固定链接"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> ¶</font></font></a></dt>
+<dd><p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">基地：</font></font><a class="reference internal" href="https://docs.pytest.org/en/latest/warnings.html#pytest.PytestWarning" title="pytest.PytestWarning"><code class="xref py py-class docutils literal notranslate"><span class="pre">pytest.PytestWarning</span></code></a><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">, </font></font><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#FutureWarning" title="（在Python v3.7中）"><code class="xref py py-class docutils literal notranslate"><span class="pre">FutureWarning</span></code></a><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">.</font></font></p>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">警告类别用于表示pytest中的实验。</font><font style="vertical-align: inherit;">谨慎使用，因为API可能会在未来版本中更改甚至完全删除</font></font></p>
+</dd></dl>
+
+</div>
+</div>
+
+
+          <div id="rtd-58tx4k03" class="ethical-alabaster"></div></div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="https://docs.pytest.org/en/latest/contents.html">
+              <img class="logo" src="./pytest文档11_files/pytest1.png" alt="商标">
+            </a></p><h3><a href="https://docs.pytest.org/en/latest/contents.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">目录</font></font></a></h3>
+
+<ul>
+  <li><a href="https://docs.pytest.org/en/latest/index.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">家</font></font></a></li>
+  <li><a href="https://docs.pytest.org/en/latest/getting-started.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">安装</font></font></a></li>
+  <li><a href="https://docs.pytest.org/en/latest/contents.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">内容</font></font></a></li>
+  <li><a href="https://docs.pytest.org/en/latest/reference.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">参考</font></font></a></li>
+  <li><a href="https://docs.pytest.org/en/latest/example/index.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">例子</font></font></a></li>
+  <li><a href="https://docs.pytest.org/en/latest/customize.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">定制</font></font></a></li>
+  <li><a href="https://docs.pytest.org/en/latest/changelog.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">更新日志</font></font></a></li>
+  <li><a href="https://docs.pytest.org/en/latest/contributing.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">特约</font></font></a></li>
+  <li><a href="https://docs.pytest.org/en/latest/backwards-compatibility.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">向后兼容性</font></font></a></li>
+  <li><a href="https://docs.pytest.org/en/latest/license.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">执照</font></font></a></li>
+  <li><a href="https://docs.pytest.org/en/latest/contact.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">联系渠道</font></font></a></li>
+</ul>
+  <hr>
+  <ul>
+<li><a class="reference internal" href="https://docs.pytest.org/en/latest/warnings.html#"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">警告捕获</font></font></a><ul>
+<li><a class="reference internal" href="https://docs.pytest.org/en/latest/warnings.html#pytest-mark-filterwarnings"><code class="docutils literal notranslate"><span class="pre">@pytest.mark.filterwarnings</span></code></a></li>
+<li><a class="reference internal" href="https://docs.pytest.org/en/latest/warnings.html#disabling-warnings-summary"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">禁用警告摘要</font></font></a></li>
+<li><a class="reference internal" href="https://docs.pytest.org/en/latest/warnings.html#disabling-warning-capture-entirely"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">完全禁用警告捕获</font></font></a></li>
+<li><a class="reference internal" href="https://docs.pytest.org/en/latest/warnings.html#deprecationwarning-and-pendingdeprecationwarning"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">弃用警告和待定保留警告</font></font></a></li>
+<li><a class="reference internal" href="https://docs.pytest.org/en/latest/warnings.html#ensuring-code-triggers-a-deprecation-warning"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">确保代码触发弃用警告</font></font></a></li>
+<li><a class="reference internal" href="https://docs.pytest.org/en/latest/warnings.html#warns"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">用警告功能断言警告</font></font></a></li>
+<li><a class="reference internal" href="https://docs.pytest.org/en/latest/warnings.html#recwarn"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">录制警告</font></font></a></li>
+<li><a class="reference internal" href="https://docs.pytest.org/en/latest/warnings.html#custom-failure-messages"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">自定义失败消息</font></font></a></li>
+<li><a class="reference internal" href="https://docs.pytest.org/en/latest/warnings.html#internal-pytest-warnings"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">内部pytest警告</font></font></a></li>
+</ul>
+</li>
+</ul>
+<h3><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">相关话题</font></font></h3>
+<ul>
+  <li><a href="https://docs.pytest.org/en/latest/contents.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">文档概述</font></font></a><ul>
+      <li><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">上一页：</font></font><a href="https://docs.pytest.org/en/latest/capture.html" title="前一章"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">捕获stdout / stderr输出</font></font></a></li>
+      <li><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">下一页：</font></font><a href="https://docs.pytest.org/en/latest/doctest.html" title="下一章"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">模块和测试文件的Doctest集成</font></font></a></li>
+  </ul></li>
+</ul><h3><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">有用的链接</font></font></h3>
+<ul>
+  <li><a href="https://pypi.org/project/pytest/"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">pytest @ PyPI</font></font></a></li>
+  <li><a href="https://github.com/pytest-dev/pytest/"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">pytest @ GitHub</font></font></a></li>
+  <li><a href="http://plugincompat.herokuapp.com/"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">第三方插件</font></font></a></li>
+  <li><a href="https://github.com/pytest-dev/pytest/issues"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">问题跟踪器</font></font></a></li>
+  <li><a href="https://media.readthedocs.org/pdf/pytest/latest/pytest.pdf"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">PDF文档</font></font></a>
+</li></ul>
+<div id="searchbox" style="" role="search">
+  <h3><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">快速搜索</font></font></h3>
+    <div class="searchformwrapper">
+    <form class="search" action="https://docs.pytest.org/en/latest/search.html" method="get">
+      <input type="text" name="q">
+      <font style="vertical-align: inherit;"><font style="vertical-align: inherit;"><input type="submit" value="走"></font></font>
+      <input type="hidden" name="check_keywords" value="yes">
+      <input type="hidden" name="area" value="default">
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        <div id="rtd-brs3zacl" class="ethical-alabaster"><div class="ethical-sidebar"><div class="ethical-content"><a href="https://readthedocs.org/sustainability/click/305/JN63ejrLcGrM/" rel="nofollow" target="_blank" class="ethical-image-link"><img src="./pytest文档11_files/readthedocs-logo-fs8.png"></a><div class="ethical-text"><a href="https://readthedocs.org/sustainability/click/305/JN63ejrLcGrM/" rel="nofollow" target="_blank"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">私人回购和优先支持</font></font><br><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">尝试阅读今日商业文档！</font></font></a></div></div><div class="ethical-callout"><small><em><a href="https://readthedocs.org/sustainability/advertising/"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">赞助商</font></font></a><span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">· </font></font></span><a href="https://docs.readthedocs.io/en/latest/ethical-advertising.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">道德服务广告</font></font></a></em></small></div></div><img src="./pytest文档11_files/saved_resource" style="display: none;"></div></div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+
+  <div class="footer"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+    ©版权所有2015-2019，holger krekel和pytest-dev团队。</font><font style="vertical-align: inherit;">使用</font></font><a href="http://sphinx.pocoo.org/"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Sphinx</font></font></a><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">创建</font><font style="vertical-align: inherit;">。
+  </font></font></div>
+  
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-7597274-13']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script><div id="goog-gt-tt" class="skiptranslate" dir="ltr"><div style="padding: 8px;"><div><div class="logo"><img src="./pytest文档11_files/translate_24dp.png" width="20" height="20" alt="Google 翻译"></div></div></div><div class="top" style="padding: 8px; float: left; width: 100%;"><h1 class="title gray">原文</h1></div><div class="middle" style="padding: 8px;"><div class="original-text"></div></div><div class="bottom" style="padding: 8px;"><div class="activity-links"><span class="activity-link">提供更好的翻译建议</span><span class="activity-link"></span></div><div class="started-activity-container"><hr style="color: #CCC; background-color: #CCC; height: 1px; border: none;"><div class="activity-root"></div></div></div><div class="status-message" style="display: none;"></div></div>
+
+  
+<div class="goog-te-spinner-pos"><div class="goog-te-spinner-animation"><svg xmlns="http://www.w3.org/2000/svg" class="goog-te-spinner" width="96px" height="96px" viewBox="0 0 66 66"><circle class="goog-te-spinner-path" fill="none" stroke-width="6" stroke-linecap="round" cx="33" cy="33" r="30"></circle></svg></div></div><!-- Inserted RTD Footer -->
+<div class="injected">
+
+  
+  <div class="rst-versions rst-badge" data-toggle="rst-versions">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      <span class="fa fa-book">&nbsp;</span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+      v：最新的
+      </font></font><span class="fa fa-caret-down"></span>
+    </span>
+    <div class="rst-other-versions">
+      
+
+      
+      
+      
+      <dl>
+        <dt><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">版本</font></font></dt>
+        
+         <strong> 
+        <dd><a href="http://doc.pytest.org/en/latest/warnings.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">最新</font></font></a></dd>
+         </strong> 
+        
+        
+        <dd><a href="http://doc.pytest.org/en/stable/warnings.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">稳定</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/4.3.1/warnings.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">4.3.1</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/4.3.0/warnings.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">4.3.0</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/4.2.1/warnings.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">4.2.1</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/4.2.0/warnings.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">4.2.0</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/4.1.1/warnings.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">4.1.1</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/4.1.0/warnings.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">4.1.0</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/4.0.2/warnings.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">4.0.2</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/4.0.1/warnings.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">4.0.1</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/4.0.0/warnings.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">4.0.0</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.10.1/warnings.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.10.1</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.10.0/warnings.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.10.0</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.9.3/warnings.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.9.3</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.9.2/warnings.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.9.2</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.9.1/warnings.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.9.1</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.9.0/warnings.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.9.0</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.8.2/warnings.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.8.2</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.8.1/warnings.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.8.1</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.8.0/warnings.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.8.0</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.7.4/warnings.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.7.4</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.7.3/warnings.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.7.3</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.7.2/warnings.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.7.2</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.7.1/warnings.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.7.1</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.7.0/warnings.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.7.0</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.6.4/warnings.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.6.4</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.6.3/warnings.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.6.3</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.6.2/warnings.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.6.2</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.6.1/warnings.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.6.1</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.6.0/warnings.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.6.0</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.5.1/warnings.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.5.1</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.5.0/warnings.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.5.0</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.4.2/warnings.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.4.2</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.4.1/warnings.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.4.1</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.4.0/warnings.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.4.0</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.3.2/warnings.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.3.2</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.3.1/warnings.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.3.1</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.3.0/warnings.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.3.0</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.2.5/warnings.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.2.5</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.2.4/warnings.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.2.4</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.2.3/warnings.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.2.3</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.2.2/warnings.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.2.2</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.2.1/warnings.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.2.1</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.2.0/warnings.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.2.0</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.1.3/warnings.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.1.3</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.1.2/warnings.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.1.2</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.1.1/warnings.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.1.1</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.1.0/warnings.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.1.0</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.0.7/warnings.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.0.7</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.0.6/warnings.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.0.6</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.0.5/warnings.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.0.5</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.0.4/warnings.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.0.4</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.0.3/warnings.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.0.3</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.0.2/warnings.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.0.2</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.0.1/warnings.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.0.1</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.0.0/warnings.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.0.0</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/2.9.2/warnings.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">2.9.2</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/2.9.1/warnings.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">2.9.1</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/2.9.0/warnings.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">2.9.0</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/2.8.7/warnings.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">2.8.7</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/2.7.3/warnings.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">2.7.3</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/sphinx-removed-in/warnings.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">斯芬克斯-除去式</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/features/warnings.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">特征</font></font></a></dd>
+        
+        
+      </dl>
+      
+      
+
+      
+      
+      <dl>
+        <dt><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">下载</font></font></dt>
+        
+        <dd><a href="https://readthedocs.org/projects/pytest/downloads/pdf/latest/"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">PDF</font></font></a></dd>
+        
+        <dd><a href="https://readthedocs.org/projects/pytest/downloads/htmlzip/latest/"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">HTML</font></font></a></dd>
+        
+        <dd><a href="https://readthedocs.org/projects/pytest/downloads/epub/latest/"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">EPUB</font></font></a></dd>
+        
+      </dl>
+      
+      
+
+      
+      <dl>
+        <!-- These are kept as relative links for internal installs that are http -->
+        <dt><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">阅读文档</font></font></dt>
+        <dd>
+          <a href="https://readthedocs.org/projects/pytest/"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">项目主页</font></font></a>
+        </dd>
+        <dd>
+          <a href="https://readthedocs.org/projects/pytest/builds/"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">构建</font></font></a>
+        </dd>
+        <dd>
+          <a href="https://readthedocs.org/projects/pytest/downloads/"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">下载</font></font></a>
+        </dd>
+      </dl>
+      
+
+      
+
+      
+      <dl>
+        <dt><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">在GitHub上</font></font></dt>
+        <dd>
+          <a href="https://github.com/pytest-dev/pytest/blob/master/doc/en/warnings.rst"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">视图</font></font></a>
+        </dd>
+        
+      </dl>
+      
+      
+
+      
+      <dl>
+        <dt><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">搜索</font></font></dt>
+        <dd>
+          <div style="padding: 6px;">
+            <form id="flyout-search-form" class="wy-form" target="_blank" action="https://readthedocs.org/projects/pytest/search/" method="get">
+              <input type="text" name="q" placeholder="Search docs">
+              </form>
+          </div>
+        </dd>
+      </dl>
+      
+
+
+
+      <hr>
+      
+        <small>
+          <span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">主持人</font></font><a href="https://readthedocs.org/"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">阅读文档</font></font></a></span>
+          <span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> · </font></font></span>
+          <a href="https://docs.readthedocs.io/page/privacy-policy.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">隐私政策</font></font></a>
+        </small>
+      
+
+      
+    </div>
+  </div>
+  
+
+</div>
+</body></html>

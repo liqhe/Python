@@ -1,0 +1,1189 @@
+<!DOCTYPE html>
+<!-- saved from url=(0041)https://docs.locust.io/en/stable/api.html -->
+<html class="js flexbox canvas canvastext webgl no-touch geolocation postmessage websqldatabase indexeddb hashchange history draganddrop websockets rgba hsla multiplebgs backgroundsize borderimage borderradius boxshadow textshadow opacity cssanimations csscolumns cssgradients cssreflections csstransforms csstransforms3d csstransitions fontface generatedcontent video audio localstorage sessionstorage webworkers applicationcache svg inlinesvg smil svgclippaths translated-ltr" lang="zh-CN" style=""><!--<![endif]--><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>API  -  Locust 0.9.0文档</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="./Locust 0.9.0文档10_files/theme.css" type="text/css">
+  <link rel="stylesheet" href="./Locust 0.9.0文档10_files/pygments.css" type="text/css">
+    <link rel="index" title="指数" href="https://docs.locust.io/en/stable/genindex.html">
+    <link rel="search" title="搜索" href="https://docs.locust.io/en/stable/search.html">
+    <link rel="next" title="扩大蝗虫" href="https://docs.locust.io/en/stable/extending-locust.html">
+    <link rel="prev" title="使用自定义客户端测试其他系统" href="https://docs.locust.io/en/stable/testing-other-systems.html"> 
+
+  
+  <script async="" src="./Locust 0.9.0文档10_files/analytics.js"></script><script src="./Locust 0.9.0文档10_files/modernizr.min.js"></script>
+
+
+<!-- RTD Extra Head -->
+
+<!-- 
+Always link to the latest version, as canonical.
+http://docs.readthedocs.org/en/latest/canonical.html
+-->
+<link rel="canonical" href="http://docs.locust.io/en/stable/api.html">
+
+<link rel="stylesheet" href="./Locust 0.9.0文档10_files/readthedocs-doc-embed.css" type="text/css">
+
+<script type="text/javascript" src="./Locust 0.9.0文档10_files/readthedocs-data.js"></script>
+
+<!-- Add page-specific data, which must exist in the page js, not global -->
+<script type="text/javascript">
+READTHEDOCS_DATA['page'] = 'api'
+READTHEDOCS_DATA['source_suffix'] = '.rst'
+</script>
+
+<script type="text/javascript" src="./Locust 0.9.0文档10_files/readthedocs-analytics.js"></script>
+
+<!-- end RTD <extrahead> -->
+<link type="text/css" rel="stylesheet" charset="UTF-8" href="./Locust 0.9.0文档10_files/translateelement.css"></head>
+
+<body class="wy-body-for-nav" style="">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="https://docs.locust.io/en/stable/index.html" class="icon icon-home"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> 刺槐
+          
+
+          
+          </font></font></a>
+
+          
+            
+            
+            
+              <div class="version"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+                稳定
+              </font></font></div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="https://docs.locust.io/en/stable/search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs">
+    <input type="hidden" name="check_keywords" value="yes">
+    <input type="hidden" name="area" value="default">
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="https://docs.locust.io/en/stable/what-is-locust.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">什么是蝗虫？</font></font></a></li>
+<li class="toctree-l1"><a class="reference internal" href="https://docs.locust.io/en/stable/installation.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">安装</font></font></a></li>
+<li class="toctree-l1"><a class="reference internal" href="https://docs.locust.io/en/stable/quickstart.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">快速开始</font></font></a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="https://docs.locust.io/en/stable/writing-a-locustfile.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">编写一个locustfile</font></font></a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="https://docs.locust.io/en/stable/running-locust-distributed.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">运行Locust分布式</font></font></a></li>
+<li class="toctree-l1"><a class="reference internal" href="https://docs.locust.io/en/stable/running-locust-without-web-ui.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">在没有Web UI的情况下运行Locust</font></font></a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="https://docs.locust.io/en/stable/retrieving-stats.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">以CSV格式检索测试统计信息</font></font></a></li>
+<li class="toctree-l1"><a class="reference internal" href="https://docs.locust.io/en/stable/testing-other-systems.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">使用自定义客户端测试其他系统</font></font></a></li>
+<li class="toctree-l1 current"><a class="reference internal current" href="https://docs.locust.io/en/stable/api.html#"><span class="toctree-expand"></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">API</font></font></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="https://docs.locust.io/en/stable/api.html#locust-class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">蝗虫类</font></font></a></li>
+<li class="toctree-l2"><a class="reference internal" href="https://docs.locust.io/en/stable/api.html#httplocust-class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">HttpLocust类</font></font></a></li>
+<li class="toctree-l2"><a class="reference internal" href="https://docs.locust.io/en/stable/api.html#taskset-class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">TaskSet类</font></font></a></li>
+<li class="toctree-l2"><a class="reference internal" href="https://docs.locust.io/en/stable/api.html#task-decorator"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">任务装饰</font></font></a></li>
+<li class="toctree-l2"><a class="reference internal" href="https://docs.locust.io/en/stable/api.html#tasksequence-class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">TaskSequence类</font></font></a></li>
+<li class="toctree-l2"><a class="reference internal" href="https://docs.locust.io/en/stable/api.html#seq-task-decorator"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">seq_task装饰器</font></font></a></li>
+<li class="toctree-l2"><a class="reference internal" href="https://docs.locust.io/en/stable/api.html#httpsession-class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">HttpSession类</font></font></a></li>
+<li class="toctree-l2"><a class="reference internal" href="https://docs.locust.io/en/stable/api.html#response-class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">响应类</font></font></a></li>
+<li class="toctree-l2"><a class="reference internal" href="https://docs.locust.io/en/stable/api.html#responsecontextmanager-class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">ResponseContextManager类</font></font></a></li>
+<li class="toctree-l2"><a class="reference internal" href="https://docs.locust.io/en/stable/api.html#interrupttaskset-exception"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">InterruptTaskSet异常</font></font></a></li>
+<li class="toctree-l2"><a class="reference internal" href="https://docs.locust.io/en/stable/api.html#event-hooks"><span class="toctree-expand"></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">事件挂钩</font></font></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="https://docs.locust.io/en/stable/api.html#available-hooks">Available hooks</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="https://docs.locust.io/en/stable/extending-locust.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">扩大蝗虫</font></font></a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="https://docs.locust.io/en/stable/third-party-tools.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">第三方工具</font></font></a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="https://docs.locust.io/en/stable/changelog.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">变更日志亮点</font></font></a></li>
+</ul>
+
+            
+          
+        </div>
+      <div id="rtd-2x7p5g9z" class="ethical-rtd ethical-dark-theme"><div class="ethical-sidebar"><div class="ethical-content"><a href="https://readthedocs.org/sustainability/click/305/SkEyqUNZICNe/" rel="nofollow" target="_blank" class="ethical-image-link"><img src="./Locust 0.9.0文档10_files/readthedocs-logo-fs8.png"></a><div class="ethical-text"><a href="https://readthedocs.org/sustainability/click/305/SkEyqUNZICNe/" rel="nofollow" target="_blank"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">私人回购和优先支持</font></font><br><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">尝试阅读今日商业文档！</font></font></a></div></div><div class="ethical-callout"><small><em><a href="https://readthedocs.org/sustainability/advertising/"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">赞助商</font></font></a><span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">· </font></font></span><a href="https://docs.readthedocs.io/en/latest/ethical-advertising.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">道德服务广告</font></font></a></em></small></div></div><img src="./Locust 0.9.0文档10_files/saved_resource" style="display: none;"></div></div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="https://docs.locust.io/en/stable/index.html">Locust</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="https://docs.locust.io/en/stable/index.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">文件</font></font></a><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> »</font></font></li>
+        
+      <li><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">API</font></font></li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            
+              <a href="https://github.com/locustio/locust/blob/4bde2ca90f28bde649ff4ce2c86e36a6e6260856/docs/api.rst" class="fa fa-github"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> 在GitHub上编辑</font></font></a>
+            
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="api">
+<h1><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">API </font></font><a class="headerlink" href="https://docs.locust.io/en/stable/api.html#api" title="永久链接到这个标题"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">¶</font></font></a></h1>
+<div class="section" id="locust-class">
+<h2><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">蝗虫类</font></font><a class="headerlink" href="https://docs.locust.io/en/stable/api.html#locust-class" title="永久链接到这个标题"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">¶</font></font></a></h2>
+<dl class="class">
+<dt id="locust.core.Locust">
+<em class="property"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">类</font></font></em><code class="descname">Locust</code><a class="headerlink" href="https://docs.locust.io/en/stable/api.html#locust.core.Locust" title="这个定义的固定链接"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">¶</font></font></a></dt>
+<dd><p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">表示要加阴影线的“用户”并攻击要进行负载测试的系统。</font></font></p>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">该用户的行为由task_set属性定义，该属性应指向一个 
+ </font></font><a class="reference internal" href="https://docs.locust.io/en/stable/api.html#locust.core.TaskSet" title="locust.core.TaskSet"><code class="xref py py-class docutils literal notranslate"><span class="pre">TaskSet</span></code></a><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">类。</font></font></p>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">这个类通常应该由定义某种客户端的类子类化。</font><font style="vertical-align: inherit;">例如，在对HTTP系统进行负载测试时，您可能希望使用 
+ </font></font><a class="reference internal" href="https://docs.locust.io/en/stable/api.html#locust.core.HttpLocust" title="locust.core.HttpLocust"><code class="xref py py-class docutils literal notranslate"><span class="pre">HttpLocust</span></code></a><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">该类。</font></font></p>
+<dl class="attribute">
+<dt id="locust.core.Locust.max_wait">
+<code class="descname">max_wait</code><em class="property"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">= </font></font></em><a class="headerlink" href="https://docs.locust.io/en/stable/api.html#locust.core.Locust.max_wait" title="这个定义的固定链接"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">1000¶</font></font></a></dt>
+<dd><p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">执行蝗虫任务之间的最长等待时间</font></font></p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="locust.core.Locust.min_wait">
+<code class="descname">min_wait</code><em class="property"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">= </font></font></em><a class="headerlink" href="https://docs.locust.io/en/stable/api.html#locust.core.Locust.min_wait" title="这个定义的固定链接"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">1000¶</font></font></a></dt>
+<dd><p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">执行蝗虫任务之间的最短等待时间</font></font></p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="locust.core.Locust.task_set">
+<code class="descname">task_set</code><em class="property"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">=无</font></font></em><a class="headerlink" href="https://docs.locust.io/en/stable/api.html#locust.core.Locust.task_set" title="这个定义的固定链接"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">¶</font></font></a></dt>
+<dd><p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">TaskSet类，用于定义此蝗虫的执行行为</font></font></p>
+</dd></dl>
+
+<dl class="method">
+<dt id="locust.core.Locust.wait_function">
+<code class="descname">wait_function</code><span class="sig-paren"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">（</font></font></span><span class="sig-paren"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">）</font></font></span><a class="headerlink" href="https://docs.locust.io/en/stable/api.html#locust.core.Locust.wait_function" title="这个定义的固定链接"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">¶</font></font></a></dt>
+<dd><p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">用于计算执行蝗虫任务之间的等待时间的函数，以毫秒为单位</font></font></p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="locust.core.Locust.weight">
+<code class="descname">weight</code><em class="property"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">= </font></font></em><a class="headerlink" href="https://docs.locust.io/en/stable/api.html#locust.core.Locust.weight" title="这个定义的固定链接"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">10¶</font></font></a></dt>
+<dd><p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">选择蝗虫的可能性。</font><font style="vertical-align: inherit;">重量越高，被选中的机会就越大。</font></font></p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="httplocust-class">
+<h2><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">HttpLocust类</font></font><a class="headerlink" href="https://docs.locust.io/en/stable/api.html#httplocust-class" title="永久链接到这个标题"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">¶</font></font></a></h2>
+<dl class="class">
+<dt id="locust.core.HttpLocust">
+<em class="property"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">类</font></font></em><code class="descname">HttpLocust</code><a class="headerlink" href="https://docs.locust.io/en/stable/api.html#locust.core.HttpLocust" title="这个定义的固定链接"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">¶</font></font></a></dt>
+<dd><p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">表示要加上阴影线并攻击要进行负载测试的系统的HTTP“用户”。</font></font></p>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">该用户的行为由task_set属性定义，该属性应指向一个 
+ </font></font><a class="reference internal" href="https://docs.locust.io/en/stable/api.html#locust.core.TaskSet" title="locust.core.TaskSet"><code class="xref py py-class docutils literal notranslate"><span class="pre">TaskSet</span></code></a><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">类。</font></font></p>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">此类</font><font style="vertical-align: inherit;">在实例化上</font><font style="vertical-align: inherit;">创建</font></font><em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">客户端</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">属性，该实例化是一个HTTP客户端，支持在请求之间保持用户会话。</font></font></p>
+<dl class="attribute">
+<dt id="locust.core.HttpLocust.client">
+<code class="descname">client</code><em class="property"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">=无</font></font></em><a class="headerlink" href="https://docs.locust.io/en/stable/api.html#locust.core.HttpLocust.client" title="这个定义的固定链接"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">¶</font></font></a></dt>
+<dd><p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">在实例化Locust时创建的HttpSession实例。</font><font style="vertical-align: inherit;">客户端支持cookie，因此保持HTTP请求之间的会话。</font></font></p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="taskset-class">
+<h2><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">TaskSet类</font></font><a class="headerlink" href="https://docs.locust.io/en/stable/api.html#taskset-class" title="永久链接到这个标题"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">¶</font></font></a></h2>
+<dl class="class">
+<dt id="locust.core.TaskSet">
+<em class="property"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">class </font></font></em><code class="descname">TaskSet</code><span class="sig-paren"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">（</font></font></span><em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">parent </font></font></em><span class="sig-paren"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">）</font></font></span><a class="headerlink" href="https://docs.locust.io/en/stable/api.html#locust.core.TaskSet" title="这个定义的固定链接"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">¶</font></font></a></dt>
+<dd><p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">定义Locust用户将执行的一组任务的类。</font></font></p>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">当TaskSet开始运行时，它将从</font></font><em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">tasks</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">属性中</font><font style="vertical-align: inherit;">选择一个任务</font><font style="vertical-align: inherit;">，执行它，并调用它的</font></font><em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">wait_function</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">，它将定义一个睡眠时间。</font><font style="vertical-align: inherit;">默认为</font></font><em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">min_wait</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">和 
+ </font></font><em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">max_wait</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">毫秒</font><font style="vertical-align: inherit;">之间的均匀分布的随机数</font><font style="vertical-align: inherit;">。</font><font style="vertical-align: inherit;">然后它将安排另一个执行任务，依此类推。</font></font></p>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">TaskSets可以嵌套，这意味着TaskSet的</font></font><em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">tasks</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">属性可以包含另一个TaskSet。</font><font style="vertical-align: inherit;">如果它计划执行嵌套的TaskSet，它将被实例化并从当前执行的TaskSet中调用。</font><font style="vertical-align: inherit;">然后，当前运行的TaskSet中的执行将被移交给嵌套的TaskSet，后者将继续运行，直到它抛出InterruptTaskSet异常，这在</font></font><a class="reference internal" href="https://docs.locust.io/en/stable/api.html#locust.core.TaskSet.interrupt" title="locust.core.TaskSet.interrupt"><code class="xref py py-meth docutils literal notranslate"><span class="pre">TaskSet.interrupt()</span></code></a><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">调用</font><font style="vertical-align: inherit;">时完成 
+ </font><font style="vertical-align: inherit;">。</font><font style="vertical-align: inherit;">（然后执行将在第一个TaskSet中继续）。</font></font></p>
+<dl class="attribute">
+<dt id="locust.core.TaskSet.client">
+<code class="descname">client</code><a class="headerlink" href="https://docs.locust.io/en/stable/api.html#locust.core.TaskSet.client" title="这个定义的固定链接"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">¶</font></font></a></dt>
+<dd><p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">引用</font></font><code class="xref py py-attr docutils literal notranslate"><span class="pre">client</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">根Locust实例</font><font style="vertical-align: inherit;">的</font><font style="vertical-align: inherit;">属性。</font></font></p>
+</dd></dl>
+
+<dl class="method">
+<dt id="locust.core.TaskSet.interrupt">
+<code class="descname">interrupt</code><span class="sig-paren"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">（</font></font></span><em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">reschedule = True </font></font></em><span class="sig-paren"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">）</font></font></span><a class="headerlink" href="https://docs.locust.io/en/stable/api.html#locust.core.TaskSet.interrupt" title="这个定义的固定链接"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">¶</font></font></a></dt>
+<dd><p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">中断TaskSet并将执行控制移交给父TaskSet。</font></font></p>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">如果</font></font><em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">重新安排</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">为True（默认），则父Locust将立即重新安排并执行新任务</font></font></p>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">根TaskSet不应该调用此方法（立即附加到Locust类' </font></font><em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">task_set</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">属性），而是在层次结构中的嵌套TaskSet类中调用。</font></font></p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="locust.core.TaskSet.locust">
+<code class="descname">locust</code><em class="property"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">=无</font></font></em><a class="headerlink" href="https://docs.locust.io/en/stable/api.html#locust.core.TaskSet.locust" title="这个定义的固定链接"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">¶</font></font></a></dt>
+<dd><p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">在实例化TaskSet时将引用根Locust类实例</font></font></p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="locust.core.TaskSet.max_wait">
+<code class="descname">max_wait</code><em class="property"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">=无</font></font></em><a class="headerlink" href="https://docs.locust.io/en/stable/api.html#locust.core.TaskSet.max_wait" title="这个定义的固定链接"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">¶</font></font></a></dt>
+<dd><p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">执行蝗虫任务之间的最长等待时间。</font><font style="vertical-align: inherit;">可用于覆盖根Locust类中定义的max_wait，如果未在TaskSet上设置，将使用该max_wait。</font></font></p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="locust.core.TaskSet.min_wait">
+<code class="descname">min_wait</code><em class="property"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">=无</font></font></em><a class="headerlink" href="https://docs.locust.io/en/stable/api.html#locust.core.TaskSet.min_wait" title="这个定义的固定链接"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">¶</font></font></a></dt>
+<dd><p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">执行蝗虫任务之间的最短等待时间。</font><font style="vertical-align: inherit;">可用于覆盖根Locust类中定义的min_wait，如果未在TaskSet上设置，将使用该min_wait。</font></font></p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="locust.core.TaskSet.parent">
+<code class="descname">parent</code><em class="property"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">=无</font></font></em><a class="headerlink" href="https://docs.locust.io/en/stable/api.html#locust.core.TaskSet.parent" title="这个定义的固定链接"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">¶</font></font></a></dt>
+<dd><p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">在实例化TaskSet时，将引用父TaskSet或Locust类实例。</font><font style="vertical-align: inherit;">对嵌套的TaskSet类很有用。</font></font></p>
+</dd></dl>
+
+<dl class="method">
+<dt id="locust.core.TaskSet.schedule_task">
+<code class="descname">schedule_task</code><span class="sig-paren"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">（</font></font></span><em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">task_callable</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">，</font></font><em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">args = None</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">，</font></font><em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">kwargs = None</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">，</font></font><em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">first = False </font></font></em><span class="sig-paren"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">）</font></font></span><a class="headerlink" href="https://docs.locust.io/en/stable/api.html#locust.core.TaskSet.schedule_task" title="这个定义的固定链接"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">¶</font></font></a></dt>
+<dd><p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">将任务添加到Locust的任务执行队列。</font></font></p>
+<p><em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">参数</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">：</font></font></p>
+<ul class="simple">
+<li><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">task_callable：要安排的蝗虫任务</font></font></li>
+<li><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">args：将传递给可调用任务的参数</font></font></li>
+<li><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">kwargs：将传递给可调用任务的关键字参数的字典。</font></font></li>
+<li><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">first：可选的关键字参数。</font><font style="vertical-align: inherit;">如果为True，则任务将首先放入队列中。</font></font></li>
+</ul>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="locust.core.TaskSet.tasks">
+<code class="descname">tasks</code><em class="property"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">= [] </font></font></em><a class="headerlink" href="https://docs.locust.io/en/stable/api.html#locust.core.TaskSet.tasks" title="这个定义的固定链接"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">¶</font></font></a></dt>
+<dd><p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">列出了代表蝗虫用户任务的python callables。</font></font></p>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">如果任务是列表，则将随机选择要执行的任务。</font></font></p>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">如果tasks是</font></font><em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">（可调用的，int）</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">两元组列表或{callable：int} dict，则将随机选择要执行的任务，但每个任务将根据其对应的int值进行加权。</font><font style="vertical-align: inherit;">所以在下面的例子中，</font></font><em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">ThreadPage的</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">拾取可能性是</font></font><em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">write_post的十五倍</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">：</font></font></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">ForumPage</span><span class="p">(</span><span class="n">TaskSet</span><span class="p">):</span>
+    <span class="n">tasks</span> <span class="o">=</span> <span class="p">{</span><span class="n">ThreadPage</span><span class="p">:</span><span class="mi">15</span><span class="p">,</span> <span class="n">write_post</span><span class="p">:</span><span class="mi">1</span><span class="p">}</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="locust.core.TaskSet.wait_function">
+<code class="descname">wait_function</code><em class="property"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">=无</font></font></em><a class="headerlink" href="https://docs.locust.io/en/stable/api.html#locust.core.TaskSet.wait_function" title="这个定义的固定链接"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">¶</font></font></a></dt>
+<dd><p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">用于计算执行蝗虫任务之间的等待时间的函数，以毫秒为单位。</font><font style="vertical-align: inherit;">可用于覆盖根Locust类中定义的wait_function，如果未在TaskSet上设置，将使用该等候函数。</font></font></p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="task-decorator">
+<h2><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">任务装饰</font></font><a class="headerlink" href="https://docs.locust.io/en/stable/api.html#task-decorator" title="永久链接到这个标题"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">¶</font></font></a></h2>
+<dl class="function">
+<dt id="locust.core.task">
+<code class="descname">task</code><span class="sig-paren"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">（</font></font></span><em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">重量= 1 </font></font></em><span class="sig-paren"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">）</font></font></span><a class="headerlink" href="https://docs.locust.io/en/stable/api.html#locust.core.task" title="这个定义的固定链接"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">¶</font></font></a></dt>
+<dd><p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">用作便利装饰器，以便能够在类中内联任务集声明任务。</font><font style="vertical-align: inherit;">例：</font></font></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">ForumPage</span><span class="p">(</span><span class="n">TaskSet</span><span class="p">):</span>
+    <span class="nd">@task</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">read_thread</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">pass</span>
+    
+    <span class="nd">@task</span><span class="p">(</span><span class="mi">7</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">create_thread</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">pass</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</div>
+<div class="section" id="tasksequence-class">
+<h2><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">TaskSequence类</font></font><a class="headerlink" href="https://docs.locust.io/en/stable/api.html#tasksequence-class" title="永久链接到这个标题"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">¶</font></font></a></h2>
+<dl class="class">
+<dt id="locust.core.TaskSequence">
+<em class="property"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">class </font></font></em><code class="descname">TaskSequence</code><span class="sig-paren"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">（</font></font></span><em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">parent </font></font></em><span class="sig-paren"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">）</font></font></span><a class="headerlink" href="https://docs.locust.io/en/stable/api.html#locust.core.TaskSequence" title="这个定义的固定链接"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">¶</font></font></a></dt>
+<dd><p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">定义Locust用户将执行的任务序列的类。</font></font></p>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">当TaskSequence开始运行时，它将</font><font style="vertical-align: inherit;">从</font><em><font style="vertical-align: inherit;">tasks</font></em><font style="vertical-align: inherit;">属性</font><font style="vertical-align: inherit;">中选择</font></font><cite><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">索引</font></font></cite><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">中的</font></font><em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">任务</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">，执行它，并调用它的</font></font><em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">wait_function</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">，它将定义一个睡眠时间。</font><font style="vertical-align: inherit;">默认为</font></font><em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">min_wait</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">和
+ </font></font><em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">max_wait</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">毫秒</font><font style="vertical-align: inherit;">之间的均匀分布的随机数</font><font style="vertical-align: inherit;">。</font><font style="vertical-align: inherit;">然后，它将调度</font></font><cite><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">索引+ 1％len（任务）</font></font></cite><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">任务以执行，依此类推。</font></font></p>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">TaskSequence可以与TaskSet嵌套，这意味着TaskSequence的</font></font><em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">tasks</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">属性可以包含TaskSet实例以及其他TaskSequence实例。</font><font style="vertical-align: inherit;">如果它计划执行嵌套的TaskSet，它将被实例化并从当前执行的TaskSet中调用。</font><font style="vertical-align: inherit;">然后，当前运行的TaskSet中的执行将被移交给嵌套的TaskSet，后者将继续运行，直到它抛出InterruptTaskSet异常，这在</font></font><a class="reference internal" href="https://docs.locust.io/en/stable/api.html#locust.core.TaskSet.interrupt" title="locust.core.TaskSet.interrupt"><code class="xref py py-meth docutils literal notranslate"><span class="pre">TaskSet.interrupt()</span></code></a><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">调用</font><font style="vertical-align: inherit;">时完成
+ </font><font style="vertical-align: inherit;">。</font><font style="vertical-align: inherit;">（然后执行将在第一个TaskSet中继续）。</font></font></p>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">在这个类中，任务应该被定义为一个列表，或者只是使用@seq_task装饰器来定义任务</font></font></p>
+<dl class="attribute">
+<dt id="locust.core.TaskSequence.client">
+<code class="descname">client</code><a class="headerlink" href="https://docs.locust.io/en/stable/api.html#locust.core.TaskSequence.client" title="这个定义的固定链接"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">¶</font></font></a></dt>
+<dd><p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">引用</font></font><code class="xref py py-attr docutils literal notranslate"><span class="pre">client</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">根Locust实例</font><font style="vertical-align: inherit;">的</font><font style="vertical-align: inherit;">属性。</font></font></p>
+</dd></dl>
+
+<dl class="method">
+<dt id="locust.core.TaskSequence.interrupt">
+<code class="descname">interrupt</code><span class="sig-paren"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">（</font></font></span><em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">reschedule = True </font></font></em><span class="sig-paren"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">）</font></font></span><a class="headerlink" href="https://docs.locust.io/en/stable/api.html#locust.core.TaskSequence.interrupt" title="这个定义的固定链接"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">¶</font></font></a></dt>
+<dd><p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">中断TaskSet并将执行控制移交给父TaskSet。</font></font></p>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">如果</font></font><em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">重新安排</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">为True（默认），则父Locust将立即重新安排并执行新任务</font></font></p>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">根TaskSet不应该调用此方法（立即附加到Locust类' </font></font><em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">task_set</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">属性），而是在层次结构中的嵌套TaskSet类中调用。</font></font></p>
+</dd></dl>
+
+<dl class="method">
+<dt id="locust.core.TaskSequence.schedule_task">
+<code class="descname">schedule_task</code><span class="sig-paren"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">（</font></font></span><em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">task_callable</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">，</font></font><em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">args = None</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">，</font></font><em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">kwargs = None</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">，</font></font><em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">first = False </font></font></em><span class="sig-paren"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">）</font></font></span><a class="headerlink" href="https://docs.locust.io/en/stable/api.html#locust.core.TaskSequence.schedule_task" title="这个定义的固定链接"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">¶</font></font></a></dt>
+<dd><p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">将任务添加到Locust的任务执行队列。</font></font></p>
+<p><em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">参数</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">：</font></font></p>
+<ul class="simple">
+<li><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">task_callable：要安排的蝗虫任务</font></font></li>
+<li><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">args：将传递给可调用任务的参数</font></font></li>
+<li><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">kwargs：将传递给可调用任务的关键字参数的字典。</font></font></li>
+<li><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">first：可选的关键字参数。</font><font style="vertical-align: inherit;">如果为True，则任务将首先放入队列中。</font></font></li>
+</ul>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="seq-task-decorator">
+<h2><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">seq_task装饰器</font></font><a class="headerlink" href="https://docs.locust.io/en/stable/api.html#seq-task-decorator" title="永久链接到这个标题"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">¶</font></font></a></h2>
+<dl class="function">
+<dt id="locust.core.seq_task">
+<code class="descname">seq_task</code><span class="sig-paren"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">（</font></font></span><em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">顺序</font></font></em><span class="sig-paren"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">）</font></font></span><a class="headerlink" href="https://docs.locust.io/en/stable/api.html#locust.core.seq_task" title="这个定义的固定链接"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">¶</font></font></a></dt>
+<dd><p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">用作便利装饰器，以便能够在类中内联TaskSequence的任务。</font><font style="vertical-align: inherit;">例：</font></font></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">NormalUser</span><span class="p">(</span><span class="n">TaskSequence</span><span class="p">):</span>
+    <span class="nd">@seq_task</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">login_first</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">pass</span>
+
+    <span class="nd">@seq_task</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+    <span class="nd">@task</span><span class="p">(</span><span class="mi">25</span><span class="p">)</span> <span class="c1"># You can also set the weight in order to execute the task for `weight` times one after another.</span>
+    <span class="k">def</span> <span class="nf">then_read_thread</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">pass</span>
+
+    <span class="nd">@seq_task</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">then_logout</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">pass</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</div>
+<div class="section" id="httpsession-class">
+<h2><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">HttpSession类</font></font><a class="headerlink" href="https://docs.locust.io/en/stable/api.html#httpsession-class" title="永久链接到这个标题"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">¶</font></font></a></h2>
+<dl class="class">
+<dt id="locust.clients.HttpSession">
+<em class="property"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">class </font></font></em><code class="descname">HttpSession</code><span class="sig-paren"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">（</font></font></span><em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">base_url</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">，</font></font><em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">* args</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">，</font></font><em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">** kwargs </font></font></em><span class="sig-paren"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">）</font></font></span><a class="headerlink" href="https://docs.locust.io/en/stable/api.html#locust.clients.HttpSession" title="这个定义的固定链接"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">¶</font></font></a></dt>
+<dd><p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">用于在请求之间执行Web请求和保留（会话）cookie的类（以便能够登录和退出网站）。</font><font style="vertical-align: inherit;">记录每个请求，以便蝗虫可以显示统计信息。</font></font></p>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">这是一个稍微扩展版</font></font><a class="reference external" href="http://python-requests.org/"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">蟒蛇请求</font></font></a><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">的
+ </font></font><a class="reference external" href="https://requests.readthedocs.io/en/latest/api/#requests.Session" title="（在请求v2.19.1中）"><code class="xref py py-class docutils literal notranslate"><span class="pre">requests.Session</span></code></a><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">类属此类的工作方式完全相同。</font><font style="vertical-align: inherit;">然而，发出请求（get，post，delete，put，head，options，patch，request）的方法现在可以采用</font><font style="vertical-align: inherit;">仅作为URL的路径部分的</font></font><em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">url</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">参数，在这种情况下，URL的主机部分将被预先添加使用HttpSession.base_url，它通常继承自Locust类的主机属性。</font></font></p>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">每个发出请求的方法还需要两个额外的可选参数，这些参数是特定于Locust的，并且在python-requests中不存在。</font><font style="vertical-align: inherit;">这些是：</font></font></p>
+<table class="docutils field-list" frame="void" rules="none">
+<colgroup><col class="field-name">
+<col class="field-body">
+</colgroup><tbody valign="top">
+<tr class="field-odd field"><th class="field-name"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">参数：</font></font></th><td class="field-body"><ul class="first last simple">
+<li><strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">name</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> - （可选）可以指定在Locust的统计信息中用作标签而不是URL路径的参数。</font><font style="vertical-align: inherit;">这可用于将请求的不同URL分组到Locust统计信息中的单个条目中。</font></font></li>
+<li><strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">catch_response</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> - （可选）布尔参数，如果设置，可用于发出请求，返回上下文管理器作为with语句的参数。</font><font style="vertical-align: inherit;">这将允许根据响应内容将请求标记为失败，即使响应代码正常（2xx）。</font><font style="vertical-align: inherit;">相反也有效，可以使用catch_response来捕获请求，然后将其标记为成功，即使响应代码不是（即500或404）。</font></font></li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="locust.clients.HttpSession.__init__">
+<code class="descname">__init__</code><span class="sig-paren"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">（</font></font></span><em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">base_url</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">，</font></font><em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">* args</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">，</font></font><em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">** kwargs </font></font></em><span class="sig-paren"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">）</font></font></span><a class="headerlink" href="https://docs.locust.io/en/stable/api.html#locust.clients.HttpSession.__init__" title="这个定义的固定链接"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">¶</font></font></a></dt>
+<dd><p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">x .__ init __（...）初始化x; </font><font style="vertical-align: inherit;">请参阅帮助（类型（x））以进行签名</font></font></p>
+</dd></dl>
+
+<dl class="method">
+<dt id="locust.clients.HttpSession.delete">
+<code class="descname">delete</code><span class="sig-paren"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">（</font></font></span><em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">网址</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">，</font></font><em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">** kwargs </font></font></em><span class="sig-paren"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">）</font></font></span><a class="headerlink" href="https://docs.locust.io/en/stable/api.html#locust.clients.HttpSession.delete" title="这个定义的固定链接"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">¶</font></font></a></dt>
+<dd><p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">发送DELETE请求。</font><font style="vertical-align: inherit;">返回</font></font><code class="xref py py-class docutils literal notranslate"><span class="pre">Response</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">对象。</font></font></p>
+<table class="docutils field-list" frame="void" rules="none">
+<colgroup><col class="field-name">
+<col class="field-body">
+</colgroup><tbody valign="top">
+<tr class="field-odd field"><th class="field-name"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">参数：</font></font></th><td class="field-body"><ul class="first simple">
+<li><strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">url</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> - 新</font></font><code class="xref py py-class docutils literal notranslate"><span class="pre">Request</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">对象的</font><font style="vertical-align: inherit;">URL </font><font style="vertical-align: inherit;">。</font></font></li>
+<li><strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">** kwargs</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> - 需要的可选参数</font></font><code class="docutils literal notranslate"><span class="pre">request</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">。</font></font></li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">返回类型：</font></font></th><td class="field-body"><p class="first last"><a class="reference external" href="https://requests.readthedocs.io/en/latest/api/#requests.Response" title="（在请求v2.19.1中）"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">requests.Response</font></font></a></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="locust.clients.HttpSession.get">
+<code class="descname">get</code><span class="sig-paren"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">（</font></font></span><em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">网址</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">，</font></font><em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">** kwargs </font></font></em><span class="sig-paren"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">）</font></font></span><a class="headerlink" href="https://docs.locust.io/en/stable/api.html#locust.clients.HttpSession.get" title="这个定义的固定链接"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">¶</font></font></a></dt>
+<dd><p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">发送GET请求。</font><font style="vertical-align: inherit;">返回</font></font><code class="xref py py-class docutils literal notranslate"><span class="pre">Response</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">对象。</font></font></p>
+<table class="docutils field-list" frame="void" rules="none">
+<colgroup><col class="field-name">
+<col class="field-body">
+</colgroup><tbody valign="top">
+<tr class="field-odd field"><th class="field-name"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">参数：</font></font></th><td class="field-body"><ul class="first simple">
+<li><strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">url</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> - 新</font></font><code class="xref py py-class docutils literal notranslate"><span class="pre">Request</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">对象的</font><font style="vertical-align: inherit;">URL </font><font style="vertical-align: inherit;">。</font></font></li>
+<li><strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">** kwargs</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> - 需要的可选参数</font></font><code class="docutils literal notranslate"><span class="pre">request</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">。</font></font></li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">返回类型：</font></font></th><td class="field-body"><p class="first last"><a class="reference external" href="https://requests.readthedocs.io/en/latest/api/#requests.Response" title="（在请求v2.19.1中）"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">requests.Response</font></font></a></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="locust.clients.HttpSession.head">
+<code class="descname">head</code><span class="sig-paren"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">（</font></font></span><em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">网址</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">，</font></font><em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">** kwargs </font></font></em><span class="sig-paren"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">）</font></font></span><a class="headerlink" href="https://docs.locust.io/en/stable/api.html#locust.clients.HttpSession.head" title="这个定义的固定链接"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">¶</font></font></a></dt>
+<dd><p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">发送HEAD请求。</font><font style="vertical-align: inherit;">返回</font></font><code class="xref py py-class docutils literal notranslate"><span class="pre">Response</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">对象。</font></font></p>
+<table class="docutils field-list" frame="void" rules="none">
+<colgroup><col class="field-name">
+<col class="field-body">
+</colgroup><tbody valign="top">
+<tr class="field-odd field"><th class="field-name"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">参数：</font></font></th><td class="field-body"><ul class="first simple">
+<li><strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">url</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> - 新</font></font><code class="xref py py-class docutils literal notranslate"><span class="pre">Request</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">对象的</font><font style="vertical-align: inherit;">URL </font><font style="vertical-align: inherit;">。</font></font></li>
+<li><strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">** kwargs</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> - 需要的可选参数</font></font><code class="docutils literal notranslate"><span class="pre">request</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">。</font></font></li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">返回类型：</font></font></th><td class="field-body"><p class="first last"><a class="reference external" href="https://requests.readthedocs.io/en/latest/api/#requests.Response" title="（在请求v2.19.1中）"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">requests.Response</font></font></a></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="locust.clients.HttpSession.options">
+<code class="descname">options</code><span class="sig-paren"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">（</font></font></span><em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">网址</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">，</font></font><em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">** kwargs </font></font></em><span class="sig-paren"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">）</font></font></span><a class="headerlink" href="https://docs.locust.io/en/stable/api.html#locust.clients.HttpSession.options" title="这个定义的固定链接"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">¶</font></font></a></dt>
+<dd><p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">发送OPTIONS请求。</font><font style="vertical-align: inherit;">返回</font></font><code class="xref py py-class docutils literal notranslate"><span class="pre">Response</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">对象。</font></font></p>
+<table class="docutils field-list" frame="void" rules="none">
+<colgroup><col class="field-name">
+<col class="field-body">
+</colgroup><tbody valign="top">
+<tr class="field-odd field"><th class="field-name"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">参数：</font></font></th><td class="field-body"><ul class="first simple">
+<li><strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">url</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> - 新</font></font><code class="xref py py-class docutils literal notranslate"><span class="pre">Request</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">对象的</font><font style="vertical-align: inherit;">URL </font><font style="vertical-align: inherit;">。</font></font></li>
+<li><strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">** kwargs</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> - 需要的可选参数</font></font><code class="docutils literal notranslate"><span class="pre">request</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">。</font></font></li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">返回类型：</font></font></th><td class="field-body"><p class="first last"><a class="reference external" href="https://requests.readthedocs.io/en/latest/api/#requests.Response" title="（在请求v2.19.1中）"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">requests.Response</font></font></a></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="locust.clients.HttpSession.patch">
+<code class="descname">patch</code><span class="sig-paren"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">（</font></font></span><em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">url</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">，</font></font><em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">data = None</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">，</font></font><em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">** kwargs </font></font></em><span class="sig-paren"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">）</font></font></span><a class="headerlink" href="https://docs.locust.io/en/stable/api.html#locust.clients.HttpSession.patch" title="这个定义的固定链接"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">¶</font></font></a></dt>
+<dd><p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">发送PATCH请求。</font><font style="vertical-align: inherit;">返回</font></font><code class="xref py py-class docutils literal notranslate"><span class="pre">Response</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">对象。</font></font></p>
+<table class="docutils field-list" frame="void" rules="none">
+<colgroup><col class="field-name">
+<col class="field-body">
+</colgroup><tbody valign="top">
+<tr class="field-odd field"><th class="field-name"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">参数：</font></font></th><td class="field-body"><ul class="first simple">
+<li><strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">url</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> - 新</font></font><code class="xref py py-class docutils literal notranslate"><span class="pre">Request</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">对象的</font><font style="vertical-align: inherit;">URL </font><font style="vertical-align: inherit;">。</font></font></li>
+<li><strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">data</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> - （可选）在体内发送的字典，字节或类文件对象</font></font><code class="xref py py-class docutils literal notranslate"><span class="pre">Request</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">。</font></font></li>
+<li><strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">** kwargs</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> - 需要的可选参数</font></font><code class="docutils literal notranslate"><span class="pre">request</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">。</font></font></li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">返回类型：</font></font></th><td class="field-body"><p class="first last"><a class="reference external" href="https://requests.readthedocs.io/en/latest/api/#requests.Response" title="（在请求v2.19.1中）"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">requests.Response</font></font></a></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="locust.clients.HttpSession.post">
+<code class="descname">post</code><span class="sig-paren"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">（</font></font></span><em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">url</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">，</font></font><em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">data = None</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">，</font></font><em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">json = None</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">，</font></font><em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">** kwargs </font></font></em><span class="sig-paren"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">）</font></font></span><a class="headerlink" href="https://docs.locust.io/en/stable/api.html#locust.clients.HttpSession.post" title="这个定义的固定链接"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">¶</font></font></a></dt>
+<dd><p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">发送POST请求。</font><font style="vertical-align: inherit;">返回</font></font><code class="xref py py-class docutils literal notranslate"><span class="pre">Response</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">对象。</font></font></p>
+<table class="docutils field-list" frame="void" rules="none">
+<colgroup><col class="field-name">
+<col class="field-body">
+</colgroup><tbody valign="top">
+<tr class="field-odd field"><th class="field-name"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">参数：</font></font></th><td class="field-body"><ul class="first simple">
+<li><strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">url</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> - 新</font></font><code class="xref py py-class docutils literal notranslate"><span class="pre">Request</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">对象的</font><font style="vertical-align: inherit;">URL </font><font style="vertical-align: inherit;">。</font></font></li>
+<li><strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">data</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> - （可选）在体内发送的字典，字节或类文件对象</font></font><code class="xref py py-class docutils literal notranslate"><span class="pre">Request</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">。</font></font></li>
+<li><strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">json</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> - （可选）json发送到正文中</font></font><code class="xref py py-class docutils literal notranslate"><span class="pre">Request</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">。</font></font></li>
+<li><strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">** kwargs</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> - 需要的可选参数</font></font><code class="docutils literal notranslate"><span class="pre">request</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">。</font></font></li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">返回类型：</font></font></th><td class="field-body"><p class="first last"><a class="reference external" href="https://requests.readthedocs.io/en/latest/api/#requests.Response" title="（在请求v2.19.1中）"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">requests.Response</font></font></a></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="locust.clients.HttpSession.put">
+<code class="descname">put</code><span class="sig-paren"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">（</font></font></span><em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">url</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">，</font></font><em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">data = None</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">，</font></font><em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">** kwargs </font></font></em><span class="sig-paren"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">）</font></font></span><a class="headerlink" href="https://docs.locust.io/en/stable/api.html#locust.clients.HttpSession.put" title="这个定义的固定链接"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">¶</font></font></a></dt>
+<dd><p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">发送PUT请求。</font><font style="vertical-align: inherit;">返回</font></font><code class="xref py py-class docutils literal notranslate"><span class="pre">Response</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">对象。</font></font></p>
+<table class="docutils field-list" frame="void" rules="none">
+<colgroup><col class="field-name">
+<col class="field-body">
+</colgroup><tbody valign="top">
+<tr class="field-odd field"><th class="field-name"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">参数：</font></font></th><td class="field-body"><ul class="first simple">
+<li><strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">url</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> - 新</font></font><code class="xref py py-class docutils literal notranslate"><span class="pre">Request</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">对象的</font><font style="vertical-align: inherit;">URL </font><font style="vertical-align: inherit;">。</font></font></li>
+<li><strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">data</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> - （可选）在体内发送的字典，字节或类文件对象</font></font><code class="xref py py-class docutils literal notranslate"><span class="pre">Request</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">。</font></font></li>
+<li><strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">** kwargs</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> - 需要的可选参数</font></font><code class="docutils literal notranslate"><span class="pre">request</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">。</font></font></li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">返回类型：</font></font></th><td class="field-body"><p class="first last"><a class="reference external" href="https://requests.readthedocs.io/en/latest/api/#requests.Response" title="（在请求v2.19.1中）"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">requests.Response</font></font></a></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="locust.clients.HttpSession.request">
+<code class="descname">request</code><span class="sig-paren"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">（</font></font></span><em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">方法</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">，</font></font><em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">网址</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">，</font></font><em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">名称=无</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">，</font></font><em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">catch_response = False</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">，</font></font><em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">** kwargs </font></font></em><span class="sig-paren"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">）</font></font></span><a class="headerlink" href="https://docs.locust.io/en/stable/api.html#locust.clients.HttpSession.request" title="这个定义的固定链接"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">¶</font></font></a></dt>
+<dd><p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">构造并发送一个</font></font><a class="reference external" href="https://requests.readthedocs.io/en/latest/api/#requests.Request" title="（在请求v2.19.1中）"><code class="xref py py-class docutils literal notranslate"><span class="pre">requests.Request</span></code></a><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">。</font><font style="vertical-align: inherit;">返回</font></font><a class="reference external" href="https://requests.readthedocs.io/en/latest/api/#requests.Response" title="（在请求v2.19.1中）"><code class="xref py py-class docutils literal notranslate"><span class="pre">requests.Response</span></code></a><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">对象。</font></font></p>
+<table class="docutils field-list" frame="void" rules="none">
+<colgroup><col class="field-name">
+<col class="field-body">
+</colgroup><tbody valign="top">
+<tr class="field-odd field"><th class="field-name"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">参数：</font></font></th><td class="field-body"><ul class="first last simple">
+<li><strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">方法</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> - 新</font></font><code class="xref py py-class docutils literal notranslate"><span class="pre">Request</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">对象的</font><font style="vertical-align: inherit;">方法</font><font style="vertical-align: inherit;">。</font></font></li>
+<li><strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">url</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> - 新</font></font><code class="xref py py-class docutils literal notranslate"><span class="pre">Request</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">对象的</font><font style="vertical-align: inherit;">URL </font><font style="vertical-align: inherit;">。</font></font></li>
+<li><strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">name</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> - （可选）可以指定在Locust的统计信息中用作标签而不是URL路径的参数。</font><font style="vertical-align: inherit;">这可用于将请求的不同URL分组到Locust统计信息中的单个条目中。</font></font></li>
+<li><strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">catch_response</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> - （可选）布尔参数，如果设置，可用于发出请求，返回上下文管理器作为with语句的参数。</font><font style="vertical-align: inherit;">这将允许根据响应内容将请求标记为失败，即使响应代码正常（2xx）。</font><font style="vertical-align: inherit;">相反也有效，可以使用catch_response来捕获请求，然后将其标记为成功，即使响应代码不是（即500或404）。</font></font></li>
+<li><strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">params</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> - （可选）要在查询字符串中发送的字典或字节</font></font><code class="xref py py-class docutils literal notranslate"><span class="pre">Request</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">。</font></font></li>
+<li><strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">data</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> - （可选）在体内发送的字典或字节</font></font><code class="xref py py-class docutils literal notranslate"><span class="pre">Request</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">。</font></font></li>
+<li><strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">headers</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> - （可选）用于发送的HTTP头的字典</font></font><code class="xref py py-class docutils literal notranslate"><span class="pre">Request</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">。</font></font></li>
+<li><strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">cookies</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> - （可选）用于发送的Dict或CookieJar对象</font></font><code class="xref py py-class docutils literal notranslate"><span class="pre">Request</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">。</font></font></li>
+<li><strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">files</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> - （可选）</font><font style="vertical-align: inherit;">用于多部分编码上载的</font><font style="vertical-align: inherit;">字典</font><font style="vertical-align: inherit;">。</font></font><code class="docutils literal notranslate"><span class="pre">'filename':</span> <span class="pre">file-like-objects</span></code><font style="vertical-align: inherit;"></font></li>
+<li><strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">auth</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> - （可选）Auth tuple或callable以启用Basic / Digest / Custom HTTP Auth。</font></font></li>
+<li><strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">timeout</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">（</font></font><em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">float </font></font></em><em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">或</font></font></em><em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">tuple</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">） - （可选）等待服务器在放弃之前以浮点或（</font></font><a class="reference external" href="https://docs.locust.io/en/stable/user/advanced.html#timeouts"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">连接超时，读取超时</font></font></a><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">）元组的形式</font><font style="vertical-align: inherit;">发送数据的时间长度</font><font style="vertical-align: inherit;">。</font></font></li>
+<li><strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">allow_redirects</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">（</font></font><em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">bool</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">） - （可选）默认设置为True。</font></font></li>
+<li><strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">proxies</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> - （可选）字典映射协议到代理的URL。</font></font></li>
+<li><strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">stream</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> - （可选）是否立即下载响应内容。</font><font style="vertical-align: inherit;">默认为</font></font><code class="docutils literal notranslate"><span class="pre">False</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">。</font></font></li>
+<li><strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">验证</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> - （可选）是否</font></font><code class="docutils literal notranslate"><span class="pre">True</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">，将验证SSL证书。</font><font style="vertical-align: inherit;">还可以提供CA_BUNDLE路径。</font></font></li>
+<li><strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">cert</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> - （可选）if String，ssl客户端证书文件（.pem）的路径。</font><font style="vertical-align: inherit;">如果Tuple，（'cert'，'key'）配对。</font></font></li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="response-class">
+<h2><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">响应类</font></font><a class="headerlink" href="https://docs.locust.io/en/stable/api.html#response-class" title="永久链接到这个标题"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">¶</font></font></a></h2>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">这个类实际上驻留在</font></font><a class="reference external" href="http://python-requests.org/"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">python-requests</font></font></a><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">库中，因为这就是Locust用于发出HTTP请求的内容，但它包含在蝗虫的API文档中，因为它在编写蝗虫负载测试时非常重要。</font><font style="vertical-align: inherit;">您还可以在</font><a class="reference external" href="http://python-requests.org/"><font style="vertical-align: inherit;">请求文档中</font></a><font style="vertical-align: inherit;">查看
+ </font></font><a class="reference external" href="https://requests.readthedocs.io/en/latest/api/#requests.Response" title="（在请求v2.19.1中）"><code class="xref py py-class docutils literal notranslate"><span class="pre">Response</span></code></a><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">该类
+ </font><font style="vertical-align: inherit;">。</font></font><a class="reference external" href="http://python-requests.org/"><font style="vertical-align: inherit;"></font></a><font style="vertical-align: inherit;"></font></p>
+<dl class="class">
+<dt>
+<em class="property"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">类 </font></font></em><code class="descname">Response</code></dt>
+<dd><p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">该</font></font><code class="xref py py-class docutils literal notranslate"><span class="pre">Response</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">对象，包含服务器对HTTP请求的响应。</font></font></p>
+<dl class="attribute">
+<dt>
+<code class="descname">apparent_encoding</code></dt>
+<dd><p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">明文编码，由chardet库提供。</font></font></p>
+</dd></dl>
+
+<dl class="method">
+<dt>
+<code class="descname">close</code><span class="sig-paren"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">（</font></font></span><span class="sig-paren"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">）</font></font></span></dt>
+<dd><p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">将连接释放回池中。</font><font style="vertical-align: inherit;">调用此方法后，</font></font><code class="docutils literal notranslate"><span class="pre">raw</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">不得再次访问</font><font style="vertical-align: inherit;">基础</font><font style="vertical-align: inherit;">对象。</font></font></p>
+<p><em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">注意：通常不需要显式调用。</font></font></em></p>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="descname">content</code></dt>
+<dd><p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">响应的内容，以字节为单位。</font></font></p>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="descname">cookies</code><em class="property"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> =无</font></font></em></dt>
+<dd><p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">服务器发回的CookieJar of Cookies。</font></font></p>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="descname">elapsed</code><em class="property"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> =无</font></font></em></dt>
+<dd><p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">发送请求和响应到达之间经过的时间（作为timedelta）。</font><font style="vertical-align: inherit;">此属性专门测量发送请求的第一个字节和完成解析标头之间所需的时间。</font><font style="vertical-align: inherit;">因此，它不会受到响应内容或</font></font><code class="docutils literal notranslate"><span class="pre">stream</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">关键字参数</font><font style="vertical-align: inherit;">值的影响</font><font style="vertical-align: inherit;">。</font></font></p>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="descname">encoding</code><em class="property"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> =无</font></font></em></dt>
+<dd><p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">编码以便在访问r.text时进行解码。</font></font></p>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="descname">headers</code><em class="property"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> =无</font></font></em></dt>
+<dd><p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">不区分大小写的响应标头词典。</font><font style="vertical-align: inherit;">例如，</font></font><code class="docutils literal notranslate"><span class="pre">headers['content-encoding']</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">将返回</font></font><code class="docutils literal notranslate"><span class="pre">'Content-Encoding'</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">响应头</font><font style="vertical-align: inherit;">的值</font><font style="vertical-align: inherit;">。</font></font></p>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="descname">history</code><em class="property"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> =无</font></font></em></dt>
+<dd><p><font style="vertical-align: inherit;"></font><code class="xref py py-class docutils literal notranslate"><span class="pre">Response</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">请求历史记录中的对象</font><font style="vertical-align: inherit;">列表</font><font style="vertical-align: inherit;">。</font><font style="vertical-align: inherit;">任何重定向响应都将在此处结束。</font><font style="vertical-align: inherit;">该列表从最旧的请求到最近的请求排序。</font></font></p>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="descname">is_permanent_redirect</code></dt>
+<dd><p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">如果此响应是永久版本的重定向之一，则为True。</font></font></p>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="descname">is_redirect</code></dt>
+<dd><p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">如果此响应是格式良好的HTTP重定向（可以自动处理</font></font><code class="xref py py-meth docutils literal notranslate"><span class="pre">Session.resolve_redirects()</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">）</font><font style="vertical-align: inherit;">，则为True </font><font style="vertical-align: inherit;">。</font></font></p>
+</dd></dl>
+
+<dl class="method">
+<dt>
+<code class="descname">iter_content</code><span class="sig-paren"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">（</font></font></span><em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">chunk_size = 1</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">，</font></font><em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">decode_unicode = False </font></font></em><span class="sig-paren"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">）</font></font></span></dt>
+<dd><p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">迭代响应数据。</font><font style="vertical-align: inherit;">当在请求上设置stream = True时，这避免了立即将内容读入内存以获得大响应。</font><font style="vertical-align: inherit;">块大小是它应该读入内存的字节数。</font><font style="vertical-align: inherit;">这不一定是因为可以进行解码而返回的每个项目的长度。</font></font></p>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">chunk_size必须是int或None类型。</font><font style="vertical-align: inherit;">值None将根据</font></font><cite><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">流</font></font></cite><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">的值而有所不同</font><font style="vertical-align: inherit;">。</font><font style="vertical-align: inherit;">stream = True将在接收到块的任何大小时读取数据。</font><font style="vertical-align: inherit;">如果stream = False，则将数据作为单个块返回。</font></font></p>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">如果decode_unicode为True，则将使用基于响应的最佳可用编码对内容进行解码。</font></font></p>
+</dd></dl>
+
+<dl class="method">
+<dt>
+<code class="descname">iter_lines</code><span class="sig-paren"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">（</font></font></span><em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">chunk_size = 512</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">，</font></font><em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">decode_unicode = None</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">，</font></font><em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">delimiter = None </font></font></em><span class="sig-paren"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">）</font></font></span></dt>
+<dd><p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">迭代响应数据，一次一行。</font><font style="vertical-align: inherit;">当在请求上设置stream = True时，这避免了立即将内容读入内存以获得大响应。</font></font></p>
+<div class="admonition note">
+<p class="first admonition-title"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">注意</font></font></p>
+<p class="last"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">此方法不是可重入安全的。</font></font></p>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt>
+<code class="descname">json</code><span class="sig-paren"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">（</font></font></span><em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">** kwargs </font></font></em><span class="sig-paren"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">）</font></font></span></dt>
+<dd><p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">返回响应的json编码内容（如果有）。</font></font></p>
+<table class="docutils field-list" frame="void" rules="none">
+<colgroup><col class="field-name">
+<col class="field-body">
+</colgroup><tbody valign="top">
+<tr class="field-odd field"><th class="field-name"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">参数：</font></font></th><td class="field-body"><strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">** kwargs</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> - 需要的可选参数</font></font><code class="docutils literal notranslate"><span class="pre">json.loads</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">。</font></font></td>
+</tr>
+<tr class="field-even field"><th class="field-name"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">举：</font></font></th><td class="field-body"><strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">ValueError</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> - 如果响应正文不包含有效的json。</font></font></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="descname">links</code></dt>
+<dd><p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">返回响应的已解析标头链接（如果有）。</font></font></p>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="descname">next</code></dt>
+<dd><p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">返回重定向链中下一个请求的PreparedRequest（如果有）。</font></font></p>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="descname">ok</code></dt>
+<dd><p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">如果</font></font><a class="reference external" href="https://requests.readthedocs.io/en/latest/api/#requests.Response.status_code" title="（在请求v2.19.1中）"><code class="xref py py-attr docutils literal notranslate"><span class="pre">status_code</span></code></a><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">小于400 </font><font style="vertical-align: inherit;">则返回True，否则返回</font><font style="vertical-align: inherit;">False。</font></font></p>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">此属性检查响应的状态代码是否介于400和600之间，以查看是否存在客户端错误或服务器错误。</font><font style="vertical-align: inherit;">如果状态代码介于200和400之间，则返回True。</font><font style="vertical-align: inherit;">这</font></font><strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">不是</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">检查响应代码是否是</font><font style="vertical-align: inherit;">。</font></font><code class="docutils literal notranslate"><span class="pre">200</span> <span class="pre">OK</span></code><font style="vertical-align: inherit;"></font></p>
+</dd></dl>
+
+<dl class="method">
+<dt>
+<code class="descname">raise_for_status</code><span class="sig-paren"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">（</font></font></span><span class="sig-paren"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">）</font></font></span></dt>
+<dd><p><font style="vertical-align: inherit;"></font><code class="xref py py-class docutils literal notranslate"><span class="pre">HTTPError</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">如果发生，则</font><font style="vertical-align: inherit;">存储已存储</font><font style="vertical-align: inherit;">。</font></font></p>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="descname">reason</code><em class="property"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> =无</font></font></em></dt>
+<dd><p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">响应HTTP状态的文本原因，例如“未找到”或“确定”。</font></font></p>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="descname">request</code><em class="property"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> =无</font></font></em></dt>
+<dd><p><font style="vertical-align: inherit;"></font><code class="xref py py-class docutils literal notranslate"><span class="pre">PreparedRequest</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">这是一个响应</font><font style="vertical-align: inherit;">的</font><font style="vertical-align: inherit;">对象。</font></font></p>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="descname">status_code</code><em class="property"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> =无</font></font></em></dt>
+<dd><p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">响应HTTP状态的整数代码，例如404或200。</font></font></p>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="descname">text</code></dt>
+<dd><p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">响应的内容，以unicode为单位。</font></font></p>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">如果Response.encoding为None，则将使用猜测编码
+ </font></font><code class="docutils literal notranslate"><span class="pre">chardet</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">。</font></font></p>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">响应内容的编码仅基于HTTP标头确定，遵循RFC 2616到字母。</font><font style="vertical-align: inherit;">如果您可以利用非HTTP知识来更好地猜测编码，则应</font></font><code class="docutils literal notranslate"><span class="pre">r.encoding</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">在访问此属性之前进行适当</font><font style="vertical-align: inherit;">设置</font><font style="vertical-align: inherit;">。</font></font></p>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="descname">url</code><em class="property"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> =无</font></font></em></dt>
+<dd><p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">响应的最终URL位置。</font></font></p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="responsecontextmanager-class">
+<h2><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">ResponseContextManager类</font></font><a class="headerlink" href="https://docs.locust.io/en/stable/api.html#responsecontextmanager-class" title="永久链接到这个标题"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">¶</font></font></a></h2>
+<dl class="class">
+<dt id="locust.clients.ResponseContextManager">
+<em class="property"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">class </font></font></em><code class="descname">ResponseContextManager</code><span class="sig-paren"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">（</font></font></span><em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">响应</font></font></em><span class="sig-paren"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">）</font></font></span><a class="headerlink" href="https://docs.locust.io/en/stable/api.html#locust.clients.ResponseContextManager" title="这个定义的固定链接"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">¶</font></font></a></dt>
+<dd><p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">一个Response类，它还充当上下文管理器，提供手动控制是否应将HTTP请求标记为成功或者是否在Locust的统计信息中失败的功能</font></font></p>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">这个类是</font></font><a class="reference external" href="https://requests.readthedocs.io/en/latest/api/#requests.Response" title="（在请求v2.19.1中）"><code class="xref py py-class docutils literal notranslate"><span class="pre">Response</span></code></a><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">另外两个方法</font><font style="vertical-align: inherit;">的子类</font><font style="vertical-align: inherit;">：</font></font><a class="reference internal" href="https://docs.locust.io/en/stable/api.html#locust.clients.ResponseContextManager.success" title="locust.clients.ResponseContextManager.success"><code class="xref py py-meth docutils literal notranslate"><span class="pre">success</span></code></a><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">和 
+ </font></font><a class="reference internal" href="https://docs.locust.io/en/stable/api.html#locust.clients.ResponseContextManager.failure" title="locust.clients.ResponseContextManager.failure"><code class="xref py py-meth docutils literal notranslate"><span class="pre">failure</span></code></a><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">。</font></font></p>
+<dl class="method">
+<dt id="locust.clients.ResponseContextManager.failure">
+<code class="descname">failure</code><span class="sig-paren"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">（</font></font></span><em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">exc </font></font></em><span class="sig-paren"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">）</font></font></span><a class="headerlink" href="https://docs.locust.io/en/stable/api.html#locust.clients.ResponseContextManager.failure" title="这个定义的固定链接"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">¶</font></font></a></dt>
+<dd><p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">将响应报告为失败。</font></font></p>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">exc可以是python异常，也可以是字符串，在这种情况下，它将被包装在CatchResponseError中。</font></font></p>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">例：</font></font></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"/"</span><span class="p">,</span> <span class="n">catch_response</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="k">as</span> <span class="n">response</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">response</span><span class="o">.</span><span class="n">content</span> <span class="o">==</span> <span class="sa">b</span><span class="s2">""</span><span class="p">:</span>
+        <span class="n">response</span><span class="o">.</span><span class="n">failure</span><span class="p">(</span><span class="s2">"No data"</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="locust.clients.ResponseContextManager.success">
+<code class="descname">success</code><span class="sig-paren"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">（</font></font></span><span class="sig-paren"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">）</font></font></span><a class="headerlink" href="https://docs.locust.io/en/stable/api.html#locust.clients.ResponseContextManager.success" title="这个定义的固定链接"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">¶</font></font></a></dt>
+<dd><p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">报告回复成功</font></font></p>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">例：</font></font></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"/does/not/exist"</span><span class="p">,</span> <span class="n">catch_response</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="k">as</span> <span class="n">response</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">response</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="mi">404</span><span class="p">:</span>
+        <span class="n">response</span><span class="o">.</span><span class="n">success</span><span class="p">()</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="interrupttaskset-exception">
+<h2><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">InterruptTaskSet异常</font></font><a class="headerlink" href="https://docs.locust.io/en/stable/api.html#interrupttaskset-exception" title="永久链接到这个标题"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">¶</font></font></a></h2>
+<dl class="exception">
+<dt id="locust.exception.InterruptTaskSet">
+<em class="property"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">异常</font></font></em><code class="descname">InterruptTaskSet</code><span class="sig-paren"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">（</font></font></span><em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">reschedule = True </font></font></em><span class="sig-paren"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">）</font></font></span><a class="headerlink" href="https://docs.locust.io/en/stable/api.html#locust.exception.InterruptTaskSet" title="这个定义的固定链接"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">¶</font></font></a></dt>
+<dd><p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">在任务中抛出时会中断Locust的异常</font></font></p>
+</dd></dl>
+
+</div>
+<div class="section" id="event-hooks">
+<span id="events"></span><h2><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">事件挂钩</font></font><a class="headerlink" href="https://docs.locust.io/en/stable/api.html#event-hooks" title="永久链接到这个标题"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">¶</font></font></a></h2>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">事件挂钩是</font></font><strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">locust.events.EventHook</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">类的</font><font style="vertical-align: inherit;">实例</font><font style="vertical-align: inherit;">：</font></font></p>
+<dl class="class">
+<dt id="locust.events.EventHook">
+<em class="property"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">类</font></font></em><code class="descname">EventHook</code><a class="headerlink" href="https://docs.locust.io/en/stable/api.html#locust.events.EventHook" title="这个定义的固定链接"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">¶</font></font></a></dt>
+<dd><p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">简单事件类，用于为Locust中的不同类型的事件提供挂钩。</font></font></p>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">以下是使用EventHook类的方法：</font></font></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">my_event</span> <span class="o">=</span> <span class="n">EventHook</span><span class="p">()</span>
+<span class="k">def</span> <span class="nf">on_my_event</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="o">**</span><span class="n">kw</span><span class="p">):</span>
+    <span class="nb">print</span> <span class="s2">"Event was fired with arguments: </span><span class="si">%s</span><span class="s2">, </span><span class="si">%s</span><span class="s2">"</span> <span class="o">%</span> <span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
+<span class="n">my_event</span> <span class="o">+=</span> <span class="n">on_my_event</span>
+<span class="n">my_event</span><span class="o">.</span><span class="n">fire</span><span class="p">(</span><span class="n">a</span><span class="o">=</span><span class="s2">"foo"</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="s2">"bar"</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">如果reverse为True，则处理程序将按照插入的相反顺序运行</font></font></p>
+</dd></dl>
+
+<div class="section" id="available-hooks">
+<h3><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">可用挂钩</font></font><a class="headerlink" href="https://docs.locust.io/en/stable/api.html#available-hooks" title="永久链接到这个标题"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">¶</font></font></a></h3>
+<p><font style="vertical-align: inherit;"></font><strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">locust.events</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">模块</font><font style="vertical-align: inherit;">下提供了以下事件挂钩</font><font style="vertical-align: inherit;">：</font></font></p>
+<span class="target" id="module-locust.events"></span><dl class="data">
+<dt id="locust.events.request_success">
+<code class="descname">request_success</code><em class="property"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">= &lt;locust.events.EventHook对象&gt; </font></font></em><a class="headerlink" href="https://docs.locust.io/en/stable/api.html#locust.events.request_success" title="这个定义的固定链接"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">¶</font></font></a></dt>
+<dd><p><em><font style="vertical-align: inherit;"></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">成功完成请求后会触发</font><em><font style="vertical-align: inherit;">request_success</font></em><font style="vertical-align: inherit;">。</font></font></p>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">听众应该采取以下论点：</font></font></p>
+<ul class="simple">
+<li><em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">request_type</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">：使用的请求类型方法</font></font></li>
+<li><em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">name</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">：被调用的URL的路径（如果在调用客户端时使用了名称，则覆盖名称）</font></font></li>
+<li><em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">response_time</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">：响应时间，以毫秒为单位</font></font></li>
+<li><em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">response_length</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">：</font><em><font style="vertical-align: inherit;">响应的</font></em><font style="vertical-align: inherit;">内容长度</font></font></li>
+</ul>
+</dd></dl>
+
+<dl class="data">
+<dt id="locust.events.request_failure">
+<code class="descname">request_failure</code><em class="property"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">= &lt;locust.events.EventHook对象&gt; </font></font></em><a class="headerlink" href="https://docs.locust.io/en/stable/api.html#locust.events.request_failure" title="这个定义的固定链接"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">¶</font></font></a></dt>
+<dd><p><em><font style="vertical-align: inherit;"></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">请求失败时会触发</font><em><font style="vertical-align: inherit;">request_failure</font></em></font></p>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">使用以下参数触发事件：</font></font></p>
+<ul class="simple">
+<li><em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">request_type</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">：使用的请求类型方法</font></font></li>
+<li><em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">name</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">：被调用的URL的路径（如果在调用客户端时使用了名称，则覆盖名称）</font></font></li>
+<li><em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">response_time</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">：抛出异常的时间（以毫秒为单位）</font></font></li>
+<li><em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">exception</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">：抛出的异常实例</font></font></li>
+</ul>
+</dd></dl>
+
+<dl class="data">
+<dt id="locust.events.locust_error">
+<code class="descname">locust_error</code><em class="property"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">= &lt;locust.events.EventHook对象&gt; </font></font></em><a class="headerlink" href="https://docs.locust.io/en/stable/api.html#locust.events.locust_error" title="这个定义的固定链接"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">¶</font></font></a></dt>
+<dd><p><em><font style="vertical-align: inherit;"></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">在执行Locust类内发生异常时会触发</font><em><font style="vertical-align: inherit;">locust_error</font></em><font style="vertical-align: inherit;">。</font></font></p>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">使用以下参数触发事件：</font></font></p>
+<ul class="simple">
+<li><em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">locust_instance</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">：发生异常的Locust类实例</font></font></li>
+<li><em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">exception</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">：抛出的异常</font></font></li>
+<li><em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">tb</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">：回溯对象（来自sys.exc_info（）[2]）</font></font></li>
+</ul>
+</dd></dl>
+
+<dl class="data">
+<dt id="locust.events.report_to_master">
+<code class="descname">report_to_master</code><em class="property"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">= &lt;locust.events.EventHook对象&gt; </font></font></em><a class="headerlink" href="https://docs.locust.io/en/stable/api.html#locust.events.report_to_master" title="这个定义的固定链接"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">¶</font></font></a></dt>
+<dd><p><em><font style="vertical-align: inherit;"></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">当Locust以-slave模式运行时，将使用</font><em><font style="vertical-align: inherit;">report_to_master</font></em><font style="vertical-align: inherit;">。</font><font style="vertical-align: inherit;">它可用于将数据附加到定期发送给主服务器的dicts。</font><font style="vertical-align: inherit;">当报告发送到主服务器时，它会定期触发。</font></font></p>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">请注意，“统计信息”和“错误”键是由Locust使用的，不应该被覆盖。</font></font></p>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">使用以下参数触发事件：</font></font></p>
+<ul class="simple">
+<li><em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">client_id</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">：正在运行的蝗虫进程的客户端ID。</font></font></li>
+<li><em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">data</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">：可以修改的数据字典，用于附加应发送给主服务器的数据。</font></font></li>
+</ul>
+</dd></dl>
+
+<dl class="data">
+<dt id="locust.events.slave_report">
+<code class="descname">slave_report</code><em class="property"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">= &lt;locust.events.EventHook对象&gt; </font></font></em><a class="headerlink" href="https://docs.locust.io/en/stable/api.html#locust.events.slave_report" title="这个定义的固定链接"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">¶</font></font></a></dt>
+<dd><p><em><font style="vertical-align: inherit;"></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">当Locust在主模式下运行时使用</font><em><font style="vertical-align: inherit;">slave_report</font></em><font style="vertical-align: inherit;">，并在主服务器从Locust从服务器接收报告时触发。</font></font></p>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">此事件可用于聚合来自蝗虫从属服务器的数据。</font></font></p>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">使用以下参数触发事件：</font></font></p>
+<ul class="simple">
+<li><em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">client_id</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">：报告蝗虫从属的客户端ID</font></font></li>
+<li><em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">data</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">：数据与来自从节点的数据相关</font></font></li>
+</ul>
+</dd></dl>
+
+<dl class="data">
+<dt id="locust.events.hatch_complete">
+<code class="descname">hatch_complete</code><em class="property"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">= &lt;locust.events.EventHook对象&gt; </font></font></em><a class="headerlink" href="https://docs.locust.io/en/stable/api.html#locust.events.hatch_complete" title="这个定义的固定链接"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">¶</font></font></a></dt>
+<dd><p><em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">生成</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">所有蝗虫用户时会触发</font><em><font style="vertical-align: inherit;">hatch_complete</font></em><font style="vertical-align: inherit;">。</font></font></p>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">使用以下参数触发事件：</font></font></p>
+<ul class="simple">
+<li><em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">user_count</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">：阴影线的用户数</font></font></li>
+</ul>
+</dd></dl>
+
+<dl class="data">
+<dt id="locust.events.quitting">
+<code class="descname">quitting</code><em class="property"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">= &lt;locust.events.EventHook对象&gt; </font></font></em><a class="headerlink" href="https://docs.locust.io/en/stable/api.html#locust.events.quitting" title="这个定义的固定链接"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">¶</font></font></a></dt>
+<dd><p><em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">戒烟</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">当蝗虫过程中退出解雇</font></font></p>
+</dd></dl>
+
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="https://docs.locust.io/en/stable/extending-locust.html" class="btn btn-neutral float-right" title="扩大蝗虫" accesskey="n" rel="next"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">下一个 </font></font><span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="https://docs.locust.io/en/stable/testing-other-systems.html" class="btn btn-neutral" title="使用自定义客户端测试其他系统" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> 以前</font></font></a>
+      
+    </div>
+  
+
+  <hr><div><div id="rtd-eqg8ppmi" class="ethical-rtd"></div></div>
+
+  <div role="contentinfo">
+    <p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+        ©版权所有。
+      
+        </font></font><span class="commit"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+          修订</font></font><code>4bde2ca9</code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">。
+        </font></font></span>
+      
+
+    </p>
+  </div><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">使用</font><a href="https://readthedocs.org/"><font style="vertical-align: inherit;">Read the Docs</font></a><font style="vertical-align: inherit;">提供</font><font style="vertical-align: inherit;">的</font><a href="https://github.com/rtfd/sphinx_rtd_theme"><font style="vertical-align: inherit;">主题</font></a><font style="vertical-align: inherit;"> 
+  使用</font></font><a href="http://sphinx-doc.org/"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Sphinx</font></font></a><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">构建</font><font style="vertical-align: inherit;">。 
+
+</font></font><a href="https://github.com/rtfd/sphinx_rtd_theme"><font style="vertical-align: inherit;"></font></a><font style="vertical-align: inherit;"></font><a href="https://readthedocs.org/"><font style="vertical-align: inherit;"></font></a><font style="vertical-align: inherit;"></font></footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      <span class="fa fa-book"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">阅读文档</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> 
+      v：stable
+      </font></font><span class="fa fa-caret-down"></span>
+    </span>
+    <div class="rst-other-versions"><!-- Inserted RTD Footer -->
+<div class="injected">
+
+  
+
+      
+      
+      
+      <dl>
+        <dt>Versions</dt>
+        
+        
+        <dd><a href="http://docs.locust.io/en/latest/api.html">latest</a></dd>
+        
+        
+         <strong> 
+        <dd><a href="http://docs.locust.io/en/stable/api.html">stable</a></dd>
+         </strong> 
+        
+        
+        <dd><a href="http://docs.locust.io/en/0.9.0/api.html">0.9.0</a></dd>
+        
+        
+        
+        <dd><a href="http://docs.locust.io/en/v0.8.1/api.html">v0.8.1</a></dd>
+        
+        
+        
+        <dd><a href="http://docs.locust.io/en/v0.8/api.html">v0.8</a></dd>
+        
+        
+        
+        <dd><a href="http://docs.locust.io/en/v0.7.5/api.html">v0.7.5</a></dd>
+        
+        
+        
+        <dd><a href="http://docs.locust.io/en/v0.7.2/api.html">v0.7.2</a></dd>
+        
+        
+        
+        <dd><a href="http://docs.locust.io/en/v0.7.1/api.html">v0.7.1</a></dd>
+        
+        
+        
+        <dd><a href="http://docs.locust.io/en/v0.7/api.html">v0.7</a></dd>
+        
+        
+        
+        <dd><a href="http://docs.locust.io/en/v0.6.2/api.html">v0.6.2</a></dd>
+        
+        
+        
+        <dd><a href="http://docs.locust.io/en/v0.6.1/api.html">v0.6.1</a></dd>
+        
+        
+        
+        <dd><a href="http://docs.locust.io/en/v0.6/api.html">v0.6</a></dd>
+        
+        
+        
+        <dd><a href="http://docs.locust.io/en/v0.5.1/api.html">v0.5.1</a></dd>
+        
+        
+        
+        <dd><a href="http://docs.locust.io/en/0.4/api.html">0.4</a></dd>
+        
+        
+      </dl>
+      
+      
+
+      
+      
+      <dl>
+        <dt>Downloads</dt>
+        
+        <dd><a href="https://readthedocs.org/projects/locust/downloads/pdf/stable/">PDF</a></dd>
+        
+        <dd><a href="https://readthedocs.org/projects/locust/downloads/htmlzip/stable/">HTML</a></dd>
+        
+        <dd><a href="https://readthedocs.org/projects/locust/downloads/epub/stable/">Epub</a></dd>
+        
+      </dl>
+      
+      
+
+      
+      <dl>
+        <!-- These are kept as relative links for internal installs that are http -->
+        <dt>On Read the Docs</dt>
+        <dd>
+          <a href="https://readthedocs.org/projects/locust/">Project Home</a>
+        </dd>
+        <dd>
+          <a href="https://readthedocs.org/projects/locust/builds/">Builds</a>
+        </dd>
+        <dd>
+          <a href="https://readthedocs.org/projects/locust/downloads/">Downloads</a>
+        </dd>
+      </dl>
+      
+
+      
+
+      
+      <dl>
+        <dt>On GitHub</dt>
+        <dd>
+          <a href="https://github.com/locustio/locust/blob/4bde2ca90f28bde649ff4ce2c86e36a6e6260856/docs/api.rst">View</a>
+        </dd>
+        
+      </dl>
+      
+      
+
+      
+      <dl>
+        <dt>Search</dt>
+        <dd>
+          <div style="padding: 6px;">
+            <form id="flyout-search-form" class="wy-form" target="_blank" action="https://readthedocs.org/projects/locust/search/" method="get">
+              <input type="text" name="q" placeholder="Search docs">
+              </form>
+          </div>
+        </dd>
+      </dl>
+      
+
+
+
+      <hr>
+      
+        <small>
+          <span>Hosted by <a href="https://readthedocs.org/">Read the Docs</a></span>
+          <span> · </span>
+          <a href="https://docs.readthedocs.io/page/privacy-policy.html">Privacy Policy</a>
+        </small>
+      
+
+      
+
+</div>
+</div>
+  </div>
+
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'0.9.0',
+            LANGUAGE:'en',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="./Locust 0.9.0文档10_files/jquery-2.0.3.min.js"></script>
+      <script type="text/javascript" src="./Locust 0.9.0文档10_files/jquery-migrate-1.2.1.min.js"></script>
+      <script type="text/javascript" src="./Locust 0.9.0文档10_files/underscore.js"></script>
+      <script type="text/javascript" src="./Locust 0.9.0文档10_files/doctools.js"></script>
+      <script type="text/javascript" src="./Locust 0.9.0文档10_files/readthedocs-doc-embed.js"></script>
+
+  
+
+  <script type="text/javascript" src="./Locust 0.9.0文档10_files/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script><div id="goog-gt-tt" class="skiptranslate" dir="ltr"><div style="padding: 8px;"><div><div class="logo"><img src="./Locust 0.9.0文档10_files/translate_24dp.png" width="20" height="20" alt="Google 翻译"></div></div></div><div class="top" style="padding: 8px; float: left; width: 100%;"><h1 class="title gray">原文</h1></div><div class="middle" style="padding: 8px;"><div class="original-text"></div></div><div class="bottom" style="padding: 8px;"><div class="activity-links"><span class="activity-link">提供更好的翻译建议</span><span class="activity-link"></span></div><div class="started-activity-container"><hr style="color: #CCC; background-color: #CCC; height: 1px; border: none;"><div class="activity-root"></div></div></div><div class="status-message" style="display: none;"></div></div> 
+
+
+<div class="goog-te-spinner-pos"><div class="goog-te-spinner-animation"><svg xmlns="http://www.w3.org/2000/svg" class="goog-te-spinner" width="96px" height="96px" viewBox="0 0 66 66"><circle class="goog-te-spinner-path" fill="none" stroke-width="6" stroke-linecap="round" cx="33" cy="33" r="30"></circle></svg></div></div></body></html>

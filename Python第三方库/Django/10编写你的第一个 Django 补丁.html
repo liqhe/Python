@@ -1,0 +1,1075 @@
+<!DOCTYPE html>
+<!-- saved from url=(0062)https://docs.djangoproject.com/zh-hans/2.1/intro/contributing/ -->
+<html lang="zh-hans" class=" mdzr-js mdzr-borderradius mdzr-boxshadow mdzr-cssanimations mdzr-svg"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="ROBOTS" content="ALL">
+    <meta name="MSSmartTagsPreventParsing" content="true">
+    <meta name="Copyright" content="Django Software Foundation">
+    <meta name="keywords" content="Python, Django, framework, open-source">
+    <meta name="description" content="">
+
+    
+  
+    
+      
+    
+  
+  <link rel="canonical" href="https://docs.djangoproject.com/zh-hans/2.2/intro/contributing/">
+  
+    
+      
+    
+    <link rel="alternate" hreflang="el" href="https://docs.djangoproject.com/el/2.1/intro/contributing/">
+  
+    
+      
+    
+    <link rel="alternate" hreflang="en" href="https://docs.djangoproject.com/en/2.1/intro/contributing/">
+  
+    
+      
+    
+    <link rel="alternate" hreflang="es" href="https://docs.djangoproject.com/es/2.1/intro/contributing/">
+  
+    
+      
+    
+    <link rel="alternate" hreflang="fr" href="https://docs.djangoproject.com/fr/2.1/intro/contributing/">
+  
+    
+      
+    
+    <link rel="alternate" hreflang="id" href="https://docs.djangoproject.com/id/2.1/intro/contributing/">
+  
+    
+      
+    
+    <link rel="alternate" hreflang="ja" href="https://docs.djangoproject.com/ja/2.1/intro/contributing/">
+  
+    
+      
+    
+    <link rel="alternate" hreflang="ko" href="https://docs.djangoproject.com/ko/2.1/intro/contributing/">
+  
+    
+      
+    
+    <link rel="alternate" hreflang="pl" href="https://docs.djangoproject.com/pl/2.1/intro/contributing/">
+  
+    
+      
+    
+    <link rel="alternate" hreflang="pt-br" href="https://docs.djangoproject.com/pt-br/2.1/intro/contributing/">
+  
+    
+      
+    
+    <link rel="alternate" hreflang="zh-hans" href="https://docs.djangoproject.com/zh-hans/2.1/intro/contributing/">
+  
+
+  <link rel="search" type="application/opensearchdescription+xml" href="https://docs.djangoproject.com/zh-hans/2.1/search/description/" title="Django 文档">
+
+    <!-- Favicons -->
+    <link rel="apple-touch-icon" href="https://static.djangoproject.com/img/icon-touch.e4872c4da341.png">
+    <link rel="icon" sizes="192x192" href="https://static.djangoproject.com/img/icon-touch.e4872c4da341.png">
+    <link rel="shortcut icon" href="https://static.djangoproject.com/img/favicon.6dbf28c0650e.ico">
+    <meta name="msapplication-TileColor" content="#113228">
+    <meta name="msapplication-TileImage" content="https://static.djangoproject.com/img/icon-tile.b01ac0ef9f67.png">
+
+    <title>编写你的第一个 Django 补丁 | Django 文档 | Django</title>
+
+    <link rel="stylesheet" href="./10编写你的第一个 Django 补丁_files/output.beb34528fd55.css">
+    <script src="./10编写你的第一个 Django 补丁_files/webfontloader.e75218f5f090.js"></script>
+    <link rel="stylesheet" href="./10编写你的第一个 Django 补丁_files/css"><script>
+    WebFont.load({
+      custom: {
+        families: ['FontAwesome', 'Fira+Mono'],
+      },
+      google: {
+        families: ['Roboto:400italic,700italic,300,700,400:latin'
+        ]
+      },
+      classes: false,
+      events: false,
+      timeout: 1000
+    });
+    </script>
+    <script src="./10编写你的第一个 Django 补丁_files/modernizr.3b36762e418a.js"></script>
+    
+  <script type="text/javascript" charset="utf-8" async="" data-requirecontext="_" data-requiremodule="main.07884ebc4865" src="./10编写你的第一个 Django 补丁_files/main.07884ebc4865.js"></script><script type="text/javascript" charset="utf-8" async="" data-requirecontext="_" data-requiremodule="mod/mobile-menu" src="./10编写你的第一个 Django 补丁_files/mobile-menu.841726ee903a.js"></script><script type="text/javascript" charset="utf-8" async="" data-requirecontext="_" data-requiremodule="mod/version-switcher" src="./10编写你的第一个 Django 补丁_files/version-switcher.c28bb83972bb.js"></script><script type="text/javascript" charset="utf-8" async="" data-requirecontext="_" data-requiremodule="mod/search-key" src="./10编写你的第一个 Django 补丁_files/search-key.f3c0a6fcfedd.js"></script><script type="text/javascript" charset="utf-8" async="" data-requirecontext="_" data-requiremodule="mod/console-tabs" src="./10编写你的第一个 Django 补丁_files/console-tabs.70ce882faaf3.js"></script><script type="text/javascript" charset="utf-8" async="" data-requirecontext="_" data-requiremodule="jquery" src="./10编写你的第一个 Django 补丁_files/jquery.min.87e69028f78d.js"></script></head>
+
+  <body id="generic" class="">
+
+    <div role="banner" id="top">
+  <div class="container">
+    <a class="logo" href="https://www.djangoproject.com/">Django</a>
+    <p class="meta">The web framework for perfectionists with deadlines.</p>
+    <div class="menu-button"><i class="icon icon-reorder"></i><span>Menu</span></div><div role="navigation" class="nav-menu-on">
+      <ul>
+        <li>
+          <a href="https://www.djangoproject.com/start/overview/">Overview</a>
+        </li>
+        <li>
+          <a href="https://www.djangoproject.com/download/">Download</a>
+        </li>
+        <li class="active">
+          <a href="https://docs.djangoproject.com/">Documentation</a>
+        </li>
+        <li>
+          <a href="https://www.djangoproject.com/weblog/">News</a>
+        </li>
+        <li>
+          <a href="https://www.djangoproject.com/community/">Community</a>
+        </li>
+        <li>
+          <a href="https://code.djangoproject.com/">Code</a>
+        </li>
+        <li>
+          <a href="https://www.djangoproject.com/foundation/">About</a>
+        </li>
+        <li>
+          <a href="https://www.djangoproject.com/fundraising/">♥ Donate</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+
+    <div class="copy-banner">
+      <div class="container">
+        
+  <h1><a href="https://docs.djangoproject.com/zh-hans/2.1/">文档</a></h1>
+
+      </div>
+    </div>
+    <div id="billboard"></div>
+
+    <div class="container sidebar-right">
+      <div role="main">
+
+        
+          
+        
+
+        
+<div id="version-switcher">
+  <ul id="doc-languages" class="language-switcher">
+  
+  
+  <li class="other">
+    
+      
+    
+    <a href="https://docs.djangoproject.com/el/2.1/intro/contributing/">el</a>
+  </li>
+  
+  
+  
+  <li class="other">
+    
+      
+    
+    <a href="https://docs.djangoproject.com/en/2.1/intro/contributing/">en</a>
+  </li>
+  
+  
+  
+  <li class="other">
+    
+      
+    
+    <a href="https://docs.djangoproject.com/es/2.1/intro/contributing/">es</a>
+  </li>
+  
+  
+  
+  <li class="other">
+    
+      
+    
+    <a href="https://docs.djangoproject.com/fr/2.1/intro/contributing/">fr</a>
+  </li>
+  
+  
+  
+  <li class="other">
+    
+      
+    
+    <a href="https://docs.djangoproject.com/id/2.1/intro/contributing/">id</a>
+  </li>
+  
+  
+  
+  <li class="other">
+    
+      
+    
+    <a href="https://docs.djangoproject.com/ja/2.1/intro/contributing/">ja</a>
+  </li>
+  
+  
+  
+  <li class="other">
+    
+      
+    
+    <a href="https://docs.djangoproject.com/ko/2.1/intro/contributing/">ko</a>
+  </li>
+  
+  
+  
+  <li class="other">
+    
+      
+    
+    <a href="https://docs.djangoproject.com/pl/2.1/intro/contributing/">pl</a>
+  </li>
+  
+  
+  
+  <li class="other">
+    
+      
+    
+    <a href="https://docs.djangoproject.com/pt-br/2.1/intro/contributing/">pt-br</a>
+  </li>
+  
+  
+  
+  
+    <li class="current" title="点击左侧的链接以切换到另一种语言。">
+      <span>语言： <strong>zh-hans</strong></span>
+    </li>
+  </ul>
+
+  
+  <ul id="doc-versions" class="version-switcher">
+    
+    
+    <li class="other">
+      
+        
+      
+      <a href="https://docs.djangoproject.com/zh-hans/2.0/intro/contributing/">2.0</a>
+    </li>
+    
+    
+    
+    
+    
+    <li class="other">
+      
+        
+      
+      <a href="https://docs.djangoproject.com/zh-hans/2.2/intro/contributing/">2.2</a>
+    </li>
+    
+    
+    
+    <li class="other">
+      
+        
+      
+      <a href="https://docs.djangoproject.com/zh-hans/dev/intro/contributing/">dev</a>
+    </li>
+    
+    
+    <li class="current" title="此文档是为 Django 2.1 编写的。 点击左侧的链接查看其它版本">
+       <span>文档版本：
+         <strong>2.1</strong>
+       </span>
+    </li>
+  </ul>
+</div>
+
+
+<div id="docs-content">
+<div class="section" id="s-writing-your-first-patch-for-django">
+<span id="writing-your-first-patch-for-django"></span><h1>编写你的第一个 Django 补丁<a class="headerlink" href="https://docs.djangoproject.com/zh-hans/2.1/intro/contributing/#writing-your-first-patch-for-django" title="永久链接至标题">¶</a></h1>
+<div class="section" id="s-introduction">
+<span id="introduction"></span><h2>介绍<a class="headerlink" href="https://docs.djangoproject.com/zh-hans/2.1/intro/contributing/#introduction" title="永久链接至标题">¶</a></h2>
+<p>想为 Django 社区做一点贡献？也许是你发现了一个想修复的 bug，或者想添加一个新的功能。</p>
+<p>回报 Django 这件事本身就是使你的顾虑得到解决的最好方式。一开始这可能会使你怯步，但这真的很简单。整个过程中我们会一步一步为你解说，所以你可以通过例子学习。</p>
+<div class="section" id="s-who-s-this-tutorial-for">
+<span id="who-s-this-tutorial-for"></span><h3>这个教程适合谁？<a class="headerlink" href="https://docs.djangoproject.com/zh-hans/2.1/intro/contributing/#who-s-this-tutorial-for" title="永久链接至标题">¶</a></h3>
+<div class="admonition seealso">
+<p class="first admonition-title">参见</p>
+<p class="last">如果你正在寻找一个关于如何提交补丁的说明文档，请查看 <a class="reference internal" href="https://docs.djangoproject.com/zh-hans/2.1/internals/contributing/writing-code/submitting-patches/"><span class="doc">Submitting patches</span></a>。</p>
+</div>
+<p>使用教程前，我们希望你至少对于 Django 的运行方式有一定的认识。 这意味着你可以很容易地通读 <a class="reference internal" href="https://docs.djangoproject.com/zh-hans/2.1/intro/tutorial01/"><span class="doc">编写第一个 Django 应用</span></a>。 除此之外，你应该对于 Python 有很好的理解。 如果不太熟悉 Python，我们为您推荐  <a href="https://docs.djangoproject.com/zh-hans/2.1/intro/contributing/#id12"><span class="problematic" id="id13">`Dive Into Python`__</span></a>，对于初学Python的程序员来说这是一本很棒（而且免费）的在线电子书。</p>
+<p>那些不熟悉版本控制系统及缺陷跟踪的朋友可以查看这个教程，这个链接包含了足够的信息。如果你打算定期地为 Django 做贡献，你可能期望阅读更多关于这些不同工具的资料。</p>
+<p>当然对于此教程中的大部分内容，Django 会尽可能做出解释以帮助广大的读者。</p>
+<div class="admonition-where-to-get-help admonition">
+<p class="first admonition-title">从哪里获得帮助：</p>
+<p class="last">如果你在使用本教程时遇到困难, 你可以发信息给 <a class="reference internal" href="https://docs.djangoproject.com/zh-hans/2.1/internals/mailing-lists/#django-developers-mailing-list"><span class="std std-ref">django-developers</span></a> 中的人或登陆 <a href="https://docs.djangoproject.com/zh-hans/2.1/intro/contributing/#id12"><span class="problematic" id="id14">`#django-dev on irc.freenode.net`__</span></a> 向其他 Django 使用者寻求帮助。</p>
+</div>
+</div>
+<div class="section" id="s-what-does-this-tutorial-cover">
+<span id="what-does-this-tutorial-cover"></span><h3>这个指南涵盖哪些内容？<a class="headerlink" href="https://docs.djangoproject.com/zh-hans/2.1/intro/contributing/#what-does-this-tutorial-cover" title="永久链接至标题">¶</a></h3>
+<p>我们将指导你贡献你的第一个 Django 补丁，在本教程完毕时，你将对相关工具及流程有一个基本的认识。特别的，我们将覆盖以下内容：</p>
+<ul class="simple">
+<li>安装 Git。</li>
+<li>下载一份Django开发版的拷贝。</li>
+<li>运行 Django 的测试套件。</li>
+<li>为你的补丁写一个测试。</li>
+<li>为你的补丁编写代码。</li>
+<li>测试你的补丁。</li>
+<li>提交一个 pull request（PR）。</li>
+<li>在哪里查找更多的信息。</li>
+</ul>
+<p>一旦你完成了这份教程，你可以浏览 <a class="reference internal" href="https://docs.djangoproject.com/zh-hans/2.1/internals/contributing/"><span class="doc">Django 贡献文档</span></a> 的剩余部分。它包含了大量信息。任何想成为 Django 的正式贡献者的人都必须阅读它。如果你有问题，它也许会给你答案。</p>
+<div class="admonition-python-3-required admonition">
+<p class="first admonition-title">必须Python 3！</p>
+<p class="last">目前的 Django 版本不再支持 Python 2.7。你可以在 <a class="reference external" href="https://www.python.org/downloads/">Python 下载页</a> 或通过操作系统的包管理器下载 Python 3。</p>
+</div>
+<div class="admonition-for-windows-users admonition">
+<p class="first admonition-title">对于 Windows 用户</p>
+<p class="last">在Windows上安装 Python 时，确保勾选在环境变量path中“添加 python.exe 的路径”，这样才可以让它在命令行下总是可用。</p>
+</div>
+</div>
+</div>
+<div class="section" id="s-code-of-conduct">
+<span id="code-of-conduct"></span><h2>代码规范<a class="headerlink" href="https://docs.djangoproject.com/zh-hans/2.1/intro/contributing/#code-of-conduct" title="永久链接至标题">¶</a></h2>
+<p>作为一个贡献者, 你可以帮助我们保持 Django 的社区开放性和包容性。请仔细阅读并遵守我们的 <a class="reference external" href="https://www.djangoproject.com/conduct/">行为守则</a>。</p>
+</div>
+<div class="section" id="s-installing-git">
+<span id="installing-git"></span><h2>安装Git<a class="headerlink" href="https://docs.djangoproject.com/zh-hans/2.1/intro/contributing/#installing-git" title="永久链接至标题">¶</a></h2>
+<p>在本教程中，你需要安装好 Git，用 Git 下载 Django 的最新开发版本并且为你的修改生成补丁文件。</p>
+<p>要检查你是否已经安装 Git，命令行输入 <code class="docutils literal notranslate"><span class="pre">git</span></code>。如果提示这个命令无法找到，你必须下载并安装它，参考 <a href="https://docs.djangoproject.com/zh-hans/2.1/intro/contributing/#id12"><span class="problematic" id="id15">`Git's download page`__</span></a>。</p>
+<p>如果你还不熟悉 Git, 你可以在命令行下输入 <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">help</span></code>  了解更多关于 Git 命令的使用方法 (确保已安装)</p>
+</div>
+<div class="section" id="s-getting-a-copy-of-django-s-development-version">
+<span id="getting-a-copy-of-django-s-development-version"></span><h2>获得一个 Django 开发版本的副本<a class="headerlink" href="https://docs.djangoproject.com/zh-hans/2.1/intro/contributing/#getting-a-copy-of-django-s-development-version" title="永久链接至标题">¶</a></h2>
+<p>为 Django 做贡献的第一步就是获取源代码副本。首先， <cite>fork Github 上的 Django 项目 &lt;https://github.com/django/django/fork&gt;</cite>。接下来，在命令行中，使用 <code class="docutils literal notranslate"><span class="pre">cd</span></code> 命令切换至某个你想存放 Django 源码的目录。</p>
+<p>使用下面的命令来下载 Django 的源码库：</p>
+<div class="console-block" id="console-block-0">
+<input class="c-tab-unix" id="c-tab-0-unix" type="radio" name="console-0" checked="">
+<label for="c-tab-0-unix" title="Linux/macOS">/</label>
+<input class="c-tab-win" id="c-tab-0-win" type="radio" name="console-0">
+<label for="c-tab-0-win" title="Windows"></label>
+<section class="c-content-unix" id="c-content-0-unix">
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$</span> git clone git@github.com:YourGitHubName/django.git
+</pre></div>
+</div>
+</section>
+<section class="c-content-win" id="c-content-0-win">
+<div class="highlight"><pre><span></span><span class="gp">...\&gt;</span> git clone git@github.com:YourGitHubName/django.git
+</pre></div>
+</section>
+</div>
+<div class="admonition-low-bandwidth-connection admonition">
+<p class="first admonition-title">低速宽带连接？</p>
+<p class="last">你可以在用命令``git clone``&nbsp;下载仓库的时候加上参数``--depth 1``&nbsp;来跳过Django的提交历史，这大约能把下载大小从250MB减少到70MB</p>
+</div>
+<p>你现在已经将Django拷贝到本地，可以像安装其他软件包一样使用 <a href="https://docs.djangoproject.com/zh-hans/2.1/intro/contributing/#id1"><span class="problematic" id="id2">``</span></a>pip``进行安装。 最便捷的方式是通过  <em>virtual environment</em>， 这是 Python 的一个内置特性，它可以让你在一个目录中保持独立的软件包环境而不影响其他的项目。</p>
+<p>将你的虚拟环境都放在一个位置是明智的做法，例如将它们放置在你主目录下的 <a href="https://docs.djangoproject.com/zh-hans/2.1/intro/contributing/#id1"><span class="problematic" id="id2">``</span></a>.virtualenvs/<a href="https://docs.djangoproject.com/zh-hans/2.1/intro/contributing/#id3"><span class="problematic" id="id4">``</span></a>中。</p>
+<p>通过运行以下命令创建一个虚拟环境：</p>
+<div class="console-block" id="console-block-1">
+<input class="c-tab-unix" id="c-tab-1-unix" type="radio" name="console-1" checked="">
+<label for="c-tab-1-unix" title="Linux/macOS">/</label>
+<input class="c-tab-win" id="c-tab-1-win" type="radio" name="console-1">
+<label for="c-tab-1-win" title="Windows"></label>
+<section class="c-content-unix" id="c-content-1-unix">
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$</span> python3 -m venv ~/.virtualenvs/djangodev
+</pre></div>
+</div>
+</section>
+<section class="c-content-win" id="c-content-1-win">
+<div class="highlight"><pre><span></span><span class="gp">...\&gt;</span> py -m venv <span class="nv">%HOMEPATH%</span>\.virtualenvs\djangodev
+</pre></div>
+</section>
+</div>
+<p>该路径就是保存这个新的虚拟运行环境的地方。</p>
+<p>设置虚拟环境的最后一步是激活它；</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$</span> <span class="nb">source</span> ~/.virtualenvs/djangodev/bin/activate
+</pre></div>
+</div>
+<p>如果 <code class="docutils literal notranslate"><span class="pre">source</span></code> 命令不可用，你可以试试 . ：</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$</span> . ~/.virtualenvs/djangodev/bin/activate
+</pre></div>
+</div>
+<div class="admonition-for-windows-users admonition">
+<p class="first admonition-title">对于 Windows 用户</p>
+<p>在Windows下采用如下命令进行激活虚拟环境：</p>
+<div class="last highlight-doscon notranslate"><div class="highlight"><pre><span></span><span class="gp">...\&gt;</span> <span class="nv">%HOMEPATH%</span>\.virtualenvs\djangodev\Scripts\activate.bat
+</pre></div>
+</div>
+</div>
+<p>每当你开启一个新的终端时，你都需要激活虚拟环境。 <a href="https://docs.djangoproject.com/zh-hans/2.1/intro/contributing/#id12"><span class="problematic" id="id16">virtualenvwrapper__</span></a> 可以使其更便捷。</p>
+<p>当前激活的虚拟环境的名称会被展示在命令行，这可以让你搞清楚你正在使用哪一个虚拟环境。你通过 <code class="docutils literal notranslate"><span class="pre">pip</span></code> 安装的任何软件包如果在安装时显示了该名称，则都会被安装到该虚拟环境中，而且这些软件包不会影响到其他虚拟环境，也不会与其他系统级的软件包发生冲突。</p>
+<p>下一步安装之前克隆的 Django 副本：</p>
+<div class="console-block" id="console-block-2">
+<input class="c-tab-unix" id="c-tab-2-unix" type="radio" name="console-2" checked="">
+<label for="c-tab-2-unix" title="Linux/macOS">/</label>
+<input class="c-tab-win" id="c-tab-2-win" type="radio" name="console-2">
+<label for="c-tab-2-win" title="Windows"></label>
+<section class="c-content-unix" id="c-content-2-unix">
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$</span> pip install -e /path/to/your/local/clone/django/
+</pre></div>
+</div>
+</section>
+<section class="c-content-win" id="c-content-2-win">
+<div class="highlight"><pre><span></span><span class="gp">...\&gt;</span> pip install -e \path\to\your\local\clone\django\
+</pre></div>
+</section>
+</div>
+<p>现在安装的 Django 版本就是你本地副本的版本。你将立刻见到任何你对它的修改，这对你编写第一个补丁很有帮助。</p>
+</div>
+<div class="section" id="s-running-django-s-test-suite-for-the-first-time">
+<span id="running-django-s-test-suite-for-the-first-time"></span><h2>首先运行 Django 的测试套件<a class="headerlink" href="https://docs.djangoproject.com/zh-hans/2.1/intro/contributing/#running-django-s-test-suite-for-the-first-time" title="永久链接至标题">¶</a></h2>
+<p>当你贡献代码给 Django 的时候，你修改的代码千万不要给其它部分引入新的 bug。 有个办法可以在你更改代码之后检查 Django 是否能正常工作，就是运行 Django 的测试套件。如果所有的测试用例都通过，你就有理由相信你的改动完全没有破坏 Django。如果你从来没有运行过 Django 的测试套件，那么比较好的做法是事先运行一遍，熟悉下正常情况下应该输出什么结果。</p>
+<p>运行测试套件之前，先 <code class="docutils literal notranslate"><span class="pre">cd</span></code> 进入 Django 的 <code class="docutils literal notranslate"><span class="pre">test/</span></code> 目录，安装其依赖，运行：</p>
+<div class="console-block" id="console-block-3">
+<input class="c-tab-unix" id="c-tab-3-unix" type="radio" name="console-3" checked="">
+<label for="c-tab-3-unix" title="Linux/macOS">/</label>
+<input class="c-tab-win" id="c-tab-3-win" type="radio" name="console-3">
+<label for="c-tab-3-win" title="Windows"></label>
+<section class="c-content-unix" id="c-content-3-unix">
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$</span> pip install -r requirements/py3.txt
+</pre></div>
+</div>
+</section>
+<section class="c-content-win" id="c-content-3-win">
+<div class="highlight"><pre><span></span><span class="gp">...\&gt;</span> pip install -r requirements\py3.txt
+</pre></div>
+</section>
+</div>
+<p>如果安装过程中发生了错误，可能是你的系统缺少一个或多个 Python 依赖包。请参考安装失败的包的文档或者在网上搜索提示的错误信息。</p>
+<p>现在你可以运行测试套件。如果你用的是 GNU/Linux， macOS 或者其它类 Unix 系统，运行：</p>
+<div class="console-block" id="console-block-4">
+<input class="c-tab-unix" id="c-tab-4-unix" type="radio" name="console-4" checked="">
+<label for="c-tab-4-unix" title="Linux/macOS">/</label>
+<input class="c-tab-win" id="c-tab-4-win" type="radio" name="console-4">
+<label for="c-tab-4-win" title="Windows"></label>
+<section class="c-content-unix" id="c-content-4-unix">
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$</span> ./runtests.py
+</pre></div>
+</div>
+</section>
+<section class="c-content-win" id="c-content-4-win">
+<div class="highlight"><pre><span></span><span class="gp">...\&gt;</span> runtests.py 
+</pre></div>
+</section>
+</div>
+<p>现在坐下来放松一下。Django 完整的测试套件有成千上万种不同的测试，所以它至少需要运行几分钟，这个时间取决于你的电脑的速度。</p>
+<p>当Django的测试套件被执行时，您将看到一个代表测试运行状态的字符流。 其中字符``E``表示测试中出现异常， <a href="https://docs.djangoproject.com/zh-hans/2.1/intro/contributing/#id1"><span class="problematic" id="id2">``</span></a>F``表示测试中的一个断言失败，这两种情况都被认为测试结果失败。而``x``和``s``分别表示与期望结果不同和跳过测试，逗点则表示测试被通过了。</p>
+<p>缺失外部依赖库通常会导致测试被跳过；查看 <a class="reference internal" href="https://docs.djangoproject.com/zh-hans/2.1/internals/contributing/writing-code/unit-tests/#running-unit-tests-dependencies"><span class="std std-ref">Running all the tests</span></a> 获取依赖库列表，如果你修改了测试代码，请同时安装相关依赖库（本教程无需额外依赖库）。某些测试使用了特定的数据库后端，如果当前测试设置并未使用此数据库后端，那么这些相关的测试也会被跳过。SQLite 是默认的数据库后端。如果想使用其他后端进行测试，查看 <a class="reference internal" href="https://docs.djangoproject.com/zh-hans/2.1/internals/contributing/writing-code/unit-tests/#running-unit-tests-settings"><span class="std std-ref">Using another settings module</span></a>。</p>
+<p>代码测试集当测试执行完毕后，得到反馈信息显示测试已通过，或者测试失败。 因为还没有对 Django 的代码做任何修改, 所有的测试集 <strong>应该</strong> 测试通过. 如果测试失败或出现错误，回头确认以上执行操作是否正确. 查看 <a class="reference internal" href="https://docs.djangoproject.com/zh-hans/2.1/internals/contributing/writing-code/unit-tests/#running-unit-tests"><span class="std std-ref">Running the unit tests</span></a> 获取更多信息。</p>
+<p>注意最新版本 Django 分支不总是稳定的。当在分支上开发时，你可以查看代码持续集成构建页面的信息 来判断测试错误只在你指定的电脑上发生，还是官方版本中也存在该错误。如果点击某个构建信息，可以通过 "Configuration Matrix" 查看错误发生时 Python 以及后端数据库的信息。</p>
+<div class="admonition note">
+<p class="first admonition-title">注解</p>
+<p class="last">在本教程以及处理工单所用分支中，测试使用数据库 SQLite 即可，然而在某些情况下需要（有时需要） ，参考 :ref:<a href="https://docs.djangoproject.com/zh-hans/2.1/intro/contributing/#id1"><span class="problematic" id="id2">`</span></a>run the tests using a different database <a href="https://docs.djangoproject.com/zh-hans/2.1/intro/contributing/#id3"><span class="problematic" id="id4">`</span></a>。</p>
+</div>
+</div>
+<div class="section" id="s-working-on-a-feature">
+<span id="working-on-a-feature"></span><h2>尝试搞定一项新功能<a class="headerlink" href="https://docs.djangoproject.com/zh-hans/2.1/intro/contributing/#working-on-a-feature" title="永久链接至标题">¶</a></h2>
+<p>这次教程中，我们将学习去完成一个名叫"fake ticket" 的例子。
+下面是关于这个例子的大体构想:</p>
+<div class="admonition-ticket-99999-allow-making-toast admonition">
+<p class="first admonition-title">Ticket #99999 -- 允许发表祝辞</p>
+<p class="last">Djando中需要声明一个函数django.shortcuts.make_toast()，它的返回值为'toast'。</p>
+</div>
+<p>我们现在来实现这个新功能并且做一下相关的测试。</p>
+</div>
+<div class="section" id="s-creating-a-branch-for-your-patch">
+<span id="creating-a-branch-for-your-patch"></span><h2>为你的补丁创建一个分支<a class="headerlink" href="https://docs.djangoproject.com/zh-hans/2.1/intro/contributing/#creating-a-branch-for-your-patch" title="永久链接至标题">¶</a></h2>
+<p>在做出任何修改之前，为你的工单创建一个分支：</p>
+<div class="console-block" id="console-block-5">
+<input class="c-tab-unix" id="c-tab-5-unix" type="radio" name="console-5" checked="">
+<label for="c-tab-5-unix" title="Linux/macOS">/</label>
+<input class="c-tab-win" id="c-tab-5-win" type="radio" name="console-5">
+<label for="c-tab-5-win" title="Windows"></label>
+<section class="c-content-unix" id="c-content-5-unix">
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$</span> git checkout -b ticket_99999
+</pre></div>
+</div>
+</section>
+<section class="c-content-win" id="c-content-5-win">
+<div class="highlight"><pre><span></span><span class="gp">...\&gt;</span> git checkout -b ticket_99999
+</pre></div>
+</section>
+</div>
+<p>你可以选择任意你想要的分支名，ticket_99999只是一个例子。你在该分支上做出的所有更改，
+将只会针对该分支即ticket_99999产生影响，而不会影响到我们早先克隆的原始代码。</p>
+</div>
+<div class="section" id="s-writing-some-tests-for-your-ticket">
+<span id="writing-some-tests-for-your-ticket"></span><h2>为你的工单写一些测试用例<a class="headerlink" href="https://docs.djangoproject.com/zh-hans/2.1/intro/contributing/#writing-some-tests-for-your-ticket" title="永久链接至标题">¶</a></h2>
+<p>大多数情况下，Django 的补丁必需包含测试。Bug 修复补丁的测试是一个回归测试，确保该 Bug 不会再次在 Django 中出现。该测试应该在 Bug 存在时测试失败，在 Bug 已经修复后通过测试。新功能补丁的测试必须验证新功能是否正常运行。新功能的测试将在功能正常时通过测试，功能未执行时测试失败。</p>
+<p>最好的方式是在修改代码之前写测试单元代码。这种开发风格叫做 <a href="https://docs.djangoproject.com/zh-hans/2.1/intro/contributing/#id12"><span class="problematic" id="id17">`test-driven development`__</span></a> 被应用在项目开发和单一补丁开发过程中。单元测试编写完毕后，执行单元测试，此时测试失败（因为目前还没有修复 bug 或添加新功能），如果测试成功通过，你需要重新修改单元测试保证测试失败。因为单元测试并不能阻止 bug 发生。</p>
+<p>现在看我们的操作示例。</p>
+<div class="section" id="s-writing-a-test-for-ticket-99999">
+<span id="writing-a-test-for-ticket-99999"></span><h3>为工单 #99999 写测试<a class="headerlink" href="https://docs.djangoproject.com/zh-hans/2.1/intro/contributing/#writing-a-test-for-ticket-99999" title="永久链接至标题">¶</a></h3>
+<p>为了解决这次的工单问题，我们将在最上层的django模块中添加一个函数 <code class="docutils literal notranslate"><span class="pre">make_toast()</span></code>。首先我们来写一个测试用例，用于测试该函数，并且验证一下它的输出项是否正确。</p>
+<p>前往Django的``tests/shortcuts/<a href="https://docs.djangoproject.com/zh-hans/2.1/intro/contributing/#id1"><span class="problematic" id="id2">``</span></a>文件夹，创建一个名为``test_make_toast.py``的新文件。添加如下代码:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">django.shortcuts</span> <span class="k">import</span> <span class="n">make_toast</span>
+<span class="kn">from</span> <span class="nn">django.test</span> <span class="k">import</span> <span class="n">SimpleTestCase</span>
+
+
+<span class="k">class</span> <span class="nc">MakeToastTests</span><span class="p">(</span><span class="n">SimpleTestCase</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">test_make_toast</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">make_toast</span><span class="p">(),</span> <span class="s1">'toast'</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>上述测试是用来检测``make_toast()`` 函数是否会返回``'toast'<a href="https://docs.djangoproject.com/zh-hans/2.1/intro/contributing/#id1"><span class="problematic" id="id2">``</span></a>的.</p>
+<div class="admonition-but-this-testing-thing-looks-kinda-hard admonition">
+<p class="first admonition-title">但这种测试看起来有点困难……</p>
+<p>如果你之前从未处理过测试，那他们看起来会有点难以编写。幸运的是，测试是一个计算机编程中 <em>非常</em> 大的一个主题，所以这里有大量的相关资料：</p>
+<ul class="last simple">
+<li>浏览 <a class="reference internal" href="https://docs.djangoproject.com/zh-hans/2.1/topics/testing/overview/"><span class="doc">Writing and running tests</span></a> 大致看一下如何在 Django 中编写测试。</li>
+<li>深入理解 Python（一本针对 Python 初学者的免费在线书籍），包含了不错的 <a href="https://docs.djangoproject.com/zh-hans/2.1/intro/contributing/#id12"><span class="problematic" id="id18">`introduction to Unit Testing`__</span></a>。</li>
+<li>读到这里，你还想深入了解的话，可以查看 Python <a class="reference external" href="https://docs.python.org/3/library/unittest.html#module-unittest" title="(在 Python v3.7)"><code class="xref py py-mod docutils literal notranslate"><span class="pre">unittest</span></code></a>。</li>
+</ul>
+</div>
+</div>
+<div class="section" id="s-running-your-new-test">
+<span id="running-your-new-test"></span><h3>运行你的新测试<a class="headerlink" href="https://docs.djangoproject.com/zh-hans/2.1/intro/contributing/#running-your-new-test" title="永久链接至标题">¶</a></h3>
+<p>由于我们还没有对 <code class="docutils literal notranslate"><span class="pre">django.shortcuts</span></code> 进行任何修改，这次测试将会失败。现在让我们来运行一下``shortcuts`` 目录中的所有测试，以便确定它们真的都会产生失败的结果。使用``cd``命令进入Django的 <code class="docutils literal notranslate"><span class="pre">tests/</span></code> 文件夹，然后运行:</p>
+<div class="console-block" id="console-block-6">
+<input class="c-tab-unix" id="c-tab-6-unix" type="radio" name="console-6" checked="">
+<label for="c-tab-6-unix" title="Linux/macOS">/</label>
+<input class="c-tab-win" id="c-tab-6-win" type="radio" name="console-6">
+<label for="c-tab-6-win" title="Windows"></label>
+<section class="c-content-unix" id="c-content-6-unix">
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$</span> ./runtests.py shortcuts
+</pre></div>
+</div>
+</section>
+<section class="c-content-win" id="c-content-6-win">
+<div class="highlight"><pre><span></span><span class="gp">...\&gt;</span> runtests.py shortcuts
+</pre></div>
+</section>
+</div>
+<p>如果测试被正确执行，一个该测试方法所对应的错误将会呈现给你:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="ne">ImportError</span><span class="p">:</span> <span class="n">cannot</span> <span class="kn">import</span> <span class="nn">name</span> <span class="s1">'make_toast'</span> <span class="kn">from</span> <span class="s1">'django.shortcuts'</span>
+</pre></div>
+</div>
+<p>如果所有测试都执行过了，那么你要确保在准确的文件夹和文件名中添加了上述新测试。</p>
+</div>
+</div>
+<div class="section" id="s-writing-the-code-for-your-ticket">
+<span id="writing-the-code-for-your-ticket"></span><h2>为你的工单编写代码<a class="headerlink" href="https://docs.djangoproject.com/zh-hans/2.1/intro/contributing/#writing-the-code-for-your-ticket" title="永久链接至标题">¶</a></h2>
+<p>接下来我们将添加 <a href="https://docs.djangoproject.com/zh-hans/2.1/intro/contributing/#id1"><span class="problematic" id="id2">``</span></a>make_toast()``函数</p>
+<p>打开``django/`` 文件夹中的``shortcuts.py`` 文件，在文件末尾追加:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">make_toast</span><span class="p">():</span>
+    <span class="k">return</span> <span class="s1">'toast'</span>
+</pre></div>
+</div>
+<p>现在我们需要保证之前所写的测试会正常通过，以便我们判断所追加的代码是否正确。
+再来一次，现跳转到Django的``tests/<a href="https://docs.djangoproject.com/zh-hans/2.1/intro/contributing/#id1"><span class="problematic" id="id2">``</span></a>目录，然后执行:</p>
+<div class="console-block" id="console-block-7">
+<input class="c-tab-unix" id="c-tab-7-unix" type="radio" name="console-7" checked="">
+<label for="c-tab-7-unix" title="Linux/macOS">/</label>
+<input class="c-tab-win" id="c-tab-7-win" type="radio" name="console-7">
+<label for="c-tab-7-win" title="Windows"></label>
+<section class="c-content-unix" id="c-content-7-unix">
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$</span> ./runtests.py shortcuts
+</pre></div>
+</div>
+</section>
+<section class="c-content-win" id="c-content-7-win">
+<div class="highlight"><pre><span></span><span class="gp">...\&gt;</span> runtests.py shortcuts
+</pre></div>
+</section>
+</div>
+<p>所有项目都需要正常通过测试。如果没有，检查一下你的函数是否书写正确，并且是否写在了正确的文件中。</p>
+</div>
+<div class="section" id="s-running-django-s-test-suite-for-the-second-time">
+<span id="running-django-s-test-suite-for-the-second-time"></span><h2>第二次运行 Django 测试套件<a class="headerlink" href="https://docs.djangoproject.com/zh-hans/2.1/intro/contributing/#running-django-s-test-suite-for-the-second-time" title="永久链接至标题">¶</a></h2>
+<p>如果已经确认补丁以及测试结果都正常，就运行 Django 的测试套件，验证你的修改是否导致 Django 的其它部分引入了新的 bug。 虽然测试用例帮助识别容易被人忽略的错误，但测试通过并不能保证完全没有 bug 存在。</p>
+<p>运行 Django 完整的测试用例，<code class="docutils literal notranslate"><span class="pre">cd</span></code> 进入 Django下的  <code class="docutils literal notranslate"><span class="pre">tests/</span></code> 目录并运行：</p>
+<div class="console-block" id="console-block-8">
+<input class="c-tab-unix" id="c-tab-8-unix" type="radio" name="console-8" checked="">
+<label for="c-tab-8-unix" title="Linux/macOS">/</label>
+<input class="c-tab-win" id="c-tab-8-win" type="radio" name="console-8">
+<label for="c-tab-8-win" title="Windows"></label>
+<section class="c-content-unix" id="c-content-8-unix">
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$</span> ./runtests.py
+</pre></div>
+</div>
+</section>
+<section class="c-content-win" id="c-content-8-win">
+<div class="highlight"><pre><span></span><span class="gp">...\&gt;</span> runtests.py 
+</pre></div>
+</section>
+</div>
+</div>
+<div class="section" id="s-writing-documentation">
+<span id="writing-documentation"></span><h2>书写文档<a class="headerlink" href="https://docs.djangoproject.com/zh-hans/2.1/intro/contributing/#writing-documentation" title="永久链接至标题">¶</a></h2>
+<p>这是一项新功能，所以应该为它建立一个说明，打开文件``docs/topics/http/shortcuts.txt``，然后在文件末尾追加下记内容:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>``make_toast()``
+================
+
+.. versionadded:: 2.2
+
+Returns ``'toast'``.
+</pre></div>
+</div>
+<p>由于这一新功能将在即将到来的版本中被加入，所以下个版本的发布说明里也加入了相关内容。打开 <a href="https://docs.djangoproject.com/zh-hans/2.1/intro/contributing/#id1"><span class="problematic" id="id2">``</span></a>docs/releases/2.2.txt``文件，即发布说明的最新版本文件，在小标题"Minor Features"下面添加一个说明:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>:mod:`django.shortcuts`
+~~~~~~~~~~~~~~~~~~~~~~~
+
+* The new :func:`django.shortcuts.make_toast` function returns ``'toast'``.
+</pre></div>
+</div>
+<p>更多关于编写文档和 <code class="docutils literal notranslate"><span class="pre">versionadded</span></code> 的解释和信息，请参考 <a class="reference internal" href="https://docs.djangoproject.com/zh-hans/2.1/internals/contributing/writing-documentation/"><span class="doc">编写文档</span></a>。这个页面还介绍了怎么在本地重新生成一份文档，方便你在本地预览文档。</p>
+</div>
+<div class="section" id="s-previewing-your-changes">
+<span id="previewing-your-changes"></span><h2>预览你的修改<a class="headerlink" href="https://docs.djangoproject.com/zh-hans/2.1/intro/contributing/#previewing-your-changes" title="永久链接至标题">¶</a></h2>
+<p>现在是时候完成我们这个分支的所有变更，准备将它们提交了，执行:</p>
+<div class="console-block" id="console-block-9">
+<input class="c-tab-unix" id="c-tab-9-unix" type="radio" name="console-9" checked="">
+<label for="c-tab-9-unix" title="Linux/macOS">/</label>
+<input class="c-tab-win" id="c-tab-9-win" type="radio" name="console-9">
+<label for="c-tab-9-win" title="Windows"></label>
+<section class="c-content-unix" id="c-content-9-unix">
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$</span> git add --all
+</pre></div>
+</div>
+</section>
+<section class="c-content-win" id="c-content-9-win">
+<div class="highlight"><pre><span></span><span class="gp">...\&gt;</span> git add --all
+</pre></div>
+</section>
+</div>
+<p>然后将你当前版本(包含有你修改的内容)的拷贝和你最初在教程中取出的版本对比:</p>
+<div class="console-block" id="console-block-10">
+<input class="c-tab-unix" id="c-tab-10-unix" type="radio" name="console-10" checked="">
+<label for="c-tab-10-unix" title="Linux/macOS">/</label>
+<input class="c-tab-win" id="c-tab-10-win" type="radio" name="console-10">
+<label for="c-tab-10-win" title="Windows"></label>
+<section class="c-content-unix" id="c-content-10-unix">
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$</span> git diff --cached
+</pre></div>
+</div>
+</section>
+<section class="c-content-win" id="c-content-10-win">
+<div class="highlight"><pre><span></span><span class="gp">...\&gt;</span> git diff --cached
+</pre></div>
+</section>
+</div>
+<p>使用方向键上下移动</p>
+<div class="highlight-diff notranslate"><div class="highlight"><pre><span></span><span class="gh">diff --git a/django/shortcuts.py b/django/shortcuts.py</span>
+<span class="gh">index 7ab1df0e9d..8dde9e28d9 100644</span>
+<span class="gd">--- a/django/shortcuts.py</span>
+<span class="gi">+++ b/django/shortcuts.py</span>
+<span class="gu">@@ -156,3 +156,7 @@ def resolve_url(to, *args, **kwargs):</span>
+
+     # Finally, fall back and assume it's a URL
+     return to
+<span class="gi">+</span>
+<span class="gi">+</span>
+<span class="gi">+def make_toast():</span>
+<span class="gi">+    return 'toast'</span>
+<span class="gh">diff --git a/docs/releases/2.2.txt b/docs/releases/2.2.txt</span>
+<span class="gh">index 7d85d30c4a..81518187b3 100644</span>
+<span class="gd">--- a/docs/releases/2.2.txt</span>
+<span class="gi">+++ b/docs/releases/2.2.txt</span>
+<span class="gu">@@ -40,6 +40,11 @@ database constraints. Constraints are added to models using the</span>
+ Minor features
+ --------------
+
+<span class="gi">+:mod:`django.shortcuts`</span>
+<span class="gi">+~~~~~~~~~~~~~~~~~~~~~~~</span>
+<span class="gi">+</span>
+<span class="gi">+* The new :func:`django.shortcuts.make_toast` function returns ``'toast'``.</span>
+<span class="gi">+</span>
+ :mod:`django.contrib.admin`
+ ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+<span class="gh">diff --git a/docs/topics/http/shortcuts.txt b/docs/topics/http/shortcuts.txt</span>
+<span class="gh">index 7b3a3a2c00..711bf6bb6d 100644</span>
+<span class="gd">--- a/docs/topics/http/shortcuts.txt</span>
+<span class="gi">+++ b/docs/topics/http/shortcuts.txt</span>
+<span class="gu">@@ -271,3 +271,12 @@ This example is equivalent to::</span>
+         my_objects = list(MyModel.objects.filter(published=True))
+         if not my_objects:
+             raise Http404("No MyModel matches the given query.")
+<span class="gi">+</span>
+<span class="gi">+``make_toast()``</span>
+<span class="gi">+================</span>
+<span class="gi">+</span>
+<span class="gi">+.. function:: make_toast()</span>
+<span class="gi">+</span>
+<span class="gi">+.. versionadded:: 2.2</span>
+<span class="gi">+</span>
+<span class="gi">+Returns ``'toast'``.</span>
+<span class="gh">diff --git a/tests/shortcuts/test_make_toast.py b/tests/shortcuts/test_make_toast.py</span>
+new file mode 100644
+<span class="gh">index 0000000000..6f4c627b6e</span>
+<span class="gd">--- /dev/null</span>
+<span class="gi">+++ b/tests/shortcuts/test_make_toast.py</span>
+<span class="gu">@@ -0,0 +1,7 @@</span>
+<span class="gi">+from django.shortcuts import make_toast</span>
+<span class="gi">+from django.test import SimpleTestCase</span>
+<span class="gi">+</span>
+<span class="gi">+</span>
+<span class="gi">+class MakeToastTests(SimpleTestCase):</span>
+<span class="gi">+    def test_make_toast(self):</span>
+<span class="gi">+        self.assertEqual(make_toast(), 'toast')</span>
+</pre></div>
+</div>
+<p>当你检查完补丁后，敲击 <code class="docutils literal notranslate"><span class="pre">q</span></code> 键返回到命令行。如果补丁内容看起来没问题，可以提交这些修改了。</p>
+</div>
+<div class="section" id="s-committing-the-changes-in-the-patch">
+<span id="committing-the-changes-in-the-patch"></span><h2>提交补丁中的修改<a class="headerlink" href="https://docs.djangoproject.com/zh-hans/2.1/intro/contributing/#committing-the-changes-in-the-patch" title="永久链接至标题">¶</a></h2>
+<p>为了提交这些修改：</p>
+<div class="console-block" id="console-block-11">
+<input class="c-tab-unix" id="c-tab-11-unix" type="radio" name="console-11" checked="">
+<label for="c-tab-11-unix" title="Linux/macOS">/</label>
+<input class="c-tab-win" id="c-tab-11-win" type="radio" name="console-11">
+<label for="c-tab-11-win" title="Windows"></label>
+<section class="c-content-unix" id="c-content-11-unix">
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$</span> git commit
+</pre></div>
+</div>
+</section>
+<section class="c-content-win" id="c-content-11-win">
+<div class="highlight"><pre><span></span><span class="gp">...\&gt;</span> git commit
+</pre></div>
+</section>
+</div>
+<p>这会打开文本编辑器以便输入提交信息。参考 <a class="reference internal" href="https://docs.djangoproject.com/zh-hans/2.1/internals/contributing/committing-code/#committing-guidelines"><span class="std std-ref">commit message guidelines</span></a> 输入类似这样的信息：</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Fixed #99999 -- Added a shortcut function to make toast.
+</pre></div>
+</div>
+</div>
+<div class="section" id="s-pushing-the-commit-and-making-a-pull-request">
+<span id="pushing-the-commit-and-making-a-pull-request"></span><h2>推送这次提交并生成一个 pull 请求<a class="headerlink" href="https://docs.djangoproject.com/zh-hans/2.1/intro/contributing/#pushing-the-commit-and-making-a-pull-request" title="永久链接至标题">¶</a></h2>
+<p>在提交这次的修改之后，将其发送到你在GitHub上的分支(如果你使用的名称不是"ticket_99999"，用你自己的分支的名称取代它 ):</p>
+<div class="console-block" id="console-block-12">
+<input class="c-tab-unix" id="c-tab-12-unix" type="radio" name="console-12" checked="">
+<label for="c-tab-12-unix" title="Linux/macOS">/</label>
+<input class="c-tab-win" id="c-tab-12-win" type="radio" name="console-12">
+<label for="c-tab-12-win" title="Windows"></label>
+<section class="c-content-unix" id="c-content-12-unix">
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$</span> git push origin ticket_99999
+</pre></div>
+</div>
+</section>
+<section class="c-content-win" id="c-content-12-win">
+<div class="highlight"><pre><span></span><span class="gp">...\&gt;</span> git push origin ticket_99999
+</pre></div>
+</section>
+</div>
+<p>你可以访问 <a class="reference external" href="https://github.com/django/django/">Django GitHub page</a> 创建一个 pull 请求。 你会在“你最近推送的分支”下看到你的分支。 单击旁边的 "Compare &amp; pull request"。</p>
+<p>本教程中请不要这么做。不过，在接下来显示补丁预览的页面，你可以单击 "Create pull request"。</p>
+</div>
+<div class="section" id="s-next-steps">
+<span id="next-steps"></span><h2>下一步<a class="headerlink" href="https://docs.djangoproject.com/zh-hans/2.1/intro/contributing/#next-steps" title="永久链接至标题">¶</a></h2>
+<p>恭喜，你已经学会了如何为 Django 创建 pull request！如需获知更多高级技巧，参考 <a class="reference internal" href="https://docs.djangoproject.com/zh-hans/2.1/internals/contributing/writing-code/working-with-git/"><span class="doc">Working with Git and GitHub</span></a>。</p>
+<p>现在你可以活用这些技能帮助改善 Django 的代码库。</p>
+<div class="section" id="s-more-information-for-new-contributors">
+<span id="more-information-for-new-contributors"></span><h3>针对新贡献者的更多注意事项<a class="headerlink" href="https://docs.djangoproject.com/zh-hans/2.1/intro/contributing/#more-information-for-new-contributors" title="永久链接至标题">¶</a></h3>
+<p>在你开始为 Django 编写补丁时，这里有些信息，你应该看一看：</p>
+<ul class="simple">
+<li>确保你阅读了 Django 的参考文档 <a class="reference internal" href="https://docs.djangoproject.com/zh-hans/2.1/internals/contributing/writing-code/submitting-patches/"><span class="doc">创建工单和提交补丁</span></a>。它涵盖了Trac 规则，如何创建自己的工单，补丁期望的代码风格和其他一些重要信息。</li>
+<li>初次提交补丁应额外阅读 <a class="reference internal" href="https://docs.djangoproject.com/zh-hans/2.1/internals/contributing/new-contributors/"><span class="doc">首次贡献者文档</span></a>。这里有很多对新手贡献者的建议。</li>
+<li>接下来，如果你渴望更多关于为 Django 做贡献的信息，可以阅读余下的文档 <a class="reference internal" href="https://docs.djangoproject.com/zh-hans/2.1/internals/contributing/"><span class="doc">为 Django 文档上作出贡献</span></a>。它包含了大量的有用信息，这里可以解决你可能遇到的所有问题。</li>
+</ul>
+</div>
+<div class="section" id="s-finding-your-first-real-ticket">
+<span id="finding-your-first-real-ticket"></span><h3>寻找你的第一个真正意义上的工单<a class="headerlink" href="https://docs.djangoproject.com/zh-hans/2.1/intro/contributing/#finding-your-first-real-ticket" title="永久链接至标题">¶</a></h3>
+<p>一旦你看过了之前那些信息，你便已经具备了走出困境，编写修复自己找到的工单的补丁的能力。对于那些有着“容易获得”标准的工单要尤其注意。这些工单实际上常常很简单而且对于第一次撰写补丁的人很有帮助。一旦你熟悉了给 Django 写补丁，你就可以进一步为更难且更复杂的工单写补丁。</p>
+<p>如果你只是想要简单的了解（没人会因此责备你！），那么你可以试着看看 <a href="https://docs.djangoproject.com/zh-hans/2.1/intro/contributing/#id12"><span class="problematic" id="id19">`easy tickets that need patches`__</span></a> 和 <a href="https://docs.djangoproject.com/zh-hans/2.1/intro/contributing/#id12"><span class="problematic" id="id20">`easy tickets that have patches which need improvement`__</span></a>。如果你比较擅长写测试，那么你也可以看看这个 <a href="https://docs.djangoproject.com/zh-hans/2.1/intro/contributing/#id12"><span class="problematic" id="id21">`easy tickets that need tests`__</span></a>。一定要记得遵循在 Django 的文档声明标签和递交补丁中提到的关于声明标签的指导规则 <a class="reference internal" href="https://docs.djangoproject.com/zh-hans/2.1/internals/contributing/writing-code/submitting-patches/"><span class="doc">声明标签和提交补丁</span></a>.</p>
+</div>
+<div class="section" id="s-what-s-next-after-creating-a-pull-request">
+<span id="what-s-next-after-creating-a-pull-request"></span><h3>创建完 pull request，下一步做什么呢？<a class="headerlink" href="https://docs.djangoproject.com/zh-hans/2.1/intro/contributing/#what-s-next-after-creating-a-pull-request" title="永久链接至标题">¶</a></h3>
+<p>工单有了补丁后，需要他人来复审。提交 pull 请求后，为工单打上如“有补丁”，“无需测试”之类的标签，如此他人便可查找到该工单以便复审。从头开始编写补丁固然是贡献的一种方式，但复审已有补丁同样能帮助 Django。 查看 <a class="reference internal" href="https://docs.djangoproject.com/zh-hans/2.1/internals/contributing/triaging-tickets/"><span class="doc">Triaging tickets</span></a> 了解更多。</p>
+</div>
+</div>
+</div>
+
+</div>
+
+
+
+<div class="browse-horizontal">
+  
+  <div class="left"><a href="https://docs.djangoproject.com/zh-hans/2.1/intro/whatsnext/"><i class="icon icon-chevron-left"></i> 下一步看什么</a></div>
+  
+  
+  <div class="right"><a href="https://docs.djangoproject.com/zh-hans/2.1/topics/">Using Django <i class="icon icon-chevron-right"></i></a></div>
+  
+</div>
+
+
+
+        <a href="https://docs.djangoproject.com/zh-hans/2.1/intro/contributing/#top" class="backtotop"><i class="icon icon-chevron-up"></i> Back to Top</a>
+      </div>
+
+      
+<h1 class="visuallyhidden">附加信息</h1>
+<div role="complementary">
+  
+  
+
+<form action="https://docs.djangoproject.com/zh-hans/2.1/search/" class="search form-input" role="search">
+  <label class="visuallyhidden" for="id_q">Search:</label>
+    <input type="search" name="q" placeholder="搜索 2.1 文档" id="id_q">
+
+    <button type="submit">
+      <i class="icon icon-search"></i>
+      <span class="visuallyhidden">搜索</span>
+    </button>
+</form>
+
+  
+
+  
+
+
+  <div class="fundraising-sidebar">
+    <h2>Support Django!</h2>
+
+    <div class="small-heart">
+      <img src="./10编写你的第一个 Django 补丁_files/small-fundraising-heart.d255f6e934e5.png" alt="Support Django!">
+    </div>
+
+    <div class="small-cta">
+      <ul class="list-links-small">
+        <li><a href="https://www.djangoproject.com/fundraising/">
+          Hussam Hadi donated to the Django Software Foundation to
+          support Django development. Donate today!
+        </a></li>
+      </ul>
+    </div>
+  </div>
+
+
+
+  
+    <h2>内容</h2>
+    
+    <ul>
+<li><a class="reference internal" href="https://docs.djangoproject.com/zh-hans/2.1/intro/contributing/#">编写你的第一个 Django 补丁</a><ul>
+<li><a class="reference internal" href="https://docs.djangoproject.com/zh-hans/2.1/intro/contributing/#introduction">介绍</a><ul>
+<li><a class="reference internal" href="https://docs.djangoproject.com/zh-hans/2.1/intro/contributing/#who-s-this-tutorial-for">这个教程适合谁？</a></li>
+<li><a class="reference internal" href="https://docs.djangoproject.com/zh-hans/2.1/intro/contributing/#what-does-this-tutorial-cover">这个指南涵盖哪些内容？</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="https://docs.djangoproject.com/zh-hans/2.1/intro/contributing/#code-of-conduct">代码规范</a></li>
+<li><a class="reference internal" href="https://docs.djangoproject.com/zh-hans/2.1/intro/contributing/#installing-git">安装Git</a></li>
+<li><a class="reference internal" href="https://docs.djangoproject.com/zh-hans/2.1/intro/contributing/#getting-a-copy-of-django-s-development-version">获得一个 Django 开发版本的副本</a></li>
+<li><a class="reference internal" href="https://docs.djangoproject.com/zh-hans/2.1/intro/contributing/#running-django-s-test-suite-for-the-first-time">首先运行 Django 的测试套件</a></li>
+<li><a class="reference internal" href="https://docs.djangoproject.com/zh-hans/2.1/intro/contributing/#working-on-a-feature">尝试搞定一项新功能</a></li>
+<li><a class="reference internal" href="https://docs.djangoproject.com/zh-hans/2.1/intro/contributing/#creating-a-branch-for-your-patch">为你的补丁创建一个分支</a></li>
+<li><a class="reference internal" href="https://docs.djangoproject.com/zh-hans/2.1/intro/contributing/#writing-some-tests-for-your-ticket">为你的工单写一些测试用例</a><ul>
+<li><a class="reference internal" href="https://docs.djangoproject.com/zh-hans/2.1/intro/contributing/#writing-a-test-for-ticket-99999">为工单 #99999 写测试</a></li>
+<li><a class="reference internal" href="https://docs.djangoproject.com/zh-hans/2.1/intro/contributing/#running-your-new-test">运行你的新测试</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="https://docs.djangoproject.com/zh-hans/2.1/intro/contributing/#writing-the-code-for-your-ticket">为你的工单编写代码</a></li>
+<li><a class="reference internal" href="https://docs.djangoproject.com/zh-hans/2.1/intro/contributing/#running-django-s-test-suite-for-the-second-time">第二次运行 Django 测试套件</a></li>
+<li><a class="reference internal" href="https://docs.djangoproject.com/zh-hans/2.1/intro/contributing/#writing-documentation">书写文档</a></li>
+<li><a class="reference internal" href="https://docs.djangoproject.com/zh-hans/2.1/intro/contributing/#previewing-your-changes">预览你的修改</a></li>
+<li><a class="reference internal" href="https://docs.djangoproject.com/zh-hans/2.1/intro/contributing/#committing-the-changes-in-the-patch">提交补丁中的修改</a></li>
+<li><a class="reference internal" href="https://docs.djangoproject.com/zh-hans/2.1/intro/contributing/#pushing-the-commit-and-making-a-pull-request">推送这次提交并生成一个 pull 请求</a></li>
+<li><a class="reference internal" href="https://docs.djangoproject.com/zh-hans/2.1/intro/contributing/#next-steps">下一步</a><ul>
+<li><a class="reference internal" href="https://docs.djangoproject.com/zh-hans/2.1/intro/contributing/#more-information-for-new-contributors">针对新贡献者的更多注意事项</a></li>
+<li><a class="reference internal" href="https://docs.djangoproject.com/zh-hans/2.1/intro/contributing/#finding-your-first-real-ticket">寻找你的第一个真正意义上的工单</a></li>
+<li><a class="reference internal" href="https://docs.djangoproject.com/zh-hans/2.1/intro/contributing/#what-s-next-after-creating-a-pull-request">创建完 pull request，下一步做什么呢？</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+    
+  
+
+  
+  <h2>浏览</h2>
+  <ul>
+    
+    
+    <li>上一个： <a href="https://docs.djangoproject.com/zh-hans/2.1/intro/whatsnext/">下一步看什么</a></li>
+    
+    
+    <li>下一个： <a href="https://docs.djangoproject.com/zh-hans/2.1/topics/">Using Django</a></li>
+    
+    <li><a href="https://docs.djangoproject.com/zh-hans/2.1/contents/">目录</a></li>
+    
+    <li><a href="https://docs.djangoproject.com/zh-hans/2.1/genindex/">总目录</a></li>
+    
+    <li><a href="https://docs.djangoproject.com/zh-hans/2.1/py-modindex/">Python 模块索引</a></li>
+    
+    
+  </ul>
+  
+
+  
+  <h2>当前位置</h2>
+  <ul>
+    <li>
+      <a href="https://docs.djangoproject.com/zh-hans/2.1/">Django 2.1 文档</a>
+      
+      <ul><li><a href="https://docs.djangoproject.com/zh-hans/2.1/intro/">开始</a>
+      
+      <ul><li>编写你的第一个 Django 补丁</li></ul>
+      </li></ul>
+    </li>
+  </ul>
+  
+
+  
+  <h2 id="getting-help-sidebar">获取帮助</h2>
+  <dl class="list-links">
+    <dt><a href="https://docs.djangoproject.com/zh-hans/2.1/faq/">FAQ</a></dt>
+    <dd>尝试查看 FAQ — 它包括了很多常见问题的答案</dd>
+
+    <dt><a href="https://docs.djangoproject.com/en/stable/genindex/">索引</a>, <a href="https://docs.djangoproject.com/en/stable/py-modindex/">模块索引</a>, or <a href="https://docs.djangoproject.com/en/stable/contents/">目录</a></dt>
+    <dd>查找特定信息时比较容易</dd>
+
+    <dt><a href="https://groups.google.com/group/django-users/">django-users mailing list</a></dt>
+    <dd>在 django-users 邮件列表存档中搜索信息，或者发布一个问题。</dd>
+
+    <dt><a href="irc://irc.freenode.net/django">#django IRC channel</a></dt>
+    <dd>在 #django IRC 频道上提问，或者搜索 IRC 历史找到相似的问题与解答。</dd>
+
+    <dt><a href="https://code.djangoproject.com/">Ticket tracker</a></dt>
+    <dd>在我们的 `ticket tracker`_ 中报告 Django 或 Django 文档的 Bug。</dd>
+  </dl>
+  
+
+  
+  <h2>下载：</h2>
+  <p>
+    离线 (Django 2.1):
+    <a href="https://media.djangoproject.com/docs/django-docs-2.1-zh-hans.zip">HTML</a> |
+    <a href="https://media.readthedocs.org/pdf/django/2.1.x/django.pdf">PDF</a> |
+    <a href="https://media.readthedocs.org/epub/django/2.1.x/django.epub">ePub</a>
+    <br>
+    <span class="quiet">
+      由 <a href="https://readthedocs.org/">Read the Docs</a> 提供。
+    </span>
+  </p>
+  
+</div>
+
+      
+
+    </div>
+
+     
+     
+
+    
+    
+    
+
+    
+      
+<div role="contentinfo">
+  <div class="subfooter">
+    <div class="container">
+      <h1 class="visuallyhidden">Django Links</h1>
+
+      <div class="col learn">
+        <h2>Learn More</h2>
+        <ul>
+          <li><a href="https://www.djangoproject.com/start/overview/">About Django</a></li>
+          
+          <li><a href="https://www.djangoproject.com/start/">Getting Started with Django</a></li>
+          <li><a href="https://docs.djangoproject.com/en/dev/internals/organization/">Team Organization</a></li>
+          <li><a href="https://www.djangoproject.com/foundation/">Django Software Foundation</a></li>
+          <li><a href="https://www.djangoproject.com/conduct/">Code of Conduct</a></li>
+          <li><a href="https://www.djangoproject.com/diversity/">Diversity Statement</a></li>
+        </ul>
+      </div>
+
+      <div class="col involved">
+        <h2>Get Involved</h2>
+        <ul>
+          <li><a href="https://www.djangoproject.com/community/">Join a Group</a></li>
+          <li><a href="https://docs.djangoproject.com/en/dev/internals/contributing/">Contribute to Django</a></li>
+          <li><a href="https://docs.djangoproject.com/en/dev/internals/contributing/bugs-and-features/">Submit a Bug</a></li>
+          <li><a href="https://docs.djangoproject.com/en/dev/internals/security/#reporting-security-issues">Report a Security Issue</a></li>
+        </ul>
+      </div>
+
+      <div class="col follow last-child">
+        <h2>Follow Us</h2>
+        <ul>
+          <li><a href="https://github.com/django">GitHub</a></li>
+          <li><a href="https://twitter.com/djangoproject">Twitter</a></li>
+          <li><a href="https://www.djangoproject.com/rss/weblog/">News RSS</a></li>
+          <li><a href="https://groups.google.com/forum/#!forum/django-users">Django Users Mailing List</a></li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="footer">
+    <div class="container">
+      <div class="footer-logo">
+        <a class="logo" href="https://www.djangoproject.com/">Django</a>
+      </div>
+      <ul class="thanks">
+        <li>
+          <span>Hosting by</span> <a class="rackspace" href="https://www.rackspace.com/">Rackspace</a>
+        </li>
+        <li class="design"><span>Design by</span> <a class="threespot" href="https://www.threespot.com/">Threespot</a> <span class="ampersand">&amp;</span> <a class="andrevv" href="http://andrevv.com/"></a></li>
+      </ul>
+      <p class="copyright">© 2005-2019
+        <a href="https://www.djangoproject.com/foundation/"> Django Software
+        Foundation</a> and individual contributors. Django is a
+        <a href="https://www.djangoproject.com/trademarks/">registered
+        trademark</a> of the Django Software Foundation.
+      </p>
+    </div>
+  </div>
+
+</div>
+
+    
+
+    
+    <script>
+    function extless(input) {
+        return input.replace(/(.*)\.[^.]+$/, '$1');
+    }
+    var require = {
+        shim: {
+            'jquery': [],
+            'jquery.inview': ["jquery"],
+            'jquery.payment': ["jquery"],
+            'jquery.flot': ["jquery"],
+            'jquery.unveil': ["jquery"],
+            'stripe': {
+              exports: 'Stripe'
+            }
+        },
+        paths: {
+            "jquery": extless("https://static.djangoproject.com/js/lib/jquery/dist/jquery.min.87e69028f78d.js"),
+            "jquery.inview": extless("https://static.djangoproject.com/js/lib/jquery.inview/jquery.inview.min.4edba1c65592.js"),
+            "jquery.payment": extless("https://static.djangoproject.com/js/lib/jquery.payment/lib/jquery.payment.e99c05ca79ae.js"),
+            "jquery.unveil": extless("https://static.djangoproject.com/js/lib/unveil/jquery.unveil.min.ac79eb277093.js"),
+            "jquery.flot": extless("https://static.djangoproject.com/js/lib/jquery-flot/jquery.flot.min.9964206e9d7f.js"),
+            "clipboard": extless("https://static.djangoproject.com/js/lib/clipboard/dist/clipboard.min.bd70fd596a23.js"),
+            "mod/floating-warning": extless("https://static.djangoproject.com/js/mod/floating-warning.a21b2abd2884.js"),
+            "mod/list-collapsing": extless("https://static.djangoproject.com/js/mod/list-collapsing.c1a08d3ef9e9.js"),
+            "mod/list-feature": extless("https://static.djangoproject.com/js/mod/list-feature.73529480f25b.js"),
+            "mod/mobile-menu": extless("https://static.djangoproject.com/js/mod/mobile-menu.841726ee903a.js"),
+            "mod/version-switcher": extless("https://static.djangoproject.com/js/mod/version-switcher.c28bb83972bb.js"),
+            "mod/search-key": extless("https://static.djangoproject.com/js/mod/search-key.f3c0a6fcfedd.js"),
+            "mod/stripe-custom-checkout": extless("https://static.djangoproject.com/js/mod/stripe-custom-checkout.aac1352045b7.js"),
+            "mod/stripe-change-card": extless("https://static.djangoproject.com/js/mod/stripe-change-card.682c710317a8.js"),
+            "mod/console-tabs": extless("https://static.djangoproject.com/js/mod/console-tabs.70ce882faaf3.js"),
+            "stripe-checkout": "https://checkout.stripe.com/checkout",
+            "stripe": "https://js.stripe.com/v2/?"  // ? needed due to require.js
+        }
+    };
+    </script>
+    <script data-main="https://static.djangoproject.com/js/main.07884ebc4865.js" src="./10编写你的第一个 Django 补丁_files/require.177879fbe7dd.js"></script>
+    
+
+
+
+  
+
+</body></html>

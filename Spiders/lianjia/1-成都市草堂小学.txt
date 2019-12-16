@@ -1,0 +1,157 @@
+1-成都市草堂小学
+	浣花北路
+		59万	浣花小区	浣花溪/1室1厅/50.91平米/西/毛坯		https://cd.lianjia.com/ershoufang/106101222581.html
+		87.9万	浣花小区	浣花溪/2室1厅/66.83平米/南/简装		https://cd.lianjia.com/ershoufang/106102718498.html
+		88万	浣花小区	浣花溪/2室1厅/66.83平米/东/毛坯		https://cd.lianjia.com/ershoufang/106101041669.html
+		89万	浣花小区	浣花溪/2室1厅/66.83平米/西南/简装		https://cd.lianjia.com/ershoufang/106102901704.html
+		98万	浣花北路26号	草堂/1室1厅/42.96平米/西/简装		https://cd.lianjia.com/ershoufang/106102489209.html
+		100万	浣花北路26号	草堂/1室1厅/41平米/东/精装		https://cd.lianjia.com/ershoufang/106101713894.html
+		105万	浣花小区	浣花溪/3室2厅/84.03平米/东南/简装		https://cd.lianjia.com/ershoufang/106102824282.html
+		119万	浣花小区	浣花溪/3室1厅/84.03平米/南/简装		https://cd.lianjia.com/ershoufang/106102806442.html
+		120万	浣花小区	浣花溪/3室1厅/84.03平米/东南/简装		https://cd.lianjia.com/ershoufang/106102423223.html
+		125万	浣花小区	浣花溪/3室2厅/84平米/南/简装		https://cd.lianjia.com/ershoufang/106102596372.html
+		130万	浣花小区	浣花溪/3室1厅/84.03平米/南/简装		https://cd.lianjia.com/ershoufang/106102238023.html
+		142万	浣花北路26号	草堂/2室1厅/75.05平米/东北/简装		https://cd.lianjia.com/ershoufang/106102905318.html
+		148万	浣花北路16号	草堂/2室1厅/75.86平米/南/简装		https://cd.lianjia.com/ershoufang/106102823984.html
+		162万	浣花北路26号	草堂/3室1厅/88.88平米/东南/简装		https://cd.lianjia.com/ershoufang/106102662731.html
+		165万	浣花北路26号	草堂/2室1厅/93.03平米/南 北/简装		https://cd.lianjia.com/ershoufang/106101953045.html
+		169.5万	浣花北路6号	草堂/2室1厅/86.92平米/西/简装		https://cd.lianjia.com/ershoufang/106102932970.html
+		175万	浣花北路26号	草堂/2室2厅/99.5平米/南/简装		https://cd.lianjia.com/ershoufang/106100890054.html
+		180万	浣花北路26号	草堂/2室1厅/93.03平米/南/简装		https://cd.lianjia.com/ershoufang/106102929425.html
+		215万	浣花北路26号	草堂/3室2厅/119.11平米/东/简装		https://cd.lianjia.com/ershoufang/106102260952.html
+		236万	浣花北路26号	草堂/3室1厅/118.89平米/东 西/精装		https://cd.lianjia.com/ershoufang/106102881127.html
+		245万	浣花北路26号	草堂/3室2厅/119.11平米/南 北/精装		https://cd.lianjia.com/ershoufang/106100829058.html
+	浣花南路
+		120万	浣花南路218号	浣花溪/1室1厅/41.53平米/南/简装		https://cd.lianjia.com/ershoufang/106100883345.html
+		133万	浣花南路218号	浣花溪/1室1厅/41.76平米/东 西/简装		https://cd.lianjia.com/ershoufang/106102293208.html
+		134万	浣花南路218号	浣花溪/1室1厅/38.5平米/东南/简装		https://cd.lianjia.com/ershoufang/106102783999.html
+		135万	浣花南路218号	浣花溪/1室1厅/40.11平米/东南/毛坯		https://cd.lianjia.com/ershoufang/106102613889.html
+		142万	浣花南路218号	浣花溪/1室1厅/41.76平米/西/精装		https://cd.lianjia.com/ershoufang/106102572847.html
+		185万	浣花南路218号	浣花溪/2室1厅/77.46平米/东南/简装		https://cd.lianjia.com/ershoufang/106102940982.html
+		195万	浣花南路218号	浣花溪/2室1厅/78.22平米/东/简装		https://cd.lianjia.com/ershoufang/106102257668.html
+		260万	浣花南路218号	浣花溪/3室2厅/116.06平米/南 北/简装		https://cd.lianjia.com/ershoufang/106101713582.html
+		288万	浣花南路218号	浣花溪/3室2厅/116.11平米/西/简装		https://cd.lianjia.com/ershoufang/106100836661.html
+		300万	浣花南路218号	浣花溪/3室2厅/118平米/东南/简装		https://cd.lianjia.com/ershoufang/106101406839.html
+	青羊正街
+		51.8万	石人南路23号	府南新区/1室1厅/36.26平米/东南/精装		https://cd.lianjia.com/ershoufang/106102943433.html
+		52万	南桥视窗	人民公园/1室0厅/37.9平米/西北/精装		https://cd.lianjia.com/ershoufang/106102372591.html
+		55万	幸福里	外光华/1室1厅/47.44平米/南/简装		https://cd.lianjia.com/ershoufang/106102659451.html
+		71万	大庆路97号	府南新区/2室1厅/67.47平米/东南/简装		https://cd.lianjia.com/ershoufang/106102173937.html
+		73万	力迅领筑	人民公园/1室0厅/45.48平米/东南/精装		https://cd.lianjia.com/ershoufang/106102904503.html
+		76万	吉祥街14号	宽窄巷子/1室1厅/51.52平米/北/简装		https://cd.lianjia.com/ershoufang/106101596115.html
+		93.5万	光华馨地	西南财大/1室1厅/55.72平米/东/精装		https://cd.lianjia.com/ershoufang/106102851563.html
+		98万	江信大厦	草市街/4室1厅/170.02平米/西/简装		https://cd.lianjia.com/ershoufang/106101524007.html
+		102万	宏通苑	草堂/2室1厅/85.59平米/西南/简装		https://cd.lianjia.com/ershoufang/106102181554.html
+		112万	锦绣光华	外光华/2室1厅/81.67平米/东南/精装		https://cd.lianjia.com/ershoufang/106102344559.html
+		115万	揽胜金沙	金沙/1室1厅/53.16平米/东南/简装		https://cd.lianjia.com/ershoufang/106102564102.html
+		124万	二十一世纪花园一期	贝森/2室1厅/87.49平米/西/简装		https://cd.lianjia.com/ershoufang/106102796021.html
+		125万	颐和京都	万家湾/2室2厅/76.72平米/北/精装		https://cd.lianjia.com/ershoufang/106102917258.html
+		132万	揽胜金沙	金沙/2室1厅/58.83平米/西/简装		https://cd.lianjia.com/ershoufang/106102827844.html
+		142万	光华干休所	草堂/3室1厅/77.4平米/南/精装		https://cd.lianjia.com/ershoufang/106102800525.html
+		143万	上翔街32号	太升路/2室0厅/58.28平米/南/简装		https://cd.lianjia.com/ershoufang/106102921099.html
+		145万	海亮樾金沙	外金沙/3室2厅/79.1平米/西南/毛坯		https://cd.lianjia.com/ershoufang/106102796060.html
+		148万	蓝光COCO金沙三期	外金沙/3室2厅/71.19平米/西/精装		https://cd.lianjia.com/ershoufang/106102905276.html
+		160万	金河路63号	人民公园/3室1厅/70.48平米/西南 东北/简装		https://cd.lianjia.com/ershoufang/106101546948.html
+		162万	大石西路62号	浣花溪/3室1厅/73.5平米/南 北/简装		https://cd.lianjia.com/ershoufang/106102842456.html
+		165万	橙花风景	光华泡小/2室2厅/84.26平米/西/精装		https://cd.lianjia.com/ershoufang/106101705609.html
+		185万	铸信境界	贝森/3室1厅/89.63平米/南/精装		https://cd.lianjia.com/ershoufang/106102419125.html
+		189万	世纪金沙	金沙/2室1厅/90.08平米/东 东南/精装		https://cd.lianjia.com/ershoufang/106102354222.html
+		195万	金沙鹭岛一期	金沙/2室2厅/89.68平米/西/简装		https://cd.lianjia.com/ershoufang/106102956804.html
+		196万	中大君悦金沙三期	金沙/2室2厅/85.89平米/南 北/精装		https://cd.lianjia.com/ershoufang/106101458110.html
+		203万	二十一世纪花园三期	贝森/3室2厅/130.32平米/南/简装		https://cd.lianjia.com/ershoufang/106102698350.html
+		208万	双玺	贝森/3室1厅/88.79平米/北/精装		https://cd.lianjia.com/ershoufang/106102823595.html
+		438万	成都花园望郡	西南财大/4室2厅/165.32平米/南 北/精装		https://cd.lianjia.com/ershoufang/106102716086.html
+	青羊横街
+	一环路西一段
+		99万	一环路西一段67号	武侯祠/2室1厅/65.1平米/南 北/精装		https://cd.lianjia.com/ershoufang/106101366775.html
+		107万	一环路西一段65号	武侯祠/3室1厅/77.14平米/南/简装		https://cd.lianjia.com/ershoufang/106102691511.html
+		110万	一环路西一段11号	武侯祠/3室1厅/73.3平米/南 北/简装		https://cd.lianjia.com/ershoufang/106102102070.html
+		130万	一环路西一段9号	武侯祠/3室2厅/86.4平米/东南/简装		https://cd.lianjia.com/ershoufang/106102684638.html
+		280万	颐景园	浣花溪/2室2厅/98.29平米/南/简装		https://cd.lianjia.com/ershoufang/106101221885.html
+	一环路西二段
+		113万	一环路西二段47号	人民公园/2室1厅/62.04平米/东南/简装		https://cd.lianjia.com/ershoufang/106102632384.html
+		120万	一环路西二段17号	人民公园/2室2厅/57.17平米/北/精装		https://cd.lianjia.com/ershoufang/106102574087.html
+		148万	一环路西二段47号	人民公园/2室1厅/64.33平米/南/简装		https://cd.lianjia.com/ershoufang/106102741959.html
+		175万	一环路西二段17号	人民公园/2室2厅/113.7平米/西北/简装		https://cd.lianjia.com/ershoufang/106101141367.html
+	青羊上街
+		115万	青羊上街398号	草堂/2室1厅/58.8平米/东/简装		https://cd.lianjia.com/ershoufang/106102209495.html
+		128万	青羊上街398号	草堂/2室1厅/67.27平米/南/简装		https://cd.lianjia.com/ershoufang/106102587025.html
+		145万	青羊上街398号	草堂/3室1厅/89.9平米/南/毛坯		https://cd.lianjia.com/ershoufang/106102145326.html
+		146万	青羊上街99号	浣花溪/2室1厅/63.64平米/南/精装		https://cd.lianjia.com/ershoufang/106102608544.html
+		162万	青羊上街185号	浣花溪/3室1厅/67.99平米/南/简装		https://cd.lianjia.com/ershoufang/106101257041.html
+	望仙场
+		284万	百花雅园	浣花溪/2室2厅/101.71平米/南/精装		https://cd.lianjia.com/ershoufang/106102766296.html
+		360万	百花雅园	浣花溪/3室2厅/127.13平米/东南/简装		https://cd.lianjia.com/ershoufang/106102622368.html
+		380万	百花雅园	浣花溪/3室2厅/140.24平米/北/毛坯		https://cd.lianjia.com/ershoufang/106101362664.html
+		390万	百花雅园	浣花溪/4室2厅/127.49平米/南/简装		https://cd.lianjia.com/ershoufang/106102163491.html
+	草堂东路
+		95万	草堂东路133号	浣花溪/2室1厅/46.14平米/南/简装		https://cd.lianjia.com/ershoufang/106102507839.html
+		110万	草堂东路133号	浣花溪/2室1厅/46.14平米/南/毛坯		https://cd.lianjia.com/ershoufang/106100888288.html
+		112万	草堂东路133号	浣花溪/2室1厅/46.14平米/南/毛坯		https://cd.lianjia.com/ershoufang/106100891606.html
+		113万	草堂东路133号	浣花溪/2室1厅/46.14平米/东南 南/简装		https://cd.lianjia.com/ershoufang/106102450807.html
+		128万	草堂东路133号	浣花溪/3室1厅/62平米/南/简装		https://cd.lianjia.com/ershoufang/106100530204.html
+		195万	草堂东路65号院	浣花溪/2室1厅/77.14平米/南/精装		https://cd.lianjia.com/ershoufang/106101622959.html
+		230万	草堂东路65号院	浣花溪/2室1厅/71.86平米/南/简装		https://cd.lianjia.com/ershoufang/106102087495.html
+	大石西路
+		76万	大石西路3号	双楠/2室1厅/57.24平米/南 北/简装		https://cd.lianjia.com/ershoufang/106102461688.html
+		80万	大石西路83号	双楠/2室1厅/60.31平米/东南/简装		https://cd.lianjia.com/ershoufang/106102285726.html
+		95万	大石西路3号	双楠/2室1厅/53.51平米/东/简装		https://cd.lianjia.com/ershoufang/106101107526.html
+		118万	大石西路62号	浣花溪/1室1厅/55.58平米/南/简装		https://cd.lianjia.com/ershoufang/106102175411.html
+		162万	大石西路62号	浣花溪/3室1厅/73.5平米/南 北/简装		https://cd.lianjia.com/ershoufang/106102842456.html
+		255万	大石西路60号	浣花溪/2室2厅/103平米/南 北/精装		https://cd.lianjia.com/ershoufang/106102774072.html
+	百卉路
+		148万	百卉路5号	浣花溪/2室1厅/55.93平米/东南/简装		https://cd.lianjia.com/ershoufang/106102708991.html
+		175万	百卉路11号	浣花溪/2室1厅/61.7平米/南/精装		https://cd.lianjia.com/ershoufang/106102533982.html
+		195万	百卉路29号	浣花溪/2室1厅/83.5平米/东/简装		https://cd.lianjia.com/ershoufang/106101350297.html
+		200万	百卉路11号	浣花溪/3室1厅/78.16平米/东南/简装		https://cd.lianjia.com/ershoufang/106100605822.html
+		260万	百卉路4号	浣花溪/3室2厅/90.45平米/南 北/简装		https://cd.lianjia.com/ershoufang/106101071043.html
+		280万	百卉路4号	浣花溪/3室1厅/97.74平米/南/简装		https://cd.lianjia.com/ershoufang/106102800289.html
+	浣花滨河路
+		880万	浣花里100号	浣花溪/6室2厅/235.66平米/东/简装		https://cd.lianjia.com/ershoufang/106100563597.html
+		1250万	浣花里100号	浣花溪/5室2厅/330.23平米/南/毛坯		https://cd.lianjia.com/ershoufang/106102794937.html
+	科联街
+		248万	科联街5号	浣花溪/3室2厅/99.31平米/东/简装		https://cd.lianjia.com/ershoufang/106102094690.html
+		520万	科联街7号	浣花溪/4室2厅/159.83平米/南/简装		https://cd.lianjia.com/ershoufang/106102089629.html
+	百花西路
+		118万	百花西路15号	浣花溪/1室1厅/45.83平米/南/简装		https://cd.lianjia.com/ershoufang/106102363631.html
+		125万	百花西路15号	浣花溪/1室1厅/45.83平米/南/精装		https://cd.lianjia.com/ershoufang/106102678606.html
+		130万	百花西路9号	浣花溪/2室1厅/50.44平米/南/毛坯		https://cd.lianjia.com/ershoufang/106102000414.html
+		137万	百花西路9号	浣花溪/2室1厅/50.44平米/东南/简装		https://cd.lianjia.com/ershoufang/106102775544.html
+		140万	百花西路9号	浣花溪/2室2厅/50.44平米/东南/简装		https://cd.lianjia.com/ershoufang/106101081134.html
+		143万	百花西路15号	浣花溪/2室1厅/56.3平米/北/简装		https://cd.lianjia.com/ershoufang/106102490076.html
+		150万	百花西路9号	浣花溪/2室1厅/50.44平米/东南/毛坯		https://cd.lianjia.com/ershoufang/106101171505.html
+		152万	百花西路15号	浣花溪/2室1厅/56.3平米/南/简装		https://cd.lianjia.com/ershoufang/106101298705.html
+		154万	百花西路15号	浣花溪/2室1厅/56.3平米/南 北/精装		https://cd.lianjia.com/ershoufang/106102847553.html
+		155万	百花西路9号	浣花溪/2室1厅/59.06平米/南/精装		https://cd.lianjia.com/ershoufang/106101751421.html
+		156万	百花西路19号院	浣花溪/2室1厅/63.09平米/东南/毛坯		https://cd.lianjia.com/ershoufang/106101836016.html
+		167万	百花西路19号院	浣花溪/2室2厅/65.88平米/东南/简装		https://cd.lianjia.com/ershoufang/106101010929.html
+	浣锦路
+	浣锦滨河路
+	百花潭路
+		51.8万	石人南路23号	府南新区/1室1厅/36.26平米/东南/精装		https://cd.lianjia.com/ershoufang/106102943433.html
+		52万	南桥视窗	人民公园/1室0厅/37.9平米/西北/精装		https://cd.lianjia.com/ershoufang/106102372591.html
+		71万	大庆路97号	府南新区/2室1厅/67.47平米/东南/简装		https://cd.lianjia.com/ershoufang/106102173937.html
+		73万	力迅领筑	人民公园/1室0厅/45.48平米/东南/精装		https://cd.lianjia.com/ershoufang/106102904503.html
+		76万	吉祥街14号	宽窄巷子/1室1厅/51.52平米/北/简装		https://cd.lianjia.com/ershoufang/106101596115.html
+		92万	百寿路7号	石人小区/3室2厅/83平米/南 北/简装		https://cd.lianjia.com/ershoufang/106102859907.html
+		94万	营和巷52号	抚琴小区/3室1厅/87.11平米/东南/简装		https://cd.lianjia.com/ershoufang/106102910935.html
+		95万	百吉街52号	双楠/3室1厅/87.68平米/南/简装		https://cd.lianjia.com/ershoufang/106102677780.html
+		102万	宏通苑	草堂/2室1厅/85.59平米/西南/简装		https://cd.lianjia.com/ershoufang/106102181554.html
+		103万	金茂礼都	华西/2室1厅/63.38平米/西/简装		https://cd.lianjia.com/ershoufang/106102893079.html
+		105万	龙腾花园	龙湾/2室1厅/73.66平米/西/简装		https://cd.lianjia.com/ershoufang/106102935156.html
+		108万	橙堡	红牌楼/2室1厅/65.84平米/东南/简装		https://cd.lianjia.com/ershoufang/106102533298.html
+		118万	春禧商务酒店	盐市口/1室0厅/49.94平米/西南/简装		https://cd.lianjia.com/ershoufang/106102444217.html
+		129万	城市理想	盐市口/1室0厅/40.27平米/西/精装		https://cd.lianjia.com/ershoufang/106101015191.html
+		142万	光华干休所	草堂/3室1厅/77.4平米/南/精装		https://cd.lianjia.com/ershoufang/106102800525.html
+		143万	上翔街32号	太升路/2室0厅/58.28平米/南/简装		https://cd.lianjia.com/ershoufang/106102921099.html
+		152万	财富中心	盐市口/1室1厅/50.37平米/西北/精装		https://cd.lianjia.com/ershoufang/106102367155.html
+		160万	金河路63号	人民公园/3室1厅/70.48平米/西南 东北/简装		https://cd.lianjia.com/ershoufang/106101546948.html
+		162万	大石西路62号	浣花溪/3室1厅/73.5平米/南 北/简装		https://cd.lianjia.com/ershoufang/106102842456.html
+		166万	成都A区	高升桥/2室1厅/79.7平米/西北/精装		https://cd.lianjia.com/ershoufang/106102755488.html
+		176万	金河路63号新1号	人民公园/2室2厅/76.49平米/西南 东北/简装		https://cd.lianjia.com/ershoufang/106102956950.html
+		185万	银泰香樟林	红牌楼/2室1厅/89.11平米/西南/毛坯		https://cd.lianjia.com/ershoufang/106102962118.html
+		190万	汇景新村(武侯)	外双楠/3室2厅/130平米/东/简装		https://cd.lianjia.com/ershoufang/106102690486.html
+		210万	碧云天	双楠/3室2厅/116.5平米/西南/精装		https://cd.lianjia.com/ershoufang/106102962095.html
+		225万	金地花园	双楠/3室2厅/152.03平米/南 北/简装		https://cd.lianjia.com/ershoufang/106102148723.html
+		275万	皇后国际	盐市口/2室1厅/68.86平米/南/精装		https://cd.lianjia.com/ershoufang/106102212246.html
+		325万	远雄风华园	衣冠庙/3室2厅/136.39平米/东南 西北/精装		https://cd.lianjia.com/ershoufang/106102093894.html

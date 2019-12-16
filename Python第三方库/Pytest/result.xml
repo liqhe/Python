@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<testsuite errors="0" failures="2" name="pytest" skipped="0" tests="3" time="0.078">
+    <testcase classname="test_demo.TestClass" file="test_demo.py" line="8" name="test_func" time="0.001">
+        <failure message="assert 4 == 5
+  -4
+  +5">self = &lt;test_demo.TestClass object at 0x1106d98d0&gt;
+
+            def test_func(self):
+            &gt; assert self.func(3) == 5
+            E assert 4 == 5
+            E -4
+            E +5
+
+            test_demo.py:10: AssertionError
+        </failure>
+    </testcase>
+    <testcase classname="test_demo.TestClass" file="test_demo.py" line="11" name="test_one" time="0.001"></testcase>
+    <testcase classname="test_demo.TestClass" file="test_demo.py" line="15" name="test_two" time="0.001">
+        <failure message="AssertionError: assert False
+ +  where False = hasattr(&apos;hello&apos;, &apos;check&apos;)">self = &lt;test_demo.TestClass object at 0x1105775f8&gt;
+
+            def test_two(self):
+            x = &quot;hello&quot;
+            &gt; assert hasattr(x, &apos;check&apos;)
+            E AssertionError: assert False
+            E + where False = hasattr(&apos;hello&apos;, &apos;check&apos;)
+
+            test_demo.py:18: AssertionError
+        </failure>
+    </testcase>
+</testsuite>

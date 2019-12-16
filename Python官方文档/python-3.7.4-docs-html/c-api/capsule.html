@@ -1,0 +1,322 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh_CN">
+  <head>
+    <meta charset="utf-8" />
+    <title>胶囊 &#8212; Python 3.7.4 文档</title>
+    <link rel="stylesheet" href="../_static/pydoctheme.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/language_data.js"></script>
+    <script type="text/javascript" src="../_static/translations.js"></script>
+    
+    <script type="text/javascript" src="../_static/sidebar.js"></script>
+    
+    <link rel="search" type="application/opensearchdescription+xml"
+          title="在 Python 3.7.4 文档 中搜索"
+          href="../_static/opensearch.xml"/>
+    <link rel="author" title="关于这些文档" href="../about.html" />
+    <link rel="index" title="索引" href="../genindex.html" />
+    <link rel="search" title="搜索" href="../search.html" />
+    <link rel="copyright" title="版权所有" href="../copyright.html" />
+    <link rel="next" title="生成器对象" href="gen.html" />
+    <link rel="prev" title="弱引用对象" href="weakref.html" />
+    <link rel="shortcut icon" type="image/png" href="../_static/py.png" />
+    <link rel="canonical" href="https://docs.python.org/3/c-api/capsule.html" />
+    
+    <script type="text/javascript" src="../_static/copybutton.js"></script>
+    <script type="text/javascript" src="../_static/switchers.js"></script>
+    
+    
+    
+    <style>
+      @media only screen {
+        table.full-width-table {
+            width: 100%;
+        }
+      }
+    </style>
+ 
+
+  </head><body>
+  
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>导航</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="总目录"
+             accesskey="I">索引</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python 模块索引"
+             >模块</a> |</li>
+        <li class="right" >
+          <a href="gen.html" title="生成器对象"
+             accesskey="N">下一页</a> |</li>
+        <li class="right" >
+          <a href="weakref.html" title="弱引用对象"
+             accesskey="P">上一页</a> |</li>
+        <li><img src="../_static/py.png" alt=""
+                 style="vertical-align: middle; margin-top: -1px"/></li>
+        <li><a href="https://www.python.org/">Python</a> &#187;</li>
+        <li>
+          <span class="language_switcher_placeholder">zh_CN</span>
+          <span class="version_switcher_placeholder">3.7.4</span>
+          <a href="../index.html">文档</a> &#187;
+        </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" >Python/C API 参考手册</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="concrete.html" accesskey="U">具体的对象层</a> &#187;</li>
+    <li class="right">
+        
+
+    <div class="inline-search" style="display: none" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="快速搜索" type="text" name="q" />
+          <input type="submit" value="转向" />
+          <input type="hidden" name="check_keywords" value="yes" />
+          <input type="hidden" name="area" value="default" />
+        </form>
+    </div>
+    <script type="text/javascript">$('.inline-search').show(0);</script>
+         |
+    </li>
+
+      </ul>
+    </div>    
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="capsules">
+<span id="id1"></span><h1>胶囊<a class="headerlink" href="#capsules" title="永久链接至标题">¶</a></h1>
+<p id="index-0">有关使用这些对象的更多信息请参阅 <a class="reference internal" href="../extending/extending.html#using-capsules"><span class="std std-ref">给扩展模块提供C API</span></a>。</p>
+<div class="versionadded">
+<p><span class="versionmodified added">3.1 新版功能.</span></p>
+</div>
+<dl class="type">
+<dt id="c.PyCapsule">
+<code class="descname">PyCapsule</code><a class="headerlink" href="#c.PyCapsule" title="永久链接至目标">¶</a></dt>
+<dd><p>这个 <a class="reference internal" href="structures.html#c.PyObject" title="PyObject"><code class="xref c c-type docutils literal notranslate"><span class="pre">PyObject</span></code></a> 的子类型代表着一个任意值，当需要通过 Python 代码将任意值（以 <code class="xref c c-type docutils literal notranslate"><span class="pre">void*</span></code> 指针的形式）从 C 扩展模块传递给其他 C 代码时非常有用。它通常用于将指向一个模块中定义的 C 语言函数指针传递给其他模块，以便可以从那里调用它们。这允许通过正常的模块导入机制访问动态加载的模块中的 C API。</p>
+</dd></dl>
+
+<dl class="type">
+<dt id="c.PyCapsule_Destructor">
+<code class="descname">PyCapsule_Destructor</code><a class="headerlink" href="#c.PyCapsule_Destructor" title="永久链接至目标">¶</a></dt>
+<dd><p>这种类型的一个析构器返回一个胶囊，定义如下：</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">typedef</span> <span class="nf">void</span> <span class="p">(</span><span class="o">*</span><span class="n">PyCapsule_Destructor</span><span class="p">)(</span><span class="n">PyObject</span> <span class="o">*</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>参阅 <a class="reference internal" href="#c.PyCapsule_New" title="PyCapsule_New"><code class="xref c c-func docutils literal notranslate"><span class="pre">PyCapsule_New()</span></code></a> 来获取 PyCapsule_Destructor 返回值的语义。</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.PyCapsule_CheckExact">
+int <code class="descname">PyCapsule_CheckExact</code><span class="sig-paren">(</span><a class="reference internal" href="structures.html#c.PyObject" title="PyObject">PyObject</a><em> *p</em><span class="sig-paren">)</span><a class="headerlink" href="#c.PyCapsule_CheckExact" title="永久链接至目标">¶</a></dt>
+<dd><p>如果参数是一个 <a class="reference internal" href="#c.PyCapsule" title="PyCapsule"><code class="xref c c-type docutils literal notranslate"><span class="pre">PyCapsule</span></code></a> 则返回 True</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.PyCapsule_New">
+<a class="reference internal" href="structures.html#c.PyObject" title="PyObject">PyObject</a>* <code class="descname">PyCapsule_New</code><span class="sig-paren">(</span>void<em> *pointer</em>, const char<em> *name</em>, <a class="reference internal" href="#c.PyCapsule_Destructor" title="PyCapsule_Destructor">PyCapsule_Destructor</a><em> destructor</em><span class="sig-paren">)</span><a class="headerlink" href="#c.PyCapsule_New" title="永久链接至目标">¶</a></dt>
+<dd><em class="refcount">Return value: New reference.</em><p>创建一个 <a class="reference internal" href="#c.PyCapsule" title="PyCapsule"><code class="xref c c-type docutils literal notranslate"><span class="pre">PyCapsule</span></code></a> 来封装 <em>pointer</em> ， <em>pointer</em> 参数可能不是 <em>NULL</em> 。</p>
+<p>如果失败，则设置异常并返回 <em>NULL</em>。</p>
+<p>字符串字符串 <em>name</em> 可以是 <em>NULL</em> 或指向 一个有效的 C 字符串。如果值为非 <em>NULL</em> ，这个字符串必须比胶囊长。（即使它可以释放里面的 <em>destructor</em> 。）</p>
+<p>如果 <em>destructor</em> 参数不是 <em>NULL</em> ，那么当它被销毁时，它就被胶囊当作参数调用。</p>
+<p>If this capsule will be stored as an attribute of a module, the <em>name</em> should
+be specified as <code class="docutils literal notranslate"><span class="pre">modulename.attributename</span></code>.  This will enable other modules
+to import the capsule using <a class="reference internal" href="#c.PyCapsule_Import" title="PyCapsule_Import"><code class="xref c c-func docutils literal notranslate"><span class="pre">PyCapsule_Import()</span></code></a>.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.PyCapsule_GetPointer">
+void* <code class="descname">PyCapsule_GetPointer</code><span class="sig-paren">(</span><a class="reference internal" href="structures.html#c.PyObject" title="PyObject">PyObject</a><em> *capsule</em>, const char<em> *name</em><span class="sig-paren">)</span><a class="headerlink" href="#c.PyCapsule_GetPointer" title="永久链接至目标">¶</a></dt>
+<dd><p>Retrieve the <em>pointer</em> stored in the capsule.  On failure, set an exception
+and return <em>NULL</em>.</p>
+<p>The <em>name</em> parameter must compare exactly to the name stored in the capsule.
+If the name stored in the capsule is <em>NULL</em>, the <em>name</em> passed in must also
+be <em>NULL</em>.  Python uses the C function <code class="xref c c-func docutils literal notranslate"><span class="pre">strcmp()</span></code> to compare capsule
+names.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.PyCapsule_GetDestructor">
+<a class="reference internal" href="#c.PyCapsule_Destructor" title="PyCapsule_Destructor">PyCapsule_Destructor</a> <code class="descname">PyCapsule_GetDestructor</code><span class="sig-paren">(</span><a class="reference internal" href="structures.html#c.PyObject" title="PyObject">PyObject</a><em> *capsule</em><span class="sig-paren">)</span><a class="headerlink" href="#c.PyCapsule_GetDestructor" title="永久链接至目标">¶</a></dt>
+<dd><p>Return the current destructor stored in the capsule.  On failure, set an
+exception and return <em>NULL</em>.</p>
+<p>It is legal for a capsule to have a <em>NULL</em> destructor.  This makes a <em>NULL</em>
+return code somewhat ambiguous; use <a class="reference internal" href="#c.PyCapsule_IsValid" title="PyCapsule_IsValid"><code class="xref c c-func docutils literal notranslate"><span class="pre">PyCapsule_IsValid()</span></code></a> or
+<a class="reference internal" href="exceptions.html#c.PyErr_Occurred" title="PyErr_Occurred"><code class="xref c c-func docutils literal notranslate"><span class="pre">PyErr_Occurred()</span></code></a> to disambiguate.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.PyCapsule_GetContext">
+void* <code class="descname">PyCapsule_GetContext</code><span class="sig-paren">(</span><a class="reference internal" href="structures.html#c.PyObject" title="PyObject">PyObject</a><em> *capsule</em><span class="sig-paren">)</span><a class="headerlink" href="#c.PyCapsule_GetContext" title="永久链接至目标">¶</a></dt>
+<dd><p>Return the current context stored in the capsule.  On failure, set an
+exception and return <em>NULL</em>.</p>
+<p>It is legal for a capsule to have a <em>NULL</em> context.  This makes a <em>NULL</em>
+return code somewhat ambiguous; use <a class="reference internal" href="#c.PyCapsule_IsValid" title="PyCapsule_IsValid"><code class="xref c c-func docutils literal notranslate"><span class="pre">PyCapsule_IsValid()</span></code></a> or
+<a class="reference internal" href="exceptions.html#c.PyErr_Occurred" title="PyErr_Occurred"><code class="xref c c-func docutils literal notranslate"><span class="pre">PyErr_Occurred()</span></code></a> to disambiguate.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.PyCapsule_GetName">
+const char* <code class="descname">PyCapsule_GetName</code><span class="sig-paren">(</span><a class="reference internal" href="structures.html#c.PyObject" title="PyObject">PyObject</a><em> *capsule</em><span class="sig-paren">)</span><a class="headerlink" href="#c.PyCapsule_GetName" title="永久链接至目标">¶</a></dt>
+<dd><p>Return the current name stored in the capsule.  On failure, set an exception
+and return <em>NULL</em>.</p>
+<p>It is legal for a capsule to have a <em>NULL</em> name.  This makes a <em>NULL</em> return
+code somewhat ambiguous; use <a class="reference internal" href="#c.PyCapsule_IsValid" title="PyCapsule_IsValid"><code class="xref c c-func docutils literal notranslate"><span class="pre">PyCapsule_IsValid()</span></code></a> or
+<a class="reference internal" href="exceptions.html#c.PyErr_Occurred" title="PyErr_Occurred"><code class="xref c c-func docutils literal notranslate"><span class="pre">PyErr_Occurred()</span></code></a> to disambiguate.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.PyCapsule_Import">
+void* <code class="descname">PyCapsule_Import</code><span class="sig-paren">(</span>const char<em> *name</em>, int<em> no_block</em><span class="sig-paren">)</span><a class="headerlink" href="#c.PyCapsule_Import" title="永久链接至目标">¶</a></dt>
+<dd><p>Import a pointer to a C object from a capsule attribute in a module.  The
+<em>name</em> parameter should specify the full name to the attribute, as in
+<code class="docutils literal notranslate"><span class="pre">module.attribute</span></code>.  The <em>name</em> stored in the capsule must match this
+string exactly.  If <em>no_block</em> is true, import the module without blocking
+(using <a class="reference internal" href="import.html#c.PyImport_ImportModuleNoBlock" title="PyImport_ImportModuleNoBlock"><code class="xref c c-func docutils literal notranslate"><span class="pre">PyImport_ImportModuleNoBlock()</span></code></a>).  If <em>no_block</em> is false,
+import the module conventionally (using <a class="reference internal" href="import.html#c.PyImport_ImportModule" title="PyImport_ImportModule"><code class="xref c c-func docutils literal notranslate"><span class="pre">PyImport_ImportModule()</span></code></a>).</p>
+<p>Return the capsule's internal <em>pointer</em> on success.  On failure, set an
+exception and return <em>NULL</em>.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.PyCapsule_IsValid">
+int <code class="descname">PyCapsule_IsValid</code><span class="sig-paren">(</span><a class="reference internal" href="structures.html#c.PyObject" title="PyObject">PyObject</a><em> *capsule</em>, const char<em> *name</em><span class="sig-paren">)</span><a class="headerlink" href="#c.PyCapsule_IsValid" title="永久链接至目标">¶</a></dt>
+<dd><p>Determines whether or not <em>capsule</em> is a valid capsule.  A valid capsule is
+non-<em>NULL</em>, passes <a class="reference internal" href="#c.PyCapsule_CheckExact" title="PyCapsule_CheckExact"><code class="xref c c-func docutils literal notranslate"><span class="pre">PyCapsule_CheckExact()</span></code></a>, has a non-<em>NULL</em> pointer
+stored in it, and its internal name matches the <em>name</em> parameter.  (See
+<a class="reference internal" href="#c.PyCapsule_GetPointer" title="PyCapsule_GetPointer"><code class="xref c c-func docutils literal notranslate"><span class="pre">PyCapsule_GetPointer()</span></code></a> for information on how capsule names are
+compared.)</p>
+<p>In other words, if <a class="reference internal" href="#c.PyCapsule_IsValid" title="PyCapsule_IsValid"><code class="xref c c-func docutils literal notranslate"><span class="pre">PyCapsule_IsValid()</span></code></a> returns a true value, calls to
+any of the accessors (any function starting with <code class="xref c c-func docutils literal notranslate"><span class="pre">PyCapsule_Get()</span></code>) are
+guaranteed to succeed.</p>
+<p>Return a nonzero value if the object is valid and matches the name passed in.
+Return <code class="docutils literal notranslate"><span class="pre">0</span></code> otherwise.  This function will not fail.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.PyCapsule_SetContext">
+int <code class="descname">PyCapsule_SetContext</code><span class="sig-paren">(</span><a class="reference internal" href="structures.html#c.PyObject" title="PyObject">PyObject</a><em> *capsule</em>, void<em> *context</em><span class="sig-paren">)</span><a class="headerlink" href="#c.PyCapsule_SetContext" title="永久链接至目标">¶</a></dt>
+<dd><p>Set the context pointer inside <em>capsule</em> to <em>context</em>.</p>
+<p>Return <code class="docutils literal notranslate"><span class="pre">0</span></code> on success.  Return nonzero and set an exception on failure.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.PyCapsule_SetDestructor">
+int <code class="descname">PyCapsule_SetDestructor</code><span class="sig-paren">(</span><a class="reference internal" href="structures.html#c.PyObject" title="PyObject">PyObject</a><em> *capsule</em>, <a class="reference internal" href="#c.PyCapsule_Destructor" title="PyCapsule_Destructor">PyCapsule_Destructor</a><em> destructor</em><span class="sig-paren">)</span><a class="headerlink" href="#c.PyCapsule_SetDestructor" title="永久链接至目标">¶</a></dt>
+<dd><p>Set the destructor inside <em>capsule</em> to <em>destructor</em>.</p>
+<p>Return <code class="docutils literal notranslate"><span class="pre">0</span></code> on success.  Return nonzero and set an exception on failure.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.PyCapsule_SetName">
+int <code class="descname">PyCapsule_SetName</code><span class="sig-paren">(</span><a class="reference internal" href="structures.html#c.PyObject" title="PyObject">PyObject</a><em> *capsule</em>, const char<em> *name</em><span class="sig-paren">)</span><a class="headerlink" href="#c.PyCapsule_SetName" title="永久链接至目标">¶</a></dt>
+<dd><p>Set the name inside <em>capsule</em> to <em>name</em>.  If non-<em>NULL</em>, the name must
+outlive the capsule.  If the previous <em>name</em> stored in the capsule was not
+<em>NULL</em>, no attempt is made to free it.</p>
+<p>Return <code class="docutils literal notranslate"><span class="pre">0</span></code> on success.  Return nonzero and set an exception on failure.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.PyCapsule_SetPointer">
+int <code class="descname">PyCapsule_SetPointer</code><span class="sig-paren">(</span><a class="reference internal" href="structures.html#c.PyObject" title="PyObject">PyObject</a><em> *capsule</em>, void<em> *pointer</em><span class="sig-paren">)</span><a class="headerlink" href="#c.PyCapsule_SetPointer" title="永久链接至目标">¶</a></dt>
+<dd><p>Set the void pointer inside <em>capsule</em> to <em>pointer</em>.  The pointer may not be
+<em>NULL</em>.</p>
+<p>Return <code class="docutils literal notranslate"><span class="pre">0</span></code> on success.  Return nonzero and set an exception on failure.</p>
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h4>上一个主题</h4>
+  <p class="topless"><a href="weakref.html"
+                        title="上一章">弱引用对象</a></p>
+  <h4>下一个主题</h4>
+  <p class="topless"><a href="gen.html"
+                        title="下一章">生成器对象</a></p>
+  <div role="note" aria-label="source link">
+    <h3>本页</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">提交 Bug</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/3.7/Doc/c-api/capsule.rst"
+            rel="nofollow">显示源代码
+        </a>
+      </li>
+    </ul>
+  </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>  
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>导航</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="总目录"
+             >索引</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python 模块索引"
+             >模块</a> |</li>
+        <li class="right" >
+          <a href="gen.html" title="生成器对象"
+             >下一页</a> |</li>
+        <li class="right" >
+          <a href="weakref.html" title="弱引用对象"
+             >上一页</a> |</li>
+        <li><img src="../_static/py.png" alt=""
+                 style="vertical-align: middle; margin-top: -1px"/></li>
+        <li><a href="https://www.python.org/">Python</a> &#187;</li>
+        <li>
+          <span class="language_switcher_placeholder">zh_CN</span>
+          <span class="version_switcher_placeholder">3.7.4</span>
+          <a href="../index.html">文档</a> &#187;
+        </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" >Python/C API 参考手册</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="concrete.html" >具体的对象层</a> &#187;</li>
+    <li class="right">
+        
+
+    <div class="inline-search" style="display: none" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="快速搜索" type="text" name="q" />
+          <input type="submit" value="转向" />
+          <input type="hidden" name="check_keywords" value="yes" />
+          <input type="hidden" name="area" value="default" />
+        </form>
+    </div>
+    <script type="text/javascript">$('.inline-search').show(0);</script>
+         |
+    </li>
+
+      </ul>
+    </div>  
+    <div class="footer">
+    &copy; <a href="../copyright.html">版权所有</a> 2001-2019, Python Software Foundation.
+    <br />
+    Python 软件基金会是一个非盈利组织。
+    <a href="https://www.python.org/psf/donations/">请捐助。</a>
+    <br />
+    最后更新于 8月 27, 2019.
+    <a href="../bugs.html">发现了问题</a>？
+    <br />
+    使用<a href="http://sphinx.pocoo.org/">Sphinx</a>2.0.1 创建。
+    </div>
+
+  </body>
+</html>

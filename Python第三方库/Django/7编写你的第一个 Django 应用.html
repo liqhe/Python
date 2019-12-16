@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+<!-- saved from url=(0060)https://docs.djangoproject.com/zh-hans/2.1/intro/tutorial06/ -->
+<html lang="zh-hans" class=" mdzr-js mdzr-borderradius mdzr-boxshadow mdzr-cssanimations mdzr-svg"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="ROBOTS" content="ALL">
+    <meta name="MSSmartTagsPreventParsing" content="true">
+    <meta name="Copyright" content="Django Software Foundation">
+    <meta name="keywords" content="Python, Django, framework, open-source">
+    <meta name="description" content="">
+
+    
+  
+    
+      
+    
+  
+  <link rel="canonical" href="https://docs.djangoproject.com/zh-hans/2.2/intro/tutorial06/">
+  
+    
+      
+    
+    <link rel="alternate" hreflang="el" href="https://docs.djangoproject.com/el/2.1/intro/tutorial06/">
+  
+    
+      
+    
+    <link rel="alternate" hreflang="en" href="https://docs.djangoproject.com/en/2.1/intro/tutorial06/">
+  
+    
+      
+    
+    <link rel="alternate" hreflang="es" href="https://docs.djangoproject.com/es/2.1/intro/tutorial06/">
+  
+    
+      
+    
+    <link rel="alternate" hreflang="fr" href="https://docs.djangoproject.com/fr/2.1/intro/tutorial06/">
+  
+    
+      
+    
+    <link rel="alternate" hreflang="id" href="https://docs.djangoproject.com/id/2.1/intro/tutorial06/">
+  
+    
+      
+    
+    <link rel="alternate" hreflang="ja" href="https://docs.djangoproject.com/ja/2.1/intro/tutorial06/">
+  
+    
+      
+    
+    <link rel="alternate" hreflang="ko" href="https://docs.djangoproject.com/ko/2.1/intro/tutorial06/">
+  
+    
+      
+    
+    <link rel="alternate" hreflang="pl" href="https://docs.djangoproject.com/pl/2.1/intro/tutorial06/">
+  
+    
+      
+    
+    <link rel="alternate" hreflang="pt-br" href="https://docs.djangoproject.com/pt-br/2.1/intro/tutorial06/">
+  
+    
+      
+    
+    <link rel="alternate" hreflang="zh-hans" href="https://docs.djangoproject.com/zh-hans/2.1/intro/tutorial06/">
+  
+
+  <link rel="search" type="application/opensearchdescription+xml" href="https://docs.djangoproject.com/zh-hans/2.1/search/description/" title="Django 文档">
+
+    <!-- Favicons -->
+    <link rel="apple-touch-icon" href="https://static.djangoproject.com/img/icon-touch.e4872c4da341.png">
+    <link rel="icon" sizes="192x192" href="https://static.djangoproject.com/img/icon-touch.e4872c4da341.png">
+    <link rel="shortcut icon" href="https://static.djangoproject.com/img/favicon.6dbf28c0650e.ico">
+    <meta name="msapplication-TileColor" content="#113228">
+    <meta name="msapplication-TileImage" content="https://static.djangoproject.com/img/icon-tile.b01ac0ef9f67.png">
+
+    <title>编写你的第一个 Django 应用，第 6 部分 | Django 文档 | Django</title>
+
+    <link rel="stylesheet" href="./7编写你的第一个 Django 应用_files/output.beb34528fd55.css">
+    <script src="./7编写你的第一个 Django 应用_files/webfontloader.e75218f5f090.js"></script>
+    <link rel="stylesheet" href="./7编写你的第一个 Django 应用_files/css"><script>
+    WebFont.load({
+      custom: {
+        families: ['FontAwesome', 'Fira+Mono'],
+      },
+      google: {
+        families: ['Roboto:400italic,700italic,300,700,400:latin'
+        ]
+      },
+      classes: false,
+      events: false,
+      timeout: 1000
+    });
+    </script>
+    <script src="./7编写你的第一个 Django 应用_files/modernizr.3b36762e418a.js"></script>
+    
+  <script type="text/javascript" charset="utf-8" async="" data-requirecontext="_" data-requiremodule="main.07884ebc4865" src="./7编写你的第一个 Django 应用_files/main.07884ebc4865.js"></script><script type="text/javascript" charset="utf-8" async="" data-requirecontext="_" data-requiremodule="mod/mobile-menu" src="./7编写你的第一个 Django 应用_files/mobile-menu.841726ee903a.js"></script><script type="text/javascript" charset="utf-8" async="" data-requirecontext="_" data-requiremodule="mod/version-switcher" src="./7编写你的第一个 Django 应用_files/version-switcher.c28bb83972bb.js"></script><script type="text/javascript" charset="utf-8" async="" data-requirecontext="_" data-requiremodule="mod/search-key" src="./7编写你的第一个 Django 应用_files/search-key.f3c0a6fcfedd.js"></script><script type="text/javascript" charset="utf-8" async="" data-requirecontext="_" data-requiremodule="mod/clippify" src="./7编写你的第一个 Django 应用_files/clippify.js"></script><script type="text/javascript" charset="utf-8" async="" data-requirecontext="_" data-requiremodule="mod/console-tabs" src="./7编写你的第一个 Django 应用_files/console-tabs.70ce882faaf3.js"></script><script type="text/javascript" charset="utf-8" async="" data-requirecontext="_" data-requiremodule="clipboard" src="./7编写你的第一个 Django 应用_files/clipboard.min.bd70fd596a23.js"></script><script type="text/javascript" charset="utf-8" async="" data-requirecontext="_" data-requiremodule="jquery" src="./7编写你的第一个 Django 应用_files/jquery.min.87e69028f78d.js"></script></head>
+
+  <body id="generic" class="">
+
+    <div role="banner" id="top">
+  <div class="container">
+    <a class="logo" href="https://www.djangoproject.com/">Django</a>
+    <p class="meta">The web framework for perfectionists with deadlines.</p>
+    <div class="menu-button"><i class="icon icon-reorder"></i><span>Menu</span></div><div role="navigation" class="nav-menu-on">
+      <ul>
+        <li>
+          <a href="https://www.djangoproject.com/start/overview/">Overview</a>
+        </li>
+        <li>
+          <a href="https://www.djangoproject.com/download/">Download</a>
+        </li>
+        <li class="active">
+          <a href="https://docs.djangoproject.com/">Documentation</a>
+        </li>
+        <li>
+          <a href="https://www.djangoproject.com/weblog/">News</a>
+        </li>
+        <li>
+          <a href="https://www.djangoproject.com/community/">Community</a>
+        </li>
+        <li>
+          <a href="https://code.djangoproject.com/">Code</a>
+        </li>
+        <li>
+          <a href="https://www.djangoproject.com/foundation/">About</a>
+        </li>
+        <li>
+          <a href="https://www.djangoproject.com/fundraising/">♥ Donate</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+
+    <div class="copy-banner">
+      <div class="container">
+        
+  <h1><a href="https://docs.djangoproject.com/zh-hans/2.1/">文档</a></h1>
+
+      </div>
+    </div>
+    <div id="billboard"></div>
+
+    <div class="container sidebar-right">
+      <div role="main">
+
+        
+          
+        
+
+        
+<div id="version-switcher">
+  <ul id="doc-languages" class="language-switcher">
+  
+  
+  <li class="other">
+    
+      
+    
+    <a href="https://docs.djangoproject.com/el/2.1/intro/tutorial06/">el</a>
+  </li>
+  
+  
+  
+  <li class="other">
+    
+      
+    
+    <a href="https://docs.djangoproject.com/en/2.1/intro/tutorial06/">en</a>
+  </li>
+  
+  
+  
+  <li class="other">
+    
+      
+    
+    <a href="https://docs.djangoproject.com/es/2.1/intro/tutorial06/">es</a>
+  </li>
+  
+  
+  
+  <li class="other">
+    
+      
+    
+    <a href="https://docs.djangoproject.com/fr/2.1/intro/tutorial06/">fr</a>
+  </li>
+  
+  
+  
+  <li class="other">
+    
+      
+    
+    <a href="https://docs.djangoproject.com/id/2.1/intro/tutorial06/">id</a>
+  </li>
+  
+  
+  
+  <li class="other">
+    
+      
+    
+    <a href="https://docs.djangoproject.com/ja/2.1/intro/tutorial06/">ja</a>
+  </li>
+  
+  
+  
+  <li class="other">
+    
+      
+    
+    <a href="https://docs.djangoproject.com/ko/2.1/intro/tutorial06/">ko</a>
+  </li>
+  
+  
+  
+  <li class="other">
+    
+      
+    
+    <a href="https://docs.djangoproject.com/pl/2.1/intro/tutorial06/">pl</a>
+  </li>
+  
+  
+  
+  <li class="other">
+    
+      
+    
+    <a href="https://docs.djangoproject.com/pt-br/2.1/intro/tutorial06/">pt-br</a>
+  </li>
+  
+  
+  
+  
+    <li class="current" title="点击左侧的链接以切换到另一种语言。">
+      <span>语言： <strong>zh-hans</strong></span>
+    </li>
+  </ul>
+
+  
+  <ul id="doc-versions" class="version-switcher">
+    
+    
+    <li class="other">
+      
+        
+      
+      <a href="https://docs.djangoproject.com/zh-hans/2.0/intro/tutorial06/">2.0</a>
+    </li>
+    
+    
+    
+    
+    
+    <li class="other">
+      
+        
+      
+      <a href="https://docs.djangoproject.com/zh-hans/2.2/intro/tutorial06/">2.2</a>
+    </li>
+    
+    
+    
+    <li class="other">
+      
+        
+      
+      <a href="https://docs.djangoproject.com/zh-hans/dev/intro/tutorial06/">dev</a>
+    </li>
+    
+    
+    <li class="current" title="此文档是为 Django 2.1 编写的。 点击左侧的链接查看其它版本">
+       <span>文档版本：
+         <strong>2.1</strong>
+       </span>
+    </li>
+  </ul>
+</div>
+
+
+<div id="docs-content">
+<div class="section" id="s-writing-your-first-django-app-part-6">
+<span id="writing-your-first-django-app-part-6"></span><h1>编写你的第一个 Django 应用，第 6 部分<a class="headerlink" href="https://docs.djangoproject.com/zh-hans/2.1/intro/tutorial06/#writing-your-first-django-app-part-6" title="永久链接至标题">¶</a></h1>
+<p>这一篇从  <a class="reference internal" href="https://docs.djangoproject.com/zh-hans/2.1/intro/tutorial05/"><span class="doc">教程第 5 部分</span></a>  结尾的地方继续讲起。在上一节中我们为网络投票应用编写了测试，而现在我们要为它加上样式和图片。</p>
+<p>除了服务端生成的 HTML 以外，网络应用通常需要一些额外的文件——比如图片，脚本和样式表——来帮助渲染网络页面。在 Django 中，我们把这些文件统称为“静态文件”。</p>
+<p>对于小项目来说，这个问题没什么大不了的，因为你可以把这些静态文件随便放在哪，只要服务程序能够找到它们就行。然而在大项目——特别是由好几个应用组成的大项目——中，处理不同应用所需要的静态文件的工作就显得有点麻烦了。</p>
+<p>这就是 <code class="docutils literal notranslate"><span class="pre">django.contrib.staticfiles</span></code> 存在的意义：它将各个应用的静态文件（和一些你指明的目录里的文件）统一收集起来，这样一来，在生产环境中，这些文件就会集中在一个便于分发的地方。</p>
+<div class="section" id="s-customize-your-app-s-look-and-feel">
+<span id="customize-your-app-s-look-and-feel"></span><h2>自定义 <em>应用</em> 的界面和风格<a class="headerlink" href="https://docs.djangoproject.com/zh-hans/2.1/intro/tutorial06/#customize-your-app-s-look-and-feel" title="永久链接至标题">¶</a></h2>
+<p>首先，在你的 <code class="docutils literal notranslate"><span class="pre">polls</span></code> 目录下创建一个名为 <code class="docutils literal notranslate"><span class="pre">static</span></code> 的目录。Django 将在该目录下查找静态文件，这种方式和 Diango 在 <code class="docutils literal notranslate"><span class="pre">polls/templates/</span></code> 目录下查找 template 的方式类似。</p>
+<p>Django 的 <a class="reference internal" href="https://docs.djangoproject.com/zh-hans/2.1/ref/settings/#std:setting-STATICFILES_FINDERS"><code class="xref std std-setting docutils literal notranslate"><span class="pre">STATICFILES_FINDERS</span></code></a> 设置包含了一系列的查找器，它们知道去哪里找到 static 文件。<code class="docutils literal notranslate"><span class="pre">AppDirectoriesFinder</span></code> 是默认查找器中的一个，它会在每个 <a class="reference internal" href="https://docs.djangoproject.com/zh-hans/2.1/ref/settings/#std:setting-INSTALLED_APPS"><code class="xref std std-setting docutils literal notranslate"><span class="pre">INSTALLED_APPS</span></code></a> 中指定的应用的子文件中寻找名称为 <code class="docutils literal notranslate"><span class="pre">static</span></code> 的特定文件夹，就像我们在 <code class="docutils literal notranslate"><span class="pre">polls</span></code> 中刚创建的那个一样。管理后台采用相同的目录结构管理它的静态文件。</p>
+<p>在你刚创建的 <code class="docutils literal notranslate"><span class="pre">static</span></code> 文件夹中创建一个名为 <code class="docutils literal notranslate"><span class="pre">polls</span></code> 的文件夹，再在 <code class="docutils literal notranslate"><span class="pre">polls</span></code> 文件夹中创建一个名为 <code class="docutils literal notranslate"><span class="pre">style.css</span></code> 的文件。换句话说，你的样式表路径应是 <code class="docutils literal notranslate"><span class="pre">polls/static/polls/style.css</span></code>。因为 <code class="docutils literal notranslate"><span class="pre">AppDirectoriesFinder</span></code> 的存在，你可以在 Django 中简单地使用以 <code class="docutils literal notranslate"><span class="pre">polls/style.css</span></code> 的形式引用此文件，类似你引用模板路径的方式。</p>
+<div class="admonition-static-file-namespacing admonition">
+<p class="first admonition-title">静态文件命名空间</p>
+<p class="last">虽然我们 <em>可以</em> 像管理模板文件一样，把 static 文件直接放入 <code class="docutils literal notranslate"><span class="pre">polls/static</span></code> ——而不是创建另一个名为 <code class="docutils literal notranslate"><span class="pre">polls</span></code> 的子文件夹，不过这实际上是一个很蠢的做法。Django 只会使用第一个找到的静态文件。如果你在 <em>其它</em> 应用中有一个相同名字的静态文件，Django 将无法区分它们。我们需要指引 Django 选择正确的静态文件，而最简单的方式就是把它们放入各自的 <em>命名空间</em> 。也就是把这些静态文件放入 <em>另一个</em> 与应用名相同的目录中。</p>
+</div>
+<p>将以下代码放入样式表(<code class="docutils literal notranslate"><span class="pre">polls/static/polls/style.css</span></code>)：</p>
+<div class="literal-block-wrapper docutils container" id="id1">
+<div class="code-block-caption"><span class="caption-text">polls/static/polls/style.css</span><a class="headerlink" href="https://docs.djangoproject.com/zh-hans/2.1/intro/tutorial06/#id1" title="永久链接至代码">¶</a><span class="btn-clipboard" title="Copy this code"><i class="icon icon-clipboard"></i></span></div>
+<div class="highlight-css notranslate"><div class="highlight"><pre><span></span><span class="nt">li</span> <span class="nt">a</span> <span class="p">{</span>
+    <span class="k">color</span><span class="p">:</span> <span class="kc">green</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<p>下一步，在 <code class="docutils literal notranslate"><span class="pre">polls/templates/polls/index.html</span></code> 的文件头添加以下内容：</p>
+<div class="literal-block-wrapper docutils container" id="id2">
+<div class="code-block-caption"><span class="caption-text">polls/templates/polls/index.html</span><a class="headerlink" href="https://docs.djangoproject.com/zh-hans/2.1/intro/tutorial06/#id2" title="永久链接至代码">¶</a><span class="btn-clipboard" title="Copy this code"><i class="icon icon-clipboard"></i></span></div>
+<div class="highlight-html+django notranslate"><div class="highlight"><pre><span></span><span class="cp">{%</span> <span class="k">load</span> <span class="nv">static</span> <span class="cp">%}</span>
+
+<span class="p">&lt;</span><span class="nt">link</span> <span class="na">rel</span><span class="o">=</span><span class="s">"stylesheet"</span> <span class="na">type</span><span class="o">=</span><span class="s">"text/css"</span> <span class="na">href</span><span class="o">=</span><span class="s">"</span><span class="cp">{%</span> <span class="k">static</span> <span class="s1">'polls/style.css'</span> <span class="cp">%}</span><span class="s">"</span><span class="p">&gt;</span>
+</pre></div>
+</div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">{%</span> <span class="pre">static</span> <span class="pre">%}</span></code> 模板标签会生成静态文件的绝对路径。</p>
+<p>这就是你开发所需要做的所有事情了。</p>
+<p>启动服务器(如果它正在运行中，重新启动一次):</p>
+<div class="console-block" id="console-block-0">
+<input class="c-tab-unix" id="c-tab-0-unix" type="radio" name="console-0" checked="">
+<label for="c-tab-0-unix" title="Linux/macOS">/</label>
+<input class="c-tab-win" id="c-tab-0-win" type="radio" name="console-0">
+<label for="c-tab-0-win" title="Windows"></label>
+<section class="c-content-unix" id="c-content-0-unix">
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$</span> python manage.py runserver
+</pre></div>
+</div>
+</section>
+<section class="c-content-win" id="c-content-0-win">
+<div class="highlight"><pre><span></span><span class="gp">...\&gt;</span> py manage.py runserver
+</pre></div>
+</section>
+</div>
+<p>重新载入``http://localhost:8000/polls/`` ，你会发现有问题的链接是绿色的 (这是Django自己的问题标注方式) ，这意味着你追加的样式表起作用了。</p>
+</div>
+<div class="section" id="s-adding-a-background-image">
+<span id="adding-a-background-image"></span><h2>添加一个背景图<a class="headerlink" href="https://docs.djangoproject.com/zh-hans/2.1/intro/tutorial06/#adding-a-background-image" title="永久链接至标题">¶</a></h2>
+<p>接着，我们会创建一个用于存在图像的目录。在 <code class="docutils literal notranslate"><span class="pre">polls/static/polls</span></code> 目录下创建一个名为 <code class="docutils literal notranslate"><span class="pre">images</span></code> 的子目录。在这个目录中，放一张名为 <code class="docutils literal notranslate"><span class="pre">background.gif</span></code> 的图片。换言之，在目录 <code class="docutils literal notranslate"><span class="pre">polls/static/polls/images/background.gif</span></code> 中放一张图片。</p>
+<p>随后，在你的样式表（<code class="docutils literal notranslate"><span class="pre">polls/static/polls/style.css</span></code>）中添加：</p>
+<div class="literal-block-wrapper docutils container" id="id3">
+<div class="code-block-caption"><span class="caption-text">polls/static/polls/style.css</span><a class="headerlink" href="https://docs.djangoproject.com/zh-hans/2.1/intro/tutorial06/#id3" title="永久链接至代码">¶</a><span class="btn-clipboard" title="Copy this code"><i class="icon icon-clipboard"></i></span></div>
+<div class="highlight-css notranslate"><div class="highlight"><pre><span></span><span class="nt">body</span> <span class="p">{</span>
+    <span class="k">background</span><span class="p">:</span> <span class="kc">white</span> <span class="nb">url</span><span class="p">(</span><span class="s2">"images/background.gif"</span><span class="p">)</span> <span class="kc">no-repeat</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<p>浏览器重载 <code class="docutils literal notranslate"><span class="pre">http://localhost:8000/polls/</span></code>，你将在屏幕的左上角见到这张背景图。</p>
+<div class="admonition warning">
+<p class="first admonition-title">警告</p>
+<p class="last">当然，<code class="docutils literal notranslate"><span class="pre">{%</span> <span class="pre">static</span> <span class="pre">%}</span></code> 模板标签在静态文件（例如样式表）中是不可用的，因为它们不是由 Django 生成的。你仍需要使用 <em>相对路径</em> 的方式在你的静态文件之间互相引用。这样之后，你就可以任意改变 <code class="xref std std-setting docutils literal notranslate"><span class="pre">STATIC_URL`（由</span> <span class="pre">:ttag:`static</span></code> 模板标签用于生成 URL），而无需修改大量的静态文件。</p>
+</div>
+<p>这些只是 <strong>基础</strong> 。更多关于设置和框架的资料，参考 <a class="reference internal" href="https://docs.djangoproject.com/zh-hans/2.1/howto/static-files/"><span class="doc">静态文件解惑</span></a> 和 <a class="reference internal" href="https://docs.djangoproject.com/zh-hans/2.1/ref/contrib/staticfiles/"><span class="doc">静态文件指南</span></a>。<a class="reference internal" href="https://docs.djangoproject.com/zh-hans/2.1/howto/static-files/deployment/"><span class="doc">部署静态文件</span></a> 介绍了如何在真实服务器上使用静态文件。</p>
+<p>当你熟悉静态文件后，阅读 <a class="reference internal" href="https://docs.djangoproject.com/zh-hans/2.1/intro/tutorial07/"><span class="doc">此教程的第 7 部分</span></a> 来学习如何自定义 Django 自动生成后台网页的过程。</p>
+</div>
+</div>
+
+</div>
+
+
+
+<div class="browse-horizontal">
+  
+  <div class="left"><a href="https://docs.djangoproject.com/zh-hans/2.1/intro/tutorial05/"><i class="icon icon-chevron-left"></i> 编写你的第一个 Django 应用，第 5 部分</a></div>
+  
+  
+  <div class="right"><a href="https://docs.djangoproject.com/zh-hans/2.1/intro/tutorial07/">编写你的第一个 Django 应用，第 7 部分 <i class="icon icon-chevron-right"></i></a></div>
+  
+</div>
+
+
+
+        <a href="https://docs.djangoproject.com/zh-hans/2.1/intro/tutorial06/#top" class="backtotop"><i class="icon icon-chevron-up"></i> Back to Top</a>
+      </div>
+
+      
+<h1 class="visuallyhidden">附加信息</h1>
+<div role="complementary">
+  
+  
+
+<form action="https://docs.djangoproject.com/zh-hans/2.1/search/" class="search form-input" role="search">
+  <label class="visuallyhidden" for="id_q">Search:</label>
+    <input type="search" name="q" placeholder="搜索 2.1 文档" id="id_q">
+
+    <button type="submit">
+      <i class="icon icon-search"></i>
+      <span class="visuallyhidden">搜索</span>
+    </button>
+</form>
+
+  
+
+  
+
+
+  <div class="fundraising-sidebar">
+    <h2>Support Django!</h2>
+
+    <div class="small-heart">
+      <img src="./7编写你的第一个 Django 应用_files/small-fundraising-heart.d255f6e934e5.png" alt="Support Django!">
+    </div>
+
+    <div class="small-cta">
+      <ul class="list-links-small">
+        <li><a href="https://www.djangoproject.com/fundraising/">
+          Tobias Göcke @ ChemTics  donated to the Django Software Foundation to
+          support Django development. Donate today!
+        </a></li>
+      </ul>
+    </div>
+  </div>
+
+
+
+  
+    <h2>内容</h2>
+    
+    <ul>
+<li><a class="reference internal" href="https://docs.djangoproject.com/zh-hans/2.1/intro/tutorial06/#">编写你的第一个 Django 应用，第 6 部分</a><ul>
+<li><a class="reference internal" href="https://docs.djangoproject.com/zh-hans/2.1/intro/tutorial06/#customize-your-app-s-look-and-feel">自定义 <em>应用</em> 的界面和风格</a></li>
+<li><a class="reference internal" href="https://docs.djangoproject.com/zh-hans/2.1/intro/tutorial06/#adding-a-background-image">添加一个背景图</a></li>
+</ul>
+</li>
+</ul>
+
+    
+  
+
+  
+  <h2>浏览</h2>
+  <ul>
+    
+    
+    <li>上一个： <a href="https://docs.djangoproject.com/zh-hans/2.1/intro/tutorial05/">编写你的第一个 Django 应用，第 5 部分</a></li>
+    
+    
+    <li>下一个： <a href="https://docs.djangoproject.com/zh-hans/2.1/intro/tutorial07/">编写你的第一个 Django 应用，第 7 部分</a></li>
+    
+    <li><a href="https://docs.djangoproject.com/zh-hans/2.1/contents/">目录</a></li>
+    
+    <li><a href="https://docs.djangoproject.com/zh-hans/2.1/genindex/">总目录</a></li>
+    
+    <li><a href="https://docs.djangoproject.com/zh-hans/2.1/py-modindex/">Python 模块索引</a></li>
+    
+    
+  </ul>
+  
+
+  
+  <h2>当前位置</h2>
+  <ul>
+    <li>
+      <a href="https://docs.djangoproject.com/zh-hans/2.1/">Django 2.1 文档</a>
+      
+      <ul><li><a href="https://docs.djangoproject.com/zh-hans/2.1/intro/">开始</a>
+      
+      <ul><li>编写你的第一个 Django 应用，第 6 部分</li></ul>
+      </li></ul>
+    </li>
+  </ul>
+  
+
+  
+  <h2 id="getting-help-sidebar">获取帮助</h2>
+  <dl class="list-links">
+    <dt><a href="https://docs.djangoproject.com/zh-hans/2.1/faq/">FAQ</a></dt>
+    <dd>尝试查看 FAQ — 它包括了很多常见问题的答案</dd>
+
+    <dt><a href="https://docs.djangoproject.com/en/stable/genindex/">索引</a>, <a href="https://docs.djangoproject.com/en/stable/py-modindex/">模块索引</a>, or <a href="https://docs.djangoproject.com/en/stable/contents/">目录</a></dt>
+    <dd>查找特定信息时比较容易</dd>
+
+    <dt><a href="https://groups.google.com/group/django-users/">django-users mailing list</a></dt>
+    <dd>在 django-users 邮件列表存档中搜索信息，或者发布一个问题。</dd>
+
+    <dt><a href="irc://irc.freenode.net/django">#django IRC channel</a></dt>
+    <dd>在 #django IRC 频道上提问，或者搜索 IRC 历史找到相似的问题与解答。</dd>
+
+    <dt><a href="https://code.djangoproject.com/">Ticket tracker</a></dt>
+    <dd>在我们的 `ticket tracker`_ 中报告 Django 或 Django 文档的 Bug。</dd>
+  </dl>
+  
+
+  
+  <h2>下载：</h2>
+  <p>
+    离线 (Django 2.1):
+    <a href="https://media.djangoproject.com/docs/django-docs-2.1-zh-hans.zip">HTML</a> |
+    <a href="https://media.readthedocs.org/pdf/django/2.1.x/django.pdf">PDF</a> |
+    <a href="https://media.readthedocs.org/epub/django/2.1.x/django.epub">ePub</a>
+    <br>
+    <span class="quiet">
+      由 <a href="https://readthedocs.org/">Read the Docs</a> 提供。
+    </span>
+  </p>
+  
+</div>
+
+      
+
+    </div>
+
+     
+     
+
+    
+    
+    
+
+    
+      
+<div role="contentinfo">
+  <div class="subfooter">
+    <div class="container">
+      <h1 class="visuallyhidden">Django Links</h1>
+
+      <div class="col learn">
+        <h2>Learn More</h2>
+        <ul>
+          <li><a href="https://www.djangoproject.com/start/overview/">About Django</a></li>
+          
+          <li><a href="https://www.djangoproject.com/start/">Getting Started with Django</a></li>
+          <li><a href="https://docs.djangoproject.com/en/dev/internals/organization/">Team Organization</a></li>
+          <li><a href="https://www.djangoproject.com/foundation/">Django Software Foundation</a></li>
+          <li><a href="https://www.djangoproject.com/conduct/">Code of Conduct</a></li>
+          <li><a href="https://www.djangoproject.com/diversity/">Diversity Statement</a></li>
+        </ul>
+      </div>
+
+      <div class="col involved">
+        <h2>Get Involved</h2>
+        <ul>
+          <li><a href="https://www.djangoproject.com/community/">Join a Group</a></li>
+          <li><a href="https://docs.djangoproject.com/en/dev/internals/contributing/">Contribute to Django</a></li>
+          <li><a href="https://docs.djangoproject.com/en/dev/internals/contributing/bugs-and-features/">Submit a Bug</a></li>
+          <li><a href="https://docs.djangoproject.com/en/dev/internals/security/#reporting-security-issues">Report a Security Issue</a></li>
+        </ul>
+      </div>
+
+      <div class="col follow last-child">
+        <h2>Follow Us</h2>
+        <ul>
+          <li><a href="https://github.com/django">GitHub</a></li>
+          <li><a href="https://twitter.com/djangoproject">Twitter</a></li>
+          <li><a href="https://www.djangoproject.com/rss/weblog/">News RSS</a></li>
+          <li><a href="https://groups.google.com/forum/#!forum/django-users">Django Users Mailing List</a></li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="footer">
+    <div class="container">
+      <div class="footer-logo">
+        <a class="logo" href="https://www.djangoproject.com/">Django</a>
+      </div>
+      <ul class="thanks">
+        <li>
+          <span>Hosting by</span> <a class="rackspace" href="https://www.rackspace.com/">Rackspace</a>
+        </li>
+        <li class="design"><span>Design by</span> <a class="threespot" href="https://www.threespot.com/">Threespot</a> <span class="ampersand">&amp;</span> <a class="andrevv" href="http://andrevv.com/"></a></li>
+      </ul>
+      <p class="copyright">© 2005-2019
+        <a href="https://www.djangoproject.com/foundation/"> Django Software
+        Foundation</a> and individual contributors. Django is a
+        <a href="https://www.djangoproject.com/trademarks/">registered
+        trademark</a> of the Django Software Foundation.
+      </p>
+    </div>
+  </div>
+
+</div>
+
+    
+
+    
+    <script>
+    function extless(input) {
+        return input.replace(/(.*)\.[^.]+$/, '$1');
+    }
+    var require = {
+        shim: {
+            'jquery': [],
+            'jquery.inview': ["jquery"],
+            'jquery.payment': ["jquery"],
+            'jquery.flot': ["jquery"],
+            'jquery.unveil': ["jquery"],
+            'stripe': {
+              exports: 'Stripe'
+            }
+        },
+        paths: {
+            "jquery": extless("https://static.djangoproject.com/js/lib/jquery/dist/jquery.min.87e69028f78d.js"),
+            "jquery.inview": extless("https://static.djangoproject.com/js/lib/jquery.inview/jquery.inview.min.4edba1c65592.js"),
+            "jquery.payment": extless("https://static.djangoproject.com/js/lib/jquery.payment/lib/jquery.payment.e99c05ca79ae.js"),
+            "jquery.unveil": extless("https://static.djangoproject.com/js/lib/unveil/jquery.unveil.min.ac79eb277093.js"),
+            "jquery.flot": extless("https://static.djangoproject.com/js/lib/jquery-flot/jquery.flot.min.9964206e9d7f.js"),
+            "clipboard": extless("https://static.djangoproject.com/js/lib/clipboard/dist/clipboard.min.bd70fd596a23.js"),
+            "mod/floating-warning": extless("https://static.djangoproject.com/js/mod/floating-warning.a21b2abd2884.js"),
+            "mod/list-collapsing": extless("https://static.djangoproject.com/js/mod/list-collapsing.c1a08d3ef9e9.js"),
+            "mod/list-feature": extless("https://static.djangoproject.com/js/mod/list-feature.73529480f25b.js"),
+            "mod/mobile-menu": extless("https://static.djangoproject.com/js/mod/mobile-menu.841726ee903a.js"),
+            "mod/version-switcher": extless("https://static.djangoproject.com/js/mod/version-switcher.c28bb83972bb.js"),
+            "mod/search-key": extless("https://static.djangoproject.com/js/mod/search-key.f3c0a6fcfedd.js"),
+            "mod/stripe-custom-checkout": extless("https://static.djangoproject.com/js/mod/stripe-custom-checkout.aac1352045b7.js"),
+            "mod/stripe-change-card": extless("https://static.djangoproject.com/js/mod/stripe-change-card.682c710317a8.js"),
+            "mod/console-tabs": extless("https://static.djangoproject.com/js/mod/console-tabs.70ce882faaf3.js"),
+            "stripe-checkout": "https://checkout.stripe.com/checkout",
+            "stripe": "https://js.stripe.com/v2/?"  // ? needed due to require.js
+        }
+    };
+    </script>
+    <script data-main="https://static.djangoproject.com/js/main.07884ebc4865.js" src="./7编写你的第一个 Django 应用_files/require.177879fbe7dd.js"></script>
+    
+
+
+
+  
+
+</body></html>

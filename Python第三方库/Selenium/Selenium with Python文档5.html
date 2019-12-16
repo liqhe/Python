@@ -1,0 +1,467 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- saved from url=(0061)https://selenium-python.readthedocs.io/locating-elements.html -->
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh-CN" class="translated-ltr"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+    
+    <title>4.定位元素 -  Selenium Python Bindings 2文档</title>
+    <link rel="stylesheet" href="./Selenium with Python文档5_files/alabaster.css" type="text/css">
+    <link rel="stylesheet" href="./Selenium with Python文档5_files/pygments.css" type="text/css">
+    <link rel="stylesheet" href="./Selenium with Python文档5_files/badge_only.css" type="text/css">
+    <script async="" src="./Selenium with Python文档5_files/analytics.js"></script><script type="text/javascript" id="documentation_options" data-url_root="./" src="./Selenium with Python文档5_files/documentation_options.js"></script>
+    <script type="text/javascript" src="./Selenium with Python文档5_files/jquery-2.0.3.min.js"></script>
+    <script type="text/javascript" src="./Selenium with Python文档5_files/jquery-migrate-1.2.1.min.js"></script>
+    <script type="text/javascript" src="./Selenium with Python文档5_files/underscore.js"></script>
+    <script type="text/javascript" src="./Selenium with Python文档5_files/doctools.js"></script>
+    <script type="text/javascript" src="./Selenium with Python文档5_files/readthedocs-doc-embed.js"></script>
+    <link rel="index" title="指数" href="https://selenium-python.readthedocs.io/genindex.html">
+    <link rel="search" title="搜索" href="https://selenium-python.readthedocs.io/search.html">
+    <link rel="next" title="等待" href="https://selenium-python.readthedocs.io/waits.html">
+    <link rel="prev" title="3.导航" href="https://selenium-python.readthedocs.io/navigating.html">
+   
+  <link rel="stylesheet" href="./Selenium with Python文档5_files/custom.css" type="text/css">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9">
+
+  
+<!-- RTD Extra Head -->
+
+<!-- 
+Always link to the latest version, as canonical.
+http://docs.readthedocs.org/en/latest/canonical.html
+-->
+<link rel="canonical" href="https://selenium-python.readthedocs.io/locating-elements.html">
+
+<link rel="stylesheet" href="./Selenium with Python文档5_files/readthedocs-doc-embed.css" type="text/css">
+
+<script type="text/javascript" src="./Selenium with Python文档5_files/readthedocs-data.js"></script>
+
+<!-- Add page-specific data, which must exist in the page js, not global -->
+<script type="text/javascript">
+READTHEDOCS_DATA['page'] = 'locating-elements'
+READTHEDOCS_DATA['source_suffix'] = '.rst'
+</script>
+
+<script type="text/javascript" src="./Selenium with Python文档5_files/readthedocs-analytics.js"></script>
+
+<!-- end RTD <extrahead> -->
+<link type="text/css" rel="stylesheet" charset="UTF-8" href="./Selenium with Python文档5_files/translateelement.css"></head><body style="">
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="locating-elements">
+<span id="id1"></span><h1><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">4.定位元素</font></font><a class="headerlink" href="https://selenium-python.readthedocs.io/locating-elements.html#locating-elements" title="永久链接到这个标题"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">¶</font></font></a></h1>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">有各种策略来定位页面中的元素。</font><font style="vertical-align: inherit;">你可以使用最适合你的情况。</font><font style="vertical-align: inherit;">Selenium提供了以下方法来定位页面中的元素：</font></font></p>
+<ul class="simple">
+<li><cite><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">find_element_by_id</font></font></cite></li>
+<li><cite><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">find_element_by_name</font></font></cite></li>
+<li><cite><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">find_element_by_xpath</font></font></cite></li>
+<li><cite><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">find_element_by_link_text</font></font></cite></li>
+<li><cite><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">find_element_by_partial_link_text</font></font></cite></li>
+<li><cite><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">find_element_by_tag_name</font></font></cite></li>
+<li><cite><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">find_element_by_class_name</font></font></cite></li>
+<li><cite><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">find_element_by_css_selector</font></font></cite></li>
+</ul>
+<p><strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">要查找多个元素（这些方法将返回一个列表）：</font></font></strong></p>
+<ul class="simple">
+<li><cite><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">find_elements_by_name</font></font></cite></li>
+<li><cite><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">find_elements_by_xpath</font></font></cite></li>
+<li><cite><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">find_elements_by_link_text</font></font></cite></li>
+<li><cite><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">find_elements_by_partial_link_text</font></font></cite></li>
+<li><cite><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">find_elements_by_tag_name</font></font></cite></li>
+<li><cite><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">find_elements_by_class_name</font></font></cite></li>
+<li><cite><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">find_elements_by_css_selector</font></font></cite></li>
+</ul>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">除了上面给出的公共方法之外，还有两个私有方法可能对页面对象中的定位器有用。</font><font style="vertical-align: inherit;">这是两个私有方法：</font></font><cite><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">find_element</font></font></cite><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">和</font></font><cite><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">find_elements</font></font></cite><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">。</font></font></p>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">用法示例：</font></font></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">selenium.webdriver.common.by</span> <span class="k">import</span> <span class="n">By</span>
+
+<span class="n">driver</span><span class="o">.</span><span class="n">find_element</span><span class="p">(</span><span class="n">By</span><span class="o">.</span><span class="n">XPATH</span><span class="p">,</span> <span class="s1">'//button[text()="Some text"]'</span><span class="p">)</span>
+<span class="n">driver</span><span class="o">.</span><span class="n">find_elements</span><span class="p">(</span><span class="n">By</span><span class="o">.</span><span class="n">XPATH</span><span class="p">,</span> <span class="s1">'//button'</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">这些是</font></font><cite><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">By</font></font></cite><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">类</font><font style="vertical-align: inherit;">可用的属性</font><font style="vertical-align: inherit;">：</font></font></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ID</span> <span class="o">=</span> <span class="s2">"id"</span>
+<span class="n">XPATH</span> <span class="o">=</span> <span class="s2">"xpath"</span>
+<span class="n">LINK_TEXT</span> <span class="o">=</span> <span class="s2">"link text"</span>
+<span class="n">PARTIAL_LINK_TEXT</span> <span class="o">=</span> <span class="s2">"partial link text"</span>
+<span class="n">NAME</span> <span class="o">=</span> <span class="s2">"name"</span>
+<span class="n">TAG_NAME</span> <span class="o">=</span> <span class="s2">"tag name"</span>
+<span class="n">CLASS_NAME</span> <span class="o">=</span> <span class="s2">"class name"</span>
+<span class="n">CSS_SELECTOR</span> <span class="o">=</span> <span class="s2">"css selector"</span>
+</pre></div>
+</div>
+<div class="section" id="locating-by-id">
+<h2><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">4.1。</font><font style="vertical-align: inherit;">按ID定位</font></font><a class="headerlink" href="https://selenium-python.readthedocs.io/locating-elements.html#locating-by-id" title="永久链接到这个标题"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">¶</font></font></a></h2>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">当您知道</font><font style="vertical-align: inherit;">元素的</font></font><cite><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">id</font></font></cite><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">属性</font><font style="vertical-align: inherit;">时使用此选项</font><font style="vertical-align: inherit;">。</font><font style="vertical-align: inherit;">使用此策略，</font><font style="vertical-align: inherit;">将返回</font></font><cite><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">id</font></font></cite><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">属性值与位置匹配的</font><font style="vertical-align: inherit;">第一个元素</font><font style="vertical-align: inherit;">。</font><font style="vertical-align: inherit;">如果没有元素具有匹配的</font></font><cite><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">id</font></font></cite><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> 
+属性，</font></font><code class="docutils literal notranslate"><span class="pre">NoSuchElementException</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">则将引发a。</font></font></p>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">例如，请考虑此页面来源：</font></font></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&lt;</span><span class="n">html</span><span class="o">&gt;</span>
+ <span class="o">&lt;</span><span class="n">body</span><span class="o">&gt;</span>
+  <span class="o">&lt;</span><span class="n">form</span> <span class="nb">id</span><span class="o">=</span><span class="s2">"loginForm"</span><span class="o">&gt;</span>
+   <span class="o">&lt;</span><span class="nb">input</span> <span class="n">name</span><span class="o">=</span><span class="s2">"username"</span> <span class="nb">type</span><span class="o">=</span><span class="s2">"text"</span> <span class="o">/&gt;</span>
+   <span class="o">&lt;</span><span class="nb">input</span> <span class="n">name</span><span class="o">=</span><span class="s2">"password"</span> <span class="nb">type</span><span class="o">=</span><span class="s2">"password"</span> <span class="o">/&gt;</span>
+   <span class="o">&lt;</span><span class="nb">input</span> <span class="n">name</span><span class="o">=</span><span class="s2">"continue"</span> <span class="nb">type</span><span class="o">=</span><span class="s2">"submit"</span> <span class="n">value</span><span class="o">=</span><span class="s2">"Login"</span> <span class="o">/&gt;</span>
+  <span class="o">&lt;/</span><span class="n">form</span><span class="o">&gt;</span>
+ <span class="o">&lt;/</span><span class="n">body</span><span class="o">&gt;</span>
+<span class="o">&lt;</span><span class="n">html</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">表单元素可以像这样定位：</font></font></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">login_form</span> <span class="o">=</span> <span class="n">driver</span><span class="o">.</span><span class="n">find_element_by_id</span><span class="p">(</span><span class="s1">'loginForm'</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="locating-by-name">
+<h2><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">4.2。</font><font style="vertical-align: inherit;">按名称查找</font></font><a class="headerlink" href="https://selenium-python.readthedocs.io/locating-elements.html#locating-by-name" title="永久链接到这个标题"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">¶</font></font></a></h2>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">当您知道</font><font style="vertical-align: inherit;">元素的</font></font><cite><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">name</font></font></cite><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">属性</font><font style="vertical-align: inherit;">时使用此选项</font><font style="vertical-align: inherit;">。</font><font style="vertical-align: inherit;">使用此策略，</font><font style="vertical-align: inherit;">将返回</font></font><cite><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">名称</font></font></cite><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">属性值与位置匹配的</font><font style="vertical-align: inherit;">第一个元素</font><font style="vertical-align: inherit;">。</font><font style="vertical-align: inherit;">如果没有元素具有匹配的</font></font><cite><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">name</font></font></cite><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> 
+属性，</font></font><code class="docutils literal notranslate"><span class="pre">NoSuchElementException</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">则将引发a。</font></font></p>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">例如，请考虑此页面来源：</font></font></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&lt;</span><span class="n">html</span><span class="o">&gt;</span>
+ <span class="o">&lt;</span><span class="n">body</span><span class="o">&gt;</span>
+  <span class="o">&lt;</span><span class="n">form</span> <span class="nb">id</span><span class="o">=</span><span class="s2">"loginForm"</span><span class="o">&gt;</span>
+   <span class="o">&lt;</span><span class="nb">input</span> <span class="n">name</span><span class="o">=</span><span class="s2">"username"</span> <span class="nb">type</span><span class="o">=</span><span class="s2">"text"</span> <span class="o">/&gt;</span>
+   <span class="o">&lt;</span><span class="nb">input</span> <span class="n">name</span><span class="o">=</span><span class="s2">"password"</span> <span class="nb">type</span><span class="o">=</span><span class="s2">"password"</span> <span class="o">/&gt;</span>
+   <span class="o">&lt;</span><span class="nb">input</span> <span class="n">name</span><span class="o">=</span><span class="s2">"continue"</span> <span class="nb">type</span><span class="o">=</span><span class="s2">"submit"</span> <span class="n">value</span><span class="o">=</span><span class="s2">"Login"</span> <span class="o">/&gt;</span>
+   <span class="o">&lt;</span><span class="nb">input</span> <span class="n">name</span><span class="o">=</span><span class="s2">"continue"</span> <span class="nb">type</span><span class="o">=</span><span class="s2">"button"</span> <span class="n">value</span><span class="o">=</span><span class="s2">"Clear"</span> <span class="o">/&gt;</span>
+  <span class="o">&lt;/</span><span class="n">form</span><span class="o">&gt;</span>
+<span class="o">&lt;/</span><span class="n">body</span><span class="o">&gt;</span>
+<span class="o">&lt;</span><span class="n">html</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">用户名和密码元素可以像这样定位：</font></font></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">username</span> <span class="o">=</span> <span class="n">driver</span><span class="o">.</span><span class="n">find_element_by_name</span><span class="p">(</span><span class="s1">'username'</span><span class="p">)</span>
+<span class="n">password</span> <span class="o">=</span> <span class="n">driver</span><span class="o">.</span><span class="n">find_element_by_name</span><span class="p">(</span><span class="s1">'password'</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">这将在“清除”按钮之前显示“登录”按钮：</font></font></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">continue</span> <span class="o">=</span> <span class="n">driver</span><span class="o">.</span><span class="n">find_element_by_name</span><span class="p">(</span><span class="s1">'continue'</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="locating-by-xpath">
+<h2><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">4.3。</font><font style="vertical-align: inherit;">通过XPath定位</font></font><a class="headerlink" href="https://selenium-python.readthedocs.io/locating-elements.html#locating-by-xpath" title="永久链接到这个标题"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">¶</font></font></a></h2>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">XPath是用于在XML文档中定位节点的语言。</font><font style="vertical-align: inherit;">由于HTML可以是XML（XHTML）的实现，因此Selenium用户可以利用这种强大的语言来定位其Web应用程序中的元素。</font><font style="vertical-align: inherit;">XPath扩展（以及支持）通过id或name属性定位的简单方法，并打开各种新的可能性，例如在页面上找到第三个复选框。</font></font></p>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">使用XPath的主要原因之一是当您没有适合您要查找的元素的id或name属性时。</font><font style="vertical-align: inherit;">您可以使用XPath以绝对术语（不建议）或相对于具有id或name属性的元素来定位元素。</font><font style="vertical-align: inherit;">XPath定位器还可用于通过id和name以外的属性指定元素。</font></font></p>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">绝对XPath包含来自根（html）的所有元素的位置，因此可能会失败，只需对应用程序进行最轻微的调整。</font><font style="vertical-align: inherit;">通过查找具有id或name属性的附近元素（理想情况下是父元素），您可以根据关系找到目标元素。</font><font style="vertical-align: inherit;">这不太可能改变，可以使您的测试更加健壮。</font></font></p>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">例如，请考虑此页面来源：</font></font></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&lt;</span><span class="n">html</span><span class="o">&gt;</span>
+ <span class="o">&lt;</span><span class="n">body</span><span class="o">&gt;</span>
+  <span class="o">&lt;</span><span class="n">form</span> <span class="nb">id</span><span class="o">=</span><span class="s2">"loginForm"</span><span class="o">&gt;</span>
+   <span class="o">&lt;</span><span class="nb">input</span> <span class="n">name</span><span class="o">=</span><span class="s2">"username"</span> <span class="nb">type</span><span class="o">=</span><span class="s2">"text"</span> <span class="o">/&gt;</span>
+   <span class="o">&lt;</span><span class="nb">input</span> <span class="n">name</span><span class="o">=</span><span class="s2">"password"</span> <span class="nb">type</span><span class="o">=</span><span class="s2">"password"</span> <span class="o">/&gt;</span>
+   <span class="o">&lt;</span><span class="nb">input</span> <span class="n">name</span><span class="o">=</span><span class="s2">"continue"</span> <span class="nb">type</span><span class="o">=</span><span class="s2">"submit"</span> <span class="n">value</span><span class="o">=</span><span class="s2">"Login"</span> <span class="o">/&gt;</span>
+   <span class="o">&lt;</span><span class="nb">input</span> <span class="n">name</span><span class="o">=</span><span class="s2">"continue"</span> <span class="nb">type</span><span class="o">=</span><span class="s2">"button"</span> <span class="n">value</span><span class="o">=</span><span class="s2">"Clear"</span> <span class="o">/&gt;</span>
+  <span class="o">&lt;/</span><span class="n">form</span><span class="o">&gt;</span>
+<span class="o">&lt;/</span><span class="n">body</span><span class="o">&gt;</span>
+<span class="o">&lt;</span><span class="n">html</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">表单元素可以像这样定位：</font></font></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">login_form</span> <span class="o">=</span> <span class="n">driver</span><span class="o">.</span><span class="n">find_element_by_xpath</span><span class="p">(</span><span class="s2">"/html/body/form[1]"</span><span class="p">)</span>
+<span class="n">login_form</span> <span class="o">=</span> <span class="n">driver</span><span class="o">.</span><span class="n">find_element_by_xpath</span><span class="p">(</span><span class="s2">"//form[1]"</span><span class="p">)</span>
+<span class="n">login_form</span> <span class="o">=</span> <span class="n">driver</span><span class="o">.</span><span class="n">find_element_by_xpath</span><span class="p">(</span><span class="s2">"//form[@id='loginForm']"</span><span class="p">)</span>
+</pre></div>
+</div>
+<ol class="arabic simple">
+<li><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">绝对路径（如果HTML仅稍微更改，则会中断）</font></font></li>
+<li><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">HTML中的第一个表单元素</font></font></li>
+<li><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">表单元素，其属性名为</font></font><cite><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">id</font></font></cite><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">，值为</font></font><cite><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">loginForm</font></font></cite></li>
+</ol>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">username元素可以像这样定位：</font></font></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">username</span> <span class="o">=</span> <span class="n">driver</span><span class="o">.</span><span class="n">find_element_by_xpath</span><span class="p">(</span><span class="s2">"//form[input/@name='username']"</span><span class="p">)</span>
+<span class="n">username</span> <span class="o">=</span> <span class="n">driver</span><span class="o">.</span><span class="n">find_element_by_xpath</span><span class="p">(</span><span class="s2">"//form[@id='loginForm']/input[1]"</span><span class="p">)</span>
+<span class="n">username</span> <span class="o">=</span> <span class="n">driver</span><span class="o">.</span><span class="n">find_element_by_xpath</span><span class="p">(</span><span class="s2">"//input[@name='username']"</span><span class="p">)</span>
+</pre></div>
+</div>
+<ol class="arabic simple">
+<li><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">第一个表单元素，带有一个输入子元素，其属性名为
+ </font></font><cite><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">name</font></font></cite><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">，值为</font></font><cite><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">username</font></font></cite></li>
+<li><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">表单元素的第一个输入子元素，其属性名为
+ </font></font><cite><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">id</font></font></cite><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">，值为</font></font><cite><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">loginForm</font></font></cite></li>
+<li><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">第一个输入元素，其属性名为“name”，值为
+ </font></font><cite><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">username</font></font></cite></li>
+</ol>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">“清除”按钮元素可以像这样定位：</font></font></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">clear_button</span> <span class="o">=</span> <span class="n">driver</span><span class="o">.</span><span class="n">find_element_by_xpath</span><span class="p">(</span><span class="s2">"//input[@name='continue'][@type='button']"</span><span class="p">)</span>
+<span class="n">clear_button</span> <span class="o">=</span> <span class="n">driver</span><span class="o">.</span><span class="n">find_element_by_xpath</span><span class="p">(</span><span class="s2">"//form[@id='loginForm']/input[4]"</span><span class="p">)</span>
+</pre></div>
+</div>
+<ol class="arabic simple">
+<li><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">输入名为</font></font><cite><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">name的</font></font></cite><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">属性</font><font style="vertical-align: inherit;">，值为</font></font><cite><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">continue</font></font></cite><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">，属性名为</font></font><cite><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">type</font></font></cite><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">，值为</font></font><cite><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">button</font></font></cite></li>
+<li><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">表单元素的第四个输入子元素，其属性名为
+ </font></font><cite><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">id</font></font></cite><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">，值为</font></font><cite><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">loginForm</font></font></cite></li>
+</ol>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">这些示例涵盖了一些基础知识，但为了了解更多信息，建议使用以下参考：</font></font></p>
+<ul class="simple">
+<li><a class="reference external" href="https://www.w3schools.com/xml/xpath_intro.asp"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">W3Schools XPath教程</font></font></a></li>
+<li><a class="reference external" href="http://www.w3.org/TR/xpath"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">W3C XPath建议书</font></font></a></li>
+<li><a class="reference external" href="http://www.zvon.org/comp/r/tut-XPath_1.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">XPath教程</font></font></a><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> 
+- 使用交互式示例。</font></font></li>
+</ul>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">还有一些非常有用的附加组件可以帮助发现元素的XPath：</font></font></p>
+<ul class="simple">
+<li><a class="reference external" href="https://addons.mozilla.org/en-US/firefox/addon/xpath-checker/"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">XPath Checker</font></font></a><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> - 建议XPath，可用于测试XPath结果。</font></font></li>
+<li><a class="reference external" href="https://addons.mozilla.org/en-US/firefox/addon/firebug/"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Firebug</font></font></a><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> -  XPath建议只是这个非常有用的附加组件的众多强大功能之一。</font></font></li>
+<li><a class="reference external" href="https://chrome.google.com/webstore/detail/hgimnogjllphhhkhlmebbmlgjoejdpjl"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">XPath Helper</font></font></a><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> - 适用于谷歌浏览器</font></font></li>
+</ul>
+</div>
+<div class="section" id="locating-hyperlinks-by-link-text">
+<h2><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">4.4。</font><font style="vertical-align: inherit;">通过链接文本定位超链接</font></font><a class="headerlink" href="https://selenium-python.readthedocs.io/locating-elements.html#locating-hyperlinks-by-link-text" title="永久链接到这个标题"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">¶</font></font></a></h2>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">当您知道锚标记中使用的链接文本时，请使用此选项。</font><font style="vertical-align: inherit;">使用此策略，将返回链接文本值与位置匹配的第一个元素。</font><font style="vertical-align: inherit;">如果没有元素具有匹配的链接文本属性，</font></font><code class="docutils literal notranslate"><span class="pre">NoSuchElementException</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">则将引发a。</font></font></p>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">例如，请考虑此页面来源：</font></font></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>&lt;html&gt;
+ &lt;body&gt;
+  &lt;p&gt;Are you sure you want to do this?&lt;/p&gt;
+  &lt;a href="continue.html"&gt;Continue&lt;/a&gt;
+  &lt;a href="cancel.html"&gt;Cancel&lt;/a&gt;
+&lt;/body&gt;
+&lt;html&gt;
+</pre></div>
+</div>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">continue.html链接可以像这样定位：</font></font></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">continue_link</span> <span class="o">=</span> <span class="n">driver</span><span class="o">.</span><span class="n">find_element_by_link_text</span><span class="p">(</span><span class="s1">'Continue'</span><span class="p">)</span>
+<span class="n">continue_link</span> <span class="o">=</span> <span class="n">driver</span><span class="o">.</span><span class="n">find_element_by_partial_link_text</span><span class="p">(</span><span class="s1">'Conti'</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="locating-elements-by-tag-name">
+<h2><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">4.5。</font><font style="vertical-align: inherit;">按标签名称定位元素</font></font><a class="headerlink" href="https://selenium-python.readthedocs.io/locating-elements.html#locating-elements-by-tag-name" title="永久链接到这个标题"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">¶</font></font></a></h2>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">如果要按标记名称查找元素，请使用此选项。</font><font style="vertical-align: inherit;">使用此策略，将返回具有给定标记名称的第一个元素。</font><font style="vertical-align: inherit;">如果没有元素具有匹配的标记名称，</font></font><code class="docutils literal notranslate"><span class="pre">NoSuchElementException</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+则将引发a。</font></font></p>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">例如，请考虑此页面来源：</font></font></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&lt;</span><span class="n">html</span><span class="o">&gt;</span>
+ <span class="o">&lt;</span><span class="n">body</span><span class="o">&gt;</span>
+  <span class="o">&lt;</span><span class="n">h1</span><span class="o">&gt;</span><span class="n">Welcome</span><span class="o">&lt;/</span><span class="n">h1</span><span class="o">&gt;</span>
+  <span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="n">Site</span> <span class="n">content</span> <span class="n">goes</span> <span class="n">here</span><span class="o">.&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+<span class="o">&lt;/</span><span class="n">body</span><span class="o">&gt;</span>
+<span class="o">&lt;</span><span class="n">html</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">标题（h1）元素可以像这样定位：</font></font></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">heading1</span> <span class="o">=</span> <span class="n">driver</span><span class="o">.</span><span class="n">find_element_by_tag_name</span><span class="p">(</span><span class="s1">'h1'</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="locating-elements-by-class-name">
+<h2><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">4.6。</font><font style="vertical-align: inherit;">按类名定位元素</font></font><a class="headerlink" href="https://selenium-python.readthedocs.io/locating-elements.html#locating-elements-by-class-name" title="永久链接到这个标题"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">¶</font></font></a></h2>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">如果要按类属性名称定位元素，请使用此选项。</font><font style="vertical-align: inherit;">使用此策略，将返回具有匹配类属性名称的第一个元素。</font><font style="vertical-align: inherit;">如果没有元素具有匹配的类属性名称，</font></font><code class="docutils literal notranslate"><span class="pre">NoSuchElementException</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">则将引发a。</font></font></p>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">例如，请考虑此页面来源：</font></font></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&lt;</span><span class="n">html</span><span class="o">&gt;</span>
+ <span class="o">&lt;</span><span class="n">body</span><span class="o">&gt;</span>
+  <span class="o">&lt;</span><span class="n">p</span> <span class="n">class</span><span class="o">=</span><span class="s2">"content"</span><span class="o">&gt;</span><span class="n">Site</span> <span class="n">content</span> <span class="n">goes</span> <span class="n">here</span><span class="o">.&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+<span class="o">&lt;/</span><span class="n">body</span><span class="o">&gt;</span>
+<span class="o">&lt;</span><span class="n">html</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">“p”元素可以像这样定位：</font></font></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">content</span> <span class="o">=</span> <span class="n">driver</span><span class="o">.</span><span class="n">find_element_by_class_name</span><span class="p">(</span><span class="s1">'content'</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="locating-elements-by-css-selectors">
+<h2><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">4.7。</font><font style="vertical-align: inherit;">通过CSS选择器定位元素</font></font><a class="headerlink" href="https://selenium-python.readthedocs.io/locating-elements.html#locating-elements-by-css-selectors" title="永久链接到这个标题"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">¶</font></font></a></h2>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">如果要通过CSS选择器语法定位元素，请使用此选项。</font><font style="vertical-align: inherit;">使用此策略，将返回具有匹配的CSS选择器的第一个元素。</font><font style="vertical-align: inherit;">如果没有元素具有匹配的CSS选择器，</font></font><code class="docutils literal notranslate"><span class="pre">NoSuchElementException</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">则将引发a。</font></font></p>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">例如，请考虑此页面来源：</font></font></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&lt;</span><span class="n">html</span><span class="o">&gt;</span>
+ <span class="o">&lt;</span><span class="n">body</span><span class="o">&gt;</span>
+  <span class="o">&lt;</span><span class="n">p</span> <span class="n">class</span><span class="o">=</span><span class="s2">"content"</span><span class="o">&gt;</span><span class="n">Site</span> <span class="n">content</span> <span class="n">goes</span> <span class="n">here</span><span class="o">.&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+<span class="o">&lt;/</span><span class="n">body</span><span class="o">&gt;</span>
+<span class="o">&lt;</span><span class="n">html</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">“p”元素可以像这样定位：</font></font></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">content</span> <span class="o">=</span> <span class="n">driver</span><span class="o">.</span><span class="n">find_element_by_css_selector</span><span class="p">(</span><span class="s1">'p.content'</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><a class="reference external" href="https://saucelabs.com/resources/articles/selenium-tips-css-selectors"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Sauce Labs有很好的</font></font></a><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> 
+CSS选择器</font><a class="reference external" href="https://saucelabs.com/resources/articles/selenium-tips-css-selectors"><font style="vertical-align: inherit;">文档</font></a><font style="vertical-align: inherit;">。</font></font></p>
+</div>
+</div>
+
+
+          <div id="rtd-x6wiipa4" class="ethical-alabaster"></div></div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<p class="logo">
+  <a href="https://selenium-python.readthedocs.io/index.html">
+    <img class="logo" src="./Selenium with Python文档5_files/logo.png" alt="商标">
+    
+  </a>
+</p>
+
+
+
+
+
+
+
+
+<h3><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">导航</font></font></h3>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="https://selenium-python.readthedocs.io/installation.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">1.安装</font></font></a></li>
+<li class="toctree-l1"><a class="reference internal" href="https://selenium-python.readthedocs.io/getting-started.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">2.入门</font></font></a></li>
+<li class="toctree-l1"><a class="reference internal" href="https://selenium-python.readthedocs.io/navigating.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.导航</font></font></a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="https://selenium-python.readthedocs.io/locating-elements.html#"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">4.定位元素</font></font></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="https://selenium-python.readthedocs.io/locating-elements.html#locating-by-id"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">4.1。</font><font style="vertical-align: inherit;">按ID定位</font></font></a></li>
+<li class="toctree-l2"><a class="reference internal" href="https://selenium-python.readthedocs.io/locating-elements.html#locating-by-name"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">4.2。</font><font style="vertical-align: inherit;">按名称查找</font></font></a></li>
+<li class="toctree-l2"><a class="reference internal" href="https://selenium-python.readthedocs.io/locating-elements.html#locating-by-xpath"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">4.3。</font><font style="vertical-align: inherit;">通过XPath定位</font></font></a></li>
+<li class="toctree-l2"><a class="reference internal" href="https://selenium-python.readthedocs.io/locating-elements.html#locating-hyperlinks-by-link-text"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">4.4。</font><font style="vertical-align: inherit;">通过链接文本查找超链接</font></font></a></li>
+<li class="toctree-l2"><a class="reference internal" href="https://selenium-python.readthedocs.io/locating-elements.html#locating-elements-by-tag-name"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">4.5。</font><font style="vertical-align: inherit;">按标签名称定位元素</font></font></a></li>
+<li class="toctree-l2"><a class="reference internal" href="https://selenium-python.readthedocs.io/locating-elements.html#locating-elements-by-class-name"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">4.6。</font><font style="vertical-align: inherit;">按类名定位元素</font></font></a></li>
+<li class="toctree-l2"><a class="reference internal" href="https://selenium-python.readthedocs.io/locating-elements.html#locating-elements-by-css-selectors"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">4.7。</font><font style="vertical-align: inherit;">通过CSS选择器定位元素</font></font></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="https://selenium-python.readthedocs.io/waits.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">等待</font></font></a></li>
+<li class="toctree-l1"><a class="reference internal" href="https://selenium-python.readthedocs.io/page-objects.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">6.页面对象</font></font></a></li>
+<li class="toctree-l1"><a class="reference internal" href="https://selenium-python.readthedocs.io/api.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">7. WebDriver API</font></font></a></li>
+<li class="toctree-l1"><a class="reference internal" href="https://selenium-python.readthedocs.io/faq.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">8.附录：常见问题</font></font></a></li>
+</ul>
+
+<div class="relations">
+<h3><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">相关话题</font></font></h3>
+<ul>
+  <li><a href="https://selenium-python.readthedocs.io/index.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">文档概述</font></font></a><ul>
+      <li><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">上一页：</font></font><a href="https://selenium-python.readthedocs.io/navigating.html" title="前一章"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3。导航</font></font></a></li>
+      <li><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">下一步：</font></font><a href="https://selenium-python.readthedocs.io/waits.html" title="下一章"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">5。等待</font></font></a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="" role="search">
+  <h3><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">快速搜索</font></font></h3>
+    <div class="searchformwrapper">
+    <form class="search" action="https://selenium-python.readthedocs.io/search.html" method="get">
+      <input type="text" name="q">
+      <font style="vertical-align: inherit;"><font style="vertical-align: inherit;"><input type="submit" value="走"></font></font>
+      <input type="hidden" name="check_keywords" value="yes">
+      <input type="hidden" name="area" value="default">
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        <div id="rtd-vvx4qs02" class="ethical-alabaster"><div class="ethical-sidebar"><div class="ethical-content"><a href="https://readthedocs.org/sustainability/click/194/KahwPy045YTg/" rel="nofollow" target="_blank" class="ethical-image-link"><img src="./Selenium with Python文档5_files/english-house.png"></a><div class="ethical-text"><a href="https://readthedocs.org/sustainability/click/194/KahwPy045YTg/" rel="nofollow" target="_blank"><b><font style="vertical-align: inherit;"></font></b><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">当您使用“阅读文档”进行广告宣传时，每个月</font><b><font style="vertical-align: inherit;">达到700多万开发者</font></b></font></a><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">。</font></font></div></div><div class="ethical-callout"><small><em><a href="https://readthedocs.org/sustainability/advertising/"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">赞助商</font></font></a><span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">· </font></font></span><a href="https://docs.readthedocs.io/en/latest/ethical-advertising.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">道德服务广告</font></font></a></em></small></div></div><img src="./Selenium with Python文档5_files/saved_resource" style="display: none;"></div></div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+      ©2011-2018，Baiju Muthukadan。</font><font style="vertical-align: inherit;">| </font><font style="vertical-align: inherit;">技术</font></font><a href="http://sphinx-doc.org/"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">狮身人面像1.7.9</font></font></a><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> 
+      与</font></font><a href="https://github.com/bitprophet/alabaster"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">雪花0.7.12</font></font></a><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> 
+      
+      |
+      </font></font><a href="https://selenium-python.readthedocs.io/_sources/locating-elements.rst.txt" rel="nofollow"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">页面来源</font></font></a>
+    </div><div id="goog-gt-tt" class="skiptranslate" dir="ltr"><div style="padding: 8px;"><div><div class="logo"><img src="./Selenium with Python文档5_files/translate_24dp.png" width="20" height="20" alt="Google 翻译"></div></div></div><div class="top" style="padding: 8px; float: left; width: 100%;"><h1 class="title gray">原文</h1></div><div class="middle" style="padding: 8px;"><div class="original-text"></div></div><div class="bottom" style="padding: 8px;"><div class="activity-links"><span class="activity-link">提供更好的翻译建议</span><span class="activity-link"></span></div><div class="started-activity-container"><hr style="color: #CCC; background-color: #CCC; height: 1px; border: none;"><div class="activity-root"></div></div></div><div class="status-message" style="display: none;"></div></div>
+
+    
+
+    
+  
+<div class="goog-te-spinner-pos"><div class="goog-te-spinner-animation"><svg xmlns="http://www.w3.org/2000/svg" class="goog-te-spinner" width="96px" height="96px" viewBox="0 0 66 66"><circle class="goog-te-spinner-path" fill="none" stroke-width="6" stroke-linecap="round" cx="33" cy="33" r="30"></circle></svg></div></div><!-- Inserted RTD Footer -->
+<div class="injected">
+
+  
+  <div class="rst-versions rst-badge" data-toggle="rst-versions">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      <span class="fa fa-book">&nbsp;</span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+      v：最新的
+      </font></font><span class="fa fa-caret-down"></span>
+    </span>
+    <div class="rst-other-versions">
+      
+
+      
+      
+      
+      
+
+      
+      
+      <dl>
+        <dt><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">下载</font></font></dt>
+        
+        <dd><a href="https://readthedocs.org/projects/selenium-python/downloads/pdf/latest/"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">PDF</font></font></a></dd>
+        
+        <dd><a href="https://readthedocs.org/projects/selenium-python/downloads/htmlzip/latest/"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">HTML</font></font></a></dd>
+        
+        <dd><a href="https://readthedocs.org/projects/selenium-python/downloads/epub/latest/"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">EPUB</font></font></a></dd>
+        
+      </dl>
+      
+      
+
+      
+      <dl>
+        <!-- These are kept as relative links for internal installs that are http -->
+        <dt><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">阅读文档</font></font></dt>
+        <dd>
+          <a href="https://readthedocs.org/projects/selenium-python/"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">项目主页</font></font></a>
+        </dd>
+        <dd>
+          <a href="https://readthedocs.org/projects/selenium-python/builds/"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">构建</font></font></a>
+        </dd>
+        <dd>
+          <a href="https://readthedocs.org/projects/selenium-python/downloads/"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">下载</font></font></a>
+        </dd>
+      </dl>
+      
+
+      
+
+      
+      <dl>
+        <dt><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">在GitHub上</font></font></dt>
+        <dd>
+          <a href="https://github.com/baijum/selenium-python/blob/master/source/locating-elements.rst"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">视图</font></font></a>
+        </dd>
+        
+      </dl>
+      
+      
+
+      
+      <dl>
+        <dt><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">搜索</font></font></dt>
+        <dd>
+          <div style="padding: 6px;">
+            <form id="flyout-search-form" class="wy-form" target="_blank" action="https://readthedocs.org/projects/selenium-python/search/" method="get">
+              <input type="text" name="q" placeholder="Search docs">
+              </form>
+          </div>
+        </dd>
+      </dl>
+      
+
+
+
+      <hr>
+      
+        <small>
+          <span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">主持人</font></font><a href="https://readthedocs.org/"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">阅读文档</font></font></a></span>
+          <span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> · </font></font></span>
+          <a href="https://docs.readthedocs.io/page/privacy-policy.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">隐私政策</font></font></a>
+        </small>
+      
+
+      
+    </div>
+  </div>
+  
+
+</div>
+</body></html>

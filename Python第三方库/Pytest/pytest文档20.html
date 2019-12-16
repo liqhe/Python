@@ -1,0 +1,681 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- saved from url=(0046)https://docs.pytest.org/en/latest/logging.html -->
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh-CN" class="translated-ltr"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+    
+    <title>记录 -  pytest文档</title>
+    <link rel="stylesheet" href="./pytest文档20_files/flasky.css" type="text/css">
+    <link rel="stylesheet" href="./pytest文档20_files/pygments.css" type="text/css">
+    <link rel="stylesheet" type="text/css" href="./pytest文档20_files/pygments_pytest.css">
+    <link rel="stylesheet" type="text/css" href="./pytest文档20_files/badge_only.css">
+    <script type="text/javascript" async="" src="./pytest文档20_files/ga.js"></script><script async="" src="./pytest文档20_files/analytics.js"></script><script type="text/javascript" id="documentation_options" data-url_root="./" src="./pytest文档20_files/documentation_options.js"></script>
+    <script type="text/javascript" src="./pytest文档20_files/jquery.js"></script>
+    <script type="text/javascript" src="./pytest文档20_files/underscore.js"></script>
+    <script type="text/javascript" src="./pytest文档20_files/doctools.js"></script>
+    <script type="text/javascript" src="./pytest文档20_files/language_data.js"></script>
+    <script type="text/javascript" src="./pytest文档20_files/readthedocs-doc-embed.js"></script>
+    <link rel="shortcut icon" href="https://docs.pytest.org/en/latest/_static/pytest1favi.ico">
+    <link rel="search" title="搜索" href="https://docs.pytest.org/en/latest/search.html">
+    <link rel="next" title="参考" href="https://docs.pytest.org/en/latest/reference.html">
+    <link rel="prev" title="写插件" href="https://docs.pytest.org/en/latest/writing_plugins.html">
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9">
+
+  
+<!-- RTD Extra Head -->
+
+<!-- 
+Always link to the latest version, as canonical.
+http://docs.readthedocs.org/en/latest/canonical.html
+-->
+<link rel="canonical" href="http://doc.pytest.org/en/latest/logging.html">
+
+<link rel="stylesheet" href="./pytest文档20_files/readthedocs-doc-embed.css" type="text/css">
+
+<script type="text/javascript" src="./pytest文档20_files/readthedocs-data.js"></script>
+
+<!-- Add page-specific data, which must exist in the page js, not global -->
+<script type="text/javascript">
+READTHEDOCS_DATA['page'] = 'logging'
+READTHEDOCS_DATA['source_suffix'] = '.rst'
+</script>
+
+<script type="text/javascript" src="./pytest文档20_files/readthedocs-analytics.js"></script>
+
+<!-- end RTD <extrahead> -->
+<link type="text/css" rel="stylesheet" charset="UTF-8" href="./pytest文档20_files/translateelement.css"></head><body>
+  
+  
+  
+
+
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">导航</font></font></h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="https://docs.pytest.org/en/latest/reference.html" title="参考" accesskey="N"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">下一个</font></font></a></li>
+        <li class="right">
+          <a href="https://docs.pytest.org/en/latest/writing_plugins.html" title="写插件" accesskey="P"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">上一个</font></font></a><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> |</font></font></li>
+        <li class="nav-item nav-item-0"><a href="https://docs.pytest.org/en/latest/contents.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">pytest-4.3</font></font></a><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> »</font></font></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="logging">
+<span id="id1"></span><h1><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">记录</font></font><a class="headerlink" href="https://docs.pytest.org/en/latest/logging.html#logging" title="永久链接到这个标题"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">¶</font></font></a></h1>
+<div class="versionadded">
+<p><span class="versionmodified"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">版本3.3中的新功能。</font></font></span></p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">在版本3.4中更改。</font></font></span></p>
+</div>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">pytest自动捕获级别</font></font><code class="docutils literal notranslate"><span class="pre">WARNING</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">或更高</font><font style="vertical-align: inherit;">级别的日志消息，</font><font style="vertical-align: inherit;">并以与捕获的stdout和stderr相同的方式在每个失败的测试中显示它们自己的部分。</font></font></p>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">没有选项运行：</font></font></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pytest
+</pre></div>
+</div>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">显示失败的测试如下：</font></font></p>
+<div class="highlight-pytest notranslate"><div class="highlight"><pre><span></span>----------------------- Captured stdlog call ----------------------
+test_reporting.py    26 WARNING  text going to logger
+----------------------- Captured stdout call ----------------------
+text going to stdout
+----------------------- Captured stderr call ----------------------
+text going to stderr
+<span class=" -Color -Color-BoldRed">==================== 2 failed in 0.02 seconds =====================</span>
+</pre></div>
+</div>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">默认情况下，每个捕获的日志消息都显示模块，行号，日志级别和消息。</font></font></p>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">如果需要，可以通过传递特定格式选项将日志和日期格式指定给日志记录模块支持的任何内容：</font></font></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pytest --log-format<span class="o">=</span><span class="s2">"%(asctime)s %(levelname)s %(message)s"</span> <span class="se">\</span>
+        --log-date-format<span class="o">=</span><span class="s2">"%Y-%m-%d %H:%M:%S"</span>
+</pre></div>
+</div>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">显示失败的测试如下：</font></font></p>
+<div class="highlight-pytest notranslate"><div class="highlight"><pre><span></span>----------------------- Captured stdlog call ----------------------
+2010-04-10 14:48:44 WARNING text going to logger
+----------------------- Captured stdout call ----------------------
+text going to stdout
+----------------------- Captured stderr call ----------------------
+text going to stderr
+<span class=" -Color -Color-BoldRed">==================== 2 failed in 0.02 seconds =====================</span>
+</pre></div>
+</div>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">这些选项也可以通过</font></font><code class="docutils literal notranslate"><span class="pre">pytest.ini</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">文件</font><font style="vertical-align: inherit;">自定义</font><font style="vertical-align: inherit;">：</font></font></p>
+<div class="highlight-ini notranslate"><div class="highlight"><pre><span></span><span class="k">[pytest]</span>
+<span class="na">log_format</span> <span class="o">=</span> <span class="s">%(asctime)s %(levelname)s %(message)s</span>
+<span class="na">log_date_format</span> <span class="o">=</span> <span class="s">%Y-%m-%d %H:%M:%S</span>
+</pre></div>
+</div>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">此外，可以通过以下方式完全禁用对失败测试的捕获内容（stdout，stderr和logs）的报告：</font></font></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pytest --show-capture<span class="o">=</span>no
+</pre></div>
+</div>
+<div class="section" id="caplog-fixture">
+<h2><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">caplog夹具</font></font><a class="headerlink" href="https://docs.pytest.org/en/latest/logging.html#caplog-fixture" title="永久链接到这个标题"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">¶</font></font></a></h2>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">在内部测试中，可以更改捕获的日志消息的日志级别。</font><font style="vertical-align: inherit;">这是由</font></font><code class="docutils literal notranslate"><span class="pre">caplog</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">夹具</font><font style="vertical-align: inherit;">支持</font><font style="vertical-align: inherit;">：</font></font></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">test_foo</span><span class="p">(</span><span class="n">caplog</span><span class="p">):</span>
+    <span class="n">caplog</span><span class="o">.</span><span class="n">set_level</span><span class="p">(</span><span class="n">logging</span><span class="o">.</span><span class="n">INFO</span><span class="p">)</span>
+    <span class="k">pass</span>
+</pre></div>
+</div>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">默认情况下，在根记录器上设置级别，但为方便起见，还可以设置任何记录器的日志级别：</font></font></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">test_foo</span><span class="p">(</span><span class="n">caplog</span><span class="p">):</span>
+    <span class="n">caplog</span><span class="o">.</span><span class="n">set_level</span><span class="p">(</span><span class="n">logging</span><span class="o">.</span><span class="n">CRITICAL</span><span class="p">,</span> <span class="n">logger</span><span class="o">=</span><span class="s1">'root.baz'</span><span class="p">)</span>
+    <span class="k">pass</span>
+</pre></div>
+</div>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">设置的日志级别将在测试结束时自动恢复。</font></font></p>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">也可以使用上下文管理器临时更改</font></font><code class="docutils literal notranslate"><span class="pre">with</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">块</font><font style="vertical-align: inherit;">内的日志级别</font><font style="vertical-align: inherit;">：</font></font></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">test_bar</span><span class="p">(</span><span class="n">caplog</span><span class="p">):</span>
+    <span class="k">with</span> <span class="n">caplog</span><span class="o">.</span><span class="n">at_level</span><span class="p">(</span><span class="n">logging</span><span class="o">.</span><span class="n">INFO</span><span class="p">):</span>
+        <span class="k">pass</span>
+</pre></div>
+</div>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">同样，默认情况下，根记录器的级别会受到影响，但可以使用以下方式更改任何记录器的级别：</font></font></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">test_bar</span><span class="p">(</span><span class="n">caplog</span><span class="p">):</span>
+    <span class="k">with</span> <span class="n">caplog</span><span class="o">.</span><span class="n">at_level</span><span class="p">(</span><span class="n">logging</span><span class="o">.</span><span class="n">CRITICAL</span><span class="p">,</span> <span class="n">logger</span><span class="o">=</span><span class="s1">'root.baz'</span><span class="p">):</span>
+        <span class="k">pass</span>
+</pre></div>
+</div>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">最后，在测试运行期间发送到记录器的所有日志都以</font></font><code class="docutils literal notranslate"><span class="pre">logging.LogRecord</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">实例和最终日志文本</font><font style="vertical-align: inherit;">的形式在夹具上可用</font><font style="vertical-align: inherit;">。</font><font style="vertical-align: inherit;">当您想要对消息内容断言时，这非常有用：</font></font></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">test_baz</span><span class="p">(</span><span class="n">caplog</span><span class="p">):</span>
+    <span class="n">func_under_test</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">record</span> <span class="ow">in</span> <span class="n">caplog</span><span class="o">.</span><span class="n">records</span><span class="p">:</span>
+        <span class="k">assert</span> <span class="n">record</span><span class="o">.</span><span class="n">levelname</span> <span class="o">!=</span> <span class="s1">'CRITICAL'</span>
+    <span class="k">assert</span> <span class="s1">'wally'</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">caplog</span><span class="o">.</span><span class="n">text</span>
+</pre></div>
+</div>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">对于日志记录的所有可用属性，请参阅
+ </font></font><code class="docutils literal notranslate"><span class="pre">logging.LogRecord</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">该类。</font></font></p>
+<p><font style="vertical-align: inherit;"></font><code class="docutils literal notranslate"><span class="pre">record_tuples</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">如果您要做的就是确保在给定的记录器名称下使用给定的严重性和消息记录某些消息，</font><font style="vertical-align: inherit;">您也可以求助</font><font style="vertical-align: inherit;">：</font></font></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">test_foo</span><span class="p">(</span><span class="n">caplog</span><span class="p">):</span>
+    <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">()</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">'boo </span><span class="si">%s</span><span class="s1">'</span><span class="p">,</span> <span class="s1">'arg'</span><span class="p">)</span>
+
+    <span class="k">assert</span> <span class="n">caplog</span><span class="o">.</span><span class="n">record_tuples</span> <span class="o">==</span> <span class="p">[</span>
+        <span class="p">(</span><span class="s1">'root'</span><span class="p">,</span> <span class="n">logging</span><span class="o">.</span><span class="n">INFO</span><span class="p">,</span> <span class="s1">'boo arg'</span><span class="p">),</span>
+    <span class="p">]</span>
+</pre></div>
+</div>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">您可以调用</font></font><code class="docutils literal notranslate"><span class="pre">caplog.clear()</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">以在测试中重置捕获的日志记录：</font></font></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">test_something_with_clearing_records</span><span class="p">(</span><span class="n">caplog</span><span class="p">):</span>
+    <span class="n">some_method_that_creates_log_records</span><span class="p">()</span>
+    <span class="n">caplog</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
+    <span class="n">your_test_method</span><span class="p">()</span>
+    <span class="k">assert</span> <span class="p">[</span><span class="s1">'Foo'</span><span class="p">]</span> <span class="o">==</span> <span class="p">[</span><span class="n">rec</span><span class="o">.</span><span class="n">message</span> <span class="k">for</span> <span class="n">rec</span> <span class="ow">in</span> <span class="n">caplog</span><span class="o">.</span><span class="n">records</span><span class="p">]</span>
+</pre></div>
+</div>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">该</font></font><code class="docutils literal notranslate"><span class="pre">caplog.records</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">属性仅包含当前阶段的记录，因此在</font></font><code class="docutils literal notranslate"><span class="pre">setup</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">阶段内它仅包含设置日志，</font></font><code class="docutils literal notranslate"><span class="pre">call</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">与
+ </font></font><code class="docutils literal notranslate"><span class="pre">teardown</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">阶段</font><font style="vertical-align: inherit;">相同</font><font style="vertical-align: inherit;">。</font></font></p>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">要从其他阶段访问日志，请使用该</font></font><code class="docutils literal notranslate"><span class="pre">caplog.get_records(when)</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">方法。</font><font style="vertical-align: inherit;">例如，如果要确保使用某个夹具的测试从不记录任何警告，您可以检查</font><font style="vertical-align: inherit;">拆解期间</font><font style="vertical-align: inherit;">的记录</font></font><code class="docutils literal notranslate"><span class="pre">setup</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">和</font></font><code class="docutils literal notranslate"><span class="pre">call</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">阶段，如下所示：</font></font></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nd">@pytest.fixture</span>
+<span class="k">def</span> <span class="nf">window</span><span class="p">(</span><span class="n">caplog</span><span class="p">):</span>
+    <span class="n">window</span> <span class="o">=</span> <span class="n">create_window</span><span class="p">()</span>
+    <span class="k">yield</span> <span class="n">window</span>
+    <span class="k">for</span> <span class="n">when</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">"setup"</span><span class="p">,</span> <span class="s2">"call"</span><span class="p">):</span>
+        <span class="n">messages</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="n">x</span><span class="o">.</span><span class="n">message</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">caplog</span><span class="o">.</span><span class="n">get_records</span><span class="p">(</span><span class="n">when</span><span class="p">)</span> <span class="k">if</span> <span class="n">x</span><span class="o">.</span><span class="n">level</span> <span class="o">==</span> <span class="n">logging</span><span class="o">.</span><span class="n">WARNING</span>
+        <span class="p">]</span>
+        <span class="k">if</span> <span class="n">messages</span><span class="p">:</span>
+            <span class="n">pytest</span><span class="o">.</span><span class="n">fail</span><span class="p">(</span>
+                <span class="s2">"warning messages encountered during testing: {}"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">messages</span><span class="p">)</span>
+            <span class="p">)</span>
+</pre></div>
+</div>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">完整的API可在以下位置获得</font></font><a class="reference internal" href="https://docs.pytest.org/en/latest/reference.html#_pytest.logging.LogCaptureFixture" title="_pytest.logging.LogCaptureFixture"><code class="xref py py-class docutils literal notranslate"><span class="pre">_pytest.logging.LogCaptureFixture</span></code></a><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">。</font></font></p>
+</div>
+<div class="section" id="live-logs">
+<span id="id2"></span><h2><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">实时日志</font></font><a class="headerlink" href="https://docs.pytest.org/en/latest/logging.html#live-logs" title="永久链接到这个标题"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">¶</font></font></a></h2>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">通过将</font></font><code class="xref std std-confval docutils literal notranslate"><span class="pre">log_cli</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">配置选项</font><font style="vertical-align: inherit;">设置</font><font style="vertical-align: inherit;">为</font></font><code class="docutils literal notranslate"><span class="pre">true</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">，pytest将在将记录记录直接发送到控制台时输出记录记录。</font></font></p>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">您可以指定通过传递将具有相同或更高级别的日志记录打印到控制台的日志记录级别</font></font><code class="docutils literal notranslate"><span class="pre">--log-cli-level</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">。</font><font style="vertical-align: inherit;">此设置接受python文档中显示的日志记录级别名称或记录级别num的整数。</font></font></p>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">此外，您还可以指定</font></font><code class="docutils literal notranslate"><span class="pre">--log-cli-format</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">以及
+ </font></font><code class="docutils literal notranslate"><span class="pre">--log-cli-date-format</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">默认为</font></font><code class="docutils literal notranslate"><span class="pre">--log-format</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">和
+ </font></font><code class="docutils literal notranslate"><span class="pre">--log-date-format</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">未提供的</font><font style="vertical-align: inherit;">镜像和镜像</font><font style="vertical-align: inherit;">，但仅应用于控制台日志记录处理程序。</font></font></p>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">还可以在配置INI文件中设置所有CLI日志选项。</font><font style="vertical-align: inherit;">选项名称是：</font></font></p>
+<ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">log_cli_level</span></code></li>
+<li><code class="docutils literal notranslate"><span class="pre">log_cli_format</span></code></li>
+<li><code class="docutils literal notranslate"><span class="pre">log_cli_date_format</span></code></li>
+</ul>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">如果需要将整个测试套件记录调用记录到文件中，则可以传递
+ </font></font><code class="docutils literal notranslate"><span class="pre">--log-file=/path/to/log/file</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">。</font><font style="vertical-align: inherit;">此日志文件以写入模式打开，这意味着它将在每次运行测试会话中被覆盖。</font></font></p>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">您还可以通过传递指定日志文件的日志记录级别
+ </font></font><code class="docutils literal notranslate"><span class="pre">--log-file-level</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">。</font><font style="vertical-align: inherit;">此设置接受python文档中显示的日志记录级别名称（即大写级别名称）或整数作为日志记录级别num。</font></font></p>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">此外，您还可以指定</font></font><code class="docutils literal notranslate"><span class="pre">--log-file-format</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">和
+ </font></font><code class="docutils literal notranslate"><span class="pre">--log-file-date-format</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">哪个等于</font></font><code class="docutils literal notranslate"><span class="pre">--log-format</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">和
+ </font></font><code class="docutils literal notranslate"><span class="pre">--log-date-format</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">，但被应用到日志文件记录处理程序。</font></font></p>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">还可以在配置INI文件中设置所有日志文件选项。</font><font style="vertical-align: inherit;">选项名称是：</font></font></p>
+<ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">log_file</span></code></li>
+<li><code class="docutils literal notranslate"><span class="pre">log_file_level</span></code></li>
+<li><code class="docutils literal notranslate"><span class="pre">log_file_format</span></code></li>
+<li><code class="docutils literal notranslate"><span class="pre">log_file_date_format</span></code></li>
+</ul>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">您可以调用</font></font><code class="docutils literal notranslate"><span class="pre">set_log_path()</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">以动态自定义log_file路径。</font><font style="vertical-align: inherit;">此功能被认为是</font></font><strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">实验性的</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">。</font></font></p>
+</div>
+<div class="section" id="release-notes">
+<span id="log-release-notes"></span><h2><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">发行说明</font></font><a class="headerlink" href="https://docs.pytest.org/en/latest/logging.html#release-notes" title="永久链接到这个标题"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">¶</font></font></a></h2>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">此功能是作为</font></font><a class="reference external" href="https://pypi.org/project/pytest-catchlog/"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">pytest-catchlog</font></font></a><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">插件的</font><font style="vertical-align: inherit;">替代品引入的</font><font style="vertical-align: inherit;">，它们相互冲突。</font></font><code class="docutils literal notranslate"><span class="pre">pytest-capturelog</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+引入此功能时</font><font style="vertical-align: inherit;">，后向兼容性API </font><font style="vertical-align: inherit;">已被删除，因此如果您仍然需要</font></font><code class="docutils literal notranslate"><span class="pre">pytest-catchlog</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">，可以通过添加到以下内容来禁用内部功能</font></font><code class="docutils literal notranslate"><span class="pre">pytest.ini</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">：</font></font></p>
+<div class="highlight-ini notranslate"><div class="highlight"><pre><span></span><span class="k">[pytest]</span>
+    <span class="na">addopts</span><span class="o">=</span><span class="s">-p no:logging</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="incompatible-changes-in-pytest-3-4">
+<span id="log-changes-3-4"></span><h2><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">pytest 3.4中不兼容的变化</font></font><a class="headerlink" href="https://docs.pytest.org/en/latest/logging.html#incompatible-changes-in-pytest-3-4" title="永久链接到这个标题"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">¶</font></font></a></h2>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">引入了此功能，</font></font><code class="docutils literal notranslate"><span class="pre">3.3</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">并</font><font style="vertical-align: inherit;">在社区反馈后</font><font style="vertical-align: inherit;">进行了</font><font style="vertical-align: inherit;">一些</font></font><strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">不兼容的更改</font></font></strong><font style="vertical-align: inherit;"></font><code class="docutils literal notranslate"><span class="pre">3.4</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">：</font></font></p>
+<ul class="simple">
+<li><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">除非</font></font><a class="reference internal" href="https://docs.pytest.org/en/latest/reference.html#confval-log_level"><code class="xref std std-confval docutils literal notranslate"><span class="pre">log_level</span></code></a><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">配置或</font></font><code class="docutils literal notranslate"><span class="pre">--log-level</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">命令行选项</font><font style="vertical-align: inherit;">明确请求，否则不再更改日志级别</font><font style="vertical-align: inherit;">。</font><font style="vertical-align: inherit;">这允许用户自己配置记录器对象。</font></font></li>
+<li><a class="reference internal" href="https://docs.pytest.org/en/latest/logging.html#live-logs"><span class="std std-ref"><font style="vertical-align: inherit;"></font></span></a><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">现在，默认情况下禁用</font><a class="reference internal" href="https://docs.pytest.org/en/latest/logging.html#live-logs"><span class="std std-ref"><font style="vertical-align: inherit;">实时日志</font></span></a><font style="vertical-align: inherit;">，并且可以启用将</font></font><code class="xref std std-confval docutils literal notranslate"><span class="pre">log_cli</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">配置选项</font><font style="vertical-align: inherit;">设置
+</font><font style="vertical-align: inherit;">为</font></font><code class="docutils literal notranslate"><span class="pre">true</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">。</font><font style="vertical-align: inherit;">启用后，详细程度会增加，因此可以看到每个测试的日志记录。</font></font></li>
+<li><a class="reference internal" href="https://docs.pytest.org/en/latest/logging.html#live-logs"><span class="std std-ref"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">实时日志</font></font></span></a><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">现在发送到</font></font><code class="docutils literal notranslate"><span class="pre">sys.stdout</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">不再需要</font></font><code class="docutils literal notranslate"><span class="pre">-s</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">命令行选项。</font></font></li>
+</ul>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">如果要部分还原版本的日志记录行为</font></font><code class="docutils literal notranslate"><span class="pre">3.3</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">，可以将此选项添加到</font></font><code class="docutils literal notranslate"><span class="pre">ini</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+文件中：</font></font></p>
+<div class="highlight-ini notranslate"><div class="highlight"><pre><span></span><span class="k">[pytest]</span>
+<span class="na">log_cli</span><span class="o">=</span><span class="s">true</span>
+<span class="na">log_level</span><span class="o">=</span><span class="s">NOTSET</span>
+</pre></div>
+</div>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">有关导致此更改的讨论的更多详细信息，请参阅问题</font></font><a class="reference external" href="https://github.com/pytest-dev/pytest/issues/3013"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">＃3013</font></font></a><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">。</font></font></p>
+</div>
+</div>
+
+
+          <div id="rtd-1kenwo9c" class="ethical-alabaster"></div></div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="https://docs.pytest.org/en/latest/contents.html">
+              <img class="logo" src="./pytest文档20_files/pytest1.png" alt="商标">
+            </a></p><h3><a href="https://docs.pytest.org/en/latest/contents.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">目录</font></font></a></h3>
+
+<ul>
+  <li><a href="https://docs.pytest.org/en/latest/index.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">家</font></font></a></li>
+  <li><a href="https://docs.pytest.org/en/latest/getting-started.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">安装</font></font></a></li>
+  <li><a href="https://docs.pytest.org/en/latest/contents.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">内容</font></font></a></li>
+  <li><a href="https://docs.pytest.org/en/latest/reference.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">参考</font></font></a></li>
+  <li><a href="https://docs.pytest.org/en/latest/example/index.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">例子</font></font></a></li>
+  <li><a href="https://docs.pytest.org/en/latest/customize.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">定制</font></font></a></li>
+  <li><a href="https://docs.pytest.org/en/latest/changelog.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">更新日志</font></font></a></li>
+  <li><a href="https://docs.pytest.org/en/latest/contributing.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">特约</font></font></a></li>
+  <li><a href="https://docs.pytest.org/en/latest/backwards-compatibility.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">向后兼容性</font></font></a></li>
+  <li><a href="https://docs.pytest.org/en/latest/license.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">执照</font></font></a></li>
+  <li><a href="https://docs.pytest.org/en/latest/contact.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">联系渠道</font></font></a></li>
+</ul>
+  <hr>
+  <ul>
+<li><a class="reference internal" href="https://docs.pytest.org/en/latest/logging.html#"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">记录</font></font></a><ul>
+<li><a class="reference internal" href="https://docs.pytest.org/en/latest/logging.html#caplog-fixture"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">caplog fixture</font></font></a></li>
+<li><a class="reference internal" href="https://docs.pytest.org/en/latest/logging.html#live-logs"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">实时日志</font></font></a></li>
+<li><a class="reference internal" href="https://docs.pytest.org/en/latest/logging.html#release-notes"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">发行说明</font></font></a></li>
+<li><a class="reference internal" href="https://docs.pytest.org/en/latest/logging.html#incompatible-changes-in-pytest-3-4"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">pytest 3.4中不兼容的变化</font></font></a></li>
+</ul>
+</li>
+</ul>
+<h3><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">相关话题</font></font></h3>
+<ul>
+  <li><a href="https://docs.pytest.org/en/latest/contents.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">文档概述</font></font></a><ul>
+      <li><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">上一篇：</font></font><a href="https://docs.pytest.org/en/latest/writing_plugins.html" title="前一章"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">编写插件</font></font></a></li>
+      <li><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">下一篇：</font></font><a href="https://docs.pytest.org/en/latest/reference.html" title="下一章"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">参考</font></font></a></li>
+  </ul></li>
+</ul><h3><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">有用的链接</font></font></h3>
+<ul>
+  <li><a href="https://pypi.org/project/pytest/"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">pytest @ PyPI</font></font></a></li>
+  <li><a href="https://github.com/pytest-dev/pytest/"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">pytest @ GitHub</font></font></a></li>
+  <li><a href="http://plugincompat.herokuapp.com/"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">第三方插件</font></font></a></li>
+  <li><a href="https://github.com/pytest-dev/pytest/issues"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">问题跟踪器</font></font></a></li>
+  <li><a href="https://media.readthedocs.org/pdf/pytest/latest/pytest.pdf"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">PDF文档</font></font></a>
+</li></ul>
+<div id="searchbox" style="" role="search">
+  <h3><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">快速搜索</font></font></h3>
+    <div class="searchformwrapper">
+    <form class="search" action="https://docs.pytest.org/en/latest/search.html" method="get">
+      <input type="text" name="q">
+      <font style="vertical-align: inherit;"><font style="vertical-align: inherit;"><input type="submit" value="走"></font></font>
+      <input type="hidden" name="check_keywords" value="yes">
+      <input type="hidden" name="area" value="default">
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        <div id="rtd-bj9kac1v" class="ethical-alabaster"><div class="ethical-sidebar"><div class="ethical-content"><a href="https://readthedocs.org/sustainability/click/305/t5m09mSNVHIB/" rel="nofollow" target="_blank" class="ethical-image-link"><img src="./pytest文档20_files/readthedocs-logo-fs8.png"></a><div class="ethical-text"><a href="https://readthedocs.org/sustainability/click/305/t5m09mSNVHIB/" rel="nofollow" target="_blank"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">私人回购和优先支持</font></font><br><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">尝试阅读今日商业文档！</font></font></a></div></div><div class="ethical-callout"><small><em><a href="https://readthedocs.org/sustainability/advertising/"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">赞助商</font></font></a><span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">· </font></font></span><a href="https://docs.readthedocs.io/en/latest/ethical-advertising.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">道德服务广告</font></font></a></em></small></div></div><img src="./pytest文档20_files/saved_resource" style="display: none;"></div></div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+
+  <div class="footer"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+    ©版权所有2015-2019，holger krekel和pytest-dev团队。</font><font style="vertical-align: inherit;">使用</font></font><a href="http://sphinx.pocoo.org/"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Sphinx</font></font></a><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">创建</font><font style="vertical-align: inherit;">。
+  </font></font></div>
+  
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-7597274-13']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script><div id="goog-gt-tt" class="skiptranslate" dir="ltr"><div style="padding: 8px;"><div><div class="logo"><img src="./pytest文档20_files/translate_24dp.png" width="20" height="20" alt="Google 翻译"></div></div></div><div class="top" style="padding: 8px; float: left; width: 100%;"><h1 class="title gray">原文</h1></div><div class="middle" style="padding: 8px;"><div class="original-text"></div></div><div class="bottom" style="padding: 8px;"><div class="activity-links"><span class="activity-link">提供更好的翻译建议</span><span class="activity-link"></span></div><div class="started-activity-container"><hr style="color: #CCC; background-color: #CCC; height: 1px; border: none;"><div class="activity-root"></div></div></div><div class="status-message" style="display: none;"></div></div>
+
+  
+<div class="goog-te-spinner-pos"><div class="goog-te-spinner-animation"><svg xmlns="http://www.w3.org/2000/svg" class="goog-te-spinner" width="96px" height="96px" viewBox="0 0 66 66"><circle class="goog-te-spinner-path" fill="none" stroke-width="6" stroke-linecap="round" cx="33" cy="33" r="30"></circle></svg></div></div><!-- Inserted RTD Footer -->
+<div class="injected">
+
+  
+  <div class="rst-versions rst-badge" data-toggle="rst-versions">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      <span class="fa fa-book">&nbsp;</span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+      v：最新的
+      </font></font><span class="fa fa-caret-down"></span>
+    </span>
+    <div class="rst-other-versions">
+      
+
+      
+      
+      
+      <dl>
+        <dt><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">版本</font></font></dt>
+        
+         <strong> 
+        <dd><a href="http://doc.pytest.org/en/latest/logging.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">最新</font></font></a></dd>
+         </strong> 
+        
+        
+        <dd><a href="http://doc.pytest.org/en/stable/logging.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">稳定</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/4.3.1/logging.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">4.3.1</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/4.3.0/logging.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">4.3.0</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/4.2.1/logging.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">4.2.1</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/4.2.0/logging.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">4.2.0</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/4.1.1/logging.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">4.1.1</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/4.1.0/logging.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">4.1.0</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/4.0.2/logging.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">4.0.2</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/4.0.1/logging.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">4.0.1</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/4.0.0/logging.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">4.0.0</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.10.1/logging.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.10.1</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.10.0/logging.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.10.0</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.9.3/logging.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.9.3</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.9.2/logging.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.9.2</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.9.1/logging.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.9.1</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.9.0/logging.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.9.0</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.8.2/logging.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.8.2</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.8.1/logging.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.8.1</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.8.0/logging.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.8.0</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.7.4/logging.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.7.4</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.7.3/logging.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.7.3</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.7.2/logging.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.7.2</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.7.1/logging.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.7.1</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.7.0/logging.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.7.0</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.6.4/logging.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.6.4</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.6.3/logging.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.6.3</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.6.2/logging.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.6.2</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.6.1/logging.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.6.1</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.6.0/logging.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.6.0</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.5.1/logging.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.5.1</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.5.0/logging.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.5.0</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.4.2/logging.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.4.2</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.4.1/logging.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.4.1</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.4.0/logging.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.4.0</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.3.2/logging.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.3.2</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.3.1/logging.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.3.1</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.3.0/logging.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.3.0</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.2.5/logging.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.2.5</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.2.4/logging.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.2.4</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.2.3/logging.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.2.3</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.2.2/logging.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.2.2</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.2.1/logging.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.2.1</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.2.0/logging.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.2.0</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.1.3/logging.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.1.3</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.1.2/logging.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.1.2</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.1.1/logging.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.1.1</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.1.0/logging.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.1.0</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.0.7/logging.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.0.7</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.0.6/logging.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.0.6</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.0.5/logging.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.0.5</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.0.4/logging.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.0.4</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.0.3/logging.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.0.3</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.0.2/logging.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.0.2</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.0.1/logging.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.0.1</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.0.0/logging.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.0.0</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/2.9.2/logging.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">2.9.2</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/2.9.1/logging.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">2.9.1</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/2.9.0/logging.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">2.9.0</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/2.8.7/logging.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">2.8.7</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/2.7.3/logging.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">2.7.3</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/sphinx-removed-in/logging.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">斯芬克斯-除去式</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/features/logging.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">特征</font></font></a></dd>
+        
+        
+      </dl>
+      
+      
+
+      
+      
+      <dl>
+        <dt><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">下载</font></font></dt>
+        
+        <dd><a href="https://readthedocs.org/projects/pytest/downloads/pdf/latest/"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">PDF</font></font></a></dd>
+        
+        <dd><a href="https://readthedocs.org/projects/pytest/downloads/htmlzip/latest/"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">HTML</font></font></a></dd>
+        
+        <dd><a href="https://readthedocs.org/projects/pytest/downloads/epub/latest/"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">EPUB</font></font></a></dd>
+        
+      </dl>
+      
+      
+
+      
+      <dl>
+        <!-- These are kept as relative links for internal installs that are http -->
+        <dt><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">阅读文档</font></font></dt>
+        <dd>
+          <a href="https://readthedocs.org/projects/pytest/"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">项目主页</font></font></a>
+        </dd>
+        <dd>
+          <a href="https://readthedocs.org/projects/pytest/builds/"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">构建</font></font></a>
+        </dd>
+        <dd>
+          <a href="https://readthedocs.org/projects/pytest/downloads/"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">下载</font></font></a>
+        </dd>
+      </dl>
+      
+
+      
+
+      
+      <dl>
+        <dt><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">在GitHub上</font></font></dt>
+        <dd>
+          <a href="https://github.com/pytest-dev/pytest/blob/master/doc/en/logging.rst"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">视图</font></font></a>
+        </dd>
+        
+      </dl>
+      
+      
+
+      
+      <dl>
+        <dt><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">搜索</font></font></dt>
+        <dd>
+          <div style="padding: 6px;">
+            <form id="flyout-search-form" class="wy-form" target="_blank" action="https://readthedocs.org/projects/pytest/search/" method="get">
+              <input type="text" name="q" placeholder="Search docs">
+              </form>
+          </div>
+        </dd>
+      </dl>
+      
+
+
+
+      <hr>
+      
+        <small>
+          <span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">主持人</font></font><a href="https://readthedocs.org/"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">阅读文档</font></font></a></span>
+          <span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> · </font></font></span>
+          <a href="https://docs.readthedocs.io/page/privacy-policy.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">隐私政策</font></font></a>
+        </small>
+      
+
+      
+    </div>
+  </div>
+  
+
+</div>
+</body></html>

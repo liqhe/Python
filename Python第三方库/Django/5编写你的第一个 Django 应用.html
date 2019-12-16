@@ -1,0 +1,770 @@
+<!DOCTYPE html>
+<!-- saved from url=(0060)https://docs.djangoproject.com/zh-hans/2.1/intro/tutorial04/ -->
+<html lang="zh-hans" class=" mdzr-js mdzr-borderradius mdzr-boxshadow mdzr-cssanimations mdzr-svg"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="ROBOTS" content="ALL">
+    <meta name="MSSmartTagsPreventParsing" content="true">
+    <meta name="Copyright" content="Django Software Foundation">
+    <meta name="keywords" content="Python, Django, framework, open-source">
+    <meta name="description" content="">
+
+    
+  
+    
+      
+    
+  
+  <link rel="canonical" href="https://docs.djangoproject.com/zh-hans/2.2/intro/tutorial04/">
+  
+    
+      
+    
+    <link rel="alternate" hreflang="el" href="https://docs.djangoproject.com/el/2.1/intro/tutorial04/">
+  
+    
+      
+    
+    <link rel="alternate" hreflang="en" href="https://docs.djangoproject.com/en/2.1/intro/tutorial04/">
+  
+    
+      
+    
+    <link rel="alternate" hreflang="es" href="https://docs.djangoproject.com/es/2.1/intro/tutorial04/">
+  
+    
+      
+    
+    <link rel="alternate" hreflang="fr" href="https://docs.djangoproject.com/fr/2.1/intro/tutorial04/">
+  
+    
+      
+    
+    <link rel="alternate" hreflang="id" href="https://docs.djangoproject.com/id/2.1/intro/tutorial04/">
+  
+    
+      
+    
+    <link rel="alternate" hreflang="ja" href="https://docs.djangoproject.com/ja/2.1/intro/tutorial04/">
+  
+    
+      
+    
+    <link rel="alternate" hreflang="ko" href="https://docs.djangoproject.com/ko/2.1/intro/tutorial04/">
+  
+    
+      
+    
+    <link rel="alternate" hreflang="pl" href="https://docs.djangoproject.com/pl/2.1/intro/tutorial04/">
+  
+    
+      
+    
+    <link rel="alternate" hreflang="pt-br" href="https://docs.djangoproject.com/pt-br/2.1/intro/tutorial04/">
+  
+    
+      
+    
+    <link rel="alternate" hreflang="zh-hans" href="https://docs.djangoproject.com/zh-hans/2.1/intro/tutorial04/">
+  
+
+  <link rel="search" type="application/opensearchdescription+xml" href="https://docs.djangoproject.com/zh-hans/2.1/search/description/" title="Django 文档">
+
+    <!-- Favicons -->
+    <link rel="apple-touch-icon" href="https://static.djangoproject.com/img/icon-touch.e4872c4da341.png">
+    <link rel="icon" sizes="192x192" href="https://static.djangoproject.com/img/icon-touch.e4872c4da341.png">
+    <link rel="shortcut icon" href="https://static.djangoproject.com/img/favicon.6dbf28c0650e.ico">
+    <meta name="msapplication-TileColor" content="#113228">
+    <meta name="msapplication-TileImage" content="https://static.djangoproject.com/img/icon-tile.b01ac0ef9f67.png">
+
+    <title>编写你的第一个 Django 应用，第 4 部分 | Django 文档 | Django</title>
+
+    <link rel="stylesheet" href="./5编写你的第一个 Django 应用_files/output.beb34528fd55.css">
+    <script src="./5编写你的第一个 Django 应用_files/webfontloader.e75218f5f090.js"></script>
+    <link rel="stylesheet" href="./5编写你的第一个 Django 应用_files/css"><script>
+    WebFont.load({
+      custom: {
+        families: ['FontAwesome', 'Fira+Mono'],
+      },
+      google: {
+        families: ['Roboto:400italic,700italic,300,700,400:latin'
+        ]
+      },
+      classes: false,
+      events: false,
+      timeout: 1000
+    });
+    </script>
+    <script src="./5编写你的第一个 Django 应用_files/modernizr.3b36762e418a.js"></script>
+    
+  <script type="text/javascript" charset="utf-8" async="" data-requirecontext="_" data-requiremodule="main.07884ebc4865" src="./5编写你的第一个 Django 应用_files/main.07884ebc4865.js"></script><script type="text/javascript" charset="utf-8" async="" data-requirecontext="_" data-requiremodule="mod/mobile-menu" src="./5编写你的第一个 Django 应用_files/mobile-menu.841726ee903a.js"></script><script type="text/javascript" charset="utf-8" async="" data-requirecontext="_" data-requiremodule="mod/version-switcher" src="./5编写你的第一个 Django 应用_files/version-switcher.c28bb83972bb.js"></script><script type="text/javascript" charset="utf-8" async="" data-requirecontext="_" data-requiremodule="mod/search-key" src="./5编写你的第一个 Django 应用_files/search-key.f3c0a6fcfedd.js"></script><script type="text/javascript" charset="utf-8" async="" data-requirecontext="_" data-requiremodule="mod/clippify" src="./5编写你的第一个 Django 应用_files/clippify.js"></script><script type="text/javascript" charset="utf-8" async="" data-requirecontext="_" data-requiremodule="clipboard" src="./5编写你的第一个 Django 应用_files/clipboard.min.bd70fd596a23.js"></script><script type="text/javascript" charset="utf-8" async="" data-requirecontext="_" data-requiremodule="jquery" src="./5编写你的第一个 Django 应用_files/jquery.min.87e69028f78d.js"></script></head>
+
+  <body id="generic" class="">
+
+    <div role="banner" id="top">
+  <div class="container">
+    <a class="logo" href="https://www.djangoproject.com/">Django</a>
+    <p class="meta">The web framework for perfectionists with deadlines.</p>
+    <div class="menu-button"><i class="icon icon-reorder"></i><span>Menu</span></div><div role="navigation" class="nav-menu-on">
+      <ul>
+        <li>
+          <a href="https://www.djangoproject.com/start/overview/">Overview</a>
+        </li>
+        <li>
+          <a href="https://www.djangoproject.com/download/">Download</a>
+        </li>
+        <li class="active">
+          <a href="https://docs.djangoproject.com/">Documentation</a>
+        </li>
+        <li>
+          <a href="https://www.djangoproject.com/weblog/">News</a>
+        </li>
+        <li>
+          <a href="https://www.djangoproject.com/community/">Community</a>
+        </li>
+        <li>
+          <a href="https://code.djangoproject.com/">Code</a>
+        </li>
+        <li>
+          <a href="https://www.djangoproject.com/foundation/">About</a>
+        </li>
+        <li>
+          <a href="https://www.djangoproject.com/fundraising/">♥ Donate</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+
+    <div class="copy-banner">
+      <div class="container">
+        
+  <h1><a href="https://docs.djangoproject.com/zh-hans/2.1/">文档</a></h1>
+
+      </div>
+    </div>
+    <div id="billboard"></div>
+
+    <div class="container sidebar-right">
+      <div role="main">
+
+        
+          
+        
+
+        
+<div id="version-switcher">
+  <ul id="doc-languages" class="language-switcher">
+  
+  
+  <li class="other">
+    
+      
+    
+    <a href="https://docs.djangoproject.com/el/2.1/intro/tutorial04/">el</a>
+  </li>
+  
+  
+  
+  <li class="other">
+    
+      
+    
+    <a href="https://docs.djangoproject.com/en/2.1/intro/tutorial04/">en</a>
+  </li>
+  
+  
+  
+  <li class="other">
+    
+      
+    
+    <a href="https://docs.djangoproject.com/es/2.1/intro/tutorial04/">es</a>
+  </li>
+  
+  
+  
+  <li class="other">
+    
+      
+    
+    <a href="https://docs.djangoproject.com/fr/2.1/intro/tutorial04/">fr</a>
+  </li>
+  
+  
+  
+  <li class="other">
+    
+      
+    
+    <a href="https://docs.djangoproject.com/id/2.1/intro/tutorial04/">id</a>
+  </li>
+  
+  
+  
+  <li class="other">
+    
+      
+    
+    <a href="https://docs.djangoproject.com/ja/2.1/intro/tutorial04/">ja</a>
+  </li>
+  
+  
+  
+  <li class="other">
+    
+      
+    
+    <a href="https://docs.djangoproject.com/ko/2.1/intro/tutorial04/">ko</a>
+  </li>
+  
+  
+  
+  <li class="other">
+    
+      
+    
+    <a href="https://docs.djangoproject.com/pl/2.1/intro/tutorial04/">pl</a>
+  </li>
+  
+  
+  
+  <li class="other">
+    
+      
+    
+    <a href="https://docs.djangoproject.com/pt-br/2.1/intro/tutorial04/">pt-br</a>
+  </li>
+  
+  
+  
+  
+    <li class="current" title="点击左侧的链接以切换到另一种语言。">
+      <span>语言： <strong>zh-hans</strong></span>
+    </li>
+  </ul>
+
+  
+  <ul id="doc-versions" class="version-switcher">
+    
+    
+    <li class="other">
+      
+        
+      
+      <a href="https://docs.djangoproject.com/zh-hans/2.0/intro/tutorial04/">2.0</a>
+    </li>
+    
+    
+    
+    
+    
+    <li class="other">
+      
+        
+      
+      <a href="https://docs.djangoproject.com/zh-hans/2.2/intro/tutorial04/">2.2</a>
+    </li>
+    
+    
+    
+    <li class="other">
+      
+        
+      
+      <a href="https://docs.djangoproject.com/zh-hans/dev/intro/tutorial04/">dev</a>
+    </li>
+    
+    
+    <li class="current" title="此文档是为 Django 2.1 编写的。 点击左侧的链接查看其它版本">
+       <span>文档版本：
+         <strong>2.1</strong>
+       </span>
+    </li>
+  </ul>
+</div>
+
+
+<div id="docs-content">
+<div class="section" id="s-writing-your-first-django-app-part-4">
+<span id="writing-your-first-django-app-part-4"></span><h1>编写你的第一个 Django 应用，第 4 部分<a class="headerlink" href="https://docs.djangoproject.com/zh-hans/2.1/intro/tutorial04/#writing-your-first-django-app-part-4" title="永久链接至标题">¶</a></h1>
+<p>这一篇从 <a class="reference internal" href="https://docs.djangoproject.com/zh-hans/2.1/intro/tutorial03/"><span class="doc">教程第 3 部分</span></a>  结尾的地方继续讲起。我们将继续编写投票应用，专注于简单的表单处理并且精简我们的代码。</p>
+<div class="section" id="s-write-a-simple-form">
+<span id="write-a-simple-form"></span><h2>编写一个简单的表单<a class="headerlink" href="https://docs.djangoproject.com/zh-hans/2.1/intro/tutorial04/#write-a-simple-form" title="永久链接至标题">¶</a></h2>
+<p>让我们更新一下在上一个教程中编写的投票详细页面的模板  ("polls/detail.html") ，让它包含一个 HTML <code class="docutils literal notranslate"><span class="pre">&lt;form&gt;</span></code> 元素：</p>
+<div class="literal-block-wrapper docutils container" id="id1">
+<div class="code-block-caption"><span class="caption-text">polls/templates/polls/detail.html</span><a class="headerlink" href="https://docs.djangoproject.com/zh-hans/2.1/intro/tutorial04/#id1" title="永久链接至代码">¶</a><span class="btn-clipboard" title="Copy this code"><i class="icon icon-clipboard"></i></span></div>
+<div class="highlight-html+django notranslate"><div class="highlight"><pre><span></span><span class="p">&lt;</span><span class="nt">h1</span><span class="p">&gt;</span><span class="cp">{{</span> <span class="nv">question.question_text</span> <span class="cp">}}</span><span class="p">&lt;/</span><span class="nt">h1</span><span class="p">&gt;</span>
+
+<span class="cp">{%</span> <span class="k">if</span> <span class="nv">error_message</span> <span class="cp">%}</span><span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;&lt;</span><span class="nt">strong</span><span class="p">&gt;</span><span class="cp">{{</span> <span class="nv">error_message</span> <span class="cp">}}</span><span class="p">&lt;/</span><span class="nt">strong</span><span class="p">&gt;&lt;/</span><span class="nt">p</span><span class="p">&gt;</span><span class="cp">{%</span> <span class="k">endif</span> <span class="cp">%}</span>
+
+<span class="p">&lt;</span><span class="nt">form</span> <span class="na">action</span><span class="o">=</span><span class="s">"</span><span class="cp">{%</span> <span class="k">url</span> <span class="s1">'polls:vote'</span> <span class="nv">question.id</span> <span class="cp">%}</span><span class="s">"</span> <span class="na">method</span><span class="o">=</span><span class="s">"post"</span><span class="p">&gt;</span>
+<span class="cp">{%</span> <span class="k">csrf_token</span> <span class="cp">%}</span>
+<span class="cp">{%</span> <span class="k">for</span> <span class="nv">choice</span> <span class="k">in</span> <span class="nv">question.choice_set.all</span> <span class="cp">%}</span>
+    <span class="p">&lt;</span><span class="nt">input</span> <span class="na">type</span><span class="o">=</span><span class="s">"radio"</span> <span class="na">name</span><span class="o">=</span><span class="s">"choice"</span> <span class="na">id</span><span class="o">=</span><span class="s">"choice</span><span class="cp">{{</span> <span class="nb">forloop</span><span class="nv">.counter</span> <span class="cp">}}</span><span class="s">"</span> <span class="na">value</span><span class="o">=</span><span class="s">"</span><span class="cp">{{</span> <span class="nv">choice.id</span> <span class="cp">}}</span><span class="s">"</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">label</span> <span class="na">for</span><span class="o">=</span><span class="s">"choice</span><span class="cp">{{</span> <span class="nb">forloop</span><span class="nv">.counter</span> <span class="cp">}}</span><span class="s">"</span><span class="p">&gt;</span><span class="cp">{{</span> <span class="nv">choice.choice_text</span> <span class="cp">}}</span><span class="p">&lt;/</span><span class="nt">label</span><span class="p">&gt;&lt;</span><span class="nt">br</span><span class="p">&gt;</span>
+<span class="cp">{%</span> <span class="k">endfor</span> <span class="cp">%}</span>
+<span class="p">&lt;</span><span class="nt">input</span> <span class="na">type</span><span class="o">=</span><span class="s">"submit"</span> <span class="na">value</span><span class="o">=</span><span class="s">"Vote"</span><span class="p">&gt;</span>
+<span class="p">&lt;/</span><span class="nt">form</span><span class="p">&gt;</span>
+</pre></div>
+</div>
+</div>
+<p>简要说明：</p>
+<ul class="simple">
+<li>上面的模板在 Question 的每个 Choice 前添加一个单选按钮。 每个单选按钮的 <code class="docutils literal notranslate"><span class="pre">value</span></code> 属性是对应的各个 Choice 的 ID。每个单选按钮的 <code class="docutils literal notranslate"><span class="pre">name</span></code> 是 <code class="docutils literal notranslate"><span class="pre">"choice"</span></code> 。这意味着，当有人选择一个单选按钮并提交表单提交时，它将发送一个 POST 数据 <code class="docutils literal notranslate"><span class="pre">choice=#</span></code> ，其中# 为选择的 Choice 的 ID。这是 HTML 表单的基本概念。</li>
+<li>我们设置表单的 <code class="docutils literal notranslate"><span class="pre">action</span></code> 为 <code class="docutils literal notranslate"><span class="pre">{%</span> <span class="pre">url</span> <span class="pre">'polls:vote'</span> <span class="pre">question.id</span> <span class="pre">%}</span></code> ，并设置  <code class="docutils literal notranslate"><span class="pre">method="post"</span></code> 。使用 <code class="docutils literal notranslate"><span class="pre">method="post"``（与其相对的是</span> <span class="pre">``method="get"`）是非常重要的，因为这个提交表单的行为会改变服务器端的数据。</span> <span class="pre">无论何时，当你需要创建一个改变服务器端数据的表单时，请使用</span> <span class="pre">``method="post"</span></code> 。这不是 Django 的特定技巧；这是优秀的网站开发技巧。</li>
+<li><code class="docutils literal notranslate"><span class="pre">forloop.counter</span></code> 指示 <a class="reference internal" href="https://docs.djangoproject.com/zh-hans/2.1/ref/templates/builtins/#std:templatetag-for"><code class="xref std std-ttag docutils literal notranslate"><span class="pre">for</span></code></a> 标签已经循环多少次。</li>
+<li>由于我们创建一个 POST 表单（它具有修改数据的作用），所以我们需要小心跨站点请求伪造。 谢天谢地，你不必太过担心，因为 Django 已经拥有一个用来防御它的非常容易使用的系统。 简而言之，所有针对内部 URL 的 POST 表单都应该使用  <a class="reference internal" href="https://docs.djangoproject.com/zh-hans/2.1/ref/templates/builtins/#std:templatetag-csrf_token"><code class="xref std std-ttag docutils literal notranslate"><span class="pre">{%</span> <span class="pre">csrf_token</span> <span class="pre">%}</span></code></a> 模板标签。</li>
+</ul>
+<p>现在，让我们来创建一个 Django 视图来处理提交的数据。记住，在 <a class="reference internal" href="https://docs.djangoproject.com/zh-hans/2.1/intro/tutorial03/"><span class="doc">教程第 3 部分</span></a> 中，我们为投票应用创建了一个 URLconf ，包含这一行：</p>
+<div class="literal-block-wrapper docutils container" id="id2">
+<div class="code-block-caption"><span class="caption-text">polls/urls.py</span><a class="headerlink" href="https://docs.djangoproject.com/zh-hans/2.1/intro/tutorial04/#id2" title="永久链接至代码">¶</a><span class="btn-clipboard" title="Copy this code"><i class="icon icon-clipboard"></i></span></div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">path</span><span class="p">(</span><span class="s1">'&lt;int:question_id&gt;/vote/'</span><span class="p">,</span> <span class="n">views</span><span class="o">.</span><span class="n">vote</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">'vote'</span><span class="p">),</span>
+</pre></div>
+</div>
+</div>
+<p>我们还创建了一个 <code class="docutils literal notranslate"><span class="pre">vote()</span></code> 函数的虚拟实现。让我们来创建一个真实的版本。 将下面的代码添加到 <code class="docutils literal notranslate"><span class="pre">polls/views.py</span></code> ：</p>
+<div class="literal-block-wrapper docutils container" id="id3">
+<div class="code-block-caption"><span class="caption-text">polls/views.py</span><a class="headerlink" href="https://docs.djangoproject.com/zh-hans/2.1/intro/tutorial04/#id3" title="永久链接至代码">¶</a><span class="btn-clipboard" title="Copy this code"><i class="icon icon-clipboard"></i></span></div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">django.http</span> <span class="kn">import</span> <span class="n">HttpResponse</span><span class="p">,</span> <span class="n">HttpResponseRedirect</span>
+<span class="kn">from</span> <span class="nn">django.shortcuts</span> <span class="kn">import</span> <span class="n">get_object_or_404</span><span class="p">,</span> <span class="n">render</span>
+<span class="kn">from</span> <span class="nn">django.urls</span> <span class="kn">import</span> <span class="n">reverse</span>
+
+<span class="kn">from</span> <span class="nn">.models</span> <span class="kn">import</span> <span class="n">Choice</span><span class="p">,</span> <span class="n">Question</span>
+<span class="c1"># ...</span>
+<span class="k">def</span> <span class="nf">vote</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">question_id</span><span class="p">):</span>
+    <span class="n">question</span> <span class="o">=</span> <span class="n">get_object_or_404</span><span class="p">(</span><span class="n">Question</span><span class="p">,</span> <span class="n">pk</span><span class="o">=</span><span class="n">question_id</span><span class="p">)</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">selected_choice</span> <span class="o">=</span> <span class="n">question</span><span class="o">.</span><span class="n">choice_set</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">pk</span><span class="o">=</span><span class="n">request</span><span class="o">.</span><span class="n">POST</span><span class="p">[</span><span class="s1">'choice'</span><span class="p">])</span>
+    <span class="k">except</span> <span class="p">(</span><span class="ne">KeyError</span><span class="p">,</span> <span class="n">Choice</span><span class="o">.</span><span class="n">DoesNotExist</span><span class="p">):</span>
+        <span class="c1"># Redisplay the question voting form.</span>
+        <span class="k">return</span> <span class="n">render</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s1">'polls/detail.html'</span><span class="p">,</span> <span class="p">{</span>
+            <span class="s1">'question'</span><span class="p">:</span> <span class="n">question</span><span class="p">,</span>
+            <span class="s1">'error_message'</span><span class="p">:</span> <span class="s2">"You didn't select a choice."</span><span class="p">,</span>
+        <span class="p">})</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">selected_choice</span><span class="o">.</span><span class="n">votes</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="n">selected_choice</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+        <span class="c1"># Always return an HttpResponseRedirect after successfully dealing</span>
+        <span class="c1"># with POST data. This prevents data from being posted twice if a</span>
+        <span class="c1"># user hits the Back button.</span>
+        <span class="k">return</span> <span class="n">HttpResponseRedirect</span><span class="p">(</span><span class="n">reverse</span><span class="p">(</span><span class="s1">'polls:results'</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="n">question</span><span class="o">.</span><span class="n">id</span><span class="p">,)))</span>
+</pre></div>
+</div>
+</div>
+<p>以上代码中有些内容还未在本教程中提到过：</p>
+<ul>
+<li><p class="first"><a class="reference internal" href="https://docs.djangoproject.com/zh-hans/2.1/ref/request-response/#django.http.HttpRequest.POST" title="django.http.HttpRequest.POST"><code class="xref py py-attr docutils literal notranslate"><span class="pre">request.POST</span></code></a>  是一个类字典对象，让你可以通过关键字的名字获取提交的数据。 这个例子中， <code class="docutils literal notranslate"><span class="pre">request.POST['choice']</span></code> 以字符串形式返回选择的 Choice 的 ID。 <a class="reference internal" href="https://docs.djangoproject.com/zh-hans/2.1/ref/request-response/#django.http.HttpRequest.POST" title="django.http.HttpRequest.POST"><code class="xref py py-attr docutils literal notranslate"><span class="pre">request.POST</span></code></a>  的值永远是字符串。</p>
+<p>注意，Django 还以同样的方式提供 <a class="reference internal" href="https://docs.djangoproject.com/zh-hans/2.1/ref/request-response/#django.http.HttpRequest.GET" title="django.http.HttpRequest.GET"><code class="xref py py-attr docutils literal notranslate"><span class="pre">request.GET</span></code></a>  用于访问 GET 数据 —— 但我们在代码中显式地使用 <a class="reference internal" href="https://docs.djangoproject.com/zh-hans/2.1/ref/request-response/#django.http.HttpRequest.POST" title="django.http.HttpRequest.POST"><code class="xref py py-attr docutils literal notranslate"><span class="pre">request.POST</span></code></a>  ，以保证数据只能通过 POST 调用改动。</p>
+</li>
+<li><p class="first">如果在 <code class="docutils literal notranslate"><span class="pre">request.POST['choice']</span></code>  数据中没有提供 <code class="docutils literal notranslate"><span class="pre">choice</span></code> ， POST 将引发一个 <a class="reference external" href="https://docs.python.org/3/library/exceptions.html#KeyError" title="(在 Python v3.7)"><code class="xref py py-exc docutils literal notranslate"><span class="pre">KeyError</span></code></a> 。上面的代码检查 <a class="reference external" href="https://docs.python.org/3/library/exceptions.html#KeyError" title="(在 Python v3.7)"><code class="xref py py-exc docutils literal notranslate"><span class="pre">KeyError</span></code></a> ，如果没有给出 <code class="docutils literal notranslate"><span class="pre">choice</span></code> 将重新显示 Question 表单和一个错误信息。</p>
+</li>
+<li><p class="first">在增加 Choice 的得票数之后，代码返回一个 <a class="reference internal" href="https://docs.djangoproject.com/zh-hans/2.1/ref/request-response/#django.http.HttpResponseRedirect" title="django.http.HttpResponseRedirect"><code class="xref py py-class docutils literal notranslate"><span class="pre">HttpResponseRedirect</span></code></a> 而不是常用的 <a class="reference internal" href="https://docs.djangoproject.com/zh-hans/2.1/ref/request-response/#django.http.HttpResponse" title="django.http.HttpResponse"><code class="xref py py-class docutils literal notranslate"><span class="pre">HttpResponse</span></code></a>  、 <a class="reference internal" href="https://docs.djangoproject.com/zh-hans/2.1/ref/request-response/#django.http.HttpResponseRedirect" title="django.http.HttpResponseRedirect"><code class="xref py py-class docutils literal notranslate"><span class="pre">HttpResponseRedirect</span></code></a>  只接收一个参数：用户将要被重定向的 URL（请继续看下去，我们将会解释如何构造这个例子中的 URL）。</p>
+<p>As the Python comment above points out, you should always return an
+<a class="reference internal" href="https://docs.djangoproject.com/zh-hans/2.1/ref/request-response/#django.http.HttpResponseRedirect" title="django.http.HttpResponseRedirect"><code class="xref py py-class docutils literal notranslate"><span class="pre">HttpResponseRedirect</span></code></a> after successfully dealing with
+POST data. This tip isn't specific to Django; it's just good Web
+development practice.</p>
+</li>
+<li><p class="first">在这个例子中，我们在 <a class="reference internal" href="https://docs.djangoproject.com/zh-hans/2.1/ref/request-response/#django.http.HttpResponseRedirect" title="django.http.HttpResponseRedirect"><code class="xref py py-class docutils literal notranslate"><span class="pre">HttpResponseRedirect</span></code></a> 的构造函数中使用 <code class="xref py py-func docutils literal notranslate"><span class="pre">reverse()</span></code> 函数。这个函数避免了我们在视图函数中硬编码 URL。它需要我们给出我们想要跳转的视图的名字和该视图所对应的 URL 模式中需要给该视图提供的参数。 在本例中，使用在 <a class="reference internal" href="https://docs.djangoproject.com/zh-hans/2.1/intro/tutorial03/"><span class="doc">教程第 3 部分</span></a> 中设定的 URLconf， <code class="xref py py-func docutils literal notranslate"><span class="pre">reverse()</span></code> 调用将返回一个这样的字符串：</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="s1">'/polls/3/results/'</span>
+</pre></div>
+</div>
+<p>其中 <code class="docutils literal notranslate"><span class="pre">3</span></code> 是 <code class="docutils literal notranslate"><span class="pre">question.id</span></code> 的值。重定向的 URL 将调用 <code class="docutils literal notranslate"><span class="pre">'results'</span></code> 视图来显示最终的页面。</p>
+</li>
+</ul>
+<p>正如在 <a class="reference internal" href="https://docs.djangoproject.com/zh-hans/2.1/intro/tutorial03/"><span class="doc">教程第 3 部分</span></a> 中提到的，<a class="reference internal" href="https://docs.djangoproject.com/zh-hans/2.1/ref/request-response/#django.http.HttpRequest" title="django.http.HttpRequest"><code class="xref py py-class docutils literal notranslate"><span class="pre">HttpRequest</span></code></a> 是一个 <a class="reference internal" href="https://docs.djangoproject.com/zh-hans/2.1/ref/request-response/#django.http.HttpRequest" title="django.http.HttpRequest"><code class="xref py py-class docutils literal notranslate"><span class="pre">HttpRequest</span></code></a> 对象。更多关于 <a class="reference internal" href="https://docs.djangoproject.com/zh-hans/2.1/ref/request-response/#django.http.HttpRequest" title="django.http.HttpRequest"><code class="xref py py-class docutils literal notranslate"><span class="pre">HttpRequest</span></code></a> 对象的内容，请参见 <a class="reference internal" href="https://docs.djangoproject.com/zh-hans/2.1/ref/request-response/"><span class="doc">请求和响应的文档</span></a> 。</p>
+<p>当有人对 Question 进行投票后，  <code class="docutils literal notranslate"><span class="pre">vote()</span></code> 视图将请求重定向到 Question 的结果界面。让我们来编写这个视图：</p>
+<div class="literal-block-wrapper docutils container" id="id4">
+<div class="code-block-caption"><span class="caption-text">polls/views.py</span><a class="headerlink" href="https://docs.djangoproject.com/zh-hans/2.1/intro/tutorial04/#id4" title="永久链接至代码">¶</a><span class="btn-clipboard" title="Copy this code"><i class="icon icon-clipboard"></i></span></div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">django.shortcuts</span> <span class="kn">import</span> <span class="n">get_object_or_404</span><span class="p">,</span> <span class="n">render</span>
+
+
+<span class="k">def</span> <span class="nf">results</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">question_id</span><span class="p">):</span>
+    <span class="n">question</span> <span class="o">=</span> <span class="n">get_object_or_404</span><span class="p">(</span><span class="n">Question</span><span class="p">,</span> <span class="n">pk</span><span class="o">=</span><span class="n">question_id</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">render</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s1">'polls/results.html'</span><span class="p">,</span> <span class="p">{</span><span class="s1">'question'</span><span class="p">:</span> <span class="n">question</span><span class="p">})</span>
+</pre></div>
+</div>
+</div>
+<p>这和 <a class="reference internal" href="https://docs.djangoproject.com/zh-hans/2.1/intro/tutorial03/"><span class="doc">教程第 3 部分</span></a> 中的  <code class="docutils literal notranslate"><span class="pre">detail()</span></code> 视图几乎一模一样。唯一的不同是模板的名字。 我们将在稍后解决这个冗余问题。</p>
+<p>现在，创建一个 <code class="docutils literal notranslate"><span class="pre">polls/results.html</span></code>  模板：</p>
+<div class="literal-block-wrapper docutils container" id="id5">
+<div class="code-block-caption"><span class="caption-text">polls/templates/polls/results.html</span><a class="headerlink" href="https://docs.djangoproject.com/zh-hans/2.1/intro/tutorial04/#id5" title="永久链接至代码">¶</a><span class="btn-clipboard" title="Copy this code"><i class="icon icon-clipboard"></i></span></div>
+<div class="highlight-html+django notranslate"><div class="highlight"><pre><span></span><span class="p">&lt;</span><span class="nt">h1</span><span class="p">&gt;</span><span class="cp">{{</span> <span class="nv">question.question_text</span> <span class="cp">}}</span><span class="p">&lt;/</span><span class="nt">h1</span><span class="p">&gt;</span>
+
+<span class="p">&lt;</span><span class="nt">ul</span><span class="p">&gt;</span>
+<span class="cp">{%</span> <span class="k">for</span> <span class="nv">choice</span> <span class="k">in</span> <span class="nv">question.choice_set.all</span> <span class="cp">%}</span>
+    <span class="p">&lt;</span><span class="nt">li</span><span class="p">&gt;</span><span class="cp">{{</span> <span class="nv">choice.choice_text</span> <span class="cp">}}</span> -- <span class="cp">{{</span> <span class="nv">choice.votes</span> <span class="cp">}}</span> vote<span class="cp">{{</span> <span class="nv">choice.votes</span><span class="o">|</span><span class="nf">pluralize</span> <span class="cp">}}</span><span class="p">&lt;/</span><span class="nt">li</span><span class="p">&gt;</span>
+<span class="cp">{%</span> <span class="k">endfor</span> <span class="cp">%}</span>
+<span class="p">&lt;/</span><span class="nt">ul</span><span class="p">&gt;</span>
+
+<span class="p">&lt;</span><span class="nt">a</span> <span class="na">href</span><span class="o">=</span><span class="s">"</span><span class="cp">{%</span> <span class="k">url</span> <span class="s1">'polls:detail'</span> <span class="nv">question.id</span> <span class="cp">%}</span><span class="s">"</span><span class="p">&gt;</span>Vote again?<span class="p">&lt;/</span><span class="nt">a</span><span class="p">&gt;</span>
+</pre></div>
+</div>
+</div>
+<p>现在，在你的浏览器中访问 <code class="docutils literal notranslate"><span class="pre">/polls/1/</span></code> 然后为 Question 投票。你应该看到一个投票结果页面，并且在你每次投票之后都会更新。 如果你提交时没有选择任何 Choice，你应该看到错误信息。</p>
+<div class="admonition note">
+<p class="first admonition-title">注解</p>
+<p>我们的 <code class="docutils literal notranslate"><span class="pre">vote()</span></code> 视图代码有一个小问题。代码首先从数据库中获取了 <code class="docutils literal notranslate"><span class="pre">selected_choice</span></code> 对象，接着计算 <code class="docutils literal notranslate"><span class="pre">vote</span></code> 的新值，最后把值存回数据库。如果网站有两个方可同时投票在 <em>同一时间</em> ，可能会导致问题。同样的值，42，会被 <code class="docutils literal notranslate"><span class="pre">votes</span></code> 返回。然后，对于两个用户，新值43计算完毕，并被保存，但是期望值是44。</p>
+<p class="last">这个问题被称为 <em>竞争条件</em> 。如果你对此有兴趣，你可以阅读 <a class="reference internal" href="https://docs.djangoproject.com/zh-hans/2.1/ref/models/expressions/#avoiding-race-conditions-using-f"><span class="std std-ref">Avoiding race conditions using F()</span></a> 来学习如何解决这个问题。</p>
+</div>
+</div>
+<div class="section" id="s-use-generic-views-less-code-is-better">
+<span id="use-generic-views-less-code-is-better"></span><h2>使用通用视图：代码还是少点好<a class="headerlink" href="https://docs.djangoproject.com/zh-hans/2.1/intro/tutorial04/#use-generic-views-less-code-is-better" title="永久链接至标题">¶</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">detail()</span></code> （在 <a class="reference internal" href="https://docs.djangoproject.com/zh-hans/2.1/intro/tutorial03/"><span class="doc">教程第3部分</span></a> 中）和 <code class="docutils literal notranslate"><span class="pre">results()</span></code> 视图都很简单 —— 并且，像上面提到的那样，存在冗余问题。用来显示一个投票列表的 <code class="docutils literal notranslate"><span class="pre">index()</span></code> 视图（也在 <a class="reference internal" href="https://docs.djangoproject.com/zh-hans/2.1/intro/tutorial03/"><span class="doc">教程第 3 部分</span></a> 中）和它们类似。</p>
+<p>这些视图反映基本的 Web 开发中的一个常见情况：根据 URL 中的参数从数据库中获取数据、载入模板文件然后返回渲染后的模板。 由于这种情况特别常见，Django 提供一种快捷方式，叫做“通用视图”系统。</p>
+<p>通用视图将常见的模式抽象化，可以使你在编写应用时甚至不需要编写Python代码。</p>
+<p>让我们将我们的投票应用转换成使用通用视图系统，这样我们可以删除许多我们的代码。我们仅仅需要做以下几步来完成转换，我们将：</p>
+<ol class="arabic simple">
+<li>转换 URLconf。</li>
+<li>删除一些旧的、不再需要的视图。</li>
+<li>基于 Django 的通用视图引入新的视图。</li>
+</ol>
+<p>请继续阅读来了解详细信息。</p>
+<div class="admonition-why-the-code-shuffle admonition">
+<p class="first admonition-title">为什么要重构代码？</p>
+<p>一般来说，当编写一个 Django 应用时，你应该先评估一下通用视图是否可以解决你的问题，你应该在一开始使用它，而不是进行到一半时重构代码。本教程目前为止是有意将重点放在以“艰难的方式”编写视图，这是为将重点放在核心概念上。</p>
+<p class="last">就像在使用计算器之前你需要掌握基础数学一样。</p>
+</div>
+<div class="section" id="s-amend-urlconf">
+<span id="amend-urlconf"></span><h3>改良 URLconf<a class="headerlink" href="https://docs.djangoproject.com/zh-hans/2.1/intro/tutorial04/#amend-urlconf" title="永久链接至标题">¶</a></h3>
+<p>首先，打开 <code class="docutils literal notranslate"><span class="pre">polls/urls.py</span></code> 这个 URLconf 并将它修改成：</p>
+<div class="literal-block-wrapper docutils container" id="id6">
+<div class="code-block-caption"><span class="caption-text">polls/urls.py</span><a class="headerlink" href="https://docs.djangoproject.com/zh-hans/2.1/intro/tutorial04/#id6" title="永久链接至代码">¶</a><span class="btn-clipboard" title="Copy this code"><i class="icon icon-clipboard"></i></span></div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">django.urls</span> <span class="kn">import</span> <span class="n">path</span>
+
+<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">views</span>
+
+<span class="n">app_name</span> <span class="o">=</span> <span class="s1">'polls'</span>
+<span class="n">urlpatterns</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="n">path</span><span class="p">(</span><span class="s1">''</span><span class="p">,</span> <span class="n">views</span><span class="o">.</span><span class="n">IndexView</span><span class="o">.</span><span class="n">as_view</span><span class="p">(),</span> <span class="n">name</span><span class="o">=</span><span class="s1">'index'</span><span class="p">),</span>
+    <span class="n">path</span><span class="p">(</span><span class="s1">'&lt;int:pk&gt;/'</span><span class="p">,</span> <span class="n">views</span><span class="o">.</span><span class="n">DetailView</span><span class="o">.</span><span class="n">as_view</span><span class="p">(),</span> <span class="n">name</span><span class="o">=</span><span class="s1">'detail'</span><span class="p">),</span>
+    <span class="n">path</span><span class="p">(</span><span class="s1">'&lt;int:pk&gt;/results/'</span><span class="p">,</span> <span class="n">views</span><span class="o">.</span><span class="n">ResultsView</span><span class="o">.</span><span class="n">as_view</span><span class="p">(),</span> <span class="n">name</span><span class="o">=</span><span class="s1">'results'</span><span class="p">),</span>
+    <span class="n">path</span><span class="p">(</span><span class="s1">'&lt;int:question_id&gt;/vote/'</span><span class="p">,</span> <span class="n">views</span><span class="o">.</span><span class="n">vote</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">'vote'</span><span class="p">),</span>
+<span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<p>注意，第二个和第三个匹配准则中，路径字符串中匹配模式的名称已经由 <code class="docutils literal notranslate"><span class="pre">&lt;question_id&gt;</span></code> 改为 <code class="docutils literal notranslate"><span class="pre">&lt;pk&gt;</span></code>。</p>
+</div>
+<div class="section" id="s-amend-views">
+<span id="amend-views"></span><h3>改良视图<a class="headerlink" href="https://docs.djangoproject.com/zh-hans/2.1/intro/tutorial04/#amend-views" title="永久链接至标题">¶</a></h3>
+<p>下一步，我们将删除旧的 <code class="docutils literal notranslate"><span class="pre">index</span></code>, <code class="docutils literal notranslate"><span class="pre">detail</span></code>, 和 <code class="docutils literal notranslate"><span class="pre">results</span></code> 视图，并用 Django 的通用视图代替。打开 <code class="docutils literal notranslate"><span class="pre">polls/views.py</span></code> 文件，并将它修改成：</p>
+<div class="literal-block-wrapper docutils container" id="id7">
+<div class="code-block-caption"><span class="caption-text">polls/views.py</span><a class="headerlink" href="https://docs.djangoproject.com/zh-hans/2.1/intro/tutorial04/#id7" title="永久链接至代码">¶</a><span class="btn-clipboard" title="Copy this code"><i class="icon icon-clipboard"></i></span></div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">django.http</span> <span class="kn">import</span> <span class="n">HttpResponseRedirect</span>
+<span class="kn">from</span> <span class="nn">django.shortcuts</span> <span class="kn">import</span> <span class="n">get_object_or_404</span><span class="p">,</span> <span class="n">render</span>
+<span class="kn">from</span> <span class="nn">django.urls</span> <span class="kn">import</span> <span class="n">reverse</span>
+<span class="kn">from</span> <span class="nn">django.views</span> <span class="kn">import</span> <span class="n">generic</span>
+
+<span class="kn">from</span> <span class="nn">.models</span> <span class="kn">import</span> <span class="n">Choice</span><span class="p">,</span> <span class="n">Question</span>
+
+
+<span class="k">class</span> <span class="nc">IndexView</span><span class="p">(</span><span class="n">generic</span><span class="o">.</span><span class="n">ListView</span><span class="p">):</span>
+    <span class="n">template_name</span> <span class="o">=</span> <span class="s1">'polls/index.html'</span>
+    <span class="n">context_object_name</span> <span class="o">=</span> <span class="s1">'latest_question_list'</span>
+
+    <span class="k">def</span> <span class="nf">get_queryset</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">"""Return the last five published questions."""</span>
+        <span class="k">return</span> <span class="n">Question</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">order_by</span><span class="p">(</span><span class="s1">'-pub_date'</span><span class="p">)[:</span><span class="mi">5</span><span class="p">]</span>
+
+
+<span class="k">class</span> <span class="nc">DetailView</span><span class="p">(</span><span class="n">generic</span><span class="o">.</span><span class="n">DetailView</span><span class="p">):</span>
+    <span class="n">model</span> <span class="o">=</span> <span class="n">Question</span>
+    <span class="n">template_name</span> <span class="o">=</span> <span class="s1">'polls/detail.html'</span>
+
+
+<span class="k">class</span> <span class="nc">ResultsView</span><span class="p">(</span><span class="n">generic</span><span class="o">.</span><span class="n">DetailView</span><span class="p">):</span>
+    <span class="n">model</span> <span class="o">=</span> <span class="n">Question</span>
+    <span class="n">template_name</span> <span class="o">=</span> <span class="s1">'polls/results.html'</span>
+
+
+<span class="k">def</span> <span class="nf">vote</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">question_id</span><span class="p">):</span>
+    <span class="o">...</span> <span class="c1"># same as above, no changes needed.</span>
+</pre></div>
+</div>
+</div>
+<p>我们在这里使用两个通用视图： <a class="reference internal" href="https://docs.djangoproject.com/zh-hans/2.1/ref/class-based-views/generic-display/#django.views.generic.list.ListView" title="django.views.generic.list.ListView"><code class="xref py py-class docutils literal notranslate"><span class="pre">ListView</span></code></a> 和 <a class="reference internal" href="https://docs.djangoproject.com/zh-hans/2.1/ref/class-based-views/generic-display/#django.views.generic.detail.DetailView" title="django.views.generic.detail.DetailView"><code class="xref py py-class docutils literal notranslate"><span class="pre">DetailView</span></code></a> 。这两个视图分别抽象“显示一个对象列表”和“显示一个特定类型对象的详细信息页面”这两种概念。</p>
+<ul class="simple">
+<li>每个通用视图需要知道它将作用于哪个模型。 这由 <code class="docutils literal notranslate"><span class="pre">model</span></code> 属性提供。</li>
+<li><a class="reference internal" href="https://docs.djangoproject.com/zh-hans/2.1/ref/class-based-views/generic-display/#django.views.generic.detail.DetailView" title="django.views.generic.detail.DetailView"><code class="xref py py-class docutils literal notranslate"><span class="pre">DetailView</span></code></a>  期望从 URL 中捕获名为   <code class="docutils literal notranslate"><span class="pre">"pk"</span></code> 的主键值，所以我们为通用视图把 <code class="docutils literal notranslate"><span class="pre">question_id</span></code> 改成 <code class="docutils literal notranslate"><span class="pre">pk</span></code> 。</li>
+</ul>
+<p>默认情况下，通用视图 <a class="reference internal" href="https://docs.djangoproject.com/zh-hans/2.1/ref/class-based-views/generic-display/#django.views.generic.detail.DetailView" title="django.views.generic.detail.DetailView"><code class="xref py py-class docutils literal notranslate"><span class="pre">DetailView</span></code></a> 使用一个叫做 <code class="docutils literal notranslate"><span class="pre">&lt;app</span> <span class="pre">name&gt;/&lt;model</span> <span class="pre">name&gt;_detail.html</span></code> 的模板。在我们的例子中，它将使用 <code class="docutils literal notranslate"><span class="pre">"polls/question_detail.html"</span></code> 模板。<code class="docutils literal notranslate"><span class="pre">template_name</span></code> 属性是用来告诉 Django 使用一个指定的模板名字，而不是自动生成的默认名字。 我们也为 <code class="docutils literal notranslate"><span class="pre">results</span></code> 列表视图指定了 <code class="docutils literal notranslate"><span class="pre">template_name</span></code>  —— 这确保 results 视图和 detail 视图在渲染时具有不同的外观，即使它们在后台都是同一个 <a class="reference internal" href="https://docs.djangoproject.com/zh-hans/2.1/ref/class-based-views/generic-display/#django.views.generic.detail.DetailView" title="django.views.generic.detail.DetailView"><code class="xref py py-class docutils literal notranslate"><span class="pre">DetailView</span></code></a> 。</p>
+<p>类似地，<a class="reference internal" href="https://docs.djangoproject.com/zh-hans/2.1/ref/class-based-views/generic-display/#django.views.generic.list.ListView" title="django.views.generic.list.ListView"><code class="xref py py-class docutils literal notranslate"><span class="pre">ListView</span></code></a> 使用一个叫做  <code class="docutils literal notranslate"><span class="pre">&lt;app</span> <span class="pre">name&gt;/&lt;model</span> <span class="pre">name&gt;_list.html</span></code> 的默认模板；我们使用 <code class="docutils literal notranslate"><span class="pre">template_name</span></code> 来告诉 <a class="reference internal" href="https://docs.djangoproject.com/zh-hans/2.1/ref/class-based-views/generic-display/#django.views.generic.list.ListView" title="django.views.generic.list.ListView"><code class="xref py py-class docutils literal notranslate"><span class="pre">ListView</span></code></a> 使用我们创建的已经存在的 <code class="docutils literal notranslate"><span class="pre">"polls/index.html"</span></code> 模板。</p>
+<p>在之前的教程中，提供模板文件时都带有一个包含 <code class="docutils literal notranslate"><span class="pre">question</span></code> 和 <code class="docutils literal notranslate"><span class="pre">latest_question_list</span></code> 变量的 context。对于 <code class="docutils literal notranslate"><span class="pre">DetailView</span></code> ， <code class="docutils literal notranslate"><span class="pre">question</span></code>  变量会自动提供—— 因为我们使用 Django 的模型 (Question)， Django 能够为 context 变量决定一个合适的名字。然而对于 ListView， 自动生成的 context 变量是 <code class="docutils literal notranslate"><span class="pre">question_list</span></code>。为了覆盖这个行为，我们提供 <code class="docutils literal notranslate"><span class="pre">context_object_name</span></code> 属性，表示我们想使用 <code class="docutils literal notranslate"><span class="pre">latest_question_list</span></code>。作为一种替换方案，你可以改变你的模板来匹配新的 context 变量 —— 这是一种更便捷的方法，告诉 Django 使用你想使用的变量名。</p>
+<p>启动服务器，使用一下基于通用视图的新投票应用。</p>
+<p>更多关于通用视图的详细信息，请查看 <a class="reference internal" href="https://docs.djangoproject.com/zh-hans/2.1/topics/class-based-views/"><span class="doc">通用视图的文档</span></a></p>
+<p>当你对你所写的表单和通用视图感到满意后，请阅读 <a class="reference internal" href="https://docs.djangoproject.com/zh-hans/2.1/intro/tutorial05/"><span class="doc">教程的第 5 部分</span></a> 来了解如何测试我们的投票应用。</p>
+</div>
+</div>
+</div>
+
+</div>
+
+
+
+<div class="browse-horizontal">
+  
+  <div class="left"><a href="https://docs.djangoproject.com/zh-hans/2.1/intro/tutorial03/"><i class="icon icon-chevron-left"></i> 编写你的第一个 Django 应用，第 3 部分</a></div>
+  
+  
+  <div class="right"><a href="https://docs.djangoproject.com/zh-hans/2.1/intro/tutorial05/">编写你的第一个 Django 应用，第 5 部分 <i class="icon icon-chevron-right"></i></a></div>
+  
+</div>
+
+
+
+        <a href="https://docs.djangoproject.com/zh-hans/2.1/intro/tutorial04/#top" class="backtotop"><i class="icon icon-chevron-up"></i> Back to Top</a>
+      </div>
+
+      
+<h1 class="visuallyhidden">附加信息</h1>
+<div role="complementary">
+  
+  
+
+<form action="https://docs.djangoproject.com/zh-hans/2.1/search/" class="search form-input" role="search">
+  <label class="visuallyhidden" for="id_q">Search:</label>
+    <input type="search" name="q" placeholder="搜索 2.1 文档" id="id_q">
+
+    <button type="submit">
+      <i class="icon icon-search"></i>
+      <span class="visuallyhidden">搜索</span>
+    </button>
+</form>
+
+  
+
+  
+
+
+  <div class="fundraising-sidebar">
+    <h2>Support Django!</h2>
+
+    <div class="small-heart">
+      <img src="./5编写你的第一个 Django 应用_files/small-fundraising-heart.d255f6e934e5.png" alt="Support Django!">
+    </div>
+
+    <div class="small-cta">
+      <ul class="list-links-small">
+        <li><a href="https://www.djangoproject.com/fundraising/">
+          Kolonial.no donated to the Django Software Foundation to
+          support Django development. Donate today!
+        </a></li>
+      </ul>
+    </div>
+  </div>
+
+
+
+  
+    <h2>内容</h2>
+    
+    <ul>
+<li><a class="reference internal" href="https://docs.djangoproject.com/zh-hans/2.1/intro/tutorial04/#">编写你的第一个 Django 应用，第 4 部分</a><ul>
+<li><a class="reference internal" href="https://docs.djangoproject.com/zh-hans/2.1/intro/tutorial04/#write-a-simple-form">编写一个简单的表单</a></li>
+<li><a class="reference internal" href="https://docs.djangoproject.com/zh-hans/2.1/intro/tutorial04/#use-generic-views-less-code-is-better">使用通用视图：代码还是少点好</a><ul>
+<li><a class="reference internal" href="https://docs.djangoproject.com/zh-hans/2.1/intro/tutorial04/#amend-urlconf">改良 URLconf</a></li>
+<li><a class="reference internal" href="https://docs.djangoproject.com/zh-hans/2.1/intro/tutorial04/#amend-views">改良视图</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+    
+  
+
+  
+  <h2>浏览</h2>
+  <ul>
+    
+    
+    <li>上一个： <a href="https://docs.djangoproject.com/zh-hans/2.1/intro/tutorial03/">编写你的第一个 Django 应用，第 3 部分</a></li>
+    
+    
+    <li>下一个： <a href="https://docs.djangoproject.com/zh-hans/2.1/intro/tutorial05/">编写你的第一个 Django 应用，第 5 部分</a></li>
+    
+    <li><a href="https://docs.djangoproject.com/zh-hans/2.1/contents/">目录</a></li>
+    
+    <li><a href="https://docs.djangoproject.com/zh-hans/2.1/genindex/">总目录</a></li>
+    
+    <li><a href="https://docs.djangoproject.com/zh-hans/2.1/py-modindex/">Python 模块索引</a></li>
+    
+    
+  </ul>
+  
+
+  
+  <h2>当前位置</h2>
+  <ul>
+    <li>
+      <a href="https://docs.djangoproject.com/zh-hans/2.1/">Django 2.1 文档</a>
+      
+      <ul><li><a href="https://docs.djangoproject.com/zh-hans/2.1/intro/">开始</a>
+      
+      <ul><li>编写你的第一个 Django 应用，第 4 部分</li></ul>
+      </li></ul>
+    </li>
+  </ul>
+  
+
+  
+  <h2 id="getting-help-sidebar">获取帮助</h2>
+  <dl class="list-links">
+    <dt><a href="https://docs.djangoproject.com/zh-hans/2.1/faq/">FAQ</a></dt>
+    <dd>尝试查看 FAQ — 它包括了很多常见问题的答案</dd>
+
+    <dt><a href="https://docs.djangoproject.com/en/stable/genindex/">索引</a>, <a href="https://docs.djangoproject.com/en/stable/py-modindex/">模块索引</a>, or <a href="https://docs.djangoproject.com/en/stable/contents/">目录</a></dt>
+    <dd>查找特定信息时比较容易</dd>
+
+    <dt><a href="https://groups.google.com/group/django-users/">django-users mailing list</a></dt>
+    <dd>在 django-users 邮件列表存档中搜索信息，或者发布一个问题。</dd>
+
+    <dt><a href="irc://irc.freenode.net/django">#django IRC channel</a></dt>
+    <dd>在 #django IRC 频道上提问，或者搜索 IRC 历史找到相似的问题与解答。</dd>
+
+    <dt><a href="https://code.djangoproject.com/">Ticket tracker</a></dt>
+    <dd>在我们的 `ticket tracker`_ 中报告 Django 或 Django 文档的 Bug。</dd>
+  </dl>
+  
+
+  
+  <h2>下载：</h2>
+  <p>
+    离线 (Django 2.1):
+    <a href="https://media.djangoproject.com/docs/django-docs-2.1-zh-hans.zip">HTML</a> |
+    <a href="https://media.readthedocs.org/pdf/django/2.1.x/django.pdf">PDF</a> |
+    <a href="https://media.readthedocs.org/epub/django/2.1.x/django.epub">ePub</a>
+    <br>
+    <span class="quiet">
+      由 <a href="https://readthedocs.org/">Read the Docs</a> 提供。
+    </span>
+  </p>
+  
+</div>
+
+      
+
+    </div>
+
+     
+     
+
+    
+    
+    
+
+    
+      
+<div role="contentinfo">
+  <div class="subfooter">
+    <div class="container">
+      <h1 class="visuallyhidden">Django Links</h1>
+
+      <div class="col learn">
+        <h2>Learn More</h2>
+        <ul>
+          <li><a href="https://www.djangoproject.com/start/overview/">About Django</a></li>
+          
+          <li><a href="https://www.djangoproject.com/start/">Getting Started with Django</a></li>
+          <li><a href="https://docs.djangoproject.com/en/dev/internals/organization/">Team Organization</a></li>
+          <li><a href="https://www.djangoproject.com/foundation/">Django Software Foundation</a></li>
+          <li><a href="https://www.djangoproject.com/conduct/">Code of Conduct</a></li>
+          <li><a href="https://www.djangoproject.com/diversity/">Diversity Statement</a></li>
+        </ul>
+      </div>
+
+      <div class="col involved">
+        <h2>Get Involved</h2>
+        <ul>
+          <li><a href="https://www.djangoproject.com/community/">Join a Group</a></li>
+          <li><a href="https://docs.djangoproject.com/en/dev/internals/contributing/">Contribute to Django</a></li>
+          <li><a href="https://docs.djangoproject.com/en/dev/internals/contributing/bugs-and-features/">Submit a Bug</a></li>
+          <li><a href="https://docs.djangoproject.com/en/dev/internals/security/#reporting-security-issues">Report a Security Issue</a></li>
+        </ul>
+      </div>
+
+      <div class="col follow last-child">
+        <h2>Follow Us</h2>
+        <ul>
+          <li><a href="https://github.com/django">GitHub</a></li>
+          <li><a href="https://twitter.com/djangoproject">Twitter</a></li>
+          <li><a href="https://www.djangoproject.com/rss/weblog/">News RSS</a></li>
+          <li><a href="https://groups.google.com/forum/#!forum/django-users">Django Users Mailing List</a></li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="footer">
+    <div class="container">
+      <div class="footer-logo">
+        <a class="logo" href="https://www.djangoproject.com/">Django</a>
+      </div>
+      <ul class="thanks">
+        <li>
+          <span>Hosting by</span> <a class="rackspace" href="https://www.rackspace.com/">Rackspace</a>
+        </li>
+        <li class="design"><span>Design by</span> <a class="threespot" href="https://www.threespot.com/">Threespot</a> <span class="ampersand">&amp;</span> <a class="andrevv" href="http://andrevv.com/"></a></li>
+      </ul>
+      <p class="copyright">© 2005-2019
+        <a href="https://www.djangoproject.com/foundation/"> Django Software
+        Foundation</a> and individual contributors. Django is a
+        <a href="https://www.djangoproject.com/trademarks/">registered
+        trademark</a> of the Django Software Foundation.
+      </p>
+    </div>
+  </div>
+
+</div>
+
+    
+
+    
+    <script>
+    function extless(input) {
+        return input.replace(/(.*)\.[^.]+$/, '$1');
+    }
+    var require = {
+        shim: {
+            'jquery': [],
+            'jquery.inview': ["jquery"],
+            'jquery.payment': ["jquery"],
+            'jquery.flot': ["jquery"],
+            'jquery.unveil': ["jquery"],
+            'stripe': {
+              exports: 'Stripe'
+            }
+        },
+        paths: {
+            "jquery": extless("https://static.djangoproject.com/js/lib/jquery/dist/jquery.min.87e69028f78d.js"),
+            "jquery.inview": extless("https://static.djangoproject.com/js/lib/jquery.inview/jquery.inview.min.4edba1c65592.js"),
+            "jquery.payment": extless("https://static.djangoproject.com/js/lib/jquery.payment/lib/jquery.payment.e99c05ca79ae.js"),
+            "jquery.unveil": extless("https://static.djangoproject.com/js/lib/unveil/jquery.unveil.min.ac79eb277093.js"),
+            "jquery.flot": extless("https://static.djangoproject.com/js/lib/jquery-flot/jquery.flot.min.9964206e9d7f.js"),
+            "clipboard": extless("https://static.djangoproject.com/js/lib/clipboard/dist/clipboard.min.bd70fd596a23.js"),
+            "mod/floating-warning": extless("https://static.djangoproject.com/js/mod/floating-warning.a21b2abd2884.js"),
+            "mod/list-collapsing": extless("https://static.djangoproject.com/js/mod/list-collapsing.c1a08d3ef9e9.js"),
+            "mod/list-feature": extless("https://static.djangoproject.com/js/mod/list-feature.73529480f25b.js"),
+            "mod/mobile-menu": extless("https://static.djangoproject.com/js/mod/mobile-menu.841726ee903a.js"),
+            "mod/version-switcher": extless("https://static.djangoproject.com/js/mod/version-switcher.c28bb83972bb.js"),
+            "mod/search-key": extless("https://static.djangoproject.com/js/mod/search-key.f3c0a6fcfedd.js"),
+            "mod/stripe-custom-checkout": extless("https://static.djangoproject.com/js/mod/stripe-custom-checkout.aac1352045b7.js"),
+            "mod/stripe-change-card": extless("https://static.djangoproject.com/js/mod/stripe-change-card.682c710317a8.js"),
+            "mod/console-tabs": extless("https://static.djangoproject.com/js/mod/console-tabs.70ce882faaf3.js"),
+            "stripe-checkout": "https://checkout.stripe.com/checkout",
+            "stripe": "https://js.stripe.com/v2/?"  // ? needed due to require.js
+        }
+    };
+    </script>
+    <script data-main="https://static.djangoproject.com/js/main.07884ebc4865.js" src="./5编写你的第一个 Django 应用_files/require.177879fbe7dd.js"></script>
+    
+
+
+
+  
+
+</body></html>

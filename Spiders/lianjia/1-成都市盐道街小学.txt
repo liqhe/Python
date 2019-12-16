@@ -1,0 +1,138 @@
+1-成都市盐道街小学
+	盐道街
+	指挥街
+		138万	指挥街24号	盐市口/2室1厅/43.92平米/东 西/毛坯		https://cd.lianjia.com/ershoufang/106102406981.html
+		145万	指挥街50号	盐市口/3室1厅/51.9平米/东南/简装		https://cd.lianjia.com/ershoufang/106102466273.html
+		155万	指挥街70号	盐市口/2室1厅/60.63平米/西南/简装		https://cd.lianjia.com/ershoufang/106102905344.html
+		168万	指挥街50号	盐市口/3室1厅/70.83平米/东/简装		https://cd.lianjia.com/ershoufang/106102130599.html
+		170万	指挥街70号	盐市口/3室1厅/66.85平米/东北/简装		https://cd.lianjia.com/ershoufang/106102679876.html
+		185万	指挥街70号	盐市口/2室1厅/72.31平米/南 北/其他		https://cd.lianjia.com/ershoufang/106102758622.html
+	人民南路二段
+		79万	人民南路四段51号	航空路/2室1厅/54.34平米/南 北/简装		https://cd.lianjia.com/ershoufang/106102529262.html
+		84万	人民南路四段55号	火车南站/2室1厅/66.59平米/南 北/简装		https://cd.lianjia.com/ershoufang/106102168523.html
+		85万	人民南路四段20号	玉林/2室1厅/55.28平米/南/简装		https://cd.lianjia.com/ershoufang/106101399079.html
+		88万	人民南路四段9号院	棕北/2室1厅/58.93平米/东南/其他		https://cd.lianjia.com/ershoufang/106102776011.html
+		89万	人民南路四段55号	火车南站/2室1厅/62.17平米/东南/简装		https://cd.lianjia.com/ershoufang/106101915986.html
+		92万	人民南路四段15号	棕北/2室1厅/58.64平米/南/简装		https://cd.lianjia.com/ershoufang/106102406542.html
+		95万	人民南路三段14号	华西/2室1厅/63.25平米/南 北/简装		https://cd.lianjia.com/ershoufang/106102590865.html
+		100万	人民南路三段31号	川音/1室1厅/60.85平米/东 西/简装		https://cd.lianjia.com/ershoufang/106102381847.html
+		103万	人民南路四段7号	棕北/3室1厅/66.85平米/南/精装		https://cd.lianjia.com/ershoufang/106102608512.html
+		105万	人民南路四段55号	火车南站/3室1厅/81.35平米/东南/简装		https://cd.lianjia.com/ershoufang/106101622950.html
+		110万	人民南路四段53号	火车南站/2室2厅/84.18平米/南/精装		https://cd.lianjia.com/ershoufang/106102570763.html
+		113万	人民南路四段55号	火车南站/2室2厅/91.24平米/南/简装		https://cd.lianjia.com/ershoufang/106101269005.html
+		115万	人民南路四段13号	棕北/2室1厅/71.59平米/南/简装		https://cd.lianjia.com/ershoufang/106102343191.html
+		118万	人民南路四段53号	火车南站/2室2厅/89.53平米/南/简装		https://cd.lianjia.com/ershoufang/106102465787.html
+		120万	人民南路四段51号	航空路/3室2厅/92.13平米/南 北/简装		https://cd.lianjia.com/ershoufang/106102302473.html
+		123万	人民南路四段15号	棕北/3室1厅/77.38平米/南/简装		https://cd.lianjia.com/ershoufang/106102923379.html
+		125万	人民南路四段51号	航空路/3室2厅/94.09平米/南 北/简装		https://cd.lianjia.com/ershoufang/106102178301.html
+		126万	人民南路四段15号	棕北/3室2厅/77.38平米/北/简装		https://cd.lianjia.com/ershoufang/106102801840.html
+		128万	人民南路四段55号	火车南站/2室2厅/91.24平米/南 北/精装		https://cd.lianjia.com/ershoufang/106102273583.html
+		136万	人民南路三段16号	华西/2室1厅/80平米/东/精装		https://cd.lianjia.com/ershoufang/106102256487.html
+		140万	人民南路四段25号	棕北/2室2厅/88.85平米/南/简装		https://cd.lianjia.com/ershoufang/106101859542.html
+		142万	人民南路四段25号	棕北/2室2厅/87.68平米/南/其他		https://cd.lianjia.com/ershoufang/106102755925.html
+		159万	人民南路四段51号	航空路/4室2厅/106.12平米/南/简装		https://cd.lianjia.com/ershoufang/106102545082.html
+		270万	人民南路四段11号院	棕北/4室2厅/146.63平米/南/简装		https://cd.lianjia.com/ershoufang/106101619304.html
+	滨江西路
+	滨江中路
+		140万	滨江中路1号	盐市口/2室1厅/51.19平米/东南/简装		https://cd.lianjia.com/ershoufang/106102525506.html?is_sem=1
+		150万	滨江中路1号	盐市口/2室1厅/51.8平米/南/简装		https://cd.lianjia.com/ershoufang/106101994385.html
+		170万	滨江中路1号	盐市口/2室1厅/58.18平米/南/简装		https://cd.lianjia.com/ershoufang/106102323759.html
+		172万	滨江中路1号	盐市口/1室1厅/53平米/南/简装		https://cd.lianjia.com/ershoufang/106102128402.html
+		175万	滨江中路1号	盐市口/2室1厅/64.8平米/南/简装		https://cd.lianjia.com/ershoufang/106102684955.html
+		188万	滨江中路1号	盐市口/2室1厅/68.81平米/南/简装		https://cd.lianjia.com/ershoufang/106101354074.html
+		190万	滨江中路1号	盐市口/2室1厅/58.18平米/南/简装		https://cd.lianjia.com/ershoufang/106102463109.html
+		220万	滨江中路1号	盐市口/2室1厅/70.98平米/东/简装		https://cd.lianjia.com/ershoufang/106101003003.html
+		275万	滨江中路1号	盐市口/4室2厅/107.05平米/南/其他		https://cd.lianjia.com/ershoufang/106102982392.html
+		400万	滨江中路1号	盐市口/4室2厅/121.95平米/东北/精装		https://cd.lianjia.com/ershoufang/106102947619.html
+		405万	滨江中路1号	盐市口/3室1厅/115.68平米/西/精装		https://cd.lianjia.com/ershoufang/106102566313.html
+	上南大街
+		21万	南大街380号	彭州/1室1厅/50.4平米/南/简装		https://cd.lianjia.com/ershoufang/106102523621.html
+		42万	南大街449号	彭州/3室1厅/111平米/南 北/其他		https://cd.lianjia.com/ershoufang/106102249783.html
+		45万	南大街75号	郫县城区/2室2厅/65.66平米/东南/简装		https://cd.lianjia.com/ershoufang/106101469840.html
+		50万	南大街449号	彭州/2室2厅/90平米/东南/简装		https://cd.lianjia.com/ershoufang/106102536185.html
+		52.8万	南大街436号	彭州/3室2厅/119平米/南/简装		https://cd.lianjia.com/ershoufang/106102444102.html
+		83.8万	南大街143号	彭州/3室2厅/163.53平米/南 北/精装		https://cd.lianjia.com/ershoufang/106102474725.html
+		124.5万	南大街	彭州/1室0厅/41.5平米/南 北/简装		https://cd.lianjia.com/ershoufang/106102718591.html
+		240万	南大街	彭州/1室1厅/80.5平米/南 北/简装		https://cd.lianjia.com/ershoufang/106102718574.html
+	中南大街
+	下南大街59号
+		52万	鼓楼南街59号	太升路/1室1厅/40.12平米/东南 南/其他		https://cd.lianjia.com/ershoufang/106102895941.html
+		85万	鼓楼南街59号	太升路/3室1厅/68.31平米/西/简装		https://cd.lianjia.com/ershoufang/106101889419.html
+	红照壁
+		35万	红照壁北街46号	彭州/3室2厅/90平米/西/简装		https://cd.lianjia.com/ershoufang/106102739008.html
+	纯化街
+	金字街
+	新光华街
+		150万	新光华街11号	盐市口/2室1厅/67.67平米/北/简装		https://cd.lianjia.com/ershoufang/106101435621.html
+		158万	新光华街11号	盐市口/2室1厅/63.69平米/南/简装		https://cd.lianjia.com/ershoufang/106102778854.html
+		160万	新光华街11号	盐市口/2室1厅/61.48平米/东南/简装		https://cd.lianjia.com/ershoufang/106101780642.html
+		162万	新光华街11号	盐市口/2室1厅/65.66平米/东南/简装		https://cd.lianjia.com/ershoufang/106102780870.html
+		175万	新光华街11号	盐市口/2室1厅/64.92平米/南/简装		https://cd.lianjia.com/ershoufang/106102553546.html
+	红星中路2号
+	锦兴路
+	西丁字街
+		225万	西丁字街3号	盐市口/3室1厅/103平米/南/简装		https://cd.lianjia.com/ershoufang/106102026766.html
+		323万	西丁字街5号	盐市口/3室2厅/170.36平米/西南/简装		https://cd.lianjia.com/ershoufang/106101273394.html
+		360万	西丁字街5号	盐市口/3室2厅/193.47平米/东/精装		https://cd.lianjia.com/ershoufang/106102777785.html
+		365万	西丁字街5号	盐市口/4室2厅/193.47平米/北/简装		https://cd.lianjia.com/ershoufang/106100991197.html
+	状元街
+		80万	状元街五巷46号	新都城区/3室2厅/139.36平米/南/简装		https://cd.lianjia.com/ershoufang/106102478564.html
+		85万	状元街五巷9号	新都城区/3室2厅/122.76平米/南/精装		https://cd.lianjia.com/ershoufang/106102617296.html
+	中莲池正街
+	中莲池横街
+		182万	中莲池横街7号	盐市口/2室1厅/59.8平米/东/简装		https://cd.lianjia.com/ershoufang/106102940620.html
+		185万	中莲池横街8号	盐市口/2室1厅/84.7平米/东南/简装		https://cd.lianjia.com/ershoufang/106101340281.html
+		220万	中莲池横街8号	盐市口/3室2厅/107.7平米/南/毛坯		https://cd.lianjia.com/ershoufang/106101543603.html
+	东丁字街
+		185万	横丁字街27号	盐市口/3室1厅/78.68平米/南/毛坯		https://cd.lianjia.com/ershoufang/106101821508.html
+		196万	横丁字街27号	盐市口/3室1厅/71.03平米/东/简装		https://cd.lianjia.com/ershoufang/106102780153.html
+		197万	横丁字街45号	盐市口/3室1厅/85.35平米/东/简装		https://cd.lianjia.com/ershoufang/106102310162.html
+		225万	西丁字街3号	盐市口/3室1厅/103平米/南/简装		https://cd.lianjia.com/ershoufang/106102026766.html
+		323万	西丁字街5号	盐市口/3室2厅/170.36平米/西南/简装		https://cd.lianjia.com/ershoufang/106101273394.html
+		345万	横丁字街45号	盐市口/4室2厅/150平米/南/简装		https://cd.lianjia.com/ershoufang/106102445429.html
+		360万	西丁字街5号	盐市口/3室2厅/193.47平米/东/精装		https://cd.lianjia.com/ershoufang/106102777785.html
+		365万	西丁字街5号	盐市口/4室2厅/193.47平米/北/简装		https://cd.lianjia.com/ershoufang/106100991197.html
+	横丁字街
+		185万	横丁字街27号	盐市口/3室1厅/78.68平米/南/毛坯		https://cd.lianjia.com/ershoufang/106101821508.html
+		196万	横丁字街27号	盐市口/3室1厅/71.03平米/东/简装		https://cd.lianjia.com/ershoufang/106102780153.html
+		197万	横丁字街45号	盐市口/3室1厅/85.35平米/东/简装		https://cd.lianjia.com/ershoufang/106102310162.html
+		345万	横丁字街45号	盐市口/4室2厅/150平米/南/简装		https://cd.lianjia.com/ershoufang/106102445429.html
+	自强街
+	前卫街
+	新开街
+		238万	新开街3号	盐市口/2室2厅/105平米/东 西/简装		https://cd.lianjia.com/ershoufang/106101617220.html
+		248万	新开街3号	盐市口/2室1厅/103.78平米/东/简装		https://cd.lianjia.com/ershoufang/106101054989.html
+		265万	新开街3号	盐市口/2室1厅/105.43平米/东南/简装		https://cd.lianjia.com/ershoufang/106102585287.html
+	南府街
+		156万	南府街29号	盐市口/2室1厅/55.01平米/东南/简装		https://cd.lianjia.com/ershoufang/106102841239.html
+		180万	和贵苑	盐市口/3室1厅/73.8平米/南/简装		https://cd.lianjia.com/ershoufang/106102696827.html
+		185万	南府街50号	盐市口/2室2厅/70.76平米/南/简装		https://cd.lianjia.com/ershoufang/106102053147.html
+		310万	南府街27号	盐市口/4室2厅/131.46平米/南 北/简装		https://cd.lianjia.com/ershoufang/106101563900.html
+	东府街
+		152万	东府街12号	盐市口/1室1厅/49.8平米/西南/简装		https://cd.lianjia.com/ershoufang/106102777739.html
+		240万	东府街27号	盐市口/2室2厅/96.62平米/南/简装		https://cd.lianjia.com/ershoufang/106102366648.html
+		245万	东府街27号	盐市口/2室1厅/96.62平米/南 北/简装		https://cd.lianjia.com/ershoufang/106102811757.html
+		280万	东府街27号	盐市口/3室2厅/116.62平米/北/简装		https://cd.lianjia.com/ershoufang/106102805783.html
+	烟袋巷
+	东桂街
+	光华街
+		125万	光华街1号院	盐市口/2室1厅/59.01平米/东南/简装		https://cd.lianjia.com/ershoufang/106102674264.html
+		150万	新光华街11号	盐市口/2室1厅/67.67平米/北/简装		https://cd.lianjia.com/ershoufang/106101435621.html
+		158万	新光华街11号	盐市口/2室1厅/63.69平米/南/简装		https://cd.lianjia.com/ershoufang/106102778854.html
+		160万	新光华街11号	盐市口/2室1厅/61.48平米/东南/简装		https://cd.lianjia.com/ershoufang/106101780642.html
+		162万	新光华街11号	盐市口/2室1厅/65.66平米/东南/简装		https://cd.lianjia.com/ershoufang/106102780870.html
+		175万	新光华街11号	盐市口/2室1厅/64.92平米/南/简装		https://cd.lianjia.com/ershoufang/106102553546.html
+	金子街
+		52万	双栅子街51号	盐市口/1室1厅/38.33平米/东/简装		https://cd.lianjia.com/ershoufang/106102950819.html
+		63万	童子街30号	太升路/2室1厅/51.59平米/东/简装		https://cd.lianjia.com/ershoufang/106102805046.html
+		86万	双栅子街17号	盐市口/2室1厅/64.7平米/东南/简装		https://cd.lianjia.com/ershoufang/106102469936.html
+		93万	双栅子街34号	盐市口/2室2厅/68.12平米/北/简装		https://cd.lianjia.com/ershoufang/106102782138.html
+		110万	栅子街12号	宽窄巷子/2室1厅/65.57平米/东南/简装		https://cd.lianjia.com/ershoufang/106102557760.html
+		135万	童子街30号	太升路/3室1厅/95.17平米/西南/简装		https://cd.lianjia.com/ershoufang/106102518802.html
+	大塘坎街
+	安居巷
+	飞龙巷
+		78.8万	青龙巷7号	八宝街/2室0厅/46.8平米/东南/简装		https://cd.lianjia.com/ershoufang/106102876829.html
+		80万	青龙巷13号院	八宝街/2室2厅/51.62平米/南/简装		https://cd.lianjia.com/ershoufang/106102353969.html
+		92.8万	青龙巷13号院	八宝街/2室1厅/50.4平米/东南/精装		https://cd.lianjia.com/ershoufang/106102400978.html
+		107万	青龙巷7号	八宝街/2室1厅/59.5平米/东南/简装		https://cd.lianjia.com/ershoufang/106102345147.html

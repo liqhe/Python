@@ -1,0 +1,231 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh_CN">
+  <head>
+    <meta charset="utf-8" />
+    <title>弱引用对象 &#8212; Python 3.7.4 文档</title>
+    <link rel="stylesheet" href="../_static/pydoctheme.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/language_data.js"></script>
+    <script type="text/javascript" src="../_static/translations.js"></script>
+    
+    <script type="text/javascript" src="../_static/sidebar.js"></script>
+    
+    <link rel="search" type="application/opensearchdescription+xml"
+          title="在 Python 3.7.4 文档 中搜索"
+          href="../_static/opensearch.xml"/>
+    <link rel="author" title="关于这些文档" href="../about.html" />
+    <link rel="index" title="索引" href="../genindex.html" />
+    <link rel="search" title="搜索" href="../search.html" />
+    <link rel="copyright" title="版权所有" href="../copyright.html" />
+    <link rel="next" title="胶囊" href="capsule.html" />
+    <link rel="prev" title="MemoryView 对象" href="memoryview.html" />
+    <link rel="shortcut icon" type="image/png" href="../_static/py.png" />
+    <link rel="canonical" href="https://docs.python.org/3/c-api/weakref.html" />
+    
+    <script type="text/javascript" src="../_static/copybutton.js"></script>
+    <script type="text/javascript" src="../_static/switchers.js"></script>
+    
+    
+    
+    <style>
+      @media only screen {
+        table.full-width-table {
+            width: 100%;
+        }
+      }
+    </style>
+ 
+
+  </head><body>
+  
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>导航</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="总目录"
+             accesskey="I">索引</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python 模块索引"
+             >模块</a> |</li>
+        <li class="right" >
+          <a href="capsule.html" title="胶囊"
+             accesskey="N">下一页</a> |</li>
+        <li class="right" >
+          <a href="memoryview.html" title="MemoryView 对象"
+             accesskey="P">上一页</a> |</li>
+        <li><img src="../_static/py.png" alt=""
+                 style="vertical-align: middle; margin-top: -1px"/></li>
+        <li><a href="https://www.python.org/">Python</a> &#187;</li>
+        <li>
+          <span class="language_switcher_placeholder">zh_CN</span>
+          <span class="version_switcher_placeholder">3.7.4</span>
+          <a href="../index.html">文档</a> &#187;
+        </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" >Python/C API 参考手册</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="concrete.html" accesskey="U">具体的对象层</a> &#187;</li>
+    <li class="right">
+        
+
+    <div class="inline-search" style="display: none" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="快速搜索" type="text" name="q" />
+          <input type="submit" value="转向" />
+          <input type="hidden" name="check_keywords" value="yes" />
+          <input type="hidden" name="area" value="default" />
+        </form>
+    </div>
+    <script type="text/javascript">$('.inline-search').show(0);</script>
+         |
+    </li>
+
+      </ul>
+    </div>    
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="weak-reference-objects">
+<span id="weakrefobjects"></span><h1>弱引用对象<a class="headerlink" href="#weak-reference-objects" title="永久链接至标题">¶</a></h1>
+<p>Python 支持 “弱引用” 作为一类对象。具体来说，有两种直接实现弱引用的对象。第一种就是简单的引用对象，第二种尽可能地作用为一个原对象的代理。</p>
+<dl class="function">
+<dt id="c.PyWeakref_Check">
+int <code class="descname">PyWeakref_Check</code><span class="sig-paren">(</span>ob<span class="sig-paren">)</span><a class="headerlink" href="#c.PyWeakref_Check" title="永久链接至目标">¶</a></dt>
+<dd><p>如果 “ob” 是一个引用或者一个代理对象，则返回一个 true。</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.PyWeakref_CheckRef">
+int <code class="descname">PyWeakref_CheckRef</code><span class="sig-paren">(</span>ob<span class="sig-paren">)</span><a class="headerlink" href="#c.PyWeakref_CheckRef" title="永久链接至目标">¶</a></dt>
+<dd><p>如果 “ob” 是一个引用，则返回 true。</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.PyWeakref_CheckProxy">
+int <code class="descname">PyWeakref_CheckProxy</code><span class="sig-paren">(</span>ob<span class="sig-paren">)</span><a class="headerlink" href="#c.PyWeakref_CheckProxy" title="永久链接至目标">¶</a></dt>
+<dd><p>如果 “ob” 是一个代理对象，则返回 true。</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.PyWeakref_NewRef">
+<a class="reference internal" href="structures.html#c.PyObject" title="PyObject">PyObject</a>* <code class="descname">PyWeakref_NewRef</code><span class="sig-paren">(</span><a class="reference internal" href="structures.html#c.PyObject" title="PyObject">PyObject</a><em> *ob</em>, <a class="reference internal" href="structures.html#c.PyObject" title="PyObject">PyObject</a><em> *callback</em><span class="sig-paren">)</span><a class="headerlink" href="#c.PyWeakref_NewRef" title="永久链接至目标">¶</a></dt>
+<dd><em class="refcount">Return value: New reference.</em><p>返回对象 ob 的一个弱引用对象。该函数始终会返回一个新的引用，但却并不一定会创建新的对象；该函数可能返回一个已经存在的弱引用对象。第二个参数 callback 可以是一个可以调用的对象，它会在 ob 被垃圾收集时收到通知；它应该接受单一参数，表示弱引用对象本身。callback 也可以是 <code class="docutils literal notranslate"><span class="pre">None</span></code> 或者 NULL。如果 ob 不是一个弱引用对象，或者 callback 不是一个可调用对象、<code class="docutils literal notranslate"><span class="pre">None</span></code> 或者 NULL，该函数返回 NULL 并引发 <a class="reference internal" href="../library/exceptions.html#TypeError" title="TypeError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">TypeError</span></code></a>。</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.PyWeakref_NewProxy">
+<a class="reference internal" href="structures.html#c.PyObject" title="PyObject">PyObject</a>* <code class="descname">PyWeakref_NewProxy</code><span class="sig-paren">(</span><a class="reference internal" href="structures.html#c.PyObject" title="PyObject">PyObject</a><em> *ob</em>, <a class="reference internal" href="structures.html#c.PyObject" title="PyObject">PyObject</a><em> *callback</em><span class="sig-paren">)</span><a class="headerlink" href="#c.PyWeakref_NewProxy" title="永久链接至目标">¶</a></dt>
+<dd><em class="refcount">Return value: New reference.</em><p>返回对象 ob 的一个弱引用代理对象。该函数始终会返回一个新的引用，但却并不一定会创建新的对象；该函数可能返回一个已经存在的代理对象。第二个参数 callback 可以是一个可以调用的对象，它会在 ob 被垃圾收集时收到通知；它应该接受单一参数，表示弱引用对象本身。callback 也可以是 <code class="docutils literal notranslate"><span class="pre">None</span></code> 或者 NULL。如果 ob 不是一个弱引用对象，或者 callback 不是一个可调用对象、<code class="docutils literal notranslate"><span class="pre">None</span></code> 或者 NULL，该函数返回 NULL 并引发 <a class="reference internal" href="../library/exceptions.html#TypeError" title="TypeError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">TypeError</span></code></a>。</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.PyWeakref_GetObject">
+<a class="reference internal" href="structures.html#c.PyObject" title="PyObject">PyObject</a>* <code class="descname">PyWeakref_GetObject</code><span class="sig-paren">(</span><a class="reference internal" href="structures.html#c.PyObject" title="PyObject">PyObject</a><em> *ref</em><span class="sig-paren">)</span><a class="headerlink" href="#c.PyWeakref_GetObject" title="永久链接至目标">¶</a></dt>
+<dd><em class="refcount">Return value: Borrowed reference.</em><p>返回弱引用对象 ref 的被引用对象。如果被引用对象不再存在，则返回 <code class="xref py py-const docutils literal notranslate"><span class="pre">Py_None</span></code>。</p>
+<div class="admonition note">
+<p class="admonition-title">注解</p>
+<p>该函数返回被引用对象的一个**借来的引用**。这意味着除非你很清楚在你使用期间这个对象不可能被销毁，否则你应该始终对该对象调用 <a class="reference internal" href="refcounting.html#c.Py_INCREF" title="Py_INCREF"><code class="xref c c-func docutils literal notranslate"><span class="pre">Py_INCREF()</span></code></a>。</p>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.PyWeakref_GET_OBJECT">
+<a class="reference internal" href="structures.html#c.PyObject" title="PyObject">PyObject</a>* <code class="descname">PyWeakref_GET_OBJECT</code><span class="sig-paren">(</span><a class="reference internal" href="structures.html#c.PyObject" title="PyObject">PyObject</a><em> *ref</em><span class="sig-paren">)</span><a class="headerlink" href="#c.PyWeakref_GET_OBJECT" title="永久链接至目标">¶</a></dt>
+<dd><em class="refcount">Return value: Borrowed reference.</em><p>类似 <a class="reference internal" href="#c.PyWeakref_GetObject" title="PyWeakref_GetObject"><code class="xref c c-func docutils literal notranslate"><span class="pre">PyWeakref_GetObject()</span></code></a>，但实现为一个不做类型检查的宏。</p>
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h4>上一个主题</h4>
+  <p class="topless"><a href="memoryview.html"
+                        title="上一章">MemoryView 对象</a></p>
+  <h4>下一个主题</h4>
+  <p class="topless"><a href="capsule.html"
+                        title="下一章">胶囊</a></p>
+  <div role="note" aria-label="source link">
+    <h3>本页</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">提交 Bug</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/3.7/Doc/c-api/weakref.rst"
+            rel="nofollow">显示源代码
+        </a>
+      </li>
+    </ul>
+  </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>  
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>导航</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="总目录"
+             >索引</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python 模块索引"
+             >模块</a> |</li>
+        <li class="right" >
+          <a href="capsule.html" title="胶囊"
+             >下一页</a> |</li>
+        <li class="right" >
+          <a href="memoryview.html" title="MemoryView 对象"
+             >上一页</a> |</li>
+        <li><img src="../_static/py.png" alt=""
+                 style="vertical-align: middle; margin-top: -1px"/></li>
+        <li><a href="https://www.python.org/">Python</a> &#187;</li>
+        <li>
+          <span class="language_switcher_placeholder">zh_CN</span>
+          <span class="version_switcher_placeholder">3.7.4</span>
+          <a href="../index.html">文档</a> &#187;
+        </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" >Python/C API 参考手册</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="concrete.html" >具体的对象层</a> &#187;</li>
+    <li class="right">
+        
+
+    <div class="inline-search" style="display: none" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="快速搜索" type="text" name="q" />
+          <input type="submit" value="转向" />
+          <input type="hidden" name="check_keywords" value="yes" />
+          <input type="hidden" name="area" value="default" />
+        </form>
+    </div>
+    <script type="text/javascript">$('.inline-search').show(0);</script>
+         |
+    </li>
+
+      </ul>
+    </div>  
+    <div class="footer">
+    &copy; <a href="../copyright.html">版权所有</a> 2001-2019, Python Software Foundation.
+    <br />
+    Python 软件基金会是一个非盈利组织。
+    <a href="https://www.python.org/psf/donations/">请捐助。</a>
+    <br />
+    最后更新于 8月 27, 2019.
+    <a href="../bugs.html">发现了问题</a>？
+    <br />
+    使用<a href="http://sphinx.pocoo.org/">Sphinx</a>2.0.1 创建。
+    </div>
+
+  </body>
+</html>

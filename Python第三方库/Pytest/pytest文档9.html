@@ -1,0 +1,649 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- saved from url=(0045)https://docs.pytest.org/en/latest/tmpdir.html -->
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh-CN" class="translated-ltr"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+    
+    <title>临时目录和文件 -  pytest文档</title>
+    <link rel="stylesheet" href="./pytest文档9_files/flasky.css" type="text/css">
+    <link rel="stylesheet" href="./pytest文档9_files/pygments.css" type="text/css">
+    <link rel="stylesheet" type="text/css" href="./pytest文档9_files/pygments_pytest.css">
+    <link rel="stylesheet" type="text/css" href="./pytest文档9_files/badge_only.css">
+    <script type="text/javascript" async="" src="./pytest文档9_files/ga.js"></script><script async="" src="./pytest文档9_files/analytics.js"></script><script type="text/javascript" id="documentation_options" data-url_root="./" src="./pytest文档9_files/documentation_options.js"></script>
+    <script type="text/javascript" src="./pytest文档9_files/jquery.js"></script>
+    <script type="text/javascript" src="./pytest文档9_files/underscore.js"></script>
+    <script type="text/javascript" src="./pytest文档9_files/doctools.js"></script>
+    <script type="text/javascript" src="./pytest文档9_files/language_data.js"></script>
+    <script type="text/javascript" src="./pytest文档9_files/readthedocs-doc-embed.js"></script>
+    <link rel="shortcut icon" href="https://docs.pytest.org/en/latest/_static/pytest1favi.ico">
+    <link rel="search" title="搜索" href="https://docs.pytest.org/en/latest/search.html">
+    <link rel="next" title="捕获stdout / stderr输出" href="https://docs.pytest.org/en/latest/capture.html">
+    <link rel="prev" title="Monkeypatching / mocking模块和环境" href="https://docs.pytest.org/en/latest/monkeypatch.html">
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9">
+
+  
+<!-- RTD Extra Head -->
+
+<!-- 
+Always link to the latest version, as canonical.
+http://docs.readthedocs.org/en/latest/canonical.html
+-->
+<link rel="canonical" href="http://doc.pytest.org/en/latest/tmpdir.html">
+
+<link rel="stylesheet" href="./pytest文档9_files/readthedocs-doc-embed.css" type="text/css">
+
+<script type="text/javascript" src="./pytest文档9_files/readthedocs-data.js"></script>
+
+<!-- Add page-specific data, which must exist in the page js, not global -->
+<script type="text/javascript">
+READTHEDOCS_DATA['page'] = 'tmpdir'
+READTHEDOCS_DATA['source_suffix'] = '.rst'
+</script>
+
+<script type="text/javascript" src="./pytest文档9_files/readthedocs-analytics.js"></script>
+
+<!-- end RTD <extrahead> -->
+<link type="text/css" rel="stylesheet" charset="UTF-8" href="./pytest文档9_files/translateelement.css"></head><body>
+  
+  
+  
+
+
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">导航</font></font></h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="https://docs.pytest.org/en/latest/capture.html" title="捕获stdout / stderr输出" accesskey="N"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">下一个</font></font></a></li>
+        <li class="right">
+          <a href="https://docs.pytest.org/en/latest/monkeypatch.html" title="Monkeypatching / mocking模块和环境" accesskey="P"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">上一个</font></font></a><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> |</font></font></li>
+        <li class="nav-item nav-item-0"><a href="https://docs.pytest.org/en/latest/contents.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">pytest-4.3</font></font></a><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> »</font></font></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="temporary-directories-and-files">
+<span id="tmpdir"></span><span id="tmpdir-handling"></span><h1><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">临时目录和文件</font></font><a class="headerlink" href="https://docs.pytest.org/en/latest/tmpdir.html#temporary-directories-and-files" title="永久链接到这个标题"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">¶</font></font></a></h1>
+<div class="section" id="the-tmp-path-fixture">
+<h2><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">该</font></font><code class="docutils literal notranslate"><span class="pre">tmp_path</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">夹具</font></font><a class="headerlink" href="https://docs.pytest.org/en/latest/tmpdir.html#the-tmp-path-fixture" title="永久链接到这个标题"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">¶</font></font></a></h2>
+<div class="versionadded">
+<p><span class="versionmodified"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.9版中的新功能。</font></font></span></p>
+</div>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">您可以使用</font></font><code class="docutils literal notranslate"><span class="pre">tmp_path</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">fixture，它将提供在</font></font><a class="reference internal" href="https://docs.pytest.org/en/latest/tmpdir.html#base-temporary-directory"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">基本临时目录中</font></font></a><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">创建的测试调用唯一的</font><a class="reference internal" href="https://docs.pytest.org/en/latest/tmpdir.html#base-temporary-directory"><font style="vertical-align: inherit;">临时目录</font></a><font style="vertical-align: inherit;">。</font></font></p>
+<p><code class="docutils literal notranslate"><span class="pre">tmp_path</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">是一个</font></font><code class="docutils literal notranslate"><span class="pre">pathlib/pathlib2.Path</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">对象。</font><font style="vertical-align: inherit;">以下是测试用法的示例：</font></font></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># content of test_tmp_path.py</span>
+<span class="kn">import</span> <span class="nn">os</span>
+
+<span class="n">CONTENT</span> <span class="o">=</span> <span class="sa">u</span><span class="s2">"content"</span>
+
+
+<span class="k">def</span> <span class="nf">test_create_file</span><span class="p">(</span><span class="n">tmp_path</span><span class="p">):</span>
+    <span class="n">d</span> <span class="o">=</span> <span class="n">tmp_path</span> <span class="o">/</span> <span class="s2">"sub"</span>
+    <span class="n">d</span><span class="o">.</span><span class="n">mkdir</span><span class="p">()</span>
+    <span class="n">p</span> <span class="o">=</span> <span class="n">d</span> <span class="o">/</span> <span class="s2">"hello.txt"</span>
+    <span class="n">p</span><span class="o">.</span><span class="n">write_text</span><span class="p">(</span><span class="n">CONTENT</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">p</span><span class="o">.</span><span class="n">read_text</span><span class="p">()</span> <span class="o">==</span> <span class="n">CONTENT</span>
+    <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">tmp_path</span><span class="o">.</span><span class="n">iterdir</span><span class="p">()))</span> <span class="o">==</span> <span class="mi">1</span>
+    <span class="k">assert</span> <span class="mi">0</span>
+</pre></div>
+</div>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">运行它会导致传递测试，除了</font><font style="vertical-align: inherit;">我们用来查看值</font><font style="vertical-align: inherit;">的最后
+ </font><font style="vertical-align: inherit;">一行：</font></font><code class="docutils literal notranslate"><span class="pre">assert</span> <span class="pre">0</span></code><font style="vertical-align: inherit;"></font></p>
+<div class="highlight-pytest notranslate"><div class="highlight"><pre><span></span>$ pytest test_tmp_path.py
+<span class=" -Color -Color-Bold">=========================== test session starts ============================</span>
+platform linux -- Python 3.x.y, pytest-4.x.y, py-1.x.y, pluggy-0.x.y
+cachedir: $PYTHON_PREFIX/.pytest_cache
+rootdir: $REGENDOC_TMPDIR, inifile:
+collected 1 item
+
+test_tmp_path.py <span class=" -Color -Color-Red">F</span>                                                   <span class=" -Color -Color-Cyan">[100%]</span>
+
+================================= FAILURES =================================
+<span class=" -Color -Color-BoldRed">_____________________________ test_create_file _____________________________</span>
+
+tmp_path = PosixPath('PYTEST_TMPDIR/test_create_file0')
+
+<span class=" -Color -Color-Bold">    def test_create_file(tmp_path):</span>
+<span class=" -Color -Color-Bold">        d = tmp_path / "sub"</span>
+<span class=" -Color -Color-Bold">        d.mkdir()</span>
+<span class=" -Color -Color-Bold">        p = d / "hello.txt"</span>
+<span class=" -Color -Color-Bold">        p.write_text(CONTENT)</span>
+<span class=" -Color -Color-Bold">        assert p.read_text() == CONTENT</span>
+<span class=" -Color -Color-Bold">        assert len(list(tmp_path.iterdir())) == 1</span>
+<span class=" -Color -Color-Bold">&gt;       assert 0</span>
+<span class=" -Color -Color-BoldRed">E       assert 0</span>
+
+<span class=" -Color -Color-BoldRed">test_tmp_path.py</span>:13: AssertionError
+<span class=" -Color -Color-BoldRed">========================= 1 failed in 0.12 seconds =========================</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="the-tmp-path-factory-fixture">
+<span id="tmp-path-factory-example"></span><h2><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">该</font></font><code class="docutils literal notranslate"><span class="pre">tmp_path_factory</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">夹具</font></font><a class="headerlink" href="https://docs.pytest.org/en/latest/tmpdir.html#the-tmp-path-factory-fixture" title="永久链接到这个标题"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">¶</font></font></a></h2>
+<div class="versionadded">
+<p><span class="versionmodified"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.9版中的新功能。</font></font></span></p>
+</div>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">这</font></font><code class="docutils literal notranslate"><span class="pre">tmp_path_factory</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">是一个会话范围的夹具，可用于从任何其他夹具或测试创建任意临时目录。</font></font></p>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">它旨在替换</font></font><code class="docutils literal notranslate"><span class="pre">tmpdir_factory</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">和返回</font></font><a class="reference external" href="https://docs.python.org/3/library/pathlib.html#pathlib.Path" title="（在Python v3.7中）"><code class="xref py py-class docutils literal notranslate"><span class="pre">pathlib.Path</span></code></a><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">实例。</font></font></p>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">有关</font><font style="vertical-align: inherit;">详细信息，</font><font style="vertical-align: inherit;">请参阅</font></font><a class="reference internal" href="https://docs.pytest.org/en/latest/reference.html#tmp-path-factory-factory-api"><span class="std std-ref"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">tmp_path_factory API</font></font></span></a><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">。</font></font></p>
+</div>
+<div class="section" id="the-tmpdir-fixture">
+<h2><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">'tmpdir'灯具</font></font><a class="headerlink" href="https://docs.pytest.org/en/latest/tmpdir.html#the-tmpdir-fixture" title="永久链接到这个标题"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">¶</font></font></a></h2>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">您可以使用</font></font><code class="docutils literal notranslate"><span class="pre">tmpdir</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">fixture，它将提供在</font></font><a class="reference internal" href="https://docs.pytest.org/en/latest/tmpdir.html#base-temporary-directory"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">基本临时目录中</font></font></a><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">创建的测试调用唯一的</font><a class="reference internal" href="https://docs.pytest.org/en/latest/tmpdir.html#base-temporary-directory"><font style="vertical-align: inherit;">临时目录</font></a><font style="vertical-align: inherit;">。</font></font></p>
+<p><code class="docutils literal notranslate"><span class="pre">tmpdir</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">是一个</font></font><a class="reference external" href="https://py.readthedocs.io/en/latest/path.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">py.path.local</font></font></a><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">对象，提供</font></font><code class="docutils literal notranslate"><span class="pre">os.path</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">方法等。</font><font style="vertical-align: inherit;">以下是测试用法的示例：</font></font></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># content of test_tmpdir.py</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="k">def</span> <span class="nf">test_create_file</span><span class="p">(</span><span class="n">tmpdir</span><span class="p">):</span>
+    <span class="n">p</span> <span class="o">=</span> <span class="n">tmpdir</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="s2">"sub"</span><span class="p">)</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">"hello.txt"</span><span class="p">)</span>
+    <span class="n">p</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">"content"</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">p</span><span class="o">.</span><span class="n">read</span><span class="p">()</span> <span class="o">==</span> <span class="s2">"content"</span>
+    <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">tmpdir</span><span class="o">.</span><span class="n">listdir</span><span class="p">())</span> <span class="o">==</span> <span class="mi">1</span>
+    <span class="k">assert</span> <span class="mi">0</span>
+</pre></div>
+</div>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">运行它会导致传递测试，除了</font><font style="vertical-align: inherit;">我们用来查看值</font><font style="vertical-align: inherit;">的最后
+ </font><font style="vertical-align: inherit;">一行：</font></font><code class="docutils literal notranslate"><span class="pre">assert</span> <span class="pre">0</span></code><font style="vertical-align: inherit;"></font></p>
+<div class="highlight-pytest notranslate"><div class="highlight"><pre><span></span>$ pytest test_tmpdir.py
+<span class=" -Color -Color-Bold">=========================== test session starts ============================</span>
+platform linux -- Python 3.x.y, pytest-4.x.y, py-1.x.y, pluggy-0.x.y
+cachedir: $PYTHON_PREFIX/.pytest_cache
+rootdir: $REGENDOC_TMPDIR, inifile:
+collected 1 item
+
+test_tmpdir.py <span class=" -Color -Color-Red">F</span>                                                     <span class=" -Color -Color-Cyan">[100%]</span>
+
+================================= FAILURES =================================
+<span class=" -Color -Color-BoldRed">_____________________________ test_create_file _____________________________</span>
+
+tmpdir = local('PYTEST_TMPDIR/test_create_file0')
+
+<span class=" -Color -Color-Bold">    def test_create_file(tmpdir):</span>
+<span class=" -Color -Color-Bold">        p = tmpdir.mkdir("sub").join("hello.txt")</span>
+<span class=" -Color -Color-Bold">        p.write("content")</span>
+<span class=" -Color -Color-Bold">        assert p.read() == "content"</span>
+<span class=" -Color -Color-Bold">        assert len(tmpdir.listdir()) == 1</span>
+<span class=" -Color -Color-Bold">&gt;       assert 0</span>
+<span class=" -Color -Color-BoldRed">E       assert 0</span>
+
+<span class=" -Color -Color-BoldRed">test_tmpdir.py</span>:7: AssertionError
+<span class=" -Color -Color-BoldRed">========================= 1 failed in 0.12 seconds =========================</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="the-tmpdir-factory-fixture">
+<span id="tmpdir-factory-example"></span><h2><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">'tmpdir_factory'夹具</font></font><a class="headerlink" href="https://docs.pytest.org/en/latest/tmpdir.html#the-tmpdir-factory-fixture" title="永久链接到这个标题"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">¶</font></font></a></h2>
+<div class="versionadded">
+<p><span class="versionmodified"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">版本2.8中的新功能。</font></font></span></p>
+</div>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">这</font></font><code class="docutils literal notranslate"><span class="pre">tmpdir_factory</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">是一个会话范围的夹具，可用于从任何其他夹具或测试创建任意临时目录。</font></font></p>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">例如，假设您的测试套件需要磁盘上的大图像，这是在程序上生成的。</font></font><code class="docutils literal notranslate"><span class="pre">tmpdir</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">您可以为每个会话生成一次以节省时间，</font><font style="vertical-align: inherit;">而不是为每个使用它的测试计算相同的图像</font><font style="vertical-align: inherit;">：</font></font></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># contents of conftest.py</span>
+<span class="kn">import</span> <span class="nn">pytest</span>
+
+
+<span class="nd">@pytest.fixture</span><span class="p">(</span><span class="n">scope</span><span class="o">=</span><span class="s2">"session"</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">image_file</span><span class="p">(</span><span class="n">tmpdir_factory</span><span class="p">):</span>
+    <span class="n">img</span> <span class="o">=</span> <span class="n">compute_expensive_image</span><span class="p">()</span>
+    <span class="n">fn</span> <span class="o">=</span> <span class="n">tmpdir_factory</span><span class="o">.</span><span class="n">mktemp</span><span class="p">(</span><span class="s2">"data"</span><span class="p">)</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">"img.png"</span><span class="p">)</span>
+    <span class="n">img</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">fn</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">fn</span>
+
+
+<span class="c1"># contents of test_image.py</span>
+<span class="k">def</span> <span class="nf">test_histogram</span><span class="p">(</span><span class="n">image_file</span><span class="p">):</span>
+    <span class="n">img</span> <span class="o">=</span> <span class="n">load_image</span><span class="p">(</span><span class="n">image_file</span><span class="p">)</span>
+    <span class="c1"># compute and test histogram</span>
+</pre></div>
+</div>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">有关</font><font style="vertical-align: inherit;">详细信息，</font><font style="vertical-align: inherit;">请参阅</font></font><a class="reference internal" href="https://docs.pytest.org/en/latest/reference.html#tmpdir-factory-api"><span class="std std-ref"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">tmpdir_factory API</font></font></span></a><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">。</font></font></p>
+</div>
+<div class="section" id="the-default-base-temporary-directory">
+<span id="base-temporary-directory"></span><h2><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">默认的基本临时目录</font></font><a class="headerlink" href="https://docs.pytest.org/en/latest/tmpdir.html#the-default-base-temporary-directory" title="永久链接到这个标题"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">¶</font></font></a></h2>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">默认情况下，临时目录创建为系统临时目录的子目录。</font><font style="vertical-align: inherit;">基本名称将是</font></font><code class="docutils literal notranslate"><span class="pre">pytest-NUM</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">其中
+ </font></font><code class="docutils literal notranslate"><span class="pre">NUM</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">将与每个测试运行递增。</font><font style="vertical-align: inherit;">此外，将删除超过3个临时目录的条目。</font></font></p>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">您可以覆盖默认的临时目录设置，如下所示：</font></font></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pytest --basetemp<span class="o">=</span>mydir
+</pre></div>
+</div>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">在本地计算机上分发测试时，请</font></font><code class="docutils literal notranslate"><span class="pre">pytest</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">注意为子进程配置basetemp目录，以便所有临时数据都落在单个每个测试运行的basetemp目录下。</font></font></p>
+</div>
+</div>
+
+
+          <div id="rtd-1zr4q0tm" class="ethical-alabaster"></div></div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="https://docs.pytest.org/en/latest/contents.html">
+              <img class="logo" src="./pytest文档9_files/pytest1.png" alt="商标">
+            </a></p><h3><a href="https://docs.pytest.org/en/latest/contents.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">目录</font></font></a></h3>
+
+<ul>
+  <li><a href="https://docs.pytest.org/en/latest/index.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">家</font></font></a></li>
+  <li><a href="https://docs.pytest.org/en/latest/getting-started.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">安装</font></font></a></li>
+  <li><a href="https://docs.pytest.org/en/latest/contents.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">内容</font></font></a></li>
+  <li><a href="https://docs.pytest.org/en/latest/reference.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">参考</font></font></a></li>
+  <li><a href="https://docs.pytest.org/en/latest/example/index.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">例子</font></font></a></li>
+  <li><a href="https://docs.pytest.org/en/latest/customize.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">定制</font></font></a></li>
+  <li><a href="https://docs.pytest.org/en/latest/changelog.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">更新日志</font></font></a></li>
+  <li><a href="https://docs.pytest.org/en/latest/contributing.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">特约</font></font></a></li>
+  <li><a href="https://docs.pytest.org/en/latest/backwards-compatibility.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">向后兼容性</font></font></a></li>
+  <li><a href="https://docs.pytest.org/en/latest/license.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">执照</font></font></a></li>
+  <li><a href="https://docs.pytest.org/en/latest/contact.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">联系渠道</font></font></a></li>
+</ul>
+  <hr>
+  <ul>
+<li><a class="reference internal" href="https://docs.pytest.org/en/latest/tmpdir.html#"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">临时目录和文件</font></font></a><ul>
+<li><a class="reference internal" href="https://docs.pytest.org/en/latest/tmpdir.html#the-tmp-path-fixture"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">该</font></font><code class="docutils literal notranslate"><span class="pre">tmp_path</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">夹具</font></font></a></li>
+<li><a class="reference internal" href="https://docs.pytest.org/en/latest/tmpdir.html#the-tmp-path-factory-fixture"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">该</font></font><code class="docutils literal notranslate"><span class="pre">tmp_path_factory</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">夹具</font></font></a></li>
+<li><a class="reference internal" href="https://docs.pytest.org/en/latest/tmpdir.html#the-tmpdir-fixture"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">'tmpdir'夹具</font></font></a></li>
+<li><a class="reference internal" href="https://docs.pytest.org/en/latest/tmpdir.html#the-tmpdir-factory-fixture"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">'tmpdir_factory'夹具</font></font></a></li>
+<li><a class="reference internal" href="https://docs.pytest.org/en/latest/tmpdir.html#the-default-base-temporary-directory"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">默认基本临时目录</font></font></a></li>
+</ul>
+</li>
+</ul>
+<h3><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">相关话题</font></font></h3>
+<ul>
+  <li><a href="https://docs.pytest.org/en/latest/contents.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">文档概述</font></font></a><ul>
+      <li><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">上一页：</font></font><a href="https://docs.pytest.org/en/latest/monkeypatch.html" title="前一章"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Monkeypatching / mocking模块和环境</font></font></a></li>
+      <li><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Next：</font></font><a href="https://docs.pytest.org/en/latest/capture.html" title="下一章"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">捕获stdout / stderr输出</font></font></a></li>
+  </ul></li>
+</ul><h3><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">有用的链接</font></font></h3>
+<ul>
+  <li><a href="https://pypi.org/project/pytest/"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">pytest @ PyPI</font></font></a></li>
+  <li><a href="https://github.com/pytest-dev/pytest/"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">pytest @ GitHub</font></font></a></li>
+  <li><a href="http://plugincompat.herokuapp.com/"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">第三方插件</font></font></a></li>
+  <li><a href="https://github.com/pytest-dev/pytest/issues"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">问题跟踪器</font></font></a></li>
+  <li><a href="https://media.readthedocs.org/pdf/pytest/latest/pytest.pdf"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">PDF文档</font></font></a>
+</li></ul>
+<div id="searchbox" style="" role="search">
+  <h3><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">快速搜索</font></font></h3>
+    <div class="searchformwrapper">
+    <form class="search" action="https://docs.pytest.org/en/latest/search.html" method="get">
+      <input type="text" name="q">
+      <font style="vertical-align: inherit;"><font style="vertical-align: inherit;"><input type="submit" value="走"></font></font>
+      <input type="hidden" name="check_keywords" value="yes">
+      <input type="hidden" name="area" value="default">
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        <div id="rtd-5qfhcnmek" class="ethical-alabaster"><div class="ethical-sidebar"><div class="ethical-content"><a href="https://readthedocs.org/sustainability/click/194/eIaYV0xTZdeV/" rel="nofollow" target="_blank" class="ethical-image-link"><img src="./pytest文档9_files/english-house.png"></a><div class="ethical-text"><a href="https://readthedocs.org/sustainability/click/194/eIaYV0xTZdeV/" rel="nofollow" target="_blank"><b><font style="vertical-align: inherit;"></font></b><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">当您使用“阅读文档”进行广告宣传时，每个月</font><b><font style="vertical-align: inherit;">达到700多万开发者</font></b></font></a><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">。</font></font></div></div><div class="ethical-callout"><small><em><a href="https://readthedocs.org/sustainability/advertising/"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">赞助商</font></font></a><span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">· </font></font></span><a href="https://docs.readthedocs.io/en/latest/ethical-advertising.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">道德服务广告</font></font></a></em></small></div></div><img src="./pytest文档9_files/saved_resource" style="display: none;"></div></div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+
+  <div class="footer"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+    ©版权所有2015-2019，holger krekel和pytest-dev团队。</font><font style="vertical-align: inherit;">使用</font></font><a href="http://sphinx.pocoo.org/"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Sphinx</font></font></a><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">创建</font><font style="vertical-align: inherit;">。
+  </font></font></div>
+  
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-7597274-13']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script><div id="goog-gt-tt" class="skiptranslate" dir="ltr"><div style="padding: 8px;"><div><div class="logo"><img src="./pytest文档9_files/translate_24dp.png" width="20" height="20" alt="Google 翻译"></div></div></div><div class="top" style="padding: 8px; float: left; width: 100%;"><h1 class="title gray">原文</h1></div><div class="middle" style="padding: 8px;"><div class="original-text"></div></div><div class="bottom" style="padding: 8px;"><div class="activity-links"><span class="activity-link">提供更好的翻译建议</span><span class="activity-link"></span></div><div class="started-activity-container"><hr style="color: #CCC; background-color: #CCC; height: 1px; border: none;"><div class="activity-root"></div></div></div><div class="status-message" style="display: none;"></div></div>
+
+  
+<div class="goog-te-spinner-pos"><div class="goog-te-spinner-animation"><svg xmlns="http://www.w3.org/2000/svg" class="goog-te-spinner" width="96px" height="96px" viewBox="0 0 66 66"><circle class="goog-te-spinner-path" fill="none" stroke-width="6" stroke-linecap="round" cx="33" cy="33" r="30"></circle></svg></div></div><!-- Inserted RTD Footer -->
+<div class="injected">
+
+  
+  <div class="rst-versions rst-badge" data-toggle="rst-versions">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      <span class="fa fa-book">&nbsp;</span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+      v：最新的
+      </font></font><span class="fa fa-caret-down"></span>
+    </span>
+    <div class="rst-other-versions">
+      
+
+      
+      
+      
+      <dl>
+        <dt><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">版本</font></font></dt>
+        
+         <strong> 
+        <dd><a href="http://doc.pytest.org/en/latest/tmpdir.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">最新</font></font></a></dd>
+         </strong> 
+        
+        
+        <dd><a href="http://doc.pytest.org/en/stable/tmpdir.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">稳定</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/4.3.1/tmpdir.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">4.3.1</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/4.3.0/tmpdir.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">4.3.0</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/4.2.1/tmpdir.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">4.2.1</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/4.2.0/tmpdir.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">4.2.0</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/4.1.1/tmpdir.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">4.1.1</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/4.1.0/tmpdir.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">4.1.0</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/4.0.2/tmpdir.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">4.0.2</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/4.0.1/tmpdir.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">4.0.1</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/4.0.0/tmpdir.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">4.0.0</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.10.1/tmpdir.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.10.1</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.10.0/tmpdir.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.10.0</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.9.3/tmpdir.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.9.3</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.9.2/tmpdir.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.9.2</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.9.1/tmpdir.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.9.1</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.9.0/tmpdir.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.9.0</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.8.2/tmpdir.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.8.2</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.8.1/tmpdir.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.8.1</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.8.0/tmpdir.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.8.0</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.7.4/tmpdir.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.7.4</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.7.3/tmpdir.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.7.3</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.7.2/tmpdir.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.7.2</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.7.1/tmpdir.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.7.1</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.7.0/tmpdir.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.7.0</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.6.4/tmpdir.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.6.4</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.6.3/tmpdir.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.6.3</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.6.2/tmpdir.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.6.2</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.6.1/tmpdir.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.6.1</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.6.0/tmpdir.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.6.0</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.5.1/tmpdir.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.5.1</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.5.0/tmpdir.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.5.0</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.4.2/tmpdir.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.4.2</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.4.1/tmpdir.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.4.1</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.4.0/tmpdir.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.4.0</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.3.2/tmpdir.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.3.2</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.3.1/tmpdir.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.3.1</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.3.0/tmpdir.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.3.0</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.2.5/tmpdir.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.2.5</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.2.4/tmpdir.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.2.4</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.2.3/tmpdir.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.2.3</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.2.2/tmpdir.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.2.2</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.2.1/tmpdir.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.2.1</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.2.0/tmpdir.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.2.0</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.1.3/tmpdir.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.1.3</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.1.2/tmpdir.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.1.2</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.1.1/tmpdir.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.1.1</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.1.0/tmpdir.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.1.0</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.0.7/tmpdir.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.0.7</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.0.6/tmpdir.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.0.6</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.0.5/tmpdir.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.0.5</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.0.4/tmpdir.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.0.4</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.0.3/tmpdir.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.0.3</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.0.2/tmpdir.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.0.2</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.0.1/tmpdir.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.0.1</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.0.0/tmpdir.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.0.0</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/2.9.2/tmpdir.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">2.9.2</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/2.9.1/tmpdir.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">2.9.1</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/2.9.0/tmpdir.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">2.9.0</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/2.8.7/tmpdir.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">2.8.7</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/2.7.3/tmpdir.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">2.7.3</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/sphinx-removed-in/tmpdir.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">斯芬克斯-除去式</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/features/tmpdir.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">特征</font></font></a></dd>
+        
+        
+      </dl>
+      
+      
+
+      
+      
+      <dl>
+        <dt><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">下载</font></font></dt>
+        
+        <dd><a href="https://readthedocs.org/projects/pytest/downloads/pdf/latest/"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">PDF</font></font></a></dd>
+        
+        <dd><a href="https://readthedocs.org/projects/pytest/downloads/htmlzip/latest/"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">HTML</font></font></a></dd>
+        
+        <dd><a href="https://readthedocs.org/projects/pytest/downloads/epub/latest/"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">EPUB</font></font></a></dd>
+        
+      </dl>
+      
+      
+
+      
+      <dl>
+        <!-- These are kept as relative links for internal installs that are http -->
+        <dt><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">阅读文档</font></font></dt>
+        <dd>
+          <a href="https://readthedocs.org/projects/pytest/"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">项目主页</font></font></a>
+        </dd>
+        <dd>
+          <a href="https://readthedocs.org/projects/pytest/builds/"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">构建</font></font></a>
+        </dd>
+        <dd>
+          <a href="https://readthedocs.org/projects/pytest/downloads/"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">下载</font></font></a>
+        </dd>
+      </dl>
+      
+
+      
+
+      
+      <dl>
+        <dt><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">在GitHub上</font></font></dt>
+        <dd>
+          <a href="https://github.com/pytest-dev/pytest/blob/master/doc/en/tmpdir.rst"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">视图</font></font></a>
+        </dd>
+        
+      </dl>
+      
+      
+
+      
+      <dl>
+        <dt><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">搜索</font></font></dt>
+        <dd>
+          <div style="padding: 6px;">
+            <form id="flyout-search-form" class="wy-form" target="_blank" action="https://readthedocs.org/projects/pytest/search/" method="get">
+              <input type="text" name="q" placeholder="Search docs">
+              </form>
+          </div>
+        </dd>
+      </dl>
+      
+
+
+
+      <hr>
+      
+        <small>
+          <span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">主持人</font></font><a href="https://readthedocs.org/"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">阅读文档</font></font></a></span>
+          <span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> · </font></font></span>
+          <a href="https://docs.readthedocs.io/page/privacy-policy.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">隐私政策</font></font></a>
+        </small>
+      
+
+      
+    </div>
+  </div>
+  
+
+</div>
+</body></html>

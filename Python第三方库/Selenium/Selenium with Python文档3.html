@@ -1,0 +1,444 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- saved from url=(0059)https://selenium-python.readthedocs.io/getting-started.html -->
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh-CN" class="translated-ltr"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+    
+    <title>2.入门 -  Selenium Python Bindings 2文档</title>
+    <link rel="stylesheet" href="./Selenium with Python文档3_files/alabaster.css" type="text/css">
+    <link rel="stylesheet" href="./Selenium with Python文档3_files/pygments.css" type="text/css">
+    <link rel="stylesheet" href="./Selenium with Python文档3_files/badge_only.css" type="text/css">
+    <script async="" src="./Selenium with Python文档3_files/analytics.js"></script><script type="text/javascript" id="documentation_options" data-url_root="./" src="./Selenium with Python文档3_files/documentation_options.js"></script>
+    <script type="text/javascript" src="./Selenium with Python文档3_files/jquery-2.0.3.min.js"></script>
+    <script type="text/javascript" src="./Selenium with Python文档3_files/jquery-migrate-1.2.1.min.js"></script>
+    <script type="text/javascript" src="./Selenium with Python文档3_files/underscore.js"></script>
+    <script type="text/javascript" src="./Selenium with Python文档3_files/doctools.js"></script>
+    <script type="text/javascript" src="./Selenium with Python文档3_files/readthedocs-doc-embed.js"></script>
+    <link rel="index" title="指数" href="https://selenium-python.readthedocs.io/genindex.html">
+    <link rel="search" title="搜索" href="https://selenium-python.readthedocs.io/search.html">
+    <link rel="next" title="3.导航" href="https://selenium-python.readthedocs.io/navigating.html">
+    <link rel="prev" title="1.安装" href="https://selenium-python.readthedocs.io/installation.html">
+   
+  <link rel="stylesheet" href="./Selenium with Python文档3_files/custom.css" type="text/css">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9">
+
+  
+<!-- RTD Extra Head -->
+
+<!-- 
+Always link to the latest version, as canonical.
+http://docs.readthedocs.org/en/latest/canonical.html
+-->
+<link rel="canonical" href="https://selenium-python.readthedocs.io/getting-started.html">
+
+<link rel="stylesheet" href="./Selenium with Python文档3_files/readthedocs-doc-embed.css" type="text/css">
+
+<script type="text/javascript" src="./Selenium with Python文档3_files/readthedocs-data.js"></script>
+
+<!-- Add page-specific data, which must exist in the page js, not global -->
+<script type="text/javascript">
+READTHEDOCS_DATA['page'] = 'getting-started'
+READTHEDOCS_DATA['source_suffix'] = '.rst'
+</script>
+
+<script type="text/javascript" src="./Selenium with Python文档3_files/readthedocs-analytics.js"></script>
+
+<!-- end RTD <extrahead> -->
+<link type="text/css" rel="stylesheet" charset="UTF-8" href="./Selenium with Python文档3_files/translateelement.css"></head><body style="">
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="getting-started">
+<span id="id1"></span><h1><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">2.入门</font></font><a class="headerlink" href="https://selenium-python.readthedocs.io/getting-started.html#getting-started" title="永久链接到这个标题"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">¶</font></font></a></h1>
+<div class="section" id="simple-usage">
+<h2><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">2.1。</font><font style="vertical-align: inherit;">简单用法</font></font><a class="headerlink" href="https://selenium-python.readthedocs.io/getting-started.html#simple-usage" title="永久链接到这个标题"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">¶</font></font></a></h2>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">如果你已经安装了Selenium Python绑定，你可以像这样从Python开始使用它。</font></font></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">selenium</span> <span class="k">import</span> <span class="n">webdriver</span>
+<span class="kn">from</span> <span class="nn">selenium.webdriver.common.keys</span> <span class="k">import</span> <span class="n">Keys</span>
+
+<span class="n">driver</span> <span class="o">=</span> <span class="n">webdriver</span><span class="o">.</span><span class="n">Firefox</span><span class="p">()</span>
+<span class="n">driver</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"http://www.python.org"</span><span class="p">)</span>
+<span class="k">assert</span> <span class="s2">"Python"</span> <span class="ow">in</span> <span class="n">driver</span><span class="o">.</span><span class="n">title</span>
+<span class="n">elem</span> <span class="o">=</span> <span class="n">driver</span><span class="o">.</span><span class="n">find_element_by_name</span><span class="p">(</span><span class="s2">"q"</span><span class="p">)</span>
+<span class="n">elem</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
+<span class="n">elem</span><span class="o">.</span><span class="n">send_keys</span><span class="p">(</span><span class="s2">"pycon"</span><span class="p">)</span>
+<span class="n">elem</span><span class="o">.</span><span class="n">send_keys</span><span class="p">(</span><span class="n">Keys</span><span class="o">.</span><span class="n">RETURN</span><span class="p">)</span>
+<span class="k">assert</span> <span class="s2">"No results found."</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">driver</span><span class="o">.</span><span class="n">page_source</span>
+<span class="n">driver</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</pre></div>
+</div>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">上面的脚本可以保存到文件中（例如： -
+ </font></font><cite><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">python_org_search.py</font></font></cite><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">），然后可以像这样运行：</font></font></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">python_org_search</span><span class="o">.</span><span class="n">py</span>
+</pre></div>
+</div>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">您运行</font><font style="vertical-align: inherit;">的</font></font><cite><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">python</font></font></cite><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">应该</font><font style="vertical-align: inherit;">安装</font></font><cite><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">selenium</font></font></cite><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">模块。</font></font></p>
+</div>
+<div class="section" id="example-explained">
+<h2><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">2.2。</font><font style="vertical-align: inherit;">示例说明</font></font><a class="headerlink" href="https://selenium-python.readthedocs.io/getting-started.html#example-explained" title="永久链接到这个标题"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">¶</font></font></a></h2>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">该</font></font><cite><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">selenium.webdriver</font></font></cite><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">模块提供了所有的webdriver实现。</font><font style="vertical-align: inherit;">目前支持的WebDriver实现是Firefox，Chrome，IE和Remote。</font><font style="vertical-align: inherit;">该</font></font><cite><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">键</font></font></cite><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">类提供键在键盘像RETURN，F1，ALT等。</font></font></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">selenium</span> <span class="k">import</span> <span class="n">webdriver</span>
+<span class="kn">from</span> <span class="nn">selenium.webdriver.common.keys</span> <span class="k">import</span> <span class="n">Keys</span>
+</pre></div>
+</div>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">接下来，创建Firefox WebDriver的实例。</font></font></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">driver</span> <span class="o">=</span> <span class="n">webdriver</span><span class="o">.</span><span class="n">Firefox</span><span class="p">()</span>
+</pre></div>
+</div>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">该</font></font><cite><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">driver.get</font></font></cite><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">方法将定位在给定的URL的网页。</font><font style="vertical-align: inherit;">在将控件返回到测试或脚本之前，WebDriver将等待页面完全加载（即“onload”事件已触发）。</font><font style="vertical-align: inherit;">值得注意的是，如果您的页面在加载时使用了大量的AJAX，那么WebDriver可能不知道它何时完全加载：</font></font></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">driver</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"http://www.python.org"</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">下一行是断言，确认标题中有“Python”字样：</font></font></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">assert</span> <span class="s2">"Python"</span> <span class="ow">in</span> <span class="n">driver</span><span class="o">.</span><span class="n">title</span>
+</pre></div>
+</div>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">WebDriver提供了许多使用</font></font><cite><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">find_element_by_ *</font></font></cite><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">方法</font><font style="vertical-align: inherit;">查找元素的
+ </font><font style="vertical-align: inherit;">方法。</font><font style="vertical-align: inherit;">例如，可以</font><font style="vertical-align: inherit;">使用</font><cite><font style="vertical-align: inherit;">find_element_by_name</font></cite><font style="vertical-align: inherit;"> 
+方法</font><font style="vertical-align: inherit;">通过其</font></font><cite><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">name</font></font></cite><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">属性</font><font style="vertical-align: inherit;">定位输入文本元素</font><font style="vertical-align: inherit;">。</font><font style="vertical-align: inherit;">有关查找元素的详细说明，请参阅“
+ </font><a class="reference internal" href="https://selenium-python.readthedocs.io/locating-elements.html#locating-elements"><span class="std std-ref"><font style="vertical-align: inherit;">定位元素”</font></span></a><font style="vertical-align: inherit;">一章：</font></font><cite><font style="vertical-align: inherit;"></font></cite><font style="vertical-align: inherit;"></font><a class="reference internal" href="https://selenium-python.readthedocs.io/locating-elements.html#locating-elements"><span class="std std-ref"><font style="vertical-align: inherit;"></font></span></a><font style="vertical-align: inherit;"></font></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">elem</span> <span class="o">=</span> <span class="n">driver</span><span class="o">.</span><span class="n">find_element_by_name</span><span class="p">(</span><span class="s2">"q"</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">接下来，我们发送密钥，这类似于使用键盘输入密钥。</font><font style="vertical-align: inherit;">可以使用</font><font style="vertical-align: inherit;">从</font><cite><font style="vertical-align: inherit;">selenium.webdriver.common.keys</font></cite><font style="vertical-align: inherit;">导入的</font></font><cite><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Keys</font></font></cite><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">类
+ </font><font style="vertical-align: inherit;">发送特殊键</font><font style="vertical-align: inherit;">。</font><font style="vertical-align: inherit;">为安全起见，我们首先清除输入字段中的任何预先填充的文本（例如“搜索”），这样就不会影响我们的搜索结果：</font></font><cite><font style="vertical-align: inherit;"></font></cite><font style="vertical-align: inherit;"></font></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">elem</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
+<span class="n">elem</span><span class="o">.</span><span class="n">send_keys</span><span class="p">(</span><span class="s2">"pycon"</span><span class="p">)</span>
+<span class="n">elem</span><span class="o">.</span><span class="n">send_keys</span><span class="p">(</span><span class="n">Keys</span><span class="o">.</span><span class="n">RETURN</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">提交页面后，如果有结果，您应该得到结果。</font><font style="vertical-align: inherit;">为确保找到某些结果，请进行断言：</font></font></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">assert</span> <span class="s2">"No results found."</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">driver</span><span class="o">.</span><span class="n">page_source</span>
+</pre></div>
+</div>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">最后，浏览器窗口关闭。</font><font style="vertical-align: inherit;">您也可以调用</font></font><cite><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">quit</font></font></cite><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> 
+方法而不是</font></font><cite><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">close</font></font></cite><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">。</font><font style="vertical-align: inherit;">该</font></font><cite><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">退出</font></font></cite><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">将退出整个浏览器，而close`将关闭一个标签，但如果只有一个选项卡是开放的，默认情况下，大多数浏览器将完全退出：</font></font></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">driver</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="using-selenium-to-write-tests">
+<h2><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">2.3。</font><font style="vertical-align: inherit;">使用Selenium编写测试</font></font><a class="headerlink" href="https://selenium-python.readthedocs.io/getting-started.html#using-selenium-to-write-tests" title="永久链接到这个标题"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">¶</font></font></a></h2>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">硒主要用于编写测试用例。</font><font style="vertical-align: inherit;">该</font></font><cite><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">硒</font></font></cite><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> 
+包本身不提供测试工具/框架。</font><font style="vertical-align: inherit;">您可以使用Python的unittest模块编写测试用例。</font><font style="vertical-align: inherit;">工具/框架的其他选项是py.test和nose。</font></font></p>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">在本章中，我们使用</font></font><cite><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">unittest</font></font></cite><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">作为选择框架。</font><font style="vertical-align: inherit;">以下是使用unittest模块的修改示例。</font><font style="vertical-align: inherit;">这是对</font></font><cite><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">python.org</font></font></cite><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">搜索功能</font><font style="vertical-align: inherit;">的测试</font><font style="vertical-align: inherit;">：</font></font></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">unittest</span>
+<span class="kn">from</span> <span class="nn">selenium</span> <span class="k">import</span> <span class="n">webdriver</span>
+<span class="kn">from</span> <span class="nn">selenium.webdriver.common.keys</span> <span class="k">import</span> <span class="n">Keys</span>
+
+<span class="k">class</span> <span class="nc">PythonOrgSearch</span><span class="p">(</span><span class="n">unittest</span><span class="o">.</span><span class="n">TestCase</span><span class="p">):</span>
+
+    <span class="k">def</span> <span class="nf">setUp</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">driver</span> <span class="o">=</span> <span class="n">webdriver</span><span class="o">.</span><span class="n">Firefox</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">test_search_in_python_org</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">driver</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">driver</span>
+        <span class="n">driver</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"http://www.python.org"</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertIn</span><span class="p">(</span><span class="s2">"Python"</span><span class="p">,</span> <span class="n">driver</span><span class="o">.</span><span class="n">title</span><span class="p">)</span>
+        <span class="n">elem</span> <span class="o">=</span> <span class="n">driver</span><span class="o">.</span><span class="n">find_element_by_name</span><span class="p">(</span><span class="s2">"q"</span><span class="p">)</span>
+        <span class="n">elem</span><span class="o">.</span><span class="n">send_keys</span><span class="p">(</span><span class="s2">"pycon"</span><span class="p">)</span>
+        <span class="n">elem</span><span class="o">.</span><span class="n">send_keys</span><span class="p">(</span><span class="n">Keys</span><span class="o">.</span><span class="n">RETURN</span><span class="p">)</span>
+        <span class="k">assert</span> <span class="s2">"No results found."</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">driver</span><span class="o">.</span><span class="n">page_source</span>
+
+
+    <span class="k">def</span> <span class="nf">tearDown</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">driver</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">"__main__"</span><span class="p">:</span>
+    <span class="n">unittest</span><span class="o">.</span><span class="n">main</span><span class="p">()</span>
+</pre></div>
+</div>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">您可以从shell运行上面的测试用例，如下所示：</font></font></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">test_python_org_search</span><span class="o">.</span><span class="n">py</span>
+<span class="o">.</span>
+<span class="o">----------------------------------------------------------------------</span>
+<span class="n">Ran</span> <span class="mi">1</span> <span class="n">test</span> <span class="ow">in</span> <span class="mf">15.566</span><span class="n">s</span>
+
+<span class="n">OK</span>
+</pre></div>
+</div>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">以上结果表明测试已成功完成。</font></font></p>
+</div>
+<div class="section" id="walk-through-of-the-example">
+<h2><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">2.4。</font><font style="vertical-align: inherit;">完成示例</font></font><a class="headerlink" href="https://selenium-python.readthedocs.io/getting-started.html#walk-through-of-the-example" title="永久链接到这个标题"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">¶</font></font></a></h2>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">最初，导入所需的所有基本模块。</font><font style="vertical-align: inherit;">该</font></font><a class="reference external" href="http://docs.python.org/library/unittest.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">单元测试</font></font></a><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">模块是内置Python基于Java的JUnit。</font><font style="vertical-align: inherit;">该模块提供了组织测试用例的框架。</font><font style="vertical-align: inherit;">该</font></font><cite><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">selenium.webdriver</font></font></cite><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">模块提供了所有的webdriver实现。</font><font style="vertical-align: inherit;">目前支持的WebDriver实现是Firefox，Chrome，Ie和Remote。</font><font style="vertical-align: inherit;">该</font></font><cite><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">键</font></font></cite><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">类提供键在键盘像RETURN，F1，ALT等。</font></font></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">unittest</span>
+<span class="kn">from</span> <span class="nn">selenium</span> <span class="k">import</span> <span class="n">webdriver</span>
+<span class="kn">from</span> <span class="nn">selenium.webdriver.common.keys</span> <span class="k">import</span> <span class="n">Keys</span>
+</pre></div>
+</div>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">测试用例类继承自</font></font><cite><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">unittest.TestCase</font></font></cite><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">。</font><font style="vertical-align: inherit;">继承</font></font><cite><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">TestCase</font></font></cite><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">类是告诉</font></font><cite><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">unittest</font></font></cite><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">模块这是一个测试用例的方法：</font></font></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">PythonOrgSearch</span><span class="p">(</span><span class="n">unittest</span><span class="o">.</span><span class="n">TestCase</span><span class="p">):</span>
+</pre></div>
+</div>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">该</font></font><cite><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">的setUp</font></font></cite><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">是初始化的一部分，此方法将你要在这个测试用例类写的每一个测试函数之前被调用。</font><font style="vertical-align: inherit;">在这里，您将创建Firefox WebDriver的实例。</font></font></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">setUp</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">driver</span> <span class="o">=</span> <span class="n">webdriver</span><span class="o">.</span><span class="n">Firefox</span><span class="p">()</span>
+</pre></div>
+</div>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">这是测试用例方法。</font><font style="vertical-align: inherit;">测试用例方法应始终以字符</font></font><cite><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">测试</font></font></cite><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">开始</font><font style="vertical-align: inherit;">。</font><font style="vertical-align: inherit;">此方法中的第一行创建对</font></font><cite><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">setUp</font></font></cite><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">方法中</font><font style="vertical-align: inherit;">创建的驱动程序对象的本地引用</font><font style="vertical-align: inherit;">。</font></font></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">test_search_in_python_org</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="n">driver</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">driver</span>
+</pre></div>
+</div>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">该</font></font><cite><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">driver.get</font></font></cite><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">方法将定位在给定的URL的网页。</font><font style="vertical-align: inherit;">在将控件返回到测试或脚本之前，WebDriver将等待页面完全加载（即“onload”事件已触发）。</font><font style="vertical-align: inherit;">值得注意的是，如果您的页面在加载时使用了大量的AJAX，那么WebDriver可能不知道它何时完全加载：</font></font></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">driver</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"http://www.python.org"</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">下一行是断言，确认标题中有“Python”字样：</font></font></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="bp">self</span><span class="o">.</span><span class="n">assertIn</span><span class="p">(</span><span class="s2">"Python"</span><span class="p">,</span> <span class="n">driver</span><span class="o">.</span><span class="n">title</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">WebDriver提供了许多使用</font></font><cite><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">find_element_by_ *</font></font></cite><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">方法</font><font style="vertical-align: inherit;">查找元素的
+ </font><font style="vertical-align: inherit;">方法。</font><font style="vertical-align: inherit;">例如，可以</font><font style="vertical-align: inherit;">使用</font><cite><font style="vertical-align: inherit;">find_element_by_name</font></cite><font style="vertical-align: inherit;"> 
+方法</font><font style="vertical-align: inherit;">通过其</font></font><cite><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">name</font></font></cite><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">属性</font><font style="vertical-align: inherit;">定位输入文本元素</font><font style="vertical-align: inherit;">。</font><font style="vertical-align: inherit;">有关查找元素的详细说明，请参见“
+ </font><a class="reference internal" href="https://selenium-python.readthedocs.io/locating-elements.html#locating-elements"><span class="std std-ref"><font style="vertical-align: inherit;">定位元素”</font></span></a><font style="vertical-align: inherit;">一章：</font></font><cite><font style="vertical-align: inherit;"></font></cite><font style="vertical-align: inherit;"></font><a class="reference internal" href="https://selenium-python.readthedocs.io/locating-elements.html#locating-elements"><span class="std std-ref"><font style="vertical-align: inherit;"></font></span></a><font style="vertical-align: inherit;"></font></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">elem</span> <span class="o">=</span> <span class="n">driver</span><span class="o">.</span><span class="n">find_element_by_name</span><span class="p">(</span><span class="s2">"q"</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">接下来，我们发送密钥，这类似于使用键盘输入密钥。</font><font style="vertical-align: inherit;">可以使用</font><font style="vertical-align: inherit;">从</font><cite><font style="vertical-align: inherit;">selenium.webdriver.common.keys</font></cite><font style="vertical-align: inherit;">导入的</font></font><cite><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Keys</font></font></cite><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">类
+ </font><font style="vertical-align: inherit;">发送特殊键</font><font style="vertical-align: inherit;">：</font></font><cite><font style="vertical-align: inherit;"></font></cite><font style="vertical-align: inherit;"></font></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">elem</span><span class="o">.</span><span class="n">send_keys</span><span class="p">(</span><span class="s2">"pycon"</span><span class="p">)</span>
+<span class="n">elem</span><span class="o">.</span><span class="n">send_keys</span><span class="p">(</span><span class="n">Keys</span><span class="o">.</span><span class="n">RETURN</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">提交页面后，如果有的话，您应该按照搜索结果获得结果。</font><font style="vertical-align: inherit;">为确保找到某些结果，请进行断言：</font></font></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">assert</span> <span class="s2">"No results found."</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">driver</span><span class="o">.</span><span class="n">page_source</span>
+</pre></div>
+</div>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">该</font></font><cite><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">拆卸</font></font></cite><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">方法将每个测试方法之后被调用。</font><font style="vertical-align: inherit;">这是一个执行所有清理操作的地方。</font><font style="vertical-align: inherit;">在当前方法中，浏览器窗口关闭。</font><font style="vertical-align: inherit;">您也可以调用</font></font><cite><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">quit</font></font></cite><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">方法而不是
+ </font></font><cite><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">close</font></font></cite><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">。</font><font style="vertical-align: inherit;">该</font></font><cite><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">退出</font></font></cite><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">将退出整个浏览器，而</font></font><cite><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">关闭</font></font></cite><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> 
+将关闭一个标签，但如果它是唯一选项卡中打开，默认情况下大多数浏览器将完全退出：</font></font></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">tearDown</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">driver</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</pre></div>
+</div>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">最后一行是运行测试套件的一些样板代码：</font></font></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">"__main__"</span><span class="p">:</span>
+    <span class="n">unittest</span><span class="o">.</span><span class="n">main</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="using-selenium-with-remote-webdriver">
+<span id="selenium-remote-webdriver"></span><h2><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">2.5。</font><font style="vertical-align: inherit;">使用Selenium远程的webdriver </font></font><a class="headerlink" href="https://selenium-python.readthedocs.io/getting-started.html#using-selenium-with-remote-webdriver" title="永久链接到这个标题"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">¶</font></font></a></h2>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">要使用远程WebDriver，您应该运行Selenium服务器。</font><font style="vertical-align: inherit;">要运行服务器，请使用以下命令：</font></font></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">java</span> <span class="o">-</span><span class="n">jar</span> <span class="n">selenium</span><span class="o">-</span><span class="n">server</span><span class="o">-</span><span class="n">standalone</span><span class="o">-</span><span class="mf">2.</span><span class="n">x</span><span class="o">.</span><span class="n">x</span><span class="o">.</span><span class="n">jar</span>
+</pre></div>
+</div>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">在运行Selenium服务器时，您可以看到如下所示的消息：</font></font></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mi">15</span><span class="p">:</span><span class="mi">43</span><span class="p">:</span><span class="mf">07.541</span> <span class="n">INFO</span> <span class="o">-</span> <span class="n">RemoteWebDriver</span> <span class="n">instances</span> <span class="n">should</span> <span class="n">connect</span> <span class="n">to</span><span class="p">:</span> <span class="n">http</span><span class="p">:</span><span class="o">//</span><span class="mf">127.0</span><span class="o">.</span><span class="mf">0.1</span><span class="p">:</span><span class="mi">4444</span><span class="o">/</span><span class="n">wd</span><span class="o">/</span><span class="n">hub</span>
+</pre></div>
+</div>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">上面的一行表示您可以使用此URL连接到远程WebDriver。</font><font style="vertical-align: inherit;">这里有些例子：</font></font></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">selenium</span> <span class="k">import</span> <span class="n">webdriver</span>
+<span class="kn">from</span> <span class="nn">selenium.webdriver.common.desired_capabilities</span> <span class="k">import</span> <span class="n">DesiredCapabilities</span>
+
+<span class="n">driver</span> <span class="o">=</span> <span class="n">webdriver</span><span class="o">.</span><span class="n">Remote</span><span class="p">(</span>
+   <span class="n">command_executor</span><span class="o">=</span><span class="s1">'http://127.0.0.1:4444/wd/hub'</span><span class="p">,</span>
+   <span class="n">desired_capabilities</span><span class="o">=</span><span class="n">DesiredCapabilities</span><span class="o">.</span><span class="n">CHROME</span><span class="p">)</span>
+
+<span class="n">driver</span> <span class="o">=</span> <span class="n">webdriver</span><span class="o">.</span><span class="n">Remote</span><span class="p">(</span>
+   <span class="n">command_executor</span><span class="o">=</span><span class="s1">'http://127.0.0.1:4444/wd/hub'</span><span class="p">,</span>
+   <span class="n">desired_capabilities</span><span class="o">=</span><span class="n">DesiredCapabilities</span><span class="o">.</span><span class="n">OPERA</span><span class="p">)</span>
+
+<span class="n">driver</span> <span class="o">=</span> <span class="n">webdriver</span><span class="o">.</span><span class="n">Remote</span><span class="p">(</span>
+   <span class="n">command_executor</span><span class="o">=</span><span class="s1">'http://127.0.0.1:4444/wd/hub'</span><span class="p">,</span>
+   <span class="n">desired_capabilities</span><span class="o">=</span><span class="n">DesiredCapabilities</span><span class="o">.</span><span class="n">HTMLUNITWITHJS</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">所需的功能是字典，因此您可以显式指定值，而不是使用默认字典：</font></font></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">driver</span> <span class="o">=</span> <span class="n">webdriver</span><span class="o">.</span><span class="n">Remote</span><span class="p">(</span>
+   <span class="n">command_executor</span><span class="o">=</span><span class="s1">'http://127.0.0.1:4444/wd/hub'</span><span class="p">,</span>
+   <span class="n">desired_capabilities</span><span class="o">=</span><span class="p">{</span><span class="s1">'browserName'</span><span class="p">:</span> <span class="s1">'htmlunit'</span><span class="p">,</span>
+                         <span class="s1">'version'</span><span class="p">:</span> <span class="s1">'2'</span><span class="p">,</span>
+                        <span class="s1">'javascriptEnabled'</span><span class="p">:</span> <span class="kc">True</span><span class="p">})</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+          <div id="rtd-0t545wxm" class="ethical-alabaster"></div></div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<p class="logo">
+  <a href="https://selenium-python.readthedocs.io/index.html">
+    <img class="logo" src="./Selenium with Python文档3_files/logo.png" alt="商标">
+    
+  </a>
+</p>
+
+
+
+
+
+
+
+
+<h3><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">导航</font></font></h3>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="https://selenium-python.readthedocs.io/installation.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">1.安装</font></font></a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="https://selenium-python.readthedocs.io/getting-started.html#"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">2.入门</font></font></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="https://selenium-python.readthedocs.io/getting-started.html#simple-usage"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">2.1。</font><font style="vertical-align: inherit;">简单用法</font></font></a></li>
+<li class="toctree-l2"><a class="reference internal" href="https://selenium-python.readthedocs.io/getting-started.html#example-explained"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">2.2。</font><font style="vertical-align: inherit;">示例说明</font></font></a></li>
+<li class="toctree-l2"><a class="reference internal" href="https://selenium-python.readthedocs.io/getting-started.html#using-selenium-to-write-tests"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">2.3。</font><font style="vertical-align: inherit;">使用Selenium编写测试</font></font></a></li>
+<li class="toctree-l2"><a class="reference internal" href="https://selenium-python.readthedocs.io/getting-started.html#walk-through-of-the-example"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">2.4。</font><font style="vertical-align: inherit;">走过这个例子</font></font></a></li>
+<li class="toctree-l2"><a class="reference internal" href="https://selenium-python.readthedocs.io/getting-started.html#using-selenium-with-remote-webdriver"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">2.5。</font><font style="vertical-align: inherit;">将Selenium与远程WebDriver一起使用</font></font></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="https://selenium-python.readthedocs.io/navigating.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.导航</font></font></a></li>
+<li class="toctree-l1"><a class="reference internal" href="https://selenium-python.readthedocs.io/locating-elements.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">4.定位元素</font></font></a></li>
+<li class="toctree-l1"><a class="reference internal" href="https://selenium-python.readthedocs.io/waits.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">等待</font></font></a></li>
+<li class="toctree-l1"><a class="reference internal" href="https://selenium-python.readthedocs.io/page-objects.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">6.页面对象</font></font></a></li>
+<li class="toctree-l1"><a class="reference internal" href="https://selenium-python.readthedocs.io/api.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">7. WebDriver API</font></font></a></li>
+<li class="toctree-l1"><a class="reference internal" href="https://selenium-python.readthedocs.io/faq.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">8.附录：常见问题</font></font></a></li>
+</ul>
+
+<div class="relations">
+<h3><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">相关话题</font></font></h3>
+<ul>
+  <li><a href="https://selenium-python.readthedocs.io/index.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">文档概述</font></font></a><ul>
+      <li><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">上一页：</font></font><a href="https://selenium-python.readthedocs.io/installation.html" title="前一章"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">1。安装</font></font></a></li>
+      <li><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">下一步：</font></font><a href="https://selenium-python.readthedocs.io/navigating.html" title="下一章"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3。导航</font></font></a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="" role="search">
+  <h3><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">快速搜索</font></font></h3>
+    <div class="searchformwrapper">
+    <form class="search" action="https://selenium-python.readthedocs.io/search.html" method="get">
+      <input type="text" name="q">
+      <font style="vertical-align: inherit;"><font style="vertical-align: inherit;"><input type="submit" value="走"></font></font>
+      <input type="hidden" name="check_keywords" value="yes">
+      <input type="hidden" name="area" value="default">
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        <div id="rtd-lx7m2ex8" class="ethical-alabaster"><div class="ethical-sidebar"><div class="ethical-content"><a href="https://readthedocs.org/sustainability/click/305/i7nn1PTQvC3E/" rel="nofollow" target="_blank" class="ethical-image-link"><img src="./Selenium with Python文档3_files/readthedocs-logo-fs8.png"></a><div class="ethical-text"><a href="https://readthedocs.org/sustainability/click/305/i7nn1PTQvC3E/" rel="nofollow" target="_blank"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">私人回购和优先支持</font></font><br><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">尝试阅读今日商业文档！</font></font></a></div></div><div class="ethical-callout"><small><em><a href="https://readthedocs.org/sustainability/advertising/"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">赞助商</font></font></a><span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">· </font></font></span><a href="https://docs.readthedocs.io/en/latest/ethical-advertising.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">道德服务广告</font></font></a></em></small></div></div><img src="./Selenium with Python文档3_files/saved_resource" style="display: none;"></div></div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+      ©2011-2018，Baiju Muthukadan。</font><font style="vertical-align: inherit;">| </font><font style="vertical-align: inherit;">技术</font></font><a href="http://sphinx-doc.org/"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">狮身人面像1.7.9</font></font></a><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> 
+      与</font></font><a href="https://github.com/bitprophet/alabaster"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">雪花0.7.12</font></font></a><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> 
+      
+      |
+      </font></font><a href="https://selenium-python.readthedocs.io/_sources/getting-started.rst.txt" rel="nofollow"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">页面来源</font></font></a>
+    </div><div id="goog-gt-tt" class="skiptranslate" dir="ltr"><div style="padding: 8px;"><div><div class="logo"><img src="./Selenium with Python文档3_files/translate_24dp.png" width="20" height="20" alt="Google 翻译"></div></div></div><div class="top" style="padding: 8px; float: left; width: 100%;"><h1 class="title gray">原文</h1></div><div class="middle" style="padding: 8px;"><div class="original-text"></div></div><div class="bottom" style="padding: 8px;"><div class="activity-links"><span class="activity-link">提供更好的翻译建议</span><span class="activity-link"></span></div><div class="started-activity-container"><hr style="color: #CCC; background-color: #CCC; height: 1px; border: none;"><div class="activity-root"></div></div></div><div class="status-message" style="display: none;"></div></div>
+
+    
+
+    
+  
+<div class="goog-te-spinner-pos"><div class="goog-te-spinner-animation"><svg xmlns="http://www.w3.org/2000/svg" class="goog-te-spinner" width="96px" height="96px" viewBox="0 0 66 66"><circle class="goog-te-spinner-path" fill="none" stroke-width="6" stroke-linecap="round" cx="33" cy="33" r="30"></circle></svg></div></div><!-- Inserted RTD Footer -->
+<div class="injected">
+
+  
+  <div class="rst-versions rst-badge" data-toggle="rst-versions">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      <span class="fa fa-book">&nbsp;</span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+      v：最新的
+      </font></font><span class="fa fa-caret-down"></span>
+    </span>
+    <div class="rst-other-versions">
+      
+
+      
+      
+      
+      
+
+      
+      
+      <dl>
+        <dt><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">下载</font></font></dt>
+        
+        <dd><a href="https://readthedocs.org/projects/selenium-python/downloads/pdf/latest/"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">PDF</font></font></a></dd>
+        
+        <dd><a href="https://readthedocs.org/projects/selenium-python/downloads/htmlzip/latest/"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">HTML</font></font></a></dd>
+        
+        <dd><a href="https://readthedocs.org/projects/selenium-python/downloads/epub/latest/"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">EPUB</font></font></a></dd>
+        
+      </dl>
+      
+      
+
+      
+      <dl>
+        <!-- These are kept as relative links for internal installs that are http -->
+        <dt><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">阅读文档</font></font></dt>
+        <dd>
+          <a href="https://readthedocs.org/projects/selenium-python/"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">项目主页</font></font></a>
+        </dd>
+        <dd>
+          <a href="https://readthedocs.org/projects/selenium-python/builds/"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">构建</font></font></a>
+        </dd>
+        <dd>
+          <a href="https://readthedocs.org/projects/selenium-python/downloads/"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">下载</font></font></a>
+        </dd>
+      </dl>
+      
+
+      
+
+      
+      <dl>
+        <dt><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">在GitHub上</font></font></dt>
+        <dd>
+          <a href="https://github.com/baijum/selenium-python/blob/master/source/getting-started.rst"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">视图</font></font></a>
+        </dd>
+        
+      </dl>
+      
+      
+
+      
+      <dl>
+        <dt><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">搜索</font></font></dt>
+        <dd>
+          <div style="padding: 6px;">
+            <form id="flyout-search-form" class="wy-form" target="_blank" action="https://readthedocs.org/projects/selenium-python/search/" method="get">
+              <input type="text" name="q" placeholder="Search docs">
+              </form>
+          </div>
+        </dd>
+      </dl>
+      
+
+
+
+      <hr>
+      
+        <small>
+          <span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">主持人</font></font><a href="https://readthedocs.org/"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">阅读文档</font></font></a></span>
+          <span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> · </font></font></span>
+          <a href="https://docs.readthedocs.io/page/privacy-policy.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">隐私政策</font></font></a>
+        </small>
+      
+
+      
+    </div>
+  </div>
+  
+
+</div>
+</body></html>

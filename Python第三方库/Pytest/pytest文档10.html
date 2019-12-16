@@ -1,0 +1,606 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- saved from url=(0046)https://docs.pytest.org/en/latest/capture.html -->
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh-CN" class="translated-ltr"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+    
+    <title>捕获stdout / stderr输出 -  pytest文档</title>
+    <link rel="stylesheet" href="./pytest文档10_files/flasky.css" type="text/css">
+    <link rel="stylesheet" href="./pytest文档10_files/pygments.css" type="text/css">
+    <link rel="stylesheet" type="text/css" href="./pytest文档10_files/pygments_pytest.css">
+    <link rel="stylesheet" type="text/css" href="./pytest文档10_files/badge_only.css">
+    <script type="text/javascript" async="" src="./pytest文档10_files/ga.js"></script><script async="" src="./pytest文档10_files/analytics.js"></script><script type="text/javascript" id="documentation_options" data-url_root="./" src="./pytest文档10_files/documentation_options.js"></script>
+    <script type="text/javascript" src="./pytest文档10_files/jquery.js"></script>
+    <script type="text/javascript" src="./pytest文档10_files/underscore.js"></script>
+    <script type="text/javascript" src="./pytest文档10_files/doctools.js"></script>
+    <script type="text/javascript" src="./pytest文档10_files/language_data.js"></script>
+    <script type="text/javascript" src="./pytest文档10_files/readthedocs-doc-embed.js"></script>
+    <link rel="shortcut icon" href="https://docs.pytest.org/en/latest/_static/pytest1favi.ico">
+    <link rel="search" title="搜索" href="https://docs.pytest.org/en/latest/search.html">
+    <link rel="next" title="警告捕获" href="https://docs.pytest.org/en/latest/warnings.html">
+    <link rel="prev" title="临时目录和文件" href="https://docs.pytest.org/en/latest/tmpdir.html">
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9">
+
+  
+<!-- RTD Extra Head -->
+
+<!-- 
+Always link to the latest version, as canonical.
+http://docs.readthedocs.org/en/latest/canonical.html
+-->
+<link rel="canonical" href="http://doc.pytest.org/en/latest/capture.html">
+
+<link rel="stylesheet" href="./pytest文档10_files/readthedocs-doc-embed.css" type="text/css">
+
+<script type="text/javascript" src="./pytest文档10_files/readthedocs-data.js"></script>
+
+<!-- Add page-specific data, which must exist in the page js, not global -->
+<script type="text/javascript">
+READTHEDOCS_DATA['page'] = 'capture'
+READTHEDOCS_DATA['source_suffix'] = '.rst'
+</script>
+
+<script type="text/javascript" src="./pytest文档10_files/readthedocs-analytics.js"></script>
+
+<!-- end RTD <extrahead> -->
+<link type="text/css" rel="stylesheet" charset="UTF-8" href="./pytest文档10_files/translateelement.css"></head><body>
+  
+  
+  
+
+
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="https://docs.pytest.org/en/latest/warnings.html" title="Warnings Capture" accesskey="N">next</a></li>
+        <li class="right">
+          <a href="https://docs.pytest.org/en/latest/tmpdir.html" title="Temporary directories and files" accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="https://docs.pytest.org/en/latest/contents.html">pytest-4.3</a> »</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="capturing-of-the-stdout-stderr-output">
+<span id="captures"></span><h1><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">捕获stdout / stderr输出</font></font><a class="headerlink" href="https://docs.pytest.org/en/latest/capture.html#capturing-of-the-stdout-stderr-output" title="永久链接到这个标题"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">¶</font></font></a></h1>
+<div class="section" id="default-stdout-stderr-stdin-capturing-behaviour">
+<h2><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">默认的stdout / stderr / stdin捕获行为</font></font><a class="headerlink" href="https://docs.pytest.org/en/latest/capture.html#default-stdout-stderr-stdin-capturing-behaviour" title="永久链接到这个标题"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">¶</font></font></a></h2>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">在测试执行期间，发送到</font></font><code class="docutils literal notranslate"><span class="pre">stdout</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">和</font></font><code class="docutils literal notranslate"><span class="pre">stderr</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">捕获的</font><font style="vertical-align: inherit;">任何输出</font><font style="vertical-align: inherit;">。</font><font style="vertical-align: inherit;">如果测试或设置方法失败，则通常会显示相应捕获的输出以及故障回溯。</font><font style="vertical-align: inherit;">（可以通过</font></font><code class="docutils literal notranslate"><span class="pre">--show-capture</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">命令行选项</font><font style="vertical-align: inherit;">配置此行为</font><font style="vertical-align: inherit;">）。</font></font></p>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">此外，</font></font><code class="docutils literal notranslate"><span class="pre">stdin</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">设置为“null”对象，在尝试从中读取时将失败，因为在运行自动化测试时很少需要等待交互式输入。</font></font></p>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">默认情况下，通过拦截对低级文件描述符的写入来完成捕获。</font><font style="vertical-align: inherit;">这允许捕获简单打印语句的输出以及测试启动的子进程的输出。</font></font></p>
+</div>
+<div class="section" id="setting-capturing-methods-or-disabling-capturing">
+<h2><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">设置捕获方法或禁用捕获</font></font><a class="headerlink" href="https://docs.pytest.org/en/latest/capture.html#setting-capturing-methods-or-disabling-capturing" title="永久链接到这个标题"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">¶</font></font></a></h2>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">有两种方法</font></font><code class="docutils literal notranslate"><span class="pre">pytest</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">可以执行捕获：</font></font></p>
+<ul class="simple">
+<li><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">文件描述符（FD）级别捕获（默认）：将捕获进入操作系统文件描述符1和2的所有写入。</font></font></li>
+<li><code class="docutils literal notranslate"><span class="pre">sys</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">级别捕获：只写Python文件</font></font><code class="docutils literal notranslate"><span class="pre">sys.stdout</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+和</font></font><code class="docutils literal notranslate"><span class="pre">sys.stderr</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">将被捕获。</font><font style="vertical-align: inherit;">不执行对文件描述符的写入捕获。</font></font></li>
+</ul>
+<p id="disable-capturing"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">您可以从命令行影响输出捕获机制：</font></font></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pytest -s            <span class="c1"># disable all capturing</span>
+pytest --capture<span class="o">=</span>sys <span class="c1"># replace sys.stdout/stderr with in-mem files</span>
+pytest --capture<span class="o">=</span>fd  <span class="c1"># also point filedescriptors 1 and 2 to temp file</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="using-print-statements-for-debugging">
+<span id="printdebugging"></span><h2><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">使用print语句进行调试</font></font><a class="headerlink" href="https://docs.pytest.org/en/latest/capture.html#using-print-statements-for-debugging" title="永久链接到这个标题"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">¶</font></font></a></h2>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">默认捕获stdout / stderr输出的一个主要好处是可以使用print语句进行调试：</font></font></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># content of test_module.py</span>
+
+<span class="k">def</span> <span class="nf">setup_function</span><span class="p">(</span><span class="n">function</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"setting up </span><span class="si">%s</span><span class="s2">"</span> <span class="o">%</span> <span class="n">function</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">test_func1</span><span class="p">():</span>
+    <span class="k">assert</span> <span class="kc">True</span>
+
+<span class="k">def</span> <span class="nf">test_func2</span><span class="p">():</span>
+    <span class="k">assert</span> <span class="kc">False</span>
+</pre></div>
+</div>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">并运行此模块将精确显示失败函数的输出并隐藏另一个：</font></font></p>
+<div class="highlight-pytest notranslate"><div class="highlight"><pre><span></span>$ pytest
+<span class=" -Color -Color-Bold">=========================== test session starts ============================</span>
+platform linux -- Python 3.x.y, pytest-4.x.y, py-1.x.y, pluggy-0.x.y
+cachedir: $PYTHON_PREFIX/.pytest_cache
+rootdir: $REGENDOC_TMPDIR, inifile:
+collected 2 items
+
+test_module.py <span class=" -Color -Color-Green">.</span><span class=" -Color -Color-Red">F</span>                                                    <span class=" -Color -Color-Cyan">[100%]</span>
+
+================================= FAILURES =================================
+<span class=" -Color -Color-BoldRed">________________________________ test_func2 ________________________________</span>
+
+<span class=" -Color -Color-Bold">    def test_func2():</span>
+<span class=" -Color -Color-Bold">&gt;       assert False</span>
+<span class=" -Color -Color-BoldRed">E       assert False</span>
+
+<span class=" -Color -Color-BoldRed">test_module.py</span>:9: AssertionError
+-------------------------- Captured stdout setup ---------------------------
+setting up &lt;function test_func2 at 0xdeadbeef&gt;
+<span class=" -Color -Color-BoldRed">==================== 1 failed, 1 passed in 0.12 seconds ====================</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="accessing-captured-output-from-a-test-function">
+<h2><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">从测试函数访问捕获的输出</font></font><a class="headerlink" href="https://docs.pytest.org/en/latest/capture.html#accessing-captured-output-from-a-test-function" title="永久链接到这个标题"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">¶</font></font></a></h2>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">的</font></font><code class="docutils literal notranslate"><span class="pre">capsys</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">，</font></font><code class="docutils literal notranslate"><span class="pre">capsysbinary</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">，</font></font><code class="docutils literal notranslate"><span class="pre">capfd</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">，和</font></font><code class="docutils literal notranslate"><span class="pre">capfdbinary</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">固定装置允许访问测试执行期间创建的stdout / stderr输出。</font><font style="vertical-align: inherit;">下面是一个示例测试函数，它执行一些与输出相关的检查：</font></font></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">test_myoutput</span><span class="p">(</span><span class="n">capsys</span><span class="p">):</span>  <span class="c1"># or use "capfd" for fd-level</span>
+    <span class="k">print</span><span class="p">(</span><span class="s2">"hello"</span><span class="p">)</span>
+    <span class="n">sys</span><span class="o">.</span><span class="n">stderr</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">"world</span><span class="se">\n</span><span class="s2">"</span><span class="p">)</span>
+    <span class="n">captured</span> <span class="o">=</span> <span class="n">capsys</span><span class="o">.</span><span class="n">readouterr</span><span class="p">()</span>
+    <span class="k">assert</span> <span class="n">captured</span><span class="o">.</span><span class="n">out</span> <span class="o">==</span> <span class="s2">"hello</span><span class="se">\n</span><span class="s2">"</span>
+    <span class="k">assert</span> <span class="n">captured</span><span class="o">.</span><span class="n">err</span> <span class="o">==</span> <span class="s2">"world</span><span class="se">\n</span><span class="s2">"</span>
+    <span class="k">print</span><span class="p">(</span><span class="s2">"next"</span><span class="p">)</span>
+    <span class="n">captured</span> <span class="o">=</span> <span class="n">capsys</span><span class="o">.</span><span class="n">readouterr</span><span class="p">()</span>
+    <span class="k">assert</span> <span class="n">captured</span><span class="o">.</span><span class="n">out</span> <span class="o">==</span> <span class="s2">"next</span><span class="se">\n</span><span class="s2">"</span>
+</pre></div>
+</div>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">该</font></font><code class="docutils literal notranslate"><span class="pre">readouterr()</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">调用到目前为止对输出进行快照 - 并且将继续捕获。</font><font style="vertical-align: inherit;">测试功能完成后，将恢复原始流。</font><font style="vertical-align: inherit;">使用</font></font><code class="docutils literal notranslate"><span class="pre">capsys</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">这种方式可以使您的测试免于设置/重置输出流，并且还可以与pytest自己的每次测试捕获进行良好的交互。</font></font></p>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">如果要在filedescriptor级别捕获，可以使用</font></font><code class="docutils literal notranslate"><span class="pre">capfd</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">提供完全相同接口</font><font style="vertical-align: inherit;">的</font><font style="vertical-align: inherit;">fixture，但也允许捕获直接写入操作系统级输出流（FD1和FD2）的库或子进程的输出。</font></font></p>
+<div class="versionadded">
+<p><span class="versionmodified"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">版本3.3中的新功能。</font></font></span></p>
+</div>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">返回值从</font></font><code class="docutils literal notranslate"><span class="pre">readouterr</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">更改为</font></font><code class="docutils literal notranslate"><span class="pre">namedtuple</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">具有两个属性的a，</font></font><code class="docutils literal notranslate"><span class="pre">out</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">和</font></font><code class="docutils literal notranslate"><span class="pre">err</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">。</font></font></p>
+<div class="versionadded">
+<p><span class="versionmodified"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">版本3.3中的新功能。</font></font></span></p>
+</div>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">如果测试中的代码写入非文本数据，您可以使用</font><font style="vertical-align: inherit;">从该</font><font style="vertical-align: inherit;">方法</font></font><code class="docutils literal notranslate"><span class="pre">capsysbinary</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">返回</font><font style="vertical-align: inherit;">的</font><font style="vertical-align: inherit;">fixture </font><font style="vertical-align: inherit;">来捕获</font><font style="vertical-align: inherit;">它</font><font style="vertical-align: inherit;">。</font><font style="vertical-align: inherit;">该</font><font style="vertical-align: inherit;">夹具目前仅在python 3中可用。</font></font><code class="docutils literal notranslate"><span class="pre">bytes</span></code><font style="vertical-align: inherit;"></font><code class="docutils literal notranslate"><span class="pre">readouterr</span></code><font style="vertical-align: inherit;"></font><code class="docutils literal notranslate"><span class="pre">capfsysbinary</span></code><font style="vertical-align: inherit;"></font></p>
+<div class="versionadded">
+<p><span class="versionmodified"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">版本3.3中的新功能。</font></font></span></p>
+</div>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">如果测试中的代码写入非文本数据，您可以使用</font><font style="vertical-align: inherit;">从该</font><font style="vertical-align: inherit;">方法</font></font><code class="docutils literal notranslate"><span class="pre">capfdbinary</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">返回</font><font style="vertical-align: inherit;">的</font><font style="vertical-align: inherit;">fixture </font><font style="vertical-align: inherit;">来捕获</font><font style="vertical-align: inherit;">它</font><font style="vertical-align: inherit;">。</font><font style="vertical-align: inherit;">该</font><font style="vertical-align: inherit;">夹具上的文件描述符级别运行。</font></font><code class="docutils literal notranslate"><span class="pre">bytes</span></code><font style="vertical-align: inherit;"></font><code class="docutils literal notranslate"><span class="pre">readouterr</span></code><font style="vertical-align: inherit;"></font><code class="docutils literal notranslate"><span class="pre">capfdbinary</span></code><font style="vertical-align: inherit;"></font></p>
+<div class="versionadded">
+<p><span class="versionmodified"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.0版中的新功能。</font></font></span></p>
+</div>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">到测试内暂时禁用捕获，两者</font></font><code class="docutils literal notranslate"><span class="pre">capsys</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+并</font></font><code class="docutils literal notranslate"><span class="pre">capfd</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">有一个</font></font><code class="docutils literal notranslate"><span class="pre">disabled()</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">可被用作上下文管理方法，禁用内部捕获</font></font><code class="docutils literal notranslate"><span class="pre">with</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">块：</font></font></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">test_disabling_capturing</span><span class="p">(</span><span class="n">capsys</span><span class="p">):</span>
+    <span class="k">print</span><span class="p">(</span><span class="s2">"this output is captured"</span><span class="p">)</span>
+    <span class="k">with</span> <span class="n">capsys</span><span class="o">.</span><span class="n">disabled</span><span class="p">():</span>
+        <span class="k">print</span><span class="p">(</span><span class="s2">"output not captured, going directly to sys.stdout"</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="s2">"this output is also captured"</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+          <div id="rtd-mttbm5va" class="ethical-alabaster"></div></div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="https://docs.pytest.org/en/latest/contents.html">
+              <img class="logo" src="./pytest文档10_files/pytest1.png" alt="商标">
+            </a></p><h3><a href="https://docs.pytest.org/en/latest/contents.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">目录</font></font></a></h3>
+
+<ul>
+  <li><a href="https://docs.pytest.org/en/latest/index.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">家</font></font></a></li>
+  <li><a href="https://docs.pytest.org/en/latest/getting-started.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">安装</font></font></a></li>
+  <li><a href="https://docs.pytest.org/en/latest/contents.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">内容</font></font></a></li>
+  <li><a href="https://docs.pytest.org/en/latest/reference.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">参考</font></font></a></li>
+  <li><a href="https://docs.pytest.org/en/latest/example/index.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">例子</font></font></a></li>
+  <li><a href="https://docs.pytest.org/en/latest/customize.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">定制</font></font></a></li>
+  <li><a href="https://docs.pytest.org/en/latest/changelog.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">更新日志</font></font></a></li>
+  <li><a href="https://docs.pytest.org/en/latest/contributing.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">特约</font></font></a></li>
+  <li><a href="https://docs.pytest.org/en/latest/backwards-compatibility.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">向后兼容性</font></font></a></li>
+  <li><a href="https://docs.pytest.org/en/latest/license.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">执照</font></font></a></li>
+  <li><a href="https://docs.pytest.org/en/latest/contact.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">联系渠道</font></font></a></li>
+</ul>
+  <hr>
+  <ul>
+<li><a class="reference internal" href="https://docs.pytest.org/en/latest/capture.html#"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">捕获stdout / stderr输出</font></font></a><ul>
+<li><a class="reference internal" href="https://docs.pytest.org/en/latest/capture.html#default-stdout-stderr-stdin-capturing-behaviour"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">默认的stdout / stderr / stdin捕获行为</font></font></a></li>
+<li><a class="reference internal" href="https://docs.pytest.org/en/latest/capture.html#setting-capturing-methods-or-disabling-capturing"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">设置捕获方法或禁用捕获</font></font></a></li>
+<li><a class="reference internal" href="https://docs.pytest.org/en/latest/capture.html#using-print-statements-for-debugging"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">使用print语句进行调试</font></font></a></li>
+<li><a class="reference internal" href="https://docs.pytest.org/en/latest/capture.html#accessing-captured-output-from-a-test-function"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">访问测试功能的捕获输出</font></font></a></li>
+</ul>
+</li>
+</ul>
+<h3><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">相关话题</font></font></h3>
+<ul>
+  <li><a href="https://docs.pytest.org/en/latest/contents.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">文档概述</font></font></a><ul>
+      <li><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">上一页：</font></font><a href="https://docs.pytest.org/en/latest/tmpdir.html" title="前一章"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">临时目录和文件</font></font></a></li>
+      <li><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">下一页：</font></font><a href="https://docs.pytest.org/en/latest/warnings.html" title="下一章"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">警告捕获</font></font></a></li>
+  </ul></li>
+</ul><h3><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">有用的链接</font></font></h3>
+<ul>
+  <li><a href="https://pypi.org/project/pytest/"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">pytest @ PyPI</font></font></a></li>
+  <li><a href="https://github.com/pytest-dev/pytest/"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">pytest @ GitHub</font></font></a></li>
+  <li><a href="http://plugincompat.herokuapp.com/"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">第三方插件</font></font></a></li>
+  <li><a href="https://github.com/pytest-dev/pytest/issues"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">问题跟踪器</font></font></a></li>
+  <li><a href="https://media.readthedocs.org/pdf/pytest/latest/pytest.pdf"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">PDF文档</font></font></a>
+</li></ul>
+<div id="searchbox" style="" role="search">
+  <h3><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">快速搜索</font></font></h3>
+    <div class="searchformwrapper">
+    <form class="search" action="https://docs.pytest.org/en/latest/search.html" method="get">
+      <input type="text" name="q">
+      <font style="vertical-align: inherit;"><font style="vertical-align: inherit;"><input type="submit" value="走"></font></font>
+      <input type="hidden" name="check_keywords" value="yes">
+      <input type="hidden" name="area" value="default">
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        <div id="rtd-qnqfn704" class="ethical-alabaster"><div class="ethical-sidebar"><div class="ethical-content"><a href="https://readthedocs.org/sustainability/click/305/hle5QDHxMGm6/" rel="nofollow" target="_blank" class="ethical-image-link"><img src="./pytest文档10_files/readthedocs-logo-fs8.png"></a><div class="ethical-text"><a href="https://readthedocs.org/sustainability/click/305/hle5QDHxMGm6/" rel="nofollow" target="_blank"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">私人回购和优先支持</font></font><br><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">尝试阅读今日商业文档！</font></font></a></div></div><div class="ethical-callout"><small><em><a href="https://readthedocs.org/sustainability/advertising/"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">赞助商</font></font></a><span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">· </font></font></span><a href="https://docs.readthedocs.io/en/latest/ethical-advertising.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">道德服务广告</font></font></a></em></small></div></div><img src="./pytest文档10_files/saved_resource" style="display: none;"></div></div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+
+  <div class="footer"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+    ©版权所有2015-2019，holger krekel和pytest-dev团队。</font><font style="vertical-align: inherit;">使用</font></font><a href="http://sphinx.pocoo.org/"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Sphinx</font></font></a><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">创建</font><font style="vertical-align: inherit;">。
+  </font></font></div>
+  
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-7597274-13']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script><div id="goog-gt-tt" class="skiptranslate" dir="ltr"><div style="padding: 8px;"><div><div class="logo"><img src="./pytest文档10_files/translate_24dp.png" width="20" height="20" alt="Google 翻译"></div></div></div><div class="top" style="padding: 8px; float: left; width: 100%;"><h1 class="title gray">原文</h1></div><div class="middle" style="padding: 8px;"><div class="original-text"></div></div><div class="bottom" style="padding: 8px;"><div class="activity-links"><span class="activity-link">提供更好的翻译建议</span><span class="activity-link"></span></div><div class="started-activity-container"><hr style="color: #CCC; background-color: #CCC; height: 1px; border: none;"><div class="activity-root"></div></div></div><div class="status-message" style="display: none;"></div></div>
+
+  
+<div class="goog-te-spinner-pos"><div class="goog-te-spinner-animation"><svg xmlns="http://www.w3.org/2000/svg" class="goog-te-spinner" width="96px" height="96px" viewBox="0 0 66 66"><circle class="goog-te-spinner-path" fill="none" stroke-width="6" stroke-linecap="round" cx="33" cy="33" r="30"></circle></svg></div></div><!-- Inserted RTD Footer -->
+<div class="injected">
+
+  
+  <div class="rst-versions rst-badge" data-toggle="rst-versions">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      <span class="fa fa-book">&nbsp;</span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+      v：最新的
+      </font></font><span class="fa fa-caret-down"></span>
+    </span>
+    <div class="rst-other-versions">
+      
+
+      
+      
+      
+      <dl>
+        <dt><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">版本</font></font></dt>
+        
+         <strong> 
+        <dd><a href="http://doc.pytest.org/en/latest/capture.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">最新</font></font></a></dd>
+         </strong> 
+        
+        
+        <dd><a href="http://doc.pytest.org/en/stable/capture.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">稳定</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/4.3.1/capture.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">4.3.1</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/4.3.0/capture.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">4.3.0</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/4.2.1/capture.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">4.2.1</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/4.2.0/capture.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">4.2.0</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/4.1.1/capture.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">4.1.1</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/4.1.0/capture.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">4.1.0</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/4.0.2/capture.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">4.0.2</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/4.0.1/capture.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">4.0.1</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/4.0.0/capture.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">4.0.0</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.10.1/capture.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.10.1</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.10.0/capture.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.10.0</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.9.3/capture.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.9.3</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.9.2/capture.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.9.2</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.9.1/capture.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.9.1</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.9.0/capture.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.9.0</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.8.2/capture.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.8.2</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.8.1/capture.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.8.1</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.8.0/capture.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.8.0</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.7.4/capture.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.7.4</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.7.3/capture.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.7.3</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.7.2/capture.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.7.2</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.7.1/capture.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.7.1</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.7.0/capture.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.7.0</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.6.4/capture.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.6.4</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.6.3/capture.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.6.3</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.6.2/capture.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.6.2</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.6.1/capture.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.6.1</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.6.0/capture.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.6.0</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.5.1/capture.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.5.1</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.5.0/capture.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.5.0</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.4.2/capture.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.4.2</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.4.1/capture.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.4.1</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.4.0/capture.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.4.0</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.3.2/capture.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.3.2</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.3.1/capture.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.3.1</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.3.0/capture.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.3.0</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.2.5/capture.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.2.5</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.2.4/capture.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.2.4</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.2.3/capture.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.2.3</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.2.2/capture.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.2.2</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.2.1/capture.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.2.1</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.2.0/capture.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.2.0</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.1.3/capture.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.1.3</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.1.2/capture.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.1.2</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.1.1/capture.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.1.1</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.1.0/capture.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.1.0</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.0.7/capture.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.0.7</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.0.6/capture.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.0.6</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.0.5/capture.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.0.5</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.0.4/capture.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.0.4</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.0.3/capture.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.0.3</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.0.2/capture.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.0.2</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.0.1/capture.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.0.1</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.0.0/capture.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.0.0</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/2.9.2/capture.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">2.9.2</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/2.9.1/capture.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">2.9.1</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/2.9.0/capture.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">2.9.0</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/2.8.7/capture.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">2.8.7</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/2.7.3/capture.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">2.7.3</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/sphinx-removed-in/capture.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">斯芬克斯-除去式</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/features/capture.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">特征</font></font></a></dd>
+        
+        
+      </dl>
+      
+      
+
+      
+      
+      <dl>
+        <dt><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">下载</font></font></dt>
+        
+        <dd><a href="https://readthedocs.org/projects/pytest/downloads/pdf/latest/"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">PDF</font></font></a></dd>
+        
+        <dd><a href="https://readthedocs.org/projects/pytest/downloads/htmlzip/latest/"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">HTML</font></font></a></dd>
+        
+        <dd><a href="https://readthedocs.org/projects/pytest/downloads/epub/latest/"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">EPUB</font></font></a></dd>
+        
+      </dl>
+      
+      
+
+      
+      <dl>
+        <!-- These are kept as relative links for internal installs that are http -->
+        <dt><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">阅读文档</font></font></dt>
+        <dd>
+          <a href="https://readthedocs.org/projects/pytest/"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">项目主页</font></font></a>
+        </dd>
+        <dd>
+          <a href="https://readthedocs.org/projects/pytest/builds/"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">构建</font></font></a>
+        </dd>
+        <dd>
+          <a href="https://readthedocs.org/projects/pytest/downloads/"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">下载</font></font></a>
+        </dd>
+      </dl>
+      
+
+      
+
+      
+      <dl>
+        <dt><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">在GitHub上</font></font></dt>
+        <dd>
+          <a href="https://github.com/pytest-dev/pytest/blob/master/doc/en/capture.rst"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">视图</font></font></a>
+        </dd>
+        
+      </dl>
+      
+      
+
+      
+      <dl>
+        <dt><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">搜索</font></font></dt>
+        <dd>
+          <div style="padding: 6px;">
+            <form id="flyout-search-form" class="wy-form" target="_blank" action="https://readthedocs.org/projects/pytest/search/" method="get">
+              <input type="text" name="q" placeholder="Search docs">
+              </form>
+          </div>
+        </dd>
+      </dl>
+      
+
+
+
+      <hr>
+      
+        <small>
+          <span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">主持人</font></font><a href="https://readthedocs.org/"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">阅读文档</font></font></a></span>
+          <span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> · </font></font></span>
+          <a href="https://docs.readthedocs.io/page/privacy-policy.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">隐私政策</font></font></a>
+        </small>
+      
+
+      
+    </div>
+  </div>
+  
+
+</div>
+</body></html>

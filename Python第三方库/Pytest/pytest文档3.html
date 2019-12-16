@@ -1,0 +1,1126 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- saved from url=(0044)https://docs.pytest.org/en/latest/usage.html -->
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh-CN" class="translated-ltr"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+    
+    <title>用法和调用 -  pytest文档</title>
+    <link rel="stylesheet" href="./pytest文档3_files/flasky.css" type="text/css">
+    <link rel="stylesheet" href="./pytest文档3_files/pygments.css" type="text/css">
+    <link rel="stylesheet" type="text/css" href="./pytest文档3_files/pygments_pytest.css">
+    <link rel="stylesheet" type="text/css" href="./pytest文档3_files/badge_only.css">
+    <script type="text/javascript" async="" src="./pytest文档3_files/ga.js"></script><script async="" src="./pytest文档3_files/analytics.js"></script><script type="text/javascript" id="documentation_options" data-url_root="./" src="./pytest文档3_files/documentation_options.js"></script>
+    <script type="text/javascript" src="./pytest文档3_files/jquery.js"></script>
+    <script type="text/javascript" src="./pytest文档3_files/underscore.js"></script>
+    <script type="text/javascript" src="./pytest文档3_files/doctools.js"></script>
+    <script type="text/javascript" src="./pytest文档3_files/language_data.js"></script>
+    <script type="text/javascript" src="./pytest文档3_files/readthedocs-doc-embed.js"></script>
+    <link rel="shortcut icon" href="https://docs.pytest.org/en/latest/_static/pytest1favi.ico">
+    <link rel="search" title="搜索" href="https://docs.pytest.org/en/latest/search.html">
+    <link rel="next" title="将pytest与现有的测试套件一起使用" href="https://docs.pytest.org/en/latest/existingtestsuite.html">
+    <link rel="prev" title="安装和入门" href="https://docs.pytest.org/en/latest/getting-started.html">
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9">
+
+  
+<!-- RTD Extra Head -->
+
+<!-- 
+Always link to the latest version, as canonical.
+http://docs.readthedocs.org/en/latest/canonical.html
+-->
+<link rel="canonical" href="http://doc.pytest.org/en/latest/usage.html">
+
+<link rel="stylesheet" href="./pytest文档3_files/readthedocs-doc-embed.css" type="text/css">
+
+<script type="text/javascript" src="./pytest文档3_files/readthedocs-data.js"></script>
+
+<!-- Add page-specific data, which must exist in the page js, not global -->
+<script type="text/javascript">
+READTHEDOCS_DATA['page'] = 'usage'
+READTHEDOCS_DATA['source_suffix'] = '.rst'
+</script>
+
+<script type="text/javascript" src="./pytest文档3_files/readthedocs-analytics.js"></script>
+
+<!-- end RTD <extrahead> -->
+<link type="text/css" rel="stylesheet" charset="UTF-8" href="./pytest文档3_files/translateelement.css"></head><body>
+  
+  
+  
+
+
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">导航</font></font></h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="https://docs.pytest.org/en/latest/existingtestsuite.html" title="将pytest与现有的测试套件一起使用" accesskey="N"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">下一个</font></font></a></li>
+        <li class="right">
+          <a href="https://docs.pytest.org/en/latest/getting-started.html" title="安装和入门" accesskey="P"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">上一个</font></font></a><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> |</font></font></li>
+        <li class="nav-item nav-item-0"><a href="https://docs.pytest.org/en/latest/contents.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">pytest-4.3</font></font></a><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> »</font></font></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="usage-and-invocations">
+<span id="usage"></span><h1><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">用法和调用</font></font><a class="headerlink" href="https://docs.pytest.org/en/latest/usage.html#usage-and-invocations" title="永久链接到这个标题"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">¶</font></font></a></h1>
+<div class="section" id="calling-pytest-through-python-m-pytest">
+<span id="cmdline"></span><h2><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">通过</font><a class="headerlink" href="https://docs.pytest.org/en/latest/usage.html#calling-pytest-through-python-m-pytest" title="永久链接到这个标题"><font style="vertical-align: inherit;">¶</font></a><font style="vertical-align: inherit;">调用pytest</font></font><code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">-m</span> <span class="pre">pytest</span></code><a class="headerlink" href="https://docs.pytest.org/en/latest/usage.html#calling-pytest-through-python-m-pytest" title="永久链接到这个标题"><font style="vertical-align: inherit;"></font></a></h2>
+<div class="versionadded">
+<p><span class="versionmodified"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">2.0版中的新功能。</font></font></span></p>
+</div>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">您可以从命令行通过Python解释器调用测试：</font></font></p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>python -m pytest [...]
+</pre></div>
+</div>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">这几乎等同于</font><font style="vertical-align: inherit;">
+直接</font><font style="vertical-align: inherit;">调用命令行脚本</font><font style="vertical-align: inherit;">，除了调用via </font><font style="vertical-align: inherit;">还将当前目录添加到</font><font style="vertical-align: inherit;">。</font></font><code class="docutils literal notranslate"><span class="pre">pytest</span> <span class="pre">[...]</span></code><font style="vertical-align: inherit;"></font><code class="docutils literal notranslate"><span class="pre">python</span></code><font style="vertical-align: inherit;"></font><code class="docutils literal notranslate"><span class="pre">sys.path</span></code><font style="vertical-align: inherit;"></font></p>
+</div>
+<div class="section" id="possible-exit-codes">
+<h2><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">可能的退出代码</font></font><a class="headerlink" href="https://docs.pytest.org/en/latest/usage.html#possible-exit-codes" title="永久链接到这个标题"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">¶</font></font></a></h2>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">运行</font></font><code class="docutils literal notranslate"><span class="pre">pytest</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">可以产生六种不同的退出代码：</font></font></p>
+<table class="docutils field-list" frame="void" rules="none">
+<colgroup><col class="field-name">
+<col class="field-body">
+</colgroup><tbody valign="top">
+<tr class="field-odd field"><th class="field-name"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">退出代码0：</font></font></th><td class="field-body"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">收集并成功通过所有测试</font></font></td>
+</tr>
+<tr class="field-even field"><th class="field-name"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">退出代码1：</font></font></th><td class="field-body"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">收集并运行测试但一些测试失败</font></font></td>
+</tr>
+<tr class="field-odd field"><th class="field-name"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">退出代码2：</font></font></th><td class="field-body"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">用户中断了测试执行</font></font></td>
+</tr>
+<tr class="field-even field"><th class="field-name"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">退出代码3：</font></font></th><td class="field-body"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">执行测试时发生内部错误</font></font></td>
+</tr>
+<tr class="field-odd field"><th class="field-name"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">退出代码4：</font></font></th><td class="field-body"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">pytest命令行使用错误</font></font></td>
+</tr>
+<tr class="field-even field"><th class="field-name"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">退出代码5：</font></font></th><td class="field-body"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">没有收集任何测试</font></font></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="getting-help-on-version-option-names-environment-variables">
+<h2><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">获取版本，选项名称，环境变量的帮助</font></font><a class="headerlink" href="https://docs.pytest.org/en/latest/usage.html#getting-help-on-version-option-names-environment-variables" title="永久链接到这个标题"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">¶</font></font></a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pytest --version   <span class="c1"># shows where pytest was imported from</span>
+pytest --fixtures  <span class="c1"># show available builtin function arguments</span>
+pytest -h <span class="p">|</span> --help <span class="c1"># show help on command line and config file options</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="stopping-after-the-first-or-n-failures">
+<span id="maxfail"></span><h2><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">在第一次（或N次）失败后停止</font></font><a class="headerlink" href="https://docs.pytest.org/en/latest/usage.html#stopping-after-the-first-or-n-failures" title="永久链接到这个标题"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">¶</font></font></a></h2>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">在第一次（N）失败后停止测试过程：</font></font></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pytest -x            <span class="c1"># stop after first failure</span>
+pytest --maxfail<span class="o">=</span><span class="m">2</span>    <span class="c1"># stop after two failures</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="specifying-tests-selecting-tests">
+<span id="select-tests"></span><h2><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">指定测试/选择测试</font></font><a class="headerlink" href="https://docs.pytest.org/en/latest/usage.html#specifying-tests-selecting-tests" title="永久链接到这个标题"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">¶</font></font></a></h2>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Pytest支持几种从命令行运行和选择测试的方法。</font></font></p>
+<p><strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">在模块中运行测试</font></font></strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pytest test_mod.py
+</pre></div>
+</div>
+<p><strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">在目录中运行测试</font></font></strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pytest testing/
+</pre></div>
+</div>
+<p><strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">按关键字表达式运行测试</font></font></strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pytest -k <span class="s2">"MyClass and not method"</span>
+</pre></div>
+</div>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">这将运行包含与给定</font></font><em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">字符串表达式</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">匹配的名称的测试，该</font><em><font style="vertical-align: inherit;">表达式</font></em><font style="vertical-align: inherit;">可以包括使用文件名，类名和函数名作为变量的Python运算符。</font><font style="vertical-align: inherit;">以上示例将运行</font></font><code class="docutils literal notranslate"><span class="pre">TestMyClass.test_something</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">  但不会</font><font style="vertical-align: inherit;">运行</font></font><code class="docutils literal notranslate"><span class="pre">TestMyClass.test_method_simple</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">。</font></font></p>
+<p id="nodeids"><strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">按节点ID运行测试</font></font></strong></p>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">每个收集的测试都分配一个唯一的</font></font><code class="docutils literal notranslate"><span class="pre">nodeid</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">，包括模块文件名，后跟说明符，如类名，函数名和参数化参数，用</font></font><code class="docutils literal notranslate"><span class="pre">::</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">字符</font><font style="vertical-align: inherit;">分隔</font><font style="vertical-align: inherit;">。</font></font></p>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">要在模块中运行特定测试：</font></font></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pytest test_mod.py::test_func
+</pre></div>
+</div>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">另一个在命令行中指定测试方法的示例：</font></font></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pytest test_mod.py::TestClass::test_method
+</pre></div>
+</div>
+<p><strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">通过标记表达式运行测试</font></font></strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pytest -m slow
+</pre></div>
+</div>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">将运行</font></font><code class="docutils literal notranslate"><span class="pre">@pytest.mark.slow</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">装饰器修饰的</font><font style="vertical-align: inherit;">所有测试</font><font style="vertical-align: inherit;">。</font></font></p>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">欲了解更多信息，请参阅</font></font><a class="reference internal" href="https://docs.pytest.org/en/latest/mark.html#mark"><span class="std std-ref"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">标记</font></font></span></a><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">。</font></font></p>
+<p><strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">从包中运行测试</font></font></strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pytest --pyargs pkg.testing
+</pre></div>
+</div>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">这将导入</font></font><code class="docutils literal notranslate"><span class="pre">pkg.testing</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">并使用其文件系统位置来查找和运行测试。</font></font></p>
+</div>
+<div class="section" id="modifying-python-traceback-printing">
+<h2><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">修改Python回溯打印</font></font><a class="headerlink" href="https://docs.pytest.org/en/latest/usage.html#modifying-python-traceback-printing" title="永久链接到这个标题"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">¶</font></font></a></h2>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">修改回溯打印的示例：</font></font></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pytest --showlocals <span class="c1"># show local variables in tracebacks</span>
+pytest -l           <span class="c1"># show local variables (shortcut)</span>
+
+pytest --tb<span class="o">=</span>auto    <span class="c1"># (default) 'long' tracebacks for the first and last</span>
+                     <span class="c1"># entry, but 'short' style for the other entries</span>
+pytest --tb<span class="o">=</span>long    <span class="c1"># exhaustive, informative traceback formatting</span>
+pytest --tb<span class="o">=</span>short   <span class="c1"># shorter traceback format</span>
+pytest --tb<span class="o">=</span>line    <span class="c1"># only one line per failure</span>
+pytest --tb<span class="o">=</span>native  <span class="c1"># Python standard library formatting</span>
+pytest --tb<span class="o">=</span>no      <span class="c1"># no traceback at all</span>
+</pre></div>
+</div>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">的</font></font><code class="docutils literal notranslate"><span class="pre">--full-trace</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">原因很长的走线要在错误（长于打印</font></font><code class="docutils literal notranslate"><span class="pre">--tb=long</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">）。</font><font style="vertical-align: inherit;">它还确保在</font></font><strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">KeyboardInterrupt</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">（Ctrl + C）</font><font style="vertical-align: inherit;">上打印堆栈跟踪
+ </font><font style="vertical-align: inherit;">。</font><font style="vertical-align: inherit;">如果测试花费的时间过长，并且使用Ctrl + C中断它们以找出测试</font></font><em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">挂起的</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">位置，这非常有用</font><font style="vertical-align: inherit;">。</font><font style="vertical-align: inherit;">默认情况下，不会显示任何输出（因为python会捕获KeyboardInterrupt）。</font><font style="vertical-align: inherit;">通过使用此选项，您可以确保显示跟踪。</font></font></p>
+</div>
+<div class="section" id="detailed-summary-report">
+<span id="pytest-detailed-failed-tests-usage"></span><h2><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">详细的总结报告</font></font><a class="headerlink" href="https://docs.pytest.org/en/latest/usage.html#detailed-summary-report" title="永久链接到这个标题"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">¶</font></font></a></h2>
+<div class="versionadded">
+<p><span class="versionmodified"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">版本2.9中的新功能。</font></font></span></p>
+</div>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">该</font></font><code class="docutils literal notranslate"><span class="pre">-r</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">标志可用于在测试会话结束时显示“简短测试摘要信息”，使大型测试套件可以轻松获得所有故障，跳过，xfails等的清晰图像。</font></font></p>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">例：</font></font></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># content of test_example.py</span>
+<span class="kn">import</span> <span class="nn">pytest</span>
+
+
+<span class="nd">@pytest.fixture</span>
+<span class="k">def</span> <span class="nf">error_fixture</span><span class="p">():</span>
+    <span class="k">assert</span> <span class="mi">0</span>
+
+
+<span class="k">def</span> <span class="nf">test_ok</span><span class="p">():</span>
+    <span class="k">print</span><span class="p">(</span><span class="s2">"ok"</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">test_fail</span><span class="p">():</span>
+    <span class="k">assert</span> <span class="mi">0</span>
+
+
+<span class="k">def</span> <span class="nf">test_error</span><span class="p">(</span><span class="n">error_fixture</span><span class="p">):</span>
+    <span class="k">pass</span>
+
+
+<span class="k">def</span> <span class="nf">test_skip</span><span class="p">():</span>
+    <span class="n">pytest</span><span class="o">.</span><span class="n">skip</span><span class="p">(</span><span class="s2">"skipping this test"</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">test_xfail</span><span class="p">():</span>
+    <span class="n">pytest</span><span class="o">.</span><span class="n">xfail</span><span class="p">(</span><span class="s2">"xfailing this test"</span><span class="p">)</span>
+
+
+<span class="nd">@pytest.mark.xfail</span><span class="p">(</span><span class="n">reason</span><span class="o">=</span><span class="s2">"always xfail"</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">test_xpass</span><span class="p">():</span>
+    <span class="k">pass</span>
+</pre></div>
+</div>
+<div class="highlight-pytest notranslate"><div class="highlight"><pre><span></span>$ pytest -ra
+<span class=" -Color -Color-Bold">=========================== test session starts ============================</span>
+platform linux -- Python 3.x.y, pytest-4.x.y, py-1.x.y, pluggy-0.x.y
+cachedir: $PYTHON_PREFIX/.pytest_cache
+rootdir: $REGENDOC_TMPDIR, inifile:
+collected 6 items
+
+test_example.py <span class=" -Color -Color-Green">.</span><span class=" -Color -Color-Red">FE</span><span class=" -Color -Color-Yellow">sxX</span>                                               <span class=" -Color -Color-Cyan">[100%]</span>
+
+================================== ERRORS ==================================
+<span class=" -Color -Color-BoldRed">_______________________ ERROR at setup of test_error _______________________</span>
+
+<span class=" -Color -Color-Bold">    @pytest.fixture</span>
+<span class=" -Color -Color-Bold">    def error_fixture():</span>
+<span class=" -Color -Color-Bold">&gt;       assert 0</span>
+<span class=" -Color -Color-BoldRed">E       assert 0</span>
+
+<span class=" -Color -Color-BoldRed">test_example.py</span>:6: AssertionError
+================================= FAILURES =================================
+<span class=" -Color -Color-BoldRed">________________________________ test_fail _________________________________</span>
+
+<span class=" -Color -Color-Bold">    def test_fail():</span>
+<span class=" -Color -Color-Bold">&gt;       assert 0</span>
+<span class=" -Color -Color-BoldRed">E       assert 0</span>
+
+<span class=" -Color -Color-BoldRed">test_example.py</span>:14: AssertionError
+========================= short test summary info ==========================
+SKIPPED [1] $REGENDOC_TMPDIR/test_example.py:23: skipping this test
+XFAIL test_example.py::test_xfail
+  reason: xfailing this test
+XPASS test_example.py::test_xpass always xfail
+ERROR test_example.py::test_error
+FAILED test_example.py::test_fail
+ 1 failed, 1 passed, 1 skipped, 1 xfailed, 1 xpassed, 1 error in 0.12 seconds
+</pre></div>
+</div>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">所述</font></font><code class="docutils literal notranslate"><span class="pre">-r</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">选项接受数量的字符之后，与</font></font><code class="docutils literal notranslate"><span class="pre">a</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">上述的意思是“以外的所有道次”使用。</font></font></p>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">以下是可以使用的可用字符的完整列表：</font></font></p>
+<blockquote>
+<div><ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">f</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> - 失败了</font></font></li>
+<li><code class="docutils literal notranslate"><span class="pre">E</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> - 错误</font></font></li>
+<li><code class="docutils literal notranslate"><span class="pre">s</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> - 跳过了</font></font></li>
+<li><code class="docutils literal notranslate"><span class="pre">x</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> -  xfailed</font></font></li>
+<li><code class="docutils literal notranslate"><span class="pre">X</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> -  xpassed</font></font></li>
+<li><code class="docutils literal notranslate"><span class="pre">p</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> - 过去了</font></font></li>
+<li><code class="docutils literal notranslate"><span class="pre">P</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> - 通过输出</font></font></li>
+<li><code class="docutils literal notranslate"><span class="pre">a</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> - 除了 </font></font><code class="docutils literal notranslate"><span class="pre">pP</span></code></li>
+</ul>
+</div></blockquote>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">可以使用多个字符，例如，只能查看失败和跳过的测试，您可以执行：</font></font></p>
+<div class="highlight-pytest notranslate"><div class="highlight"><pre><span></span>$ pytest -rfs
+<span class=" -Color -Color-Bold">=========================== test session starts ============================</span>
+platform linux -- Python 3.x.y, pytest-4.x.y, py-1.x.y, pluggy-0.x.y
+cachedir: $PYTHON_PREFIX/.pytest_cache
+rootdir: $REGENDOC_TMPDIR, inifile:
+collected 6 items
+
+test_example.py <span class=" -Color -Color-Green">.</span><span class=" -Color -Color-Red">FE</span><span class=" -Color -Color-Yellow">sxX</span>                                               <span class=" -Color -Color-Cyan">[100%]</span>
+
+================================== ERRORS ==================================
+<span class=" -Color -Color-BoldRed">_______________________ ERROR at setup of test_error _______________________</span>
+
+<span class=" -Color -Color-Bold">    @pytest.fixture</span>
+<span class=" -Color -Color-Bold">    def error_fixture():</span>
+<span class=" -Color -Color-Bold">&gt;       assert 0</span>
+<span class=" -Color -Color-BoldRed">E       assert 0</span>
+
+<span class=" -Color -Color-BoldRed">test_example.py</span>:6: AssertionError
+================================= FAILURES =================================
+<span class=" -Color -Color-BoldRed">________________________________ test_fail _________________________________</span>
+
+<span class=" -Color -Color-Bold">    def test_fail():</span>
+<span class=" -Color -Color-Bold">&gt;       assert 0</span>
+<span class=" -Color -Color-BoldRed">E       assert 0</span>
+
+<span class=" -Color -Color-BoldRed">test_example.py</span>:14: AssertionError
+========================= short test summary info ==========================
+FAILED test_example.py::test_fail
+SKIPPED [1] $REGENDOC_TMPDIR/test_example.py:23: skipping this test
+ 1 failed, 1 passed, 1 skipped, 1 xfailed, 1 xpassed, 1 error in 0.12 seconds
+</pre></div>
+</div>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">使用</font></font><code class="docutils literal notranslate"><span class="pre">p</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">列表传递测试，同时</font></font><code class="docutils literal notranslate"><span class="pre">P</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">添加额外的“PASSES”部分，其中包含已通过但已捕获输出的测试：</font></font></p>
+<div class="highlight-pytest notranslate"><div class="highlight"><pre><span></span>$ pytest -rpP
+<span class=" -Color -Color-Bold">=========================== test session starts ============================</span>
+platform linux -- Python 3.x.y, pytest-4.x.y, py-1.x.y, pluggy-0.x.y
+cachedir: $PYTHON_PREFIX/.pytest_cache
+rootdir: $REGENDOC_TMPDIR, inifile:
+collected 6 items
+
+test_example.py <span class=" -Color -Color-Green">.</span><span class=" -Color -Color-Red">FE</span><span class=" -Color -Color-Yellow">sxX</span>                                               <span class=" -Color -Color-Cyan">[100%]</span>
+
+================================== ERRORS ==================================
+<span class=" -Color -Color-BoldRed">_______________________ ERROR at setup of test_error _______________________</span>
+
+<span class=" -Color -Color-Bold">    @pytest.fixture</span>
+<span class=" -Color -Color-Bold">    def error_fixture():</span>
+<span class=" -Color -Color-Bold">&gt;       assert 0</span>
+<span class=" -Color -Color-BoldRed">E       assert 0</span>
+
+<span class=" -Color -Color-BoldRed">test_example.py</span>:6: AssertionError
+================================= FAILURES =================================
+<span class=" -Color -Color-BoldRed">________________________________ test_fail _________________________________</span>
+
+<span class=" -Color -Color-Bold">    def test_fail():</span>
+<span class=" -Color -Color-Bold">&gt;       assert 0</span>
+<span class=" -Color -Color-BoldRed">E       assert 0</span>
+
+<span class=" -Color -Color-BoldRed">test_example.py</span>:14: AssertionError
+========================= short test summary info ==========================
+PASSED test_example.py::test_ok
+================================== PASSES ==================================
+_________________________________ test_ok __________________________________
+--------------------------- Captured stdout call ---------------------------
+ok
+ 1 failed, 1 passed, 1 skipped, 1 xfailed, 1 xpassed, 1 error in 0.12 seconds
+</pre></div>
+</div>
+</div>
+<div class="section" id="dropping-to-pdb-python-debugger-on-failures">
+<span id="pdb-option"></span><h2><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">下降到</font></font><a class="reference external" href="http://docs.python.org/library/pdb.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">PDB</font></font></a><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">（Python的调试器）上的失败</font></font><a class="headerlink" href="https://docs.pytest.org/en/latest/usage.html#dropping-to-pdb-python-debugger-on-failures" title="永久链接到这个标题"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">¶</font></font></a></h2>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Python附带一个名为</font></font><a class="reference external" href="http://docs.python.org/library/pdb.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">PDB</font></font></a><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">的内置Python调试器</font><font style="vertical-align: inherit;">。  </font></font><code class="docutils literal notranslate"><span class="pre">pytest</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+允许用户</font><font style="vertical-align: inherit;">通过命令行选项</font><font style="vertical-align: inherit;">进入</font></font><a class="reference external" href="http://docs.python.org/library/pdb.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">PDB</font></font></a><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">提示符：</font></font></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pytest --pdb
+</pre></div>
+</div>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">这将在每次失败时调用Python调试器（或KeyboardInterrupt）。</font><font style="vertical-align: inherit;">通常，您可能只想在第一次失败测试中执行此操作以了解某种故障情况：</font></font></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pytest -x --pdb   <span class="c1"># drop to PDB on first failure, then end test session</span>
+pytest --pdb --maxfail<span class="o">=</span><span class="m">3</span>  <span class="c1"># drop to PDB for first three failures</span>
+</pre></div>
+</div>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">请注意，在任何失败时，异常信息都存储在
+ </font></font><code class="docutils literal notranslate"><span class="pre">sys.last_value</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">，</font></font><code class="docutils literal notranslate"><span class="pre">sys.last_type</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">和</font></font><code class="docutils literal notranslate"><span class="pre">sys.last_traceback</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">。</font><font style="vertical-align: inherit;">在交互式使用中，这允许用户使用任何调试工具进行事后调试。</font><font style="vertical-align: inherit;">也可以手动访问异常信息，例如：</font></font></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">sys</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sys</span><span class="o">.</span><span class="n">last_traceback</span><span class="o">.</span><span class="n">tb_lineno</span>
+<span class="go">42</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sys</span><span class="o">.</span><span class="n">last_value</span>
+<span class="go">AssertionError('assert result == "ok"',)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="dropping-to-pdb-python-debugger-at-the-start-of-a-test">
+<span id="trace-option"></span><h2><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">在测试开始时</font><font style="vertical-align: inherit;">删除到</font></font><a class="reference external" href="http://docs.python.org/library/pdb.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">PDB</font></font></a><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">（Python调试器）</font></font><a class="headerlink" href="https://docs.pytest.org/en/latest/usage.html#dropping-to-pdb-python-debugger-at-the-start-of-a-test" title="永久链接到这个标题"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">¶</font></font></a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">pytest</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">允许用户</font><font style="vertical-align: inherit;">通过命令行选项在每次测试开始时立即</font><font style="vertical-align: inherit;">进入</font></font><a class="reference external" href="http://docs.python.org/library/pdb.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">PDB</font></font></a><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">提示符：</font></font></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pytest --trace
+</pre></div>
+</div>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">这将在每次测试开始时调用Python调试器。</font></font></p>
+</div>
+<div class="section" id="setting-breakpoints">
+<span id="breakpoints"></span><h2><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">设置断点</font></font><a class="headerlink" href="https://docs.pytest.org/en/latest/usage.html#setting-breakpoints" title="永久链接到这个标题"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">¶</font></font></a></h2>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">要在代码中设置断点，请在代码中使用本机Python </font><font style="vertical-align: inherit;">调用，pytest会自动禁用该测试的输出捕获：</font></font><code class="docutils literal notranslate"><span class="pre">import</span> <span class="pre">pdb;pdb.set_trace()</span></code><font style="vertical-align: inherit;"></font></p>
+<ul class="simple">
+<li><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">其他测试中的输出捕获不受影响。</font></font></li>
+<li><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">任何先前的测试输出已经被捕获并将被处理。</font></font></li>
+<li><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">在同一测试中生成的任何后续输出都不会被捕获，而是直接发送到</font></font><code class="docutils literal notranslate"><span class="pre">sys.stdout</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">。</font><font style="vertical-align: inherit;">请注意，即使在退出交互式</font></font><a class="reference external" href="http://docs.python.org/library/pdb.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">PDB</font></font></a><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">跟踪会话并继续常规测试运行</font><font style="vertical-align: inherit;">后发生的测试输出也是如此</font><font style="vertical-align: inherit;">。</font></font></li>
+</ul>
+</div>
+<div class="section" id="using-the-builtin-breakpoint-function">
+<span id="breakpoint-builtin"></span><h2><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">使用内置断点功能</font></font><a class="headerlink" href="https://docs.pytest.org/en/latest/usage.html#using-the-builtin-breakpoint-function" title="永久链接到这个标题"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">¶</font></font></a></h2>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Python 3.7引入了内置</font></font><code class="docutils literal notranslate"><span class="pre">breakpoint()</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">函数。</font><font style="vertical-align: inherit;">Pytest支持使用</font></font><code class="docutils literal notranslate"><span class="pre">breakpoint()</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">以下行为：</font></font></p>
+<blockquote>
+<div><ul class="simple">
+<li><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">当</font></font><code class="docutils literal notranslate"><span class="pre">breakpoint()</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">调用并</font></font><code class="docutils literal notranslate"><span class="pre">PYTHONBREAKPOINT</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">设置为默认值时，pytest将使用自定义内部PDB跟踪UI而不是系统默认值</font></font><code class="docutils literal notranslate"><span class="pre">Pdb</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">。</font></font></li>
+<li><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">测试完成后，系统将默认返回系统</font></font><code class="docutils literal notranslate"><span class="pre">Pdb</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">跟踪UI。</font></font></li>
+<li><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">随着</font></font><code class="docutils literal notranslate"><span class="pre">--pdb</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">传递给pytest，自定义内部PDB跟踪UI使用既</font></font><code class="docutils literal notranslate"><span class="pre">breakpoint()</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">和失败的测试/未处理的异常。</font></font></li>
+<li><code class="docutils literal notranslate"><span class="pre">--pdbcls</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> 可用于指定自定义调试器类。</font></font></li>
+</ul>
+</div></blockquote>
+</div>
+<div class="section" id="profiling-test-execution-duration">
+<span id="durations"></span><h2><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">分析测试执行持续时间</font></font><a class="headerlink" href="https://docs.pytest.org/en/latest/usage.html#profiling-test-execution-duration" title="永久链接到这个标题"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">¶</font></font></a></h2>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">要获得最慢的10个测试持续时间的列表：</font></font></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pytest --durations<span class="o">=</span><span class="m">10</span>
+</pre></div>
+</div>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">默认情况下，除非</font></font><code class="docutils literal notranslate"><span class="pre">-vv</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">在命令行上传递，</font><font style="vertical-align: inherit;">否则pytest不会显示太小的测试持续时间（&lt;0.01s）</font><font style="vertical-align: inherit;">。</font></font></p>
+</div>
+<div class="section" id="creating-junitxml-format-files">
+<h2><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">创建JUnitXML格式文件</font></font><a class="headerlink" href="https://docs.pytest.org/en/latest/usage.html#creating-junitxml-format-files" title="永久链接到这个标题"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">¶</font></font></a></h2>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">要创建可由</font></font><a class="reference external" href="http://jenkins-ci.org/"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Jenkins</font></font></a><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">或其他Continuous集成服务器</font><font style="vertical-align: inherit;">读取的结果文件</font><font style="vertical-align: inherit;">，请使用此调用：</font></font></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pytest --junitxml<span class="o">=</span>path
+</pre></div>
+</div>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">在</font></font><code class="docutils literal notranslate"><span class="pre">path</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">。</font><font style="vertical-align: inherit;">创建XML文件</font><font style="vertical-align: inherit;">。</font></font></p>
+<div class="versionadded">
+<p><span class="versionmodified"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.1版中的新功能。</font></font></span></p>
+</div>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">要设置根测试套件xml项的名称，可以</font></font><code class="docutils literal notranslate"><span class="pre">junit_suite_name</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">在配置文件中</font><font style="vertical-align: inherit;">配置该</font><font style="vertical-align: inherit;">选项：</font></font></p>
+<div class="highlight-ini notranslate"><div class="highlight"><pre><span></span><span class="k">[pytest]</span>
+<span class="na">junit_suite_name</span> <span class="o">=</span> <span class="s">my_suite</span>
+</pre></div>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">4.0版中的新功能。</font></font></span></p>
+</div>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">JUnit的XML规范似乎表明</font></font><code class="docutils literal notranslate"><span class="pre">"time"</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">属性应报告的总测试执行时间，其中包括建立和拆除（</font></font><a class="reference external" href="http://windyroad.com.au/dl/Open%20Source/JUnit.xsd"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">1</font></font></a><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">，</font></font><a class="reference external" href="https://www.ibm.com/support/knowledgecenter/en/SSQ2R2_14.1.0/com.ibm.rsar.analysis.codereview.cobol.doc/topics/cac_useresults_junit.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">2</font></font></a><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">）。</font><font style="vertical-align: inherit;">这是默认的pytest行为。</font><font style="vertical-align: inherit;">要仅报告呼叫持续时间，请配置如下</font></font><code class="docutils literal notranslate"><span class="pre">junit_duration_report</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">选项：</font></font></p>
+<div class="highlight-ini notranslate"><div class="highlight"><pre><span></span><span class="k">[pytest]</span>
+<span class="na">junit_duration_report</span> <span class="o">=</span> <span class="s">call</span>
+</pre></div>
+</div>
+<div class="section" id="record-property">
+<span id="record-property-example"></span><h3><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">record_property </font></font><a class="headerlink" href="https://docs.pytest.org/en/latest/usage.html#record-property" title="永久链接到这个标题"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">¶</font></font></a></h3>
+<div class="versionadded">
+<p><span class="versionmodified"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">版本2.8中的新功能。</font></font></span></p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">在3.5版本中改为：</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">灯具从更名</font></font><code class="docutils literal notranslate"><span class="pre">record_xml_property</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">到</font></font><code class="docutils literal notranslate"><span class="pre">record_property</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">的用户属性现在适用于所有记者。
+</font></font><code class="docutils literal notranslate"><span class="pre">record_xml_property</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">现已弃用。</font></font></p>
+</div>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">如果要记录测试的其他信息，可以使用
+ </font></font><code class="docutils literal notranslate"><span class="pre">record_property</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">夹具：</font></font></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">test_function</span><span class="p">(</span><span class="n">record_property</span><span class="p">):</span>
+    <span class="n">record_property</span><span class="p">(</span><span class="s2">"example_key"</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="bp">True</span>
+</pre></div>
+</div>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">这将为</font></font><code class="docutils literal notranslate"><span class="pre">example_key="1"</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">生成的
+ </font></font><code class="docutils literal notranslate"><span class="pre">testcase</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">标记</font><font style="vertical-align: inherit;">添加额外的属性</font><font style="vertical-align: inherit;">：</font></font></p>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="nt">&lt;testcase</span> <span class="na">classname=</span><span class="s">"test_function"</span> <span class="na">file=</span><span class="s">"test_function.py"</span> <span class="na">line=</span><span class="s">"0"</span> <span class="na">name=</span><span class="s">"test_function"</span> <span class="na">time=</span><span class="s">"0.0009"</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;properties&gt;</span>
+    <span class="nt">&lt;property</span> <span class="na">name=</span><span class="s">"example_key"</span> <span class="na">value=</span><span class="s">"1"</span> <span class="nt">/&gt;</span>
+  <span class="nt">&lt;/properties&gt;</span>
+<span class="nt">&lt;/testcase&gt;</span>
+</pre></div>
+</div>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">或者，您可以将此功能与自定义标记集成：</font></font></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># content of conftest.py</span>
+
+
+<span class="k">def</span> <span class="nf">pytest_collection_modifyitems</span><span class="p">(</span><span class="n">session</span><span class="p">,</span> <span class="n">config</span><span class="p">,</span> <span class="n">items</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">items</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">marker</span> <span class="ow">in</span> <span class="n">item</span><span class="o">.</span><span class="n">iter_markers</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">"test_id"</span><span class="p">):</span>
+            <span class="n">test_id</span> <span class="o">=</span> <span class="n">marker</span><span class="o">.</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">item</span><span class="o">.</span><span class="n">user_properties</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="s2">"test_id"</span><span class="p">,</span> <span class="n">test_id</span><span class="p">))</span>
+</pre></div>
+</div>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">在你的测试中：</font></font></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># content of test_function.py</span>
+<span class="kn">import</span> <span class="nn">pytest</span>
+
+
+<span class="nd">@pytest.mark.test_id</span><span class="p">(</span><span class="mi">1501</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">test_function</span><span class="p">():</span>
+    <span class="k">assert</span> <span class="bp">True</span>
+</pre></div>
+</div>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">将导致：</font></font></p>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="nt">&lt;testcase</span> <span class="na">classname=</span><span class="s">"test_function"</span> <span class="na">file=</span><span class="s">"test_function.py"</span> <span class="na">line=</span><span class="s">"0"</span> <span class="na">name=</span><span class="s">"test_function"</span> <span class="na">time=</span><span class="s">"0.0009"</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;properties&gt;</span>
+    <span class="nt">&lt;property</span> <span class="na">name=</span><span class="s">"test_id"</span> <span class="na">value=</span><span class="s">"1501"</span> <span class="nt">/&gt;</span>
+  <span class="nt">&lt;/properties&gt;</span>
+<span class="nt">&lt;/testcase&gt;</span>
+</pre></div>
+</div>
+<div class="admonition warning">
+<p class="first admonition-title"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">警告</font></font></p>
+<p><code class="docutils literal notranslate"><span class="pre">record_property</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> 是一个实验性功能，将来可能会发生变化。</font></font></p>
+<p class="last"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">另请注意，使用此功能将破坏任何架构验证。</font><font style="vertical-align: inherit;">与某些CI服务器一起使用时，这可能是一个问题。</font></font></p>
+</div>
+</div>
+<div class="section" id="record-xml-attribute">
+<h3><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">record_xml_attribute </font></font><a class="headerlink" href="https://docs.pytest.org/en/latest/usage.html#record-xml-attribute" title="永久链接到这个标题"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">¶</font></font></a></h3>
+<div class="versionadded">
+<p><span class="versionmodified"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">版本3.4中的新功能。</font></font></span></p>
+</div>
+<p>To add an additional xml attribute to a testcase element, you can use
+<code class="docutils literal notranslate"><span class="pre">record_xml_attribute</span></code> fixture. This can also be used to override existing values:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">test_function</span><span class="p">(</span><span class="n">record_xml_attribute</span><span class="p">):</span>
+    <span class="n">record_xml_attribute</span><span class="p">(</span><span class="s2">"assertions"</span><span class="p">,</span> <span class="s2">"REQ-1234"</span><span class="p">)</span>
+    <span class="n">record_xml_attribute</span><span class="p">(</span><span class="s2">"classname"</span><span class="p">,</span> <span class="s2">"custom_classname"</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="s2">"hello world"</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="bp">True</span>
+</pre></div>
+</div>
+<p>Unlike <code class="docutils literal notranslate"><span class="pre">record_property</span></code>, this will not add a new child element.
+Instead, this will add an attribute <code class="docutils literal notranslate"><span class="pre">assertions="REQ-1234"</span></code> inside the generated
+<code class="docutils literal notranslate"><span class="pre">testcase</span></code> tag and override the default <code class="docutils literal notranslate"><span class="pre">classname</span></code> with <code class="docutils literal notranslate"><span class="pre">"classname=custom_classname"</span></code>:</p>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="nt">&lt;testcase</span> <span class="na">classname=</span><span class="s">"custom_classname"</span> <span class="na">file=</span><span class="s">"test_function.py"</span> <span class="na">line=</span><span class="s">"0"</span> <span class="na">name=</span><span class="s">"test_function"</span> <span class="na">time=</span><span class="s">"0.003"</span> <span class="na">assertions=</span><span class="s">"REQ-1234"</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;system-out&gt;</span>
+        hello world
+    <span class="nt">&lt;/system-out&gt;</span>
+<span class="nt">&lt;/testcase&gt;</span>
+</pre></div>
+</div>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p><code class="docutils literal notranslate"><span class="pre">record_xml_attribute</span></code> is an experimental feature, and its interface might be replaced
+by something more powerful and general in future versions. The
+functionality per-se will be kept, however.</p>
+<p>Using this over <code class="docutils literal notranslate"><span class="pre">record_xml_property</span></code> can help when using ci tools to parse the xml report.
+However, some parsers are quite strict about the elements and attributes that are allowed.
+Many tools use an xsd schema (like the example below) to validate incoming xml.
+Make sure you are using attribute names that are allowed by your parser.</p>
+<p>Below is the Scheme used by Jenkins to validate the XML report:</p>
+<div class="last highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="nt">&lt;xs:element</span> <span class="na">name=</span><span class="s">"testcase"</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;xs:complexType&gt;</span>
+        <span class="nt">&lt;xs:sequence&gt;</span>
+            <span class="nt">&lt;xs:element</span> <span class="na">ref=</span><span class="s">"skipped"</span> <span class="na">minOccurs=</span><span class="s">"0"</span> <span class="na">maxOccurs=</span><span class="s">"1"</span><span class="nt">/&gt;</span>
+            <span class="nt">&lt;xs:element</span> <span class="na">ref=</span><span class="s">"error"</span> <span class="na">minOccurs=</span><span class="s">"0"</span> <span class="na">maxOccurs=</span><span class="s">"unbounded"</span><span class="nt">/&gt;</span>
+            <span class="nt">&lt;xs:element</span> <span class="na">ref=</span><span class="s">"failure"</span> <span class="na">minOccurs=</span><span class="s">"0"</span> <span class="na">maxOccurs=</span><span class="s">"unbounded"</span><span class="nt">/&gt;</span>
+            <span class="nt">&lt;xs:element</span> <span class="na">ref=</span><span class="s">"system-out"</span> <span class="na">minOccurs=</span><span class="s">"0"</span> <span class="na">maxOccurs=</span><span class="s">"unbounded"</span><span class="nt">/&gt;</span>
+            <span class="nt">&lt;xs:element</span> <span class="na">ref=</span><span class="s">"system-err"</span> <span class="na">minOccurs=</span><span class="s">"0"</span> <span class="na">maxOccurs=</span><span class="s">"unbounded"</span><span class="nt">/&gt;</span>
+        <span class="nt">&lt;/xs:sequence&gt;</span>
+        <span class="nt">&lt;xs:attribute</span> <span class="na">name=</span><span class="s">"name"</span> <span class="na">type=</span><span class="s">"xs:string"</span> <span class="na">use=</span><span class="s">"required"</span><span class="nt">/&gt;</span>
+        <span class="nt">&lt;xs:attribute</span> <span class="na">name=</span><span class="s">"assertions"</span> <span class="na">type=</span><span class="s">"xs:string"</span> <span class="na">use=</span><span class="s">"optional"</span><span class="nt">/&gt;</span>
+        <span class="nt">&lt;xs:attribute</span> <span class="na">name=</span><span class="s">"time"</span> <span class="na">type=</span><span class="s">"xs:string"</span> <span class="na">use=</span><span class="s">"optional"</span><span class="nt">/&gt;</span>
+        <span class="nt">&lt;xs:attribute</span> <span class="na">name=</span><span class="s">"classname"</span> <span class="na">type=</span><span class="s">"xs:string"</span> <span class="na">use=</span><span class="s">"optional"</span><span class="nt">/&gt;</span>
+        <span class="nt">&lt;xs:attribute</span> <span class="na">name=</span><span class="s">"status"</span> <span class="na">type=</span><span class="s">"xs:string"</span> <span class="na">use=</span><span class="s">"optional"</span><span class="nt">/&gt;</span>
+    <span class="nt">&lt;/xs:complexType&gt;</span>
+<span class="nt">&lt;/xs:element&gt;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="logxml-add-global-property">
+<h3>LogXML: add_global_property<a class="headerlink" href="https://docs.pytest.org/en/latest/usage.html#logxml-add-global-property" title="永久链接到这个标题">¶</a></h3>
+<div class="versionadded">
+<p><span class="versionmodified">New in version 3.0.</span></p>
+</div>
+<p>If you want to add a properties node in the testsuite level, which may contains properties that are relevant
+to all testcases you can use <code class="docutils literal notranslate"><span class="pre">LogXML.add_global_properties</span></code></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pytest</span>
+
+
+<span class="nd">@pytest.fixture</span><span class="p">(</span><span class="n">scope</span><span class="o">=</span><span class="s2">"session"</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">log_global_env_facts</span><span class="p">(</span><span class="n">f</span><span class="p">):</span>
+
+    <span class="k">if</span> <span class="n">pytest</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">pluginmanager</span><span class="o">.</span><span class="n">hasplugin</span><span class="p">(</span><span class="s2">"junitxml"</span><span class="p">):</span>
+        <span class="n">my_junit</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">pytest</span><span class="o">.</span><span class="n">config</span><span class="p">,</span> <span class="s2">"_xml"</span><span class="p">,</span> <span class="bp">None</span><span class="p">)</span>
+
+    <span class="n">my_junit</span><span class="o">.</span><span class="n">add_global_property</span><span class="p">(</span><span class="s2">"ARCH"</span><span class="p">,</span> <span class="s2">"PPC"</span><span class="p">)</span>
+    <span class="n">my_junit</span><span class="o">.</span><span class="n">add_global_property</span><span class="p">(</span><span class="s2">"STORAGE_TYPE"</span><span class="p">,</span> <span class="s2">"CEPH"</span><span class="p">)</span>
+
+
+<span class="nd">@pytest.mark.usefixtures</span><span class="p">(</span><span class="n">log_global_env_facts</span><span class="o">.</span><span class="vm">__name__</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">start_and_prepare_env</span><span class="p">():</span>
+    <span class="k">pass</span>
+
+
+<span class="k">class</span> <span class="nc">TestMe</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">test_foo</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">assert</span> <span class="bp">True</span>
+</pre></div>
+</div>
+<p>This will add a property node below the testsuite node to the generated xml:</p>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="nt">&lt;testsuite</span> <span class="na">errors=</span><span class="s">"0"</span> <span class="na">failures=</span><span class="s">"0"</span> <span class="na">name=</span><span class="s">"pytest"</span> <span class="na">skips=</span><span class="s">"0"</span> <span class="na">tests=</span><span class="s">"1"</span> <span class="na">time=</span><span class="s">"0.006"</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;properties&gt;</span>
+    <span class="nt">&lt;property</span> <span class="na">name=</span><span class="s">"ARCH"</span> <span class="na">value=</span><span class="s">"PPC"</span><span class="nt">/&gt;</span>
+    <span class="nt">&lt;property</span> <span class="na">name=</span><span class="s">"STORAGE_TYPE"</span> <span class="na">value=</span><span class="s">"CEPH"</span><span class="nt">/&gt;</span>
+  <span class="nt">&lt;/properties&gt;</span>
+  <span class="nt">&lt;testcase</span> <span class="na">classname=</span><span class="s">"test_me.TestMe"</span> <span class="na">file=</span><span class="s">"test_me.py"</span> <span class="na">line=</span><span class="s">"16"</span> <span class="na">name=</span><span class="s">"test_foo"</span> <span class="na">time=</span><span class="s">"0.000243663787842"</span><span class="nt">/&gt;</span>
+<span class="nt">&lt;/testsuite&gt;</span>
+</pre></div>
+</div>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">This is an experimental feature, and its interface might be replaced
+by something more powerful and general in future versions. The
+functionality per-se will be kept.</p>
+</div>
+</div>
+</div>
+<div class="section" id="creating-resultlog-format-files">
+<h2>Creating resultlog format files<a class="headerlink" href="https://docs.pytest.org/en/latest/usage.html#creating-resultlog-format-files" title="永久链接到这个标题">¶</a></h2>
+<div class="deprecated">
+<p><span class="versionmodified">Deprecated since version 3.0: </span>This option is rarely used and is scheduled for removal in 5.0.</p>
+<p>See <a class="reference external" href="https://docs.pytest.org/en/latest/deprecations.html#result-log-result-log">the deprecation docs</a>
+for more information.</p>
+</div>
+<p>To create plain-text machine-readable result files you can issue:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pytest --resultlog<span class="o">=</span>path
+</pre></div>
+</div>
+<p>and look at the content at the <code class="docutils literal notranslate"><span class="pre">path</span></code> location.  Such files are used e.g.
+by the <a class="reference external" href="http://buildbot.pypy.org/summary">PyPy-test</a> web page to show test results over several revisions.</p>
+</div>
+<div class="section" id="sending-test-report-to-online-pastebin-service">
+<h2>Sending test report to online pastebin service<a class="headerlink" href="https://docs.pytest.org/en/latest/usage.html#sending-test-report-to-online-pastebin-service" title="永久链接到这个标题">¶</a></h2>
+<p><strong>Creating a URL for each test failure</strong>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pytest --pastebin<span class="o">=</span>failed
+</pre></div>
+</div>
+<p>This will submit test run information to a remote Paste service and
+provide a URL for each failure.  You may select tests as usual or add
+for example <code class="docutils literal notranslate"><span class="pre">-x</span></code> if you only want to send one particular failure.</p>
+<p><strong>Creating a URL for a whole test session log</strong>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pytest --pastebin<span class="o">=</span>all
+</pre></div>
+</div>
+<p>Currently only pasting to the <a class="reference external" href="http://bpaste.net/">http://bpaste.net</a> service is implemented.</p>
+</div>
+<div class="section" id="disabling-plugins">
+<h2>Disabling plugins<a class="headerlink" href="https://docs.pytest.org/en/latest/usage.html#disabling-plugins" title="永久链接到这个标题">¶</a></h2>
+<p>To disable loading specific plugins at invocation time, use the <code class="docutils literal notranslate"><span class="pre">-p</span></code> option
+together with the prefix <code class="docutils literal notranslate"><span class="pre">no:</span></code>.</p>
+<p>Example: to disable loading the plugin <code class="docutils literal notranslate"><span class="pre">doctest</span></code>, which is responsible for
+executing doctest tests from text files, invoke pytest like this:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pytest -p no:doctest
+</pre></div>
+</div>
+</div>
+<div class="section" id="calling-pytest-from-python-code">
+<span id="pytest-main-usage"></span><h2>Calling pytest from Python code<a class="headerlink" href="https://docs.pytest.org/en/latest/usage.html#calling-pytest-from-python-code" title="永久链接到这个标题">¶</a></h2>
+<div class="versionadded">
+<p><span class="versionmodified">New in version 2.0.</span></p>
+</div>
+<p>You can invoke <code class="docutils literal notranslate"><span class="pre">pytest</span></code> from Python code directly:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pytest</span><span class="o">.</span><span class="n">main</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>this acts as if you would call “pytest” from the command line.
+It will not raise <code class="docutils literal notranslate"><span class="pre">SystemExit</span></code> but return the exitcode instead.
+You can pass in options and arguments:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pytest</span><span class="o">.</span><span class="n">main</span><span class="p">([</span><span class="s1">'-x'</span><span class="p">,</span> <span class="s1">'mytestdir'</span><span class="p">])</span>
+</pre></div>
+</div>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">您可以指定其他插件</font></font><code class="docutils literal notranslate"><span class="pre">pytest.main</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">：</font></font></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># content of myinvoke.py</span>
+<span class="kn">import</span> <span class="nn">pytest</span>
+<span class="k">class</span> <span class="nc">MyPlugin</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">pytest_sessionfinish</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">"*** test run reporting finishing"</span><span class="p">)</span>
+
+<span class="n">pytest</span><span class="o">.</span><span class="n">main</span><span class="p">([</span><span class="s2">"-qq"</span><span class="p">],</span> <span class="n">plugins</span><span class="o">=</span><span class="p">[</span><span class="n">MyPlugin</span><span class="p">()])</span>
+</pre></div>
+</div>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">运行它将显示</font></font><code class="docutils literal notranslate"><span class="pre">MyPlugin</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">已添加并调用其钩子：</font></font></p>
+<div class="highlight-pytest notranslate"><div class="highlight"><pre><span></span>$ python myinvoke.py
+.FEsxX.                                                              [100%]*** test run reporting finishing
+
+================================== ERRORS ==================================
+<span class=" -Color -Color-BoldRed">_______________________ ERROR at setup of test_error _______________________</span>
+
+<span class=" -Color -Color-Bold">    @pytest.fixture</span>
+<span class=" -Color -Color-Bold">    def error_fixture():</span>
+<span class=" -Color -Color-Bold">&gt;       assert 0</span>
+<span class=" -Color -Color-BoldRed">E       assert 0</span>
+
+<span class=" -Color -Color-BoldRed">test_example.py</span>:6: AssertionError
+================================= FAILURES =================================
+<span class=" -Color -Color-BoldRed">________________________________ test_fail _________________________________</span>
+
+<span class=" -Color -Color-Bold">    def test_fail():</span>
+<span class=" -Color -Color-Bold">&gt;       assert 0</span>
+<span class=" -Color -Color-BoldRed">E       assert 0</span>
+
+<span class=" -Color -Color-BoldRed">test_example.py</span>:14: AssertionError
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">注意</font></font></p>
+<p class="last"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">调用</font></font><code class="docutils literal notranslate"><span class="pre">pytest.main()</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">将导致导入测试及其导入的任何模块。</font><font style="vertical-align: inherit;">由于python导入系统的缓存机制，</font></font><code class="docutils literal notranslate"><span class="pre">pytest.main()</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">从同一进程</font><font style="vertical-align: inherit;">进行后续调用</font><font style="vertical-align: inherit;">不会反映调用之间对这些文件的更改。</font><font style="vertical-align: inherit;">因此，</font></font><code class="docutils literal notranslate"><span class="pre">pytest.main()</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">不建议从同一进程</font><font style="vertical-align: inherit;">进行多次调用</font><font style="vertical-align: inherit;">（例如，为了重新运行测试）。</font></font></p>
+</div>
+</div>
+</div>
+
+
+          <div id="rtd-st3jzfq1l" class="ethical-alabaster"></div></div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="https://docs.pytest.org/en/latest/contents.html">
+              <img class="logo" src="./pytest文档3_files/pytest1.png" alt="商标">
+            </a></p><h3><a href="https://docs.pytest.org/en/latest/contents.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">目录</font></font></a></h3>
+
+<ul>
+  <li><a href="https://docs.pytest.org/en/latest/index.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">家</font></font></a></li>
+  <li><a href="https://docs.pytest.org/en/latest/getting-started.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">安装</font></font></a></li>
+  <li><a href="https://docs.pytest.org/en/latest/contents.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">内容</font></font></a></li>
+  <li><a href="https://docs.pytest.org/en/latest/reference.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">参考</font></font></a></li>
+  <li><a href="https://docs.pytest.org/en/latest/example/index.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">例子</font></font></a></li>
+  <li><a href="https://docs.pytest.org/en/latest/customize.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">定制</font></font></a></li>
+  <li><a href="https://docs.pytest.org/en/latest/changelog.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">更新日志</font></font></a></li>
+  <li><a href="https://docs.pytest.org/en/latest/contributing.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">特约</font></font></a></li>
+  <li><a href="https://docs.pytest.org/en/latest/backwards-compatibility.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">向后兼容性</font></font></a></li>
+  <li><a href="https://docs.pytest.org/en/latest/license.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">执照</font></font></a></li>
+  <li><a href="https://docs.pytest.org/en/latest/contact.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">联系渠道</font></font></a></li>
+</ul>
+  <hr>
+  <ul>
+<li><a class="reference internal" href="https://docs.pytest.org/en/latest/usage.html#"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">用法和调用</font></font></a><ul>
+<li><a class="reference internal" href="https://docs.pytest.org/en/latest/usage.html#calling-pytest-through-python-m-pytest"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">通过调用pytest </font></font><code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">-m</span> <span class="pre">pytest</span></code></a></li>
+<li><a class="reference internal" href="https://docs.pytest.org/en/latest/usage.html#possible-exit-codes"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">可能的退出代码</font></font></a></li>
+<li><a class="reference internal" href="https://docs.pytest.org/en/latest/usage.html#getting-help-on-version-option-names-environment-variables"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">获取有关版本，选项名称，环境变量的帮助</font></font></a></li>
+<li><a class="reference internal" href="https://docs.pytest.org/en/latest/usage.html#stopping-after-the-first-or-n-failures"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">在第一次（或N次）失败后停止</font></font></a></li>
+<li><a class="reference internal" href="https://docs.pytest.org/en/latest/usage.html#specifying-tests-selecting-tests"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">指定测试/选择测试</font></font></a></li>
+<li><a class="reference internal" href="https://docs.pytest.org/en/latest/usage.html#modifying-python-traceback-printing"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">修改Python回溯打印</font></font></a></li>
+<li><a class="reference internal" href="https://docs.pytest.org/en/latest/usage.html#detailed-summary-report"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">详细的总结报告</font></font></a></li>
+<li><a class="reference internal" href="https://docs.pytest.org/en/latest/usage.html#dropping-to-pdb-python-debugger-on-failures"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">在失败时丢弃到PDB（Python调试器）</font></font></a></li>
+<li><a class="reference internal" href="https://docs.pytest.org/en/latest/usage.html#dropping-to-pdb-python-debugger-at-the-start-of-a-test"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">在测试开始时删除到PDB（Python调试器）</font></font></a></li>
+<li><a class="reference internal" href="https://docs.pytest.org/en/latest/usage.html#setting-breakpoints"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">设置断点</font></font></a></li>
+<li><a class="reference internal" href="https://docs.pytest.org/en/latest/usage.html#using-the-builtin-breakpoint-function"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">使用内置断点功能</font></font></a></li>
+<li><a class="reference internal" href="https://docs.pytest.org/en/latest/usage.html#profiling-test-execution-duration"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">分析测试执行持续时间</font></font></a></li>
+<li><a class="reference internal" href="https://docs.pytest.org/en/latest/usage.html#creating-junitxml-format-files"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">创建JUnitXML格式文件</font></font></a><ul>
+<li><a class="reference internal" href="https://docs.pytest.org/en/latest/usage.html#record-property"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">record_property</font></font></a></li>
+<li><a class="reference internal" href="https://docs.pytest.org/en/latest/usage.html#record-xml-attribute"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">record_xml_attribute</font></font></a></li>
+<li><a class="reference internal" href="https://docs.pytest.org/en/latest/usage.html#logxml-add-global-property"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">LogXML：add_global_property</font></font></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="https://docs.pytest.org/en/latest/usage.html#creating-resultlog-format-files"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">创建结果日志格式文件</font></font></a></li>
+<li><a class="reference internal" href="https://docs.pytest.org/en/latest/usage.html#sending-test-report-to-online-pastebin-service"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">将测试报告发送到在线pastebin服务</font></font></a></li>
+<li><a class="reference internal" href="https://docs.pytest.org/en/latest/usage.html#disabling-plugins"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">禁用插件</font></font></a></li>
+<li><a class="reference internal" href="https://docs.pytest.org/en/latest/usage.html#calling-pytest-from-python-code"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">从Python代码调用pytest</font></font></a></li>
+</ul>
+</li>
+</ul>
+<h3><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">相关话题</font></font></h3>
+<ul>
+  <li><a href="https://docs.pytest.org/en/latest/contents.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">文档概述</font></font></a><ul>
+      <li><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">上一页：</font></font><a href="https://docs.pytest.org/en/latest/getting-started.html" title="前一章"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">安装和入门</font></font></a></li>
+      <li><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">下一页：</font></font><a href="https://docs.pytest.org/en/latest/existingtestsuite.html" title="下一章"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">将pytest与现有测试套件一起使用</font></font></a></li>
+  </ul></li>
+</ul><h3><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">有用的链接</font></font></h3>
+<ul>
+  <li><a href="https://pypi.org/project/pytest/"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">pytest @ PyPI</font></font></a></li>
+  <li><a href="https://github.com/pytest-dev/pytest/"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">pytest @ GitHub</font></font></a></li>
+  <li><a href="http://plugincompat.herokuapp.com/"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">第三方插件</font></font></a></li>
+  <li><a href="https://github.com/pytest-dev/pytest/issues"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">问题跟踪器</font></font></a></li>
+  <li><a href="https://media.readthedocs.org/pdf/pytest/latest/pytest.pdf"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">PDF文档</font></font></a>
+</li></ul>
+<div id="searchbox" style="" role="search">
+  <h3><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">快速搜索</font></font></h3>
+    <div class="searchformwrapper">
+    <form class="search" action="https://docs.pytest.org/en/latest/search.html" method="get">
+      <input type="text" name="q">
+      <font style="vertical-align: inherit;"><font style="vertical-align: inherit;"><input type="submit" value="走"></font></font>
+      <input type="hidden" name="check_keywords" value="yes">
+      <input type="hidden" name="area" value="default">
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        <div id="rtd-n97u3hox" class="ethical-alabaster"><div class="ethical-sidebar"><div class="ethical-content"><a href="https://readthedocs.org/sustainability/click/305/OVOMtfJ7m1A9/" rel="nofollow" target="_blank" class="ethical-image-link"><img src="./pytest文档3_files/readthedocs-logo-fs8.png"></a><div class="ethical-text"><a href="https://readthedocs.org/sustainability/click/305/OVOMtfJ7m1A9/" rel="nofollow" target="_blank"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">私人回购和优先支持</font></font><br><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">尝试阅读今日商业文档！</font></font></a></div></div><div class="ethical-callout"><small><em><a href="https://readthedocs.org/sustainability/advertising/"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">赞助商</font></font></a><span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">· </font></font></span><a href="https://docs.readthedocs.io/en/latest/ethical-advertising.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">道德服务广告</font></font></a></em></small></div></div><img src="./pytest文档3_files/saved_resource" style="display: none;"></div></div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+
+  <div class="footer"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+    ©版权所有2015-2019，holger krekel和pytest-dev团队。</font><font style="vertical-align: inherit;">使用</font></font><a href="http://sphinx.pocoo.org/"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Sphinx</font></font></a><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">创建</font><font style="vertical-align: inherit;">。
+  </font></font></div>
+  
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-7597274-13']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script><div id="goog-gt-tt" class="skiptranslate" dir="ltr"><div style="padding: 8px;"><div><div class="logo"><img src="./pytest文档3_files/translate_24dp.png" width="20" height="20" alt="Google 翻译"></div></div></div><div class="top" style="padding: 8px; float: left; width: 100%;"><h1 class="title gray">原文</h1></div><div class="middle" style="padding: 8px;"><div class="original-text"></div></div><div class="bottom" style="padding: 8px;"><div class="activity-links"><span class="activity-link">提供更好的翻译建议</span><span class="activity-link"></span></div><div class="started-activity-container"><hr style="color: #CCC; background-color: #CCC; height: 1px; border: none;"><div class="activity-root"></div></div></div><div class="status-message" style="display: none;"></div></div>
+
+  
+<div class="goog-te-spinner-pos"><div class="goog-te-spinner-animation"><svg xmlns="http://www.w3.org/2000/svg" class="goog-te-spinner" width="96px" height="96px" viewBox="0 0 66 66"><circle class="goog-te-spinner-path" fill="none" stroke-width="6" stroke-linecap="round" cx="33" cy="33" r="30"></circle></svg></div></div><!-- Inserted RTD Footer -->
+<div class="injected">
+
+  
+  <div class="rst-versions rst-badge" data-toggle="rst-versions">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      <span class="fa fa-book">&nbsp;</span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+      v：最新的
+      </font></font><span class="fa fa-caret-down"></span>
+    </span>
+    <div class="rst-other-versions">
+      
+
+      
+      
+      
+      <dl>
+        <dt><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">版本</font></font></dt>
+        
+         <strong> 
+        <dd><a href="http://doc.pytest.org/en/latest/usage.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">最新</font></font></a></dd>
+         </strong> 
+        
+        
+        <dd><a href="http://doc.pytest.org/en/stable/usage.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">稳定</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/4.3.1/usage.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">4.3.1</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/4.3.0/usage.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">4.3.0</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/4.2.1/usage.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">4.2.1</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/4.2.0/usage.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">4.2.0</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/4.1.1/usage.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">4.1.1</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/4.1.0/usage.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">4.1.0</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/4.0.2/usage.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">4.0.2</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/4.0.1/usage.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">4.0.1</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/4.0.0/usage.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">4.0.0</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.10.1/usage.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.10.1</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.10.0/usage.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.10.0</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.9.3/usage.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.9.3</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.9.2/usage.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.9.2</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.9.1/usage.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.9.1</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.9.0/usage.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.9.0</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.8.2/usage.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.8.2</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.8.1/usage.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.8.1</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.8.0/usage.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.8.0</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.7.4/usage.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.7.4</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.7.3/usage.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.7.3</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.7.2/usage.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.7.2</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.7.1/usage.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.7.1</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.7.0/usage.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.7.0</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.6.4/usage.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.6.4</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.6.3/usage.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.6.3</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.6.2/usage.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.6.2</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.6.1/usage.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.6.1</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.6.0/usage.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.6.0</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.5.1/usage.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.5.1</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.5.0/usage.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.5.0</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.4.2/usage.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.4.2</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.4.1/usage.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.4.1</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.4.0/usage.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.4.0</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.3.2/usage.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.3.2</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.3.1/usage.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.3.1</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.3.0/usage.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.3.0</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.2.5/usage.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.2.5</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.2.4/usage.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.2.4</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.2.3/usage.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.2.3</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.2.2/usage.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.2.2</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.2.1/usage.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.2.1</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.2.0/usage.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.2.0</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.1.3/usage.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.1.3</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.1.2/usage.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.1.2</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.1.1/usage.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.1.1</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.1.0/usage.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.1.0</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.0.7/usage.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.0.7</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.0.6/usage.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.0.6</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.0.5/usage.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.0.5</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.0.4/usage.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.0.4</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.0.3/usage.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.0.3</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.0.2/usage.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.0.2</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.0.1/usage.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.0.1</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/3.0.0/usage.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">3.0.0</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/2.9.2/usage.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">2.9.2</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/2.9.1/usage.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">2.9.1</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/2.9.0/usage.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">2.9.0</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/2.8.7/usage.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">2.8.7</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/2.7.3/usage.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">2.7.3</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/sphinx-removed-in/usage.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">斯芬克斯-除去式</font></font></a></dd>
+        
+        
+        
+        <dd><a href="http://doc.pytest.org/en/features/usage.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">特征</font></font></a></dd>
+        
+        
+      </dl>
+      
+      
+
+      
+      
+      <dl>
+        <dt><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">下载</font></font></dt>
+        
+        <dd><a href="https://readthedocs.org/projects/pytest/downloads/pdf/latest/"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">PDF</font></font></a></dd>
+        
+        <dd><a href="https://readthedocs.org/projects/pytest/downloads/htmlzip/latest/"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">HTML</font></font></a></dd>
+        
+        <dd><a href="https://readthedocs.org/projects/pytest/downloads/epub/latest/"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">EPUB</font></font></a></dd>
+        
+      </dl>
+      
+      
+
+      
+      <dl>
+        <!-- These are kept as relative links for internal installs that are http -->
+        <dt><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">阅读文档</font></font></dt>
+        <dd>
+          <a href="https://readthedocs.org/projects/pytest/"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">项目主页</font></font></a>
+        </dd>
+        <dd>
+          <a href="https://readthedocs.org/projects/pytest/builds/"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">构建</font></font></a>
+        </dd>
+        <dd>
+          <a href="https://readthedocs.org/projects/pytest/downloads/"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">下载</font></font></a>
+        </dd>
+      </dl>
+      
+
+      
+
+      
+      <dl>
+        <dt><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">在GitHub上</font></font></dt>
+        <dd>
+          <a href="https://github.com/pytest-dev/pytest/blob/master/doc/en/usage.rst"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">视图</font></font></a>
+        </dd>
+        
+      </dl>
+      
+      
+
+      
+      <dl>
+        <dt><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">搜索</font></font></dt>
+        <dd>
+          <div style="padding: 6px;">
+            <form id="flyout-search-form" class="wy-form" target="_blank" action="https://readthedocs.org/projects/pytest/search/" method="get">
+              <input type="text" name="q" placeholder="Search docs">
+              </form>
+          </div>
+        </dd>
+      </dl>
+      
+
+
+
+      <hr>
+      
+        <small>
+          <span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">主持人</font></font><a href="https://readthedocs.org/"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">阅读文档</font></font></a></span>
+          <span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> · </font></font></span>
+          <a href="https://docs.readthedocs.io/page/privacy-policy.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">隐私政策</font></font></a>
+        </small>
+      
+
+      
+    </div>
+  </div>
+  
+
+</div>
+</body></html>

@@ -1,0 +1,808 @@
+<!DOCTYPE html>
+<!-- saved from url=(0060)https://docs.djangoproject.com/zh-hans/2.1/intro/tutorial07/ -->
+<html lang="zh-hans" class=" mdzr-js mdzr-borderradius mdzr-boxshadow mdzr-cssanimations mdzr-svg"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="ROBOTS" content="ALL">
+    <meta name="MSSmartTagsPreventParsing" content="true">
+    <meta name="Copyright" content="Django Software Foundation">
+    <meta name="keywords" content="Python, Django, framework, open-source">
+    <meta name="description" content="">
+
+    
+  
+    
+      
+    
+  
+  <link rel="canonical" href="https://docs.djangoproject.com/zh-hans/2.2/intro/tutorial07/">
+  
+    
+      
+    
+    <link rel="alternate" hreflang="el" href="https://docs.djangoproject.com/el/2.1/intro/tutorial07/">
+  
+    
+      
+    
+    <link rel="alternate" hreflang="en" href="https://docs.djangoproject.com/en/2.1/intro/tutorial07/">
+  
+    
+      
+    
+    <link rel="alternate" hreflang="es" href="https://docs.djangoproject.com/es/2.1/intro/tutorial07/">
+  
+    
+      
+    
+    <link rel="alternate" hreflang="fr" href="https://docs.djangoproject.com/fr/2.1/intro/tutorial07/">
+  
+    
+      
+    
+    <link rel="alternate" hreflang="id" href="https://docs.djangoproject.com/id/2.1/intro/tutorial07/">
+  
+    
+      
+    
+    <link rel="alternate" hreflang="ja" href="https://docs.djangoproject.com/ja/2.1/intro/tutorial07/">
+  
+    
+      
+    
+    <link rel="alternate" hreflang="ko" href="https://docs.djangoproject.com/ko/2.1/intro/tutorial07/">
+  
+    
+      
+    
+    <link rel="alternate" hreflang="pl" href="https://docs.djangoproject.com/pl/2.1/intro/tutorial07/">
+  
+    
+      
+    
+    <link rel="alternate" hreflang="pt-br" href="https://docs.djangoproject.com/pt-br/2.1/intro/tutorial07/">
+  
+    
+      
+    
+    <link rel="alternate" hreflang="zh-hans" href="https://docs.djangoproject.com/zh-hans/2.1/intro/tutorial07/">
+  
+
+  <link rel="search" type="application/opensearchdescription+xml" href="https://docs.djangoproject.com/zh-hans/2.1/search/description/" title="Django 文档">
+
+    <!-- Favicons -->
+    <link rel="apple-touch-icon" href="https://static.djangoproject.com/img/icon-touch.e4872c4da341.png">
+    <link rel="icon" sizes="192x192" href="https://static.djangoproject.com/img/icon-touch.e4872c4da341.png">
+    <link rel="shortcut icon" href="https://static.djangoproject.com/img/favicon.6dbf28c0650e.ico">
+    <meta name="msapplication-TileColor" content="#113228">
+    <meta name="msapplication-TileImage" content="https://static.djangoproject.com/img/icon-tile.b01ac0ef9f67.png">
+
+    <title>编写你的第一个 Django 应用，第 7 部分 | Django 文档 | Django</title>
+
+    <link rel="stylesheet" href="./8编写你的第一个 Django 应用_files/output.beb34528fd55.css">
+    <script src="./8编写你的第一个 Django 应用_files/webfontloader.e75218f5f090.js"></script>
+    <link rel="stylesheet" href="./8编写你的第一个 Django 应用_files/css"><script>
+    WebFont.load({
+      custom: {
+        families: ['FontAwesome', 'Fira+Mono'],
+      },
+      google: {
+        families: ['Roboto:400italic,700italic,300,700,400:latin'
+        ]
+      },
+      classes: false,
+      events: false,
+      timeout: 1000
+    });
+    </script>
+    <script src="./8编写你的第一个 Django 应用_files/modernizr.3b36762e418a.js"></script>
+    
+  <script type="text/javascript" charset="utf-8" async="" data-requirecontext="_" data-requiremodule="main.07884ebc4865" src="./8编写你的第一个 Django 应用_files/main.07884ebc4865.js"></script><script type="text/javascript" charset="utf-8" async="" data-requirecontext="_" data-requiremodule="mod/mobile-menu" src="./8编写你的第一个 Django 应用_files/mobile-menu.841726ee903a.js"></script><script type="text/javascript" charset="utf-8" async="" data-requirecontext="_" data-requiremodule="mod/version-switcher" src="./8编写你的第一个 Django 应用_files/version-switcher.c28bb83972bb.js"></script><script type="text/javascript" charset="utf-8" async="" data-requirecontext="_" data-requiremodule="mod/search-key" src="./8编写你的第一个 Django 应用_files/search-key.f3c0a6fcfedd.js"></script><script type="text/javascript" charset="utf-8" async="" data-requirecontext="_" data-requiremodule="mod/clippify" src="./8编写你的第一个 Django 应用_files/clippify.js"></script><script type="text/javascript" charset="utf-8" async="" data-requirecontext="_" data-requiremodule="mod/console-tabs" src="./8编写你的第一个 Django 应用_files/console-tabs.70ce882faaf3.js"></script><script type="text/javascript" charset="utf-8" async="" data-requirecontext="_" data-requiremodule="clipboard" src="./8编写你的第一个 Django 应用_files/clipboard.min.bd70fd596a23.js"></script><script type="text/javascript" charset="utf-8" async="" data-requirecontext="_" data-requiremodule="jquery" src="./8编写你的第一个 Django 应用_files/jquery.min.87e69028f78d.js"></script></head>
+
+  <body id="generic" class="">
+
+    <div role="banner" id="top">
+  <div class="container">
+    <a class="logo" href="https://www.djangoproject.com/">Django</a>
+    <p class="meta">The web framework for perfectionists with deadlines.</p>
+    <div class="menu-button"><i class="icon icon-reorder"></i><span>Menu</span></div><div role="navigation" class="nav-menu-on">
+      <ul>
+        <li>
+          <a href="https://www.djangoproject.com/start/overview/">Overview</a>
+        </li>
+        <li>
+          <a href="https://www.djangoproject.com/download/">Download</a>
+        </li>
+        <li class="active">
+          <a href="https://docs.djangoproject.com/">Documentation</a>
+        </li>
+        <li>
+          <a href="https://www.djangoproject.com/weblog/">News</a>
+        </li>
+        <li>
+          <a href="https://www.djangoproject.com/community/">Community</a>
+        </li>
+        <li>
+          <a href="https://code.djangoproject.com/">Code</a>
+        </li>
+        <li>
+          <a href="https://www.djangoproject.com/foundation/">About</a>
+        </li>
+        <li>
+          <a href="https://www.djangoproject.com/fundraising/">♥ Donate</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+
+    <div class="copy-banner">
+      <div class="container">
+        
+  <h1><a href="https://docs.djangoproject.com/zh-hans/2.1/">文档</a></h1>
+
+      </div>
+    </div>
+    <div id="billboard"></div>
+
+    <div class="container sidebar-right">
+      <div role="main">
+
+        
+          
+        
+
+        
+<div id="version-switcher">
+  <ul id="doc-languages" class="language-switcher">
+  
+  
+  <li class="other">
+    
+      
+    
+    <a href="https://docs.djangoproject.com/el/2.1/intro/tutorial07/">el</a>
+  </li>
+  
+  
+  
+  <li class="other">
+    
+      
+    
+    <a href="https://docs.djangoproject.com/en/2.1/intro/tutorial07/">en</a>
+  </li>
+  
+  
+  
+  <li class="other">
+    
+      
+    
+    <a href="https://docs.djangoproject.com/es/2.1/intro/tutorial07/">es</a>
+  </li>
+  
+  
+  
+  <li class="other">
+    
+      
+    
+    <a href="https://docs.djangoproject.com/fr/2.1/intro/tutorial07/">fr</a>
+  </li>
+  
+  
+  
+  <li class="other">
+    
+      
+    
+    <a href="https://docs.djangoproject.com/id/2.1/intro/tutorial07/">id</a>
+  </li>
+  
+  
+  
+  <li class="other">
+    
+      
+    
+    <a href="https://docs.djangoproject.com/ja/2.1/intro/tutorial07/">ja</a>
+  </li>
+  
+  
+  
+  <li class="other">
+    
+      
+    
+    <a href="https://docs.djangoproject.com/ko/2.1/intro/tutorial07/">ko</a>
+  </li>
+  
+  
+  
+  <li class="other">
+    
+      
+    
+    <a href="https://docs.djangoproject.com/pl/2.1/intro/tutorial07/">pl</a>
+  </li>
+  
+  
+  
+  <li class="other">
+    
+      
+    
+    <a href="https://docs.djangoproject.com/pt-br/2.1/intro/tutorial07/">pt-br</a>
+  </li>
+  
+  
+  
+  
+    <li class="current" title="点击左侧的链接以切换到另一种语言。">
+      <span>语言： <strong>zh-hans</strong></span>
+    </li>
+  </ul>
+
+  
+  <ul id="doc-versions" class="version-switcher">
+    
+    
+    <li class="other">
+      
+        
+      
+      <a href="https://docs.djangoproject.com/zh-hans/2.0/intro/tutorial07/">2.0</a>
+    </li>
+    
+    
+    
+    
+    
+    <li class="other">
+      
+        
+      
+      <a href="https://docs.djangoproject.com/zh-hans/2.2/intro/tutorial07/">2.2</a>
+    </li>
+    
+    
+    
+    <li class="other">
+      
+        
+      
+      <a href="https://docs.djangoproject.com/zh-hans/dev/intro/tutorial07/">dev</a>
+    </li>
+    
+    
+    <li class="current" title="此文档是为 Django 2.1 编写的。 点击左侧的链接查看其它版本">
+       <span>文档版本：
+         <strong>2.1</strong>
+       </span>
+    </li>
+  </ul>
+</div>
+
+
+<div id="docs-content">
+<div class="section" id="s-writing-your-first-django-app-part-7">
+<span id="writing-your-first-django-app-part-7"></span><h1>编写你的第一个 Django 应用，第 7 部分<a class="headerlink" href="https://docs.djangoproject.com/zh-hans/2.1/intro/tutorial07/#writing-your-first-django-app-part-7" title="永久链接至标题">¶</a></h1>
+<p>这篇教程承接 <a class="reference internal" href="https://docs.djangoproject.com/zh-hans/2.1/intro/tutorial06/"><span class="doc">教程第 6 部分</span></a> 结束的地方。我们继续修改在线投票应用，这次我们专注于自定义我们在 <a class="reference internal" href="https://docs.djangoproject.com/zh-hans/2.1/intro/tutorial02/"><span class="doc">教程第 2 部分</span></a> 初见过的 Django 自动生成后台的过程。</p>
+<div class="section" id="s-customize-the-admin-form">
+<span id="customize-the-admin-form"></span><h2>自定义后台表单<a class="headerlink" href="https://docs.djangoproject.com/zh-hans/2.1/intro/tutorial07/#customize-the-admin-form" title="永久链接至标题">¶</a></h2>
+<p>通过 <code class="docutils literal notranslate"><span class="pre">admin.site.register(Question)</span></code> 注册 <code class="docutils literal notranslate"><span class="pre">Question</span></code> 模型，Django 能够构建一个默认的表单用于展示。通常来说，你期望能自定义表单的外观和工作方式。你可以在注册模型时将这些设置告诉 Django。</p>
+<p>让我们通过重排列表单上的字段来看看它是怎么工作的。用以下内容替换 <code class="docutils literal notranslate"><span class="pre">admin.site.register(Question)</span></code>：</p>
+<div class="literal-block-wrapper docutils container" id="id1">
+<div class="code-block-caption"><span class="caption-text">polls/admin.py</span><a class="headerlink" href="https://docs.djangoproject.com/zh-hans/2.1/intro/tutorial07/#id1" title="永久链接至代码">¶</a><span class="btn-clipboard" title="Copy this code"><i class="icon icon-clipboard"></i></span></div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">django.contrib</span> <span class="kn">import</span> <span class="n">admin</span>
+
+<span class="kn">from</span> <span class="nn">.models</span> <span class="kn">import</span> <span class="n">Question</span>
+
+
+<span class="k">class</span> <span class="nc">QuestionAdmin</span><span class="p">(</span><span class="n">admin</span><span class="o">.</span><span class="n">ModelAdmin</span><span class="p">):</span>
+    <span class="n">fields</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'pub_date'</span><span class="p">,</span> <span class="s1">'question_text'</span><span class="p">]</span>
+
+<span class="n">admin</span><span class="o">.</span><span class="n">site</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="n">Question</span><span class="p">,</span> <span class="n">QuestionAdmin</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<p>你需要遵循以下流程——创建一个模型后台类，接着将其作为第二个参数传给 <code class="docutils literal notranslate"><span class="pre">admin.site.register()</span></code> ——在你需要修改模型的后台管理选项时这么做。</p>
+<p>以上修改使得 "Publication date" 字段显示在 "Question" 字段之前：</p>
+<img alt="Fields have been reordered" src="./8编写你的第一个 Django 应用_files/admin07.png">
+<p>这在只有两个字段时显得没啥卵用，但对于拥有数十个字段的表单来说，为表单选择一个直观的排序方法就显得你的针很细了。</p>
+<p>说到拥有数十个字段的表单，你可能更期望将表单分为几个字段集：</p>
+<div class="literal-block-wrapper docutils container" id="id2">
+<div class="code-block-caption"><span class="caption-text">polls/admin.py</span><a class="headerlink" href="https://docs.djangoproject.com/zh-hans/2.1/intro/tutorial07/#id2" title="永久链接至代码">¶</a><span class="btn-clipboard" title="Copy this code"><i class="icon icon-clipboard"></i></span></div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">django.contrib</span> <span class="kn">import</span> <span class="n">admin</span>
+
+<span class="kn">from</span> <span class="nn">.models</span> <span class="kn">import</span> <span class="n">Question</span>
+
+
+<span class="k">class</span> <span class="nc">QuestionAdmin</span><span class="p">(</span><span class="n">admin</span><span class="o">.</span><span class="n">ModelAdmin</span><span class="p">):</span>
+    <span class="n">fieldsets</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="p">(</span><span class="bp">None</span><span class="p">,</span>               <span class="p">{</span><span class="s1">'fields'</span><span class="p">:</span> <span class="p">[</span><span class="s1">'question_text'</span><span class="p">]}),</span>
+        <span class="p">(</span><span class="s1">'Date information'</span><span class="p">,</span> <span class="p">{</span><span class="s1">'fields'</span><span class="p">:</span> <span class="p">[</span><span class="s1">'pub_date'</span><span class="p">]}),</span>
+    <span class="p">]</span>
+
+<span class="n">admin</span><span class="o">.</span><span class="n">site</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="n">Question</span><span class="p">,</span> <span class="n">QuestionAdmin</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<p><a class="reference internal" href="https://docs.djangoproject.com/zh-hans/2.1/ref/contrib/admin/#django.contrib.admin.ModelAdmin.fieldsets" title="django.contrib.admin.ModelAdmin.fieldsets"><code class="xref py py-attr docutils literal notranslate"><span class="pre">fieldsets</span></code></a> 元组中的第一个元素是字段集的标题。以下是我们的表单现在的样子：</p>
+<img alt="Form has fieldsets now" src="./8编写你的第一个 Django 应用_files/admin08t.png">
+</div>
+<div class="section" id="s-adding-related-objects">
+<span id="adding-related-objects"></span><h2>添加关联的对象<a class="headerlink" href="https://docs.djangoproject.com/zh-hans/2.1/intro/tutorial07/#adding-related-objects" title="永久链接至标题">¶</a></h2>
+<p>好了，现在我们有了投票的后台页。不过，一个 <code class="docutils literal notranslate"><span class="pre">Question</span></code> 有多个 <code class="docutils literal notranslate"><span class="pre">Choice</span></code>，但后台页却没有显示多个选项。</p>
+<p>好了。</p>
+<p>有两个方法可以解决这个问题。第一个就是仿照我们向后台注册 <code class="docutils literal notranslate"><span class="pre">Question</span></code> 一样注册 <code class="docutils literal notranslate"><span class="pre">Choice</span></code> 。这很简单：</p>
+<div class="literal-block-wrapper docutils container" id="id3">
+<div class="code-block-caption"><span class="caption-text">polls/admin.py</span><a class="headerlink" href="https://docs.djangoproject.com/zh-hans/2.1/intro/tutorial07/#id3" title="永久链接至代码">¶</a><span class="btn-clipboard" title="Copy this code"><i class="icon icon-clipboard"></i></span></div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">django.contrib</span> <span class="kn">import</span> <span class="n">admin</span>
+
+<span class="kn">from</span> <span class="nn">.models</span> <span class="kn">import</span> <span class="n">Choice</span><span class="p">,</span> <span class="n">Question</span>
+<span class="c1"># ...</span>
+<span class="n">admin</span><span class="o">.</span><span class="n">site</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="n">Choice</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<p>现在 "Choices" 在 Django 后台页中是一个可用的选项了。“添加选项”的表单看起来像这样：</p>
+<img alt="Choice admin page" src="./8编写你的第一个 Django 应用_files/admin09.png">
+<p>在这个表单中，"Question" 字段是一个包含数据库中所有投票的选择框。Django 知道要将 <a class="reference internal" href="https://docs.djangoproject.com/zh-hans/2.1/ref/models/fields/#django.db.models.ForeignKey" title="django.db.models.ForeignKey"><code class="xref py py-class docutils literal notranslate"><span class="pre">ForeignKey</span></code></a> 在后台中以选择框 <code class="docutils literal notranslate"><span class="pre">&lt;select&gt;</span></code> 的形式展示。此时，我们只有一个投票。</p>
+<p>同时也注意下 "Question" 旁边的“添加”按钮。每个使用 <code class="docutils literal notranslate"><span class="pre">ForeignKey</span></code> 关联到另一个对象的对象会自动获得这个功能。当你点击“添加”按钮时，你会见到一个包含“添加投票”的表单。如果你在这个弹出框中添加了一个投票，并点击了“保存”，Django 会将其保存至数据库，并动态地在你正在查看的“添加选项”表单中选中它。</p>
+<p>不过，这是一种很低效地添加“选项”的方法。更好的办法是在你创建“投票”对象时直接添加好几个选项。让我们实现它。</p>
+<p>移除调用 <code class="docutils literal notranslate"><span class="pre">register()</span></code> 注册 <code class="docutils literal notranslate"><span class="pre">Choice</span></code> 模型的代码。随后，像这样修改 <code class="docutils literal notranslate"><span class="pre">Question</span></code> 的注册代码：</p>
+<div class="literal-block-wrapper docutils container" id="id4">
+<div class="code-block-caption"><span class="caption-text">polls/admin.py</span><a class="headerlink" href="https://docs.djangoproject.com/zh-hans/2.1/intro/tutorial07/#id4" title="永久链接至代码">¶</a><span class="btn-clipboard" title="Copy this code"><i class="icon icon-clipboard"></i></span></div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">django.contrib</span> <span class="kn">import</span> <span class="n">admin</span>
+
+<span class="kn">from</span> <span class="nn">.models</span> <span class="kn">import</span> <span class="n">Choice</span><span class="p">,</span> <span class="n">Question</span>
+
+
+<span class="k">class</span> <span class="nc">ChoiceInline</span><span class="p">(</span><span class="n">admin</span><span class="o">.</span><span class="n">StackedInline</span><span class="p">):</span>
+    <span class="n">model</span> <span class="o">=</span> <span class="n">Choice</span>
+    <span class="n">extra</span> <span class="o">=</span> <span class="mi">3</span>
+
+
+<span class="k">class</span> <span class="nc">QuestionAdmin</span><span class="p">(</span><span class="n">admin</span><span class="o">.</span><span class="n">ModelAdmin</span><span class="p">):</span>
+    <span class="n">fieldsets</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="p">(</span><span class="bp">None</span><span class="p">,</span>               <span class="p">{</span><span class="s1">'fields'</span><span class="p">:</span> <span class="p">[</span><span class="s1">'question_text'</span><span class="p">]}),</span>
+        <span class="p">(</span><span class="s1">'Date information'</span><span class="p">,</span> <span class="p">{</span><span class="s1">'fields'</span><span class="p">:</span> <span class="p">[</span><span class="s1">'pub_date'</span><span class="p">],</span> <span class="s1">'classes'</span><span class="p">:</span> <span class="p">[</span><span class="s1">'collapse'</span><span class="p">]}),</span>
+    <span class="p">]</span>
+    <span class="n">inlines</span> <span class="o">=</span> <span class="p">[</span><span class="n">ChoiceInline</span><span class="p">]</span>
+
+<span class="n">admin</span><span class="o">.</span><span class="n">site</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="n">Question</span><span class="p">,</span> <span class="n">QuestionAdmin</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<p>这会告诉 Django：“<code class="docutils literal notranslate"><span class="pre">Choice</span></code> 对象要在 <code class="docutils literal notranslate"><span class="pre">Question</span></code> 后台页面编辑。默认提供 3 个足够的选项字段。”</p>
+<p>加载“添加投票”页面来看看它长啥样：</p>
+<img alt="Add question page now has choices on it" src="./8编写你的第一个 Django 应用_files/admin10t.png">
+<p>它看起来像这样：有三个关联的选项插槽——由 <code class="docutils literal notranslate"><span class="pre">extra</span></code> 定义，且每次你返回任意已创建的对象的“修改”页面时，你会见到三个新的插槽。</p>
+<p>在三个插槽的末端，你会看到一个“添加新选项”的按钮。如果你单击它，一个新的插槽会被添加。如果你想移除已有的插槽，可以点击插槽右上角的X。注意，你不能移除原始的 3 个插槽。以下图片展示了一个已添加的插槽：</p>
+<img alt="Additional slot added dynamically" src="./8编写你的第一个 Django 应用_files/admin14t.png">
+<p>不过，仍然有点小问题。它占据了大量的屏幕区域来显示所有关联的 <code class="docutils literal notranslate"><span class="pre">Choice</span></code> 对象的字段。对于这个问题，Django 提供了一种表格式的单行显示关联对象的方法。你只需按如下形式修改 <code class="docutils literal notranslate"><span class="pre">ChoiceInline</span></code> 申明：</p>
+<div class="literal-block-wrapper docutils container" id="id5">
+<div class="code-block-caption"><span class="caption-text">polls/admin.py</span><a class="headerlink" href="https://docs.djangoproject.com/zh-hans/2.1/intro/tutorial07/#id5" title="永久链接至代码">¶</a><span class="btn-clipboard" title="Copy this code"><i class="icon icon-clipboard"></i></span></div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">ChoiceInline</span><span class="p">(</span><span class="n">admin</span><span class="o">.</span><span class="n">TabularInline</span><span class="p">):</span>
+    <span class="c1">#...</span>
+</pre></div>
+</div>
+</div>
+<p>通过 <code class="docutils literal notranslate"><span class="pre">TabularInline``（替代</span> <span class="pre">``StackedInline</span></code> ），关联对象以一种表格式的方式展示，显得更加紧凑：</p>
+<img alt="Add question page now has more compact choices" src="./8编写你的第一个 Django 应用_files/admin11t.png">
+<p>注意这里有一个额外的“删除？”列，这允许移除通过“添加新选项”按钮添加的，或是已被保存的行。</p>
+</div>
+<div class="section" id="s-customize-the-admin-change-list">
+<span id="customize-the-admin-change-list"></span><h2>自定义后台更改列表<a class="headerlink" href="https://docs.djangoproject.com/zh-hans/2.1/intro/tutorial07/#customize-the-admin-change-list" title="永久链接至标题">¶</a></h2>
+<p>现在投票的后台页看起来很不错，让我们对“更改列表”页面进行一些调整——改成一个能展示系统中所有投票的页面。</p>
+<p>以下是它此时的外观：</p>
+<img alt="Polls change list page" src="./8编写你的第一个 Django 应用_files/admin04t.png">
+<p>默认情况下，Django 显示每个对象的 <code class="docutils literal notranslate"><span class="pre">str()</span></code> 返回的值。但有时如果我们能够显示单个字段，它会更有帮助。为此，使用 <a class="reference internal" href="https://docs.djangoproject.com/zh-hans/2.1/ref/contrib/admin/#django.contrib.admin.ModelAdmin.list_display" title="django.contrib.admin.ModelAdmin.list_display"><code class="xref py py-attr docutils literal notranslate"><span class="pre">list_display</span></code></a> 后台选项，它是一个包含要显示的字段名的元组，在更改列表页中以列的形式展示这个对象：</p>
+<div class="literal-block-wrapper docutils container" id="id6">
+<div class="code-block-caption"><span class="caption-text">polls/admin.py</span><a class="headerlink" href="https://docs.djangoproject.com/zh-hans/2.1/intro/tutorial07/#id6" title="永久链接至代码">¶</a><span class="btn-clipboard" title="Copy this code"><i class="icon icon-clipboard"></i></span></div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">QuestionAdmin</span><span class="p">(</span><span class="n">admin</span><span class="o">.</span><span class="n">ModelAdmin</span><span class="p">):</span>
+    <span class="c1"># ...</span>
+    <span class="n">list_display</span> <span class="o">=</span> <span class="p">(</span><span class="s1">'question_text'</span><span class="p">,</span> <span class="s1">'pub_date'</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<p>为了更好用，让我们也包含 <a class="reference internal" href="https://docs.djangoproject.com/zh-hans/2.1/intro/tutorial02/"><span class="doc">教程第 2 部分</span></a> 中的 <code class="docutils literal notranslate"><span class="pre">was_published_recently()</span></code> 方法：</p>
+<div class="literal-block-wrapper docutils container" id="id7">
+<div class="code-block-caption"><span class="caption-text">polls/admin.py</span><a class="headerlink" href="https://docs.djangoproject.com/zh-hans/2.1/intro/tutorial07/#id7" title="永久链接至代码">¶</a><span class="btn-clipboard" title="Copy this code"><i class="icon icon-clipboard"></i></span></div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">QuestionAdmin</span><span class="p">(</span><span class="n">admin</span><span class="o">.</span><span class="n">ModelAdmin</span><span class="p">):</span>
+    <span class="c1"># ...</span>
+    <span class="n">list_display</span> <span class="o">=</span> <span class="p">(</span><span class="s1">'question_text'</span><span class="p">,</span> <span class="s1">'pub_date'</span><span class="p">,</span> <span class="s1">'was_published_recently'</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<p>现在修改投票的列表页看起来像这样：</p>
+<img alt="Polls change list page, updated" src="./8编写你的第一个 Django 应用_files/admin12t.png">
+<p>你可以点击列标题来对这些行进行排序——除了 <code class="docutils literal notranslate"><span class="pre">was_published_recently</span></code> 这个列，因为没有实现排序方法。顺便看下这个列的标题 <code class="docutils literal notranslate"><span class="pre">was_published_recently</span></code>，默认就是方法名（用空格替换下划线），该列的每行都以字符串形式展示出处。</p>
+<p>你可以通过给这个方法（在 <code class="file docutils literal notranslate"><span class="pre">polls/models.py</span></code> 中）一些属性来达到优化的目的，像这样：</p>
+<div class="literal-block-wrapper docutils container" id="id8">
+<div class="code-block-caption"><span class="caption-text">polls/models.py</span><a class="headerlink" href="https://docs.djangoproject.com/zh-hans/2.1/intro/tutorial07/#id8" title="永久链接至代码">¶</a><span class="btn-clipboard" title="Copy this code"><i class="icon icon-clipboard"></i></span></div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Question</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+    <span class="c1"># ...</span>
+    <span class="k">def</span> <span class="nf">was_published_recently</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">now</span> <span class="o">=</span> <span class="n">timezone</span><span class="o">.</span><span class="n">now</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">now</span> <span class="o">-</span> <span class="n">datetime</span><span class="o">.</span><span class="n">timedelta</span><span class="p">(</span><span class="n">days</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pub_date</span> <span class="o">&lt;=</span> <span class="n">now</span>
+    <span class="n">was_published_recently</span><span class="o">.</span><span class="n">admin_order_field</span> <span class="o">=</span> <span class="s1">'pub_date'</span>
+    <span class="n">was_published_recently</span><span class="o">.</span><span class="n">boolean</span> <span class="o">=</span> <span class="bp">True</span>
+    <span class="n">was_published_recently</span><span class="o">.</span><span class="n">short_description</span> <span class="o">=</span> <span class="s1">'Published recently?'</span>
+</pre></div>
+</div>
+</div>
+<p>更多关于这些方法属性的信息，参见 <a class="reference internal" href="https://docs.djangoproject.com/zh-hans/2.1/ref/contrib/admin/#django.contrib.admin.ModelAdmin.list_display" title="django.contrib.admin.ModelAdmin.list_display"><code class="xref py py-attr docutils literal notranslate"><span class="pre">list_display</span></code></a>。</p>
+<p>再次编辑文件 <code class="file docutils literal notranslate"><span class="pre">polls/admin.py</span></code>，优化 <code class="docutils literal notranslate"><span class="pre">Question</span></code> 变更页：过滤器，使用 <a class="reference internal" href="https://docs.djangoproject.com/zh-hans/2.1/ref/contrib/admin/#django.contrib.admin.ModelAdmin.list_filter" title="django.contrib.admin.ModelAdmin.list_filter"><code class="xref py py-attr docutils literal notranslate"><span class="pre">list_filter</span></code></a>。将以下代码添加至 <code class="docutils literal notranslate"><span class="pre">QuestionAdmin</span></code>：</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">list_filter</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'pub_date'</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>这样做添加了一个“过滤器”侧边栏，允许人们以 <code class="docutils literal notranslate"><span class="pre">pub_date</span></code> 字段来过滤列表：</p>
+<img alt="Polls change list page, updated" src="./8编写你的第一个 Django 应用_files/admin13t.png">
+<p>展示的过滤器类型取决你你要过滤的字段的类型。因为 <code class="docutils literal notranslate"><span class="pre">pub_date</span></code> 是类 <a class="reference internal" href="https://docs.djangoproject.com/zh-hans/2.1/ref/models/fields/#django.db.models.DateTimeField" title="django.db.models.DateTimeField"><code class="xref py py-class docutils literal notranslate"><span class="pre">DateTimeField</span></code></a>，Django 知道要提供哪个过滤器：“任意时间”，“今天”，“过去7天”，“这个月”和“今年”。</p>
+<p>这已经弄的很好了。让我们再扩充些功能:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">search_fields</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'question_text'</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>在列表的顶部增加一个搜索框。当输入待搜项时，Django 将搜索 <code class="docutils literal notranslate"><span class="pre">question_text</span></code> 字段。你可以使用任意多的字段——由于后台使用 <code class="docutils literal notranslate"><span class="pre">LIKE</span></code> 来查询数据，将待搜索的字段数限制为一个不会出问题大小，会便于数据库进行查询操作。</p>
+<p>现在是给你的修改列表页增加分页功能的好时机。默认每页显示 100 项。<a class="reference internal" href="https://docs.djangoproject.com/zh-hans/2.1/ref/contrib/admin/#django.contrib.admin.ModelAdmin.list_per_page" title="django.contrib.admin.ModelAdmin.list_per_page"><code class="xref py py-attr docutils literal notranslate"><span class="pre">变更页分页</span></code></a>, <a class="reference internal" href="https://docs.djangoproject.com/zh-hans/2.1/ref/contrib/admin/#django.contrib.admin.ModelAdmin.search_fields" title="django.contrib.admin.ModelAdmin.search_fields"><code class="xref py py-attr docutils literal notranslate"><span class="pre">搜索框</span></code></a>, <a class="reference internal" href="https://docs.djangoproject.com/zh-hans/2.1/ref/contrib/admin/#django.contrib.admin.ModelAdmin.list_filter" title="django.contrib.admin.ModelAdmin.list_filter"><code class="xref py py-attr docutils literal notranslate"><span class="pre">过滤器</span></code></a>, <a class="reference internal" href="https://docs.djangoproject.com/zh-hans/2.1/ref/contrib/admin/#django.contrib.admin.ModelAdmin.date_hierarchy" title="django.contrib.admin.ModelAdmin.date_hierarchy"><code class="xref py py-attr docutils literal notranslate"><span class="pre">日期层次结构</span></code></a>, 和 <a class="reference internal" href="https://docs.djangoproject.com/zh-hans/2.1/ref/contrib/admin/#django.contrib.admin.ModelAdmin.list_display" title="django.contrib.admin.ModelAdmin.list_display"><code class="xref py py-attr docutils literal notranslate"><span class="pre">列标题排序</span></code></a> 均以你期望的方式合作运行。</p>
+</div>
+<div class="section" id="s-customize-the-admin-look-and-feel">
+<span id="customize-the-admin-look-and-feel"></span><h2>自定义后台界面和风格<a class="headerlink" href="https://docs.djangoproject.com/zh-hans/2.1/intro/tutorial07/#customize-the-admin-look-and-feel" title="永久链接至标题">¶</a></h2>
+<p>在每个后台页顶部显示“Django 管理员”显得很滑稽。这只是一串占位文本。</p>
+<p>不过，这可以通过 Django 的模板系统很方便的修改。Django 的后台由自己驱动，且它的交互接口采用 Django 自己的模板系统。</p>
+<div class="section" id="s-customizing-your-project-s-templates">
+<span id="s-ref-customizing-your-projects-templates"></span><span id="customizing-your-project-s-templates"></span><span id="ref-customizing-your-projects-templates"></span><h3>自定义你的 <em>工程的</em> 模板<a class="headerlink" href="https://docs.djangoproject.com/zh-hans/2.1/intro/tutorial07/#customizing-your-project-s-templates" title="永久链接至标题">¶</a></h3>
+<p>在你的工程目录（指包含 <code class="docutils literal notranslate"><span class="pre">manage.py</span></code> 的那个文件夹）内创建一个名为 <code class="docutils literal notranslate"><span class="pre">templates</span></code> 的目录。模板可放在你系统中任何 Django 能找到的位置。（谁启动了 Django，Django 就以他的用户身份运行。）不过，把你的模板放在工程内会带来很大便利，推荐你这样做。</p>
+<p>打开你的设置文件（<code class="file docutils literal notranslate"><span class="pre">mysite/settings.py</span></code>，牢记），在 <a class="reference internal" href="https://docs.djangoproject.com/zh-hans/2.1/ref/settings/#std:setting-TEMPLATES"><code class="xref std std-setting docutils literal notranslate"><span class="pre">TEMPLATES</span></code></a> 设置中添加 <a class="reference internal" href="https://docs.djangoproject.com/zh-hans/2.1/ref/settings/#std:setting-TEMPLATES-DIRS"><code class="xref std std-setting docutils literal notranslate"><span class="pre">DIRS</span></code></a> 选项：</p>
+<div class="literal-block-wrapper docutils container" id="id9">
+<div class="code-block-caption"><span class="caption-text">mysite/settings.py</span><a class="headerlink" href="https://docs.djangoproject.com/zh-hans/2.1/intro/tutorial07/#id9" title="永久链接至代码">¶</a><span class="btn-clipboard" title="Copy this code"><i class="icon icon-clipboard"></i></span></div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">TEMPLATES</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">{</span>
+        <span class="s1">'BACKEND'</span><span class="p">:</span> <span class="s1">'django.template.backends.django.DjangoTemplates'</span><span class="p">,</span>
+        <span class="s1">'DIRS'</span><span class="p">:</span> <span class="p">[</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">BASE_DIR</span><span class="p">,</span> <span class="s1">'templates'</span><span class="p">)],</span>
+        <span class="s1">'APP_DIRS'</span><span class="p">:</span> <span class="bp">True</span><span class="p">,</span>
+        <span class="s1">'OPTIONS'</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s1">'context_processors'</span><span class="p">:</span> <span class="p">[</span>
+                <span class="s1">'django.template.context_processors.debug'</span><span class="p">,</span>
+                <span class="s1">'django.template.context_processors.request'</span><span class="p">,</span>
+                <span class="s1">'django.contrib.auth.context_processors.auth'</span><span class="p">,</span>
+                <span class="s1">'django.contrib.messages.context_processors.messages'</span><span class="p">,</span>
+            <span class="p">],</span>
+        <span class="p">},</span>
+    <span class="p">},</span>
+<span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<p><a class="reference internal" href="https://docs.djangoproject.com/zh-hans/2.1/ref/settings/#std:setting-TEMPLATES-DIRS"><code class="xref std std-setting docutils literal notranslate"><span class="pre">DIRS</span></code></a> 是一个包含多个系统目录的文件列表，用于在载入 Django 模板时使用，是一个待搜索路径。</p>
+<div class="admonition-organizing-templates admonition">
+<p class="first admonition-title">组织模板</p>
+<p class="last">就像静态文件一样，我们 <em>可以</em> 把所有的模板文件放在一个大模板目录内，这样它也能工作的很好。但是，属于特定应用的模板文件最好放在应用所属的模板目录（例如 <code class="docutils literal notranslate"><span class="pre">polls/templates</span></code>），而不是工程的模板目录（<code class="docutils literal notranslate"><span class="pre">templates</span></code>）。我们会在 <a class="reference internal" href="https://docs.djangoproject.com/zh-hans/2.1/intro/reusable-apps/"><span class="doc">创建可复用的应用教程</span></a> 中讨论 <em>为什么</em> 我们要这样做。</p>
+</div>
+<p>现在，在 <code class="docutils literal notranslate"><span class="pre">templates</span></code> 目录内创建名为 <code class="docutils literal notranslate"><span class="pre">admin</span></code> 的目录，随后，将存放 Django 默认模板的目录（<code class="docutils literal notranslate"><span class="pre">django/contrib/admin/templates</span></code>）内的模板文件 <code class="docutils literal notranslate"><span class="pre">admin/base_site.html</span></code> 复制到这个目录内。</p>
+<div class="admonition-where-are-the-django-source-files admonition">
+<p class="first admonition-title">Django 的源文件在哪里？</p>
+<p>如果你不知道 Django 源码在你系统的哪个位置，运行以下命令：</p>
+<div class="console-block" id="console-block-0">
+<input class="c-tab-unix" id="c-tab-0-unix" type="radio" name="console-0" checked="">
+<label for="c-tab-0-unix" title="Linux/macOS">/</label>
+<input class="c-tab-win" id="c-tab-0-win" type="radio" name="console-0">
+<label for="c-tab-0-win" title="Windows"></label>
+<section class="c-content-unix" id="c-content-0-unix">
+<div class="last highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$</span> python -c <span class="s2">"import django; print(django.__path__)"</span>
+</pre></div>
+</div>
+</section>
+<section class="c-content-win" id="c-content-0-win">
+<div class="highlight"><pre><span></span><span class="gp">...\&gt;</span> py -c <span class="s2">"import django; print(django.__path__)"</span>
+</pre></div>
+</section>
+</div>
+</div>
+<p>接着，用你站点的名字替换文件内的 <a href="https://docs.djangoproject.com/zh-hans/2.1/intro/tutorial07/#id1"><span class="problematic" id="id2">``</span></a>{{ site_header|default:_('Django administration') }}``（包含大括号）。完成后，你应该看到如下代码：</p>
+<div class="highlight-html+django notranslate"><div class="highlight"><pre><span></span><span class="cp">{%</span> <span class="k">block</span> <span class="nv">branding</span> <span class="cp">%}</span>
+<span class="p">&lt;</span><span class="nt">h1</span> <span class="na">id</span><span class="o">=</span><span class="s">"site-name"</span><span class="p">&gt;&lt;</span><span class="nt">a</span> <span class="na">href</span><span class="o">=</span><span class="s">"</span><span class="cp">{%</span> <span class="k">url</span> <span class="s1">'admin:index'</span> <span class="cp">%}</span><span class="s">"</span><span class="p">&gt;</span>Polls Administration<span class="p">&lt;/</span><span class="nt">a</span><span class="p">&gt;&lt;/</span><span class="nt">h1</span><span class="p">&gt;</span>
+<span class="cp">{%</span> <span class="k">endblock</span> <span class="cp">%}</span>
+</pre></div>
+</div>
+<p>我们会用这个方法来教你复写模板。在一个实际工程中，你可能更期望使用 <a class="reference internal" href="https://docs.djangoproject.com/zh-hans/2.1/ref/contrib/admin/#django.contrib.admin.AdminSite.site_header" title="django.contrib.admin.AdminSite.site_header"><code class="xref py py-attr docutils literal notranslate"><span class="pre">django.contrib.admin.AdminSite.site_header</span></code></a> 来进行简单的定制。</p>
+<p>这个模板文件包含很多类似 <code class="docutils literal notranslate"><span class="pre">{%</span> <span class="pre">block</span> <span class="pre">branding</span> <span class="pre">%}</span></code> 和 <code class="docutils literal notranslate"><span class="pre">{{</span> <span class="pre">title</span> <span class="pre">}}</span></code> 的文本。 <code class="docutils literal notranslate"><span class="pre">{%</span></code> 和 <code class="docutils literal notranslate"><span class="pre">{{</span></code> 标签是 Django 模板语言的一部分。当 Django 渲染 <code class="docutils literal notranslate"><span class="pre">admin/base_site.html</span></code> 时，这个模板语言会被求值，生成最终的网页，就像我们在 <a class="reference internal" href="https://docs.djangoproject.com/zh-hans/2.1/intro/tutorial03/"><span class="doc">教程第 3 部分</span></a> 所学的一样。</p>
+<p>注意，所有的 Django 默认后台模板均可被复写。若要复写模板，像你修改 <code class="docutils literal notranslate"><span class="pre">base_site.html</span></code> 一样修改其它文件——先将其从默认目录中拷贝到你的自定义目录，再做修改。</p>
+</div>
+<div class="section" id="s-customizing-your-application-s-templates">
+<span id="customizing-your-application-s-templates"></span><h3>自定义你 <em>应用的</em> 模板<a class="headerlink" href="https://docs.djangoproject.com/zh-hans/2.1/intro/tutorial07/#customizing-your-application-s-templates" title="永久链接至标题">¶</a></h3>
+<p>机智的同学可能会问： <a class="reference internal" href="https://docs.djangoproject.com/zh-hans/2.1/ref/settings/#std:setting-TEMPLATES-DIRS"><code class="xref std std-setting docutils literal notranslate"><span class="pre">DIRS</span></code></a> 默认是空的，Django 是怎么找到默认的后台模板的？因为 <a class="reference internal" href="https://docs.djangoproject.com/zh-hans/2.1/ref/settings/#std:setting-TEMPLATES-APP_DIRS"><code class="xref std std-setting docutils literal notranslate"><span class="pre">APP_DIRS</span></code></a> 被置为 <code class="docutils literal notranslate"><span class="pre">True</span></code>，Django 会自动在每个应用包内递归查找 <code class="docutils literal notranslate"><span class="pre">templates/</span></code> 子目录（不要忘了 <code class="docutils literal notranslate"><span class="pre">django.contrib.admin</span></code> 也是一个应用）。</p>
+<p>我们的投票应用不是非常复杂，所以无需自定义后台模板。不过，如果它变的更加复杂，需要修改 Django 的标准后台模板功能时，修改 <em>应用</em> 的模板会比 <em>工程</em> 的更加明智。这样，在其它工程包含这个投票应用时，可以确保它总是能找到需要的自定义模板文件。</p>
+<p>更多关于 Django 如何查找模板的文档，参见 <a class="reference internal" href="https://docs.djangoproject.com/zh-hans/2.1/topics/templates/#template-loading"><span class="std std-ref">加载模板文档</span></a>。</p>
+</div>
+</div>
+<div class="section" id="s-customize-the-admin-index-page">
+<span id="customize-the-admin-index-page"></span><h2>自定义后台主页<a class="headerlink" href="https://docs.djangoproject.com/zh-hans/2.1/intro/tutorial07/#customize-the-admin-index-page" title="永久链接至标题">¶</a></h2>
+<p>在类似的说明中，你可能想要自定义 Django 后台索引页的外观。</p>
+<p>默认情况下，它展示了所有配置在 <a class="reference internal" href="https://docs.djangoproject.com/zh-hans/2.1/ref/settings/#std:setting-INSTALLED_APPS"><code class="xref std std-setting docutils literal notranslate"><span class="pre">INSTALLED_APPS</span></code></a> 中，已通过后台应用注册，按拼音排序的应用。你可能想对这个页面的布局做重大的修改。毕竟，索引页是后台的重要页面，它应该便于使用。</p>
+<p>需要自定义的模板是 <code class="docutils literal notranslate"><span class="pre">admin/index.html</span></code>。（像上一节修改 <code class="docutils literal notranslate"><span class="pre">admin/base_site.html</span></code> 那样修改此文件——从默认目录中拷贝此文件至自定义模板目录）。打开此文件，你将看到它使用了一个叫做 <code class="docutils literal notranslate"><span class="pre">app_list</span></code> 的模板变量。这个变量包含了每个安装的 Django 应用。你可以用任何你期望的硬编码链接（链接至特定对象的管理页）替代使用这个变量。</p>
+</div>
+<div class="section" id="s-what-s-next">
+<span id="what-s-next"></span><h2>接下来要做什么？<a class="headerlink" href="https://docs.djangoproject.com/zh-hans/2.1/intro/tutorial07/#what-s-next" title="永久链接至标题">¶</a></h2>
+<p>初学者教程到这就结束了。随后，你可能想阅读 <a class="reference internal" href="https://docs.djangoproject.com/zh-hans/2.1/intro/whatsnext/"><span class="doc">下一步看什么</span></a>，看看下一步能做什么。</p>
+<p>如果你很熟悉 Python 打包，且对学习如何把投票应用改成“可复用应用”感兴趣，查看 <a class="reference internal" href="https://docs.djangoproject.com/zh-hans/2.1/intro/reusable-apps/"><span class="doc">进阶教程：如何创建可复用应用</span></a>。</p>
+</div>
+</div>
+
+</div>
+
+
+
+<div class="browse-horizontal">
+  
+  <div class="left"><a href="https://docs.djangoproject.com/zh-hans/2.1/intro/tutorial06/"><i class="icon icon-chevron-left"></i> 编写你的第一个 Django 应用，第 6 部分</a></div>
+  
+  
+  <div class="right"><a href="https://docs.djangoproject.com/zh-hans/2.1/intro/reusable-apps/">进阶指南：如何编写可重用程序 <i class="icon icon-chevron-right"></i></a></div>
+  
+</div>
+
+
+
+        <a href="https://docs.djangoproject.com/zh-hans/2.1/intro/tutorial07/#top" class="backtotop"><i class="icon icon-chevron-up"></i> Back to Top</a>
+      </div>
+
+      
+<h1 class="visuallyhidden">附加信息</h1>
+<div role="complementary">
+  
+  
+
+<form action="https://docs.djangoproject.com/zh-hans/2.1/search/" class="search form-input" role="search">
+  <label class="visuallyhidden" for="id_q">Search:</label>
+    <input type="search" name="q" placeholder="搜索 2.1 文档" id="id_q">
+
+    <button type="submit">
+      <i class="icon icon-search"></i>
+      <span class="visuallyhidden">搜索</span>
+    </button>
+</form>
+
+  
+
+  
+
+
+  <div class="fundraising-sidebar">
+    <h2>Support Django!</h2>
+
+    <div class="small-heart">
+      <img src="./8编写你的第一个 Django 应用_files/small-fundraising-heart.d255f6e934e5.png" alt="Support Django!">
+    </div>
+
+    <div class="small-cta">
+      <ul class="list-links-small">
+        <li><a href="https://www.djangoproject.com/fundraising/">
+          Fakhrul Adli donated to the Django Software Foundation to
+          support Django development. Donate today!
+        </a></li>
+      </ul>
+    </div>
+  </div>
+
+
+
+  
+    <h2>内容</h2>
+    
+    <ul>
+<li><a class="reference internal" href="https://docs.djangoproject.com/zh-hans/2.1/intro/tutorial07/#">编写你的第一个 Django 应用，第 7 部分</a><ul>
+<li><a class="reference internal" href="https://docs.djangoproject.com/zh-hans/2.1/intro/tutorial07/#customize-the-admin-form">自定义后台表单</a></li>
+<li><a class="reference internal" href="https://docs.djangoproject.com/zh-hans/2.1/intro/tutorial07/#adding-related-objects">添加关联的对象</a></li>
+<li><a class="reference internal" href="https://docs.djangoproject.com/zh-hans/2.1/intro/tutorial07/#customize-the-admin-change-list">自定义后台更改列表</a></li>
+<li><a class="reference internal" href="https://docs.djangoproject.com/zh-hans/2.1/intro/tutorial07/#customize-the-admin-look-and-feel">自定义后台界面和风格</a><ul>
+<li><a class="reference internal" href="https://docs.djangoproject.com/zh-hans/2.1/intro/tutorial07/#customizing-your-project-s-templates">自定义你的 <em>工程的</em> 模板</a></li>
+<li><a class="reference internal" href="https://docs.djangoproject.com/zh-hans/2.1/intro/tutorial07/#customizing-your-application-s-templates">自定义你 <em>应用的</em> 模板</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="https://docs.djangoproject.com/zh-hans/2.1/intro/tutorial07/#customize-the-admin-index-page">自定义后台主页</a></li>
+<li><a class="reference internal" href="https://docs.djangoproject.com/zh-hans/2.1/intro/tutorial07/#what-s-next">接下来要做什么？</a></li>
+</ul>
+</li>
+</ul>
+
+    
+  
+
+  
+  <h2>浏览</h2>
+  <ul>
+    
+    
+    <li>上一个： <a href="https://docs.djangoproject.com/zh-hans/2.1/intro/tutorial06/">编写你的第一个 Django 应用，第 6 部分</a></li>
+    
+    
+    <li>下一个： <a href="https://docs.djangoproject.com/zh-hans/2.1/intro/reusable-apps/">进阶指南：如何编写可重用程序</a></li>
+    
+    <li><a href="https://docs.djangoproject.com/zh-hans/2.1/contents/">目录</a></li>
+    
+    <li><a href="https://docs.djangoproject.com/zh-hans/2.1/genindex/">总目录</a></li>
+    
+    <li><a href="https://docs.djangoproject.com/zh-hans/2.1/py-modindex/">Python 模块索引</a></li>
+    
+    
+  </ul>
+  
+
+  
+  <h2>当前位置</h2>
+  <ul>
+    <li>
+      <a href="https://docs.djangoproject.com/zh-hans/2.1/">Django 2.1 文档</a>
+      
+      <ul><li><a href="https://docs.djangoproject.com/zh-hans/2.1/intro/">开始</a>
+      
+      <ul><li>编写你的第一个 Django 应用，第 7 部分</li></ul>
+      </li></ul>
+    </li>
+  </ul>
+  
+
+  
+  <h2 id="getting-help-sidebar">获取帮助</h2>
+  <dl class="list-links">
+    <dt><a href="https://docs.djangoproject.com/zh-hans/2.1/faq/">FAQ</a></dt>
+    <dd>尝试查看 FAQ — 它包括了很多常见问题的答案</dd>
+
+    <dt><a href="https://docs.djangoproject.com/en/stable/genindex/">索引</a>, <a href="https://docs.djangoproject.com/en/stable/py-modindex/">模块索引</a>, or <a href="https://docs.djangoproject.com/en/stable/contents/">目录</a></dt>
+    <dd>查找特定信息时比较容易</dd>
+
+    <dt><a href="https://groups.google.com/group/django-users/">django-users mailing list</a></dt>
+    <dd>在 django-users 邮件列表存档中搜索信息，或者发布一个问题。</dd>
+
+    <dt><a href="irc://irc.freenode.net/django">#django IRC channel</a></dt>
+    <dd>在 #django IRC 频道上提问，或者搜索 IRC 历史找到相似的问题与解答。</dd>
+
+    <dt><a href="https://code.djangoproject.com/">Ticket tracker</a></dt>
+    <dd>在我们的 `ticket tracker`_ 中报告 Django 或 Django 文档的 Bug。</dd>
+  </dl>
+  
+
+  
+  <h2>下载：</h2>
+  <p>
+    离线 (Django 2.1):
+    <a href="https://media.djangoproject.com/docs/django-docs-2.1-zh-hans.zip">HTML</a> |
+    <a href="https://media.readthedocs.org/pdf/django/2.1.x/django.pdf">PDF</a> |
+    <a href="https://media.readthedocs.org/epub/django/2.1.x/django.epub">ePub</a>
+    <br>
+    <span class="quiet">
+      由 <a href="https://readthedocs.org/">Read the Docs</a> 提供。
+    </span>
+  </p>
+  
+</div>
+
+      
+
+    </div>
+
+     
+     
+
+    
+    
+    
+
+    
+      
+<div role="contentinfo">
+  <div class="subfooter">
+    <div class="container">
+      <h1 class="visuallyhidden">Django Links</h1>
+
+      <div class="col learn">
+        <h2>Learn More</h2>
+        <ul>
+          <li><a href="https://www.djangoproject.com/start/overview/">About Django</a></li>
+          
+          <li><a href="https://www.djangoproject.com/start/">Getting Started with Django</a></li>
+          <li><a href="https://docs.djangoproject.com/en/dev/internals/organization/">Team Organization</a></li>
+          <li><a href="https://www.djangoproject.com/foundation/">Django Software Foundation</a></li>
+          <li><a href="https://www.djangoproject.com/conduct/">Code of Conduct</a></li>
+          <li><a href="https://www.djangoproject.com/diversity/">Diversity Statement</a></li>
+        </ul>
+      </div>
+
+      <div class="col involved">
+        <h2>Get Involved</h2>
+        <ul>
+          <li><a href="https://www.djangoproject.com/community/">Join a Group</a></li>
+          <li><a href="https://docs.djangoproject.com/en/dev/internals/contributing/">Contribute to Django</a></li>
+          <li><a href="https://docs.djangoproject.com/en/dev/internals/contributing/bugs-and-features/">Submit a Bug</a></li>
+          <li><a href="https://docs.djangoproject.com/en/dev/internals/security/#reporting-security-issues">Report a Security Issue</a></li>
+        </ul>
+      </div>
+
+      <div class="col follow last-child">
+        <h2>Follow Us</h2>
+        <ul>
+          <li><a href="https://github.com/django">GitHub</a></li>
+          <li><a href="https://twitter.com/djangoproject">Twitter</a></li>
+          <li><a href="https://www.djangoproject.com/rss/weblog/">News RSS</a></li>
+          <li><a href="https://groups.google.com/forum/#!forum/django-users">Django Users Mailing List</a></li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="footer">
+    <div class="container">
+      <div class="footer-logo">
+        <a class="logo" href="https://www.djangoproject.com/">Django</a>
+      </div>
+      <ul class="thanks">
+        <li>
+          <span>Hosting by</span> <a class="rackspace" href="https://www.rackspace.com/">Rackspace</a>
+        </li>
+        <li class="design"><span>Design by</span> <a class="threespot" href="https://www.threespot.com/">Threespot</a> <span class="ampersand">&amp;</span> <a class="andrevv" href="http://andrevv.com/"></a></li>
+      </ul>
+      <p class="copyright">© 2005-2019
+        <a href="https://www.djangoproject.com/foundation/"> Django Software
+        Foundation</a> and individual contributors. Django is a
+        <a href="https://www.djangoproject.com/trademarks/">registered
+        trademark</a> of the Django Software Foundation.
+      </p>
+    </div>
+  </div>
+
+</div>
+
+    
+
+    
+    <script>
+    function extless(input) {
+        return input.replace(/(.*)\.[^.]+$/, '$1');
+    }
+    var require = {
+        shim: {
+            'jquery': [],
+            'jquery.inview': ["jquery"],
+            'jquery.payment': ["jquery"],
+            'jquery.flot': ["jquery"],
+            'jquery.unveil': ["jquery"],
+            'stripe': {
+              exports: 'Stripe'
+            }
+        },
+        paths: {
+            "jquery": extless("https://static.djangoproject.com/js/lib/jquery/dist/jquery.min.87e69028f78d.js"),
+            "jquery.inview": extless("https://static.djangoproject.com/js/lib/jquery.inview/jquery.inview.min.4edba1c65592.js"),
+            "jquery.payment": extless("https://static.djangoproject.com/js/lib/jquery.payment/lib/jquery.payment.e99c05ca79ae.js"),
+            "jquery.unveil": extless("https://static.djangoproject.com/js/lib/unveil/jquery.unveil.min.ac79eb277093.js"),
+            "jquery.flot": extless("https://static.djangoproject.com/js/lib/jquery-flot/jquery.flot.min.9964206e9d7f.js"),
+            "clipboard": extless("https://static.djangoproject.com/js/lib/clipboard/dist/clipboard.min.bd70fd596a23.js"),
+            "mod/floating-warning": extless("https://static.djangoproject.com/js/mod/floating-warning.a21b2abd2884.js"),
+            "mod/list-collapsing": extless("https://static.djangoproject.com/js/mod/list-collapsing.c1a08d3ef9e9.js"),
+            "mod/list-feature": extless("https://static.djangoproject.com/js/mod/list-feature.73529480f25b.js"),
+            "mod/mobile-menu": extless("https://static.djangoproject.com/js/mod/mobile-menu.841726ee903a.js"),
+            "mod/version-switcher": extless("https://static.djangoproject.com/js/mod/version-switcher.c28bb83972bb.js"),
+            "mod/search-key": extless("https://static.djangoproject.com/js/mod/search-key.f3c0a6fcfedd.js"),
+            "mod/stripe-custom-checkout": extless("https://static.djangoproject.com/js/mod/stripe-custom-checkout.aac1352045b7.js"),
+            "mod/stripe-change-card": extless("https://static.djangoproject.com/js/mod/stripe-change-card.682c710317a8.js"),
+            "mod/console-tabs": extless("https://static.djangoproject.com/js/mod/console-tabs.70ce882faaf3.js"),
+            "stripe-checkout": "https://checkout.stripe.com/checkout",
+            "stripe": "https://js.stripe.com/v2/?"  // ? needed due to require.js
+        }
+    };
+    </script>
+    <script data-main="https://static.djangoproject.com/js/main.07884ebc4865.js" src="./8编写你的第一个 Django 应用_files/require.177879fbe7dd.js"></script>
+    
+
+
+
+  
+
+</body></html>

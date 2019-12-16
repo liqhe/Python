@@ -1,0 +1,323 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh_CN">
+  <head>
+    <meta charset="utf-8" />
+    <title>具体的对象层 &#8212; Python 3.7.4 文档</title>
+    <link rel="stylesheet" href="../_static/pydoctheme.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/language_data.js"></script>
+    <script type="text/javascript" src="../_static/translations.js"></script>
+    
+    <script type="text/javascript" src="../_static/sidebar.js"></script>
+    
+    <link rel="search" type="application/opensearchdescription+xml"
+          title="在 Python 3.7.4 文档 中搜索"
+          href="../_static/opensearch.xml"/>
+    <link rel="author" title="关于这些文档" href="../about.html" />
+    <link rel="index" title="索引" href="../genindex.html" />
+    <link rel="search" title="搜索" href="../search.html" />
+    <link rel="copyright" title="版权所有" href="../copyright.html" />
+    <link rel="next" title="Type 对象" href="type.html" />
+    <link rel="prev" title="Old Buffer Protocol" href="objbuffer.html" />
+    <link rel="shortcut icon" type="image/png" href="../_static/py.png" />
+    <link rel="canonical" href="https://docs.python.org/3/c-api/concrete.html" />
+    
+    <script type="text/javascript" src="../_static/copybutton.js"></script>
+    <script type="text/javascript" src="../_static/switchers.js"></script>
+    
+    
+    
+    <style>
+      @media only screen {
+        table.full-width-table {
+            width: 100%;
+        }
+      }
+    </style>
+ 
+
+  </head><body>
+  
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>导航</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="总目录"
+             accesskey="I">索引</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python 模块索引"
+             >模块</a> |</li>
+        <li class="right" >
+          <a href="type.html" title="Type 对象"
+             accesskey="N">下一页</a> |</li>
+        <li class="right" >
+          <a href="objbuffer.html" title="Old Buffer Protocol"
+             accesskey="P">上一页</a> |</li>
+        <li><img src="../_static/py.png" alt=""
+                 style="vertical-align: middle; margin-top: -1px"/></li>
+        <li><a href="https://www.python.org/">Python</a> &#187;</li>
+        <li>
+          <span class="language_switcher_placeholder">zh_CN</span>
+          <span class="version_switcher_placeholder">3.7.4</span>
+          <a href="../index.html">文档</a> &#187;
+        </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">Python/C API 参考手册</a> &#187;</li>
+    <li class="right">
+        
+
+    <div class="inline-search" style="display: none" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="快速搜索" type="text" name="q" />
+          <input type="submit" value="转向" />
+          <input type="hidden" name="check_keywords" value="yes" />
+          <input type="hidden" name="area" value="default" />
+        </form>
+    </div>
+    <script type="text/javascript">$('.inline-search').show(0);</script>
+         |
+    </li>
+
+      </ul>
+    </div>    
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="concrete-objects-layer">
+<span id="concrete"></span><h1>具体的对象层<a class="headerlink" href="#concrete-objects-layer" title="永久链接至标题">¶</a></h1>
+<p>本章中的函数特定于某些 Python 对象类型。 将错误类型的对象传递给它们并不是一个好主意；如果您从 Python 程序接收到一个对象，但不确定它是否具有正确的类型，则必须首先执行类型检查；例如，要检查对象是否为字典，请使用 <a class="reference internal" href="dict.html#c.PyDict_Check" title="PyDict_Check"><code class="xref c c-func docutils literal notranslate"><span class="pre">PyDict_Check()</span></code></a>。 本章的结构类似于 Python 对象类型的“家族树”。</p>
+<div class="admonition warning">
+<p class="admonition-title">警告</p>
+<p>虽然本章描述的函数会仔细检查传入的对象的类型，但是其中许多函数不会检查传入的对象是否为NULL，而不是一个有效的对象。允许NULL传入可能会导致内存访问冲突和解释器的立即终止。</p>
+</div>
+<div class="section" id="fundamental-objects">
+<span id="fundamental"></span><h2>基本对象<a class="headerlink" href="#fundamental-objects" title="永久链接至标题">¶</a></h2>
+<p>本节描述Python类型对象和单一实例对象 象None。</p>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="type.html">Type 对象</a></li>
+<li class="toctree-l1"><a class="reference internal" href="none.html"><code class="docutils literal notranslate"><span class="pre">None</span></code> 对象</a></li>
+</ul>
+</div>
+</div>
+<div class="section" id="numeric-objects">
+<span id="numericobjects"></span><h2>数值对象<a class="headerlink" href="#numeric-objects" title="永久链接至标题">¶</a></h2>
+<div class="toctree-wrapper compound" id="index-0">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="long.html">整数型对象</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bool.html">布尔对象</a></li>
+<li class="toctree-l1"><a class="reference internal" href="float.html">浮点数对象</a></li>
+<li class="toctree-l1"><a class="reference internal" href="complex.html">复数对象</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="complex.html#complex-numbers-as-c-structures">表示复数的C结构体</a></li>
+<li class="toctree-l2"><a class="reference internal" href="complex.html#complex-numbers-as-python-objects">表示复数的Python对象</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div class="section" id="sequence-objects">
+<span id="sequenceobjects"></span><h2>序列对象<a class="headerlink" href="#sequence-objects" title="永久链接至标题">¶</a></h2>
+<p id="index-1">序列对象的一般操作在前一章中讨论过;本节介绍Python语言固有的特定类型的序列对象。</p>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="bytes.html">字节对象</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bytearray.html">字节数组对象</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="bytearray.html#type-check-macros">类型检查宏</a></li>
+<li class="toctree-l2"><a class="reference internal" href="bytearray.html#direct-api-functions">直接 API 函数</a></li>
+<li class="toctree-l2"><a class="reference internal" href="bytearray.html#macros">宏</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="unicode.html">Unicode Objects and Codecs</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="unicode.html#unicode-objects">Unicode对象</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="unicode.html#unicode-type">Unicode类型</a></li>
+<li class="toctree-l3"><a class="reference internal" href="unicode.html#unicode-character-properties">Unicode字符属性</a></li>
+<li class="toctree-l3"><a class="reference internal" href="unicode.html#creating-and-accessing-unicode-strings">Creating and accessing Unicode strings</a></li>
+<li class="toctree-l3"><a class="reference internal" href="unicode.html#deprecated-py-unicode-apis">Deprecated Py_UNICODE APIs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="unicode.html#locale-encoding">Locale Encoding</a></li>
+<li class="toctree-l3"><a class="reference internal" href="unicode.html#file-system-encoding">File System Encoding</a></li>
+<li class="toctree-l3"><a class="reference internal" href="unicode.html#wchar-t-support">wchar_t Support</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="unicode.html#built-in-codecs">Built-in Codecs</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="unicode.html#generic-codecs">Generic Codecs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="unicode.html#utf-8-codecs">UTF-8 Codecs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="unicode.html#utf-32-codecs">UTF-32 Codecs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="unicode.html#utf-16-codecs">UTF-16 Codecs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="unicode.html#utf-7-codecs">UTF-7 Codecs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="unicode.html#unicode-escape-codecs">Unicode-Escape Codecs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="unicode.html#raw-unicode-escape-codecs">Raw-Unicode-Escape Codecs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="unicode.html#latin-1-codecs">Latin-1 Codecs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="unicode.html#ascii-codecs">ASCII Codecs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="unicode.html#character-map-codecs">Character Map Codecs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="unicode.html#mbcs-codecs-for-windows">MBCS codecs for Windows</a></li>
+<li class="toctree-l3"><a class="reference internal" href="unicode.html#methods-slots">Methods &amp; Slots</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="unicode.html#methods-and-slot-functions">Methods and Slot Functions</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="tuple.html">元组对象</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tuple.html#struct-sequence-objects">Struct Sequence Objects</a></li>
+<li class="toctree-l1"><a class="reference internal" href="list.html">列表对象</a></li>
+</ul>
+</div>
+</div>
+<div class="section" id="container-objects">
+<span id="mapobjects"></span><h2>容器对象<a class="headerlink" href="#container-objects" title="永久链接至标题">¶</a></h2>
+<div class="toctree-wrapper compound" id="index-2">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="dict.html">字典对象</a></li>
+<li class="toctree-l1"><a class="reference internal" href="set.html">集合对象</a></li>
+</ul>
+</div>
+</div>
+<div class="section" id="function-objects">
+<span id="otherobjects"></span><h2>函数对象<a class="headerlink" href="#function-objects" title="永久链接至标题">¶</a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="function.html">函数对象</a></li>
+<li class="toctree-l1"><a class="reference internal" href="method.html">实例方法对象</a></li>
+<li class="toctree-l1"><a class="reference internal" href="method.html#method-objects">方法对象</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cell.html">Cell 对象</a></li>
+<li class="toctree-l1"><a class="reference internal" href="code.html">代码对象</a></li>
+</ul>
+</div>
+</div>
+<div class="section" id="other-objects">
+<h2>其他对象<a class="headerlink" href="#other-objects" title="永久链接至标题">¶</a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="file.html">文件对象</a></li>
+<li class="toctree-l1"><a class="reference internal" href="module.html">模块对象</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="module.html#initializing-c-modules">Initializing C modules</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="module.html#single-phase-initialization">Single-phase initialization</a></li>
+<li class="toctree-l3"><a class="reference internal" href="module.html#multi-phase-initialization">Multi-phase initialization</a></li>
+<li class="toctree-l3"><a class="reference internal" href="module.html#low-level-module-creation-functions">Low-level module creation functions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="module.html#support-functions">Support functions</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="module.html#module-lookup">Module lookup</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="iterator.html">迭代器对象</a></li>
+<li class="toctree-l1"><a class="reference internal" href="descriptor.html">描述符对象</a></li>
+<li class="toctree-l1"><a class="reference internal" href="slice.html">切片对象</a></li>
+<li class="toctree-l1"><a class="reference internal" href="slice.html#ellipsis-object">Ellipsis Object</a></li>
+<li class="toctree-l1"><a class="reference internal" href="memoryview.html">MemoryView 对象</a></li>
+<li class="toctree-l1"><a class="reference internal" href="weakref.html">弱引用对象</a></li>
+<li class="toctree-l1"><a class="reference internal" href="capsule.html">胶囊</a></li>
+<li class="toctree-l1"><a class="reference internal" href="gen.html">生成器对象</a></li>
+<li class="toctree-l1"><a class="reference internal" href="coro.html">协程对象</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contextvars.html">上下文变量对象</a></li>
+<li class="toctree-l1"><a class="reference internal" href="datetime.html">DateTime 对象</a></li>
+</ul>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../contents.html">目录</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">具体的对象层</a><ul>
+<li><a class="reference internal" href="#fundamental-objects">基本对象</a></li>
+<li><a class="reference internal" href="#numeric-objects">数值对象</a></li>
+<li><a class="reference internal" href="#sequence-objects">序列对象</a></li>
+<li><a class="reference internal" href="#container-objects">容器对象</a></li>
+<li><a class="reference internal" href="#function-objects">函数对象</a></li>
+<li><a class="reference internal" href="#other-objects">其他对象</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>上一个主题</h4>
+  <p class="topless"><a href="objbuffer.html"
+                        title="上一章">Old Buffer Protocol</a></p>
+  <h4>下一个主题</h4>
+  <p class="topless"><a href="type.html"
+                        title="下一章">Type 对象</a></p>
+  <div role="note" aria-label="source link">
+    <h3>本页</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">提交 Bug</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/3.7/Doc/c-api/concrete.rst"
+            rel="nofollow">显示源代码
+        </a>
+      </li>
+    </ul>
+  </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>  
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>导航</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="总目录"
+             >索引</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python 模块索引"
+             >模块</a> |</li>
+        <li class="right" >
+          <a href="type.html" title="Type 对象"
+             >下一页</a> |</li>
+        <li class="right" >
+          <a href="objbuffer.html" title="Old Buffer Protocol"
+             >上一页</a> |</li>
+        <li><img src="../_static/py.png" alt=""
+                 style="vertical-align: middle; margin-top: -1px"/></li>
+        <li><a href="https://www.python.org/">Python</a> &#187;</li>
+        <li>
+          <span class="language_switcher_placeholder">zh_CN</span>
+          <span class="version_switcher_placeholder">3.7.4</span>
+          <a href="../index.html">文档</a> &#187;
+        </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" >Python/C API 参考手册</a> &#187;</li>
+    <li class="right">
+        
+
+    <div class="inline-search" style="display: none" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="快速搜索" type="text" name="q" />
+          <input type="submit" value="转向" />
+          <input type="hidden" name="check_keywords" value="yes" />
+          <input type="hidden" name="area" value="default" />
+        </form>
+    </div>
+    <script type="text/javascript">$('.inline-search').show(0);</script>
+         |
+    </li>
+
+      </ul>
+    </div>  
+    <div class="footer">
+    &copy; <a href="../copyright.html">版权所有</a> 2001-2019, Python Software Foundation.
+    <br />
+    Python 软件基金会是一个非盈利组织。
+    <a href="https://www.python.org/psf/donations/">请捐助。</a>
+    <br />
+    最后更新于 8月 27, 2019.
+    <a href="../bugs.html">发现了问题</a>？
+    <br />
+    使用<a href="http://sphinx.pocoo.org/">Sphinx</a>2.0.1 创建。
+    </div>
+
+  </body>
+</html>
