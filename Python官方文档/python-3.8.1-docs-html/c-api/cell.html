@@ -1,0 +1,249 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh_CN">
+  <head>
+    <meta charset="utf-8" />
+    <title>Cell 对象 &#8212; Python 3.8.1 文档</title>
+    <link rel="stylesheet" href="../_static/pydoctheme.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/language_data.js"></script>
+    <script type="text/javascript" src="../_static/translations.js"></script>
+    
+    <script type="text/javascript" src="../_static/sidebar.js"></script>
+    
+    <link rel="search" type="application/opensearchdescription+xml"
+          title="在 Python 3.8.1 文档 中搜索"
+          href="../_static/opensearch.xml"/>
+    <link rel="author" title="关于这些文档" href="../about.html" />
+    <link rel="index" title="索引" href="../genindex.html" />
+    <link rel="search" title="搜索" href="../search.html" />
+    <link rel="copyright" title="版权所有" href="../copyright.html" />
+    <link rel="next" title="代码对象" href="code.html" />
+    <link rel="prev" title="实例方法对象" href="method.html" />
+    <link rel="canonical" href="https://docs.python.org/3/c-api/cell.html" />
+    
+      
+      <script type="text/javascript" src="../_static/switchers.js"></script>
+      
+    
+
+    
+    <style>
+      @media only screen {
+        table.full-width-table {
+            width: 100%;
+        }
+      }
+    </style>
+
+    <link rel="shortcut icon" type="image/png" href="../_static/py.png" />
+    
+    <script type="text/javascript" src="../_static/copybutton.js"></script>
+    
+     
+
+
+  </head><body>
+  
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>导航</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="总目录"
+             accesskey="I">索引</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python 模块索引"
+             >模块</a> |</li>
+        <li class="right" >
+          <a href="code.html" title="代码对象"
+             accesskey="N">下一页</a> |</li>
+        <li class="right" >
+          <a href="method.html" title="实例方法对象"
+             accesskey="P">上一页</a> |</li>
+
+    <li><img src="../_static/py.png" alt=""
+             style="vertical-align: middle; margin-top: -1px"/></li>
+    <li><a href="https://www.python.org/">Python</a> &#187;</li>
+    
+
+    <li>
+      <span class="language_switcher_placeholder">zh_CN</span>
+      <span class="version_switcher_placeholder">3.8.1</span>
+      <a href="../index.html">文档</a> &#187;
+    </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" >Python/C API 参考手册</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="concrete.html" accesskey="U">具体的对象层</a> &#187;</li>
+    <li class="right">
+        
+
+    <div class="inline-search" style="display: none" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="快速搜索" type="text" name="q" />
+          <input type="submit" value="转向" />
+          <input type="hidden" name="check_keywords" value="yes" />
+          <input type="hidden" name="area" value="default" />
+        </form>
+    </div>
+    <script type="text/javascript">$('.inline-search').show(0);</script>
+         |
+    </li>
+
+      </ul>
+    </div>    
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="cell-objects">
+<span id="id1"></span><h1>Cell 对象<a class="headerlink" href="#cell-objects" title="永久链接至标题">¶</a></h1>
+<p>“Cell”对象用于实现由多个作用域引用的变量。 对于每个这样的变量，一个“Cell”对象为了存储该值而被创建；引用该值的每个堆栈框架的局部变量包含同样使用该变量的对外部作用域的“Cell”引用。 访问该值时，将使用“Cell”中包含的值而不是单元格对象本身。 这种对“Cell”对象的非关联化的引用需要支持生成的字节码；访问时不会自动非关联化这些内容。 “Cell”对象在其他地方可能不太有用。</p>
+<dl class="type">
+<dt id="c.PyCellObject">
+<code class="sig-name descname">PyCellObject</code><a class="headerlink" href="#c.PyCellObject" title="永久链接至目标">¶</a></dt>
+<dd><p>用于Cell对象的C结构体。</p>
+</dd></dl>
+
+<dl class="var">
+<dt id="c.PyCell_Type">
+<a class="reference internal" href="type.html#c.PyTypeObject" title="PyTypeObject">PyTypeObject</a> <code class="sig-name descname">PyCell_Type</code><a class="headerlink" href="#c.PyCell_Type" title="永久链接至目标">¶</a></dt>
+<dd><p>与 Cell 对象对应的类型对​​象。</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.PyCell_Check">
+int <code class="sig-name descname">PyCell_Check</code><span class="sig-paren">(</span>ob<span class="sig-paren">)</span><a class="headerlink" href="#c.PyCell_Check" title="永久链接至目标">¶</a></dt>
+<dd><p>如果 <em>ob</em> 是一个 cell 对象则返回真值；<em>ob</em> 必须不为 <code class="docutils literal notranslate"><span class="pre">NULL</span></code>。</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.PyCell_New">
+<a class="reference internal" href="structures.html#c.PyObject" title="PyObject">PyObject</a>* <code class="sig-name descname">PyCell_New</code><span class="sig-paren">(</span><a class="reference internal" href="structures.html#c.PyObject" title="PyObject">PyObject</a><em> *ob</em><span class="sig-paren">)</span><a class="headerlink" href="#c.PyCell_New" title="永久链接至目标">¶</a></dt>
+<dd><em class="refcount">Return value: New reference.</em><p>创建并返回一个包含值 <em>ob</em> 的新 cell 对象。形参可以为 <code class="docutils literal notranslate"><span class="pre">NULL</span></code>。</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.PyCell_Get">
+<a class="reference internal" href="structures.html#c.PyObject" title="PyObject">PyObject</a>* <code class="sig-name descname">PyCell_Get</code><span class="sig-paren">(</span><a class="reference internal" href="structures.html#c.PyObject" title="PyObject">PyObject</a><em> *cell</em><span class="sig-paren">)</span><a class="headerlink" href="#c.PyCell_Get" title="永久链接至目标">¶</a></dt>
+<dd><em class="refcount">Return value: New reference.</em><p>返回 cell 对象 <em>cell</em> 的内容。</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.PyCell_GET">
+<a class="reference internal" href="structures.html#c.PyObject" title="PyObject">PyObject</a>* <code class="sig-name descname">PyCell_GET</code><span class="sig-paren">(</span><a class="reference internal" href="structures.html#c.PyObject" title="PyObject">PyObject</a><em> *cell</em><span class="sig-paren">)</span><a class="headerlink" href="#c.PyCell_GET" title="永久链接至目标">¶</a></dt>
+<dd><em class="refcount">Return value: Borrowed reference.</em><p>返回 cell 对象 <em>cell</em> 的内容，但是不检测 <em>cell</em> 是否非 <code class="docutils literal notranslate"><span class="pre">NULL</span></code> 并且为一个 cell 对象。</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.PyCell_Set">
+int <code class="sig-name descname">PyCell_Set</code><span class="sig-paren">(</span><a class="reference internal" href="structures.html#c.PyObject" title="PyObject">PyObject</a><em> *cell</em>, <a class="reference internal" href="structures.html#c.PyObject" title="PyObject">PyObject</a><em> *value</em><span class="sig-paren">)</span><a class="headerlink" href="#c.PyCell_Set" title="永久链接至目标">¶</a></dt>
+<dd><p>将 cell 对象 <em>cell</em> 的内容设为 <em>value</em>。 这将释放任何对 cell 对象当前内容的引用。 <em>value</em> 可以为 <code class="docutils literal notranslate"><span class="pre">NULL</span></code>。 <em>cell</em> 必须为非 <code class="docutils literal notranslate"><span class="pre">NULL</span></code>；如果它不是一个 cell 对象则将返回 <code class="docutils literal notranslate"><span class="pre">-1</span></code>。 如果设置成功则将返回 <code class="docutils literal notranslate"><span class="pre">0</span></code>。</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.PyCell_SET">
+void <code class="sig-name descname">PyCell_SET</code><span class="sig-paren">(</span><a class="reference internal" href="structures.html#c.PyObject" title="PyObject">PyObject</a><em> *cell</em>, <a class="reference internal" href="structures.html#c.PyObject" title="PyObject">PyObject</a><em> *value</em><span class="sig-paren">)</span><a class="headerlink" href="#c.PyCell_SET" title="永久链接至目标">¶</a></dt>
+<dd><p>将 cell 对象 <em>cell</em> 的值设为 <em>value</em>。 不会调整引用计数，并且不会进行检测以保证安全；<em>cell</em> 必须为非 <code class="docutils literal notranslate"><span class="pre">NULL</span></code> 并且为一个 cell 对象。</p>
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h4>上一个主题</h4>
+  <p class="topless"><a href="method.html"
+                        title="上一章">实例方法对象</a></p>
+  <h4>下一个主题</h4>
+  <p class="topless"><a href="code.html"
+                        title="下一章">代码对象</a></p>
+  <div role="note" aria-label="source link">
+    <h3>本页</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">提交 Bug</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/3.8/Doc/c-api/cell.rst"
+            rel="nofollow">显示源代码
+        </a>
+      </li>
+    </ul>
+  </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>  
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>导航</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="总目录"
+             >索引</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python 模块索引"
+             >模块</a> |</li>
+        <li class="right" >
+          <a href="code.html" title="代码对象"
+             >下一页</a> |</li>
+        <li class="right" >
+          <a href="method.html" title="实例方法对象"
+             >上一页</a> |</li>
+
+    <li><img src="../_static/py.png" alt=""
+             style="vertical-align: middle; margin-top: -1px"/></li>
+    <li><a href="https://www.python.org/">Python</a> &#187;</li>
+    
+
+    <li>
+      <span class="language_switcher_placeholder">zh_CN</span>
+      <span class="version_switcher_placeholder">3.8.1</span>
+      <a href="../index.html">文档</a> &#187;
+    </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" >Python/C API 参考手册</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="concrete.html" >具体的对象层</a> &#187;</li>
+    <li class="right">
+        
+
+    <div class="inline-search" style="display: none" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="快速搜索" type="text" name="q" />
+          <input type="submit" value="转向" />
+          <input type="hidden" name="check_keywords" value="yes" />
+          <input type="hidden" name="area" value="default" />
+        </form>
+    </div>
+    <script type="text/javascript">$('.inline-search').show(0);</script>
+         |
+    </li>
+
+      </ul>
+    </div>  
+    <div class="footer">
+    &copy; <a href="../copyright.html">版权所有</a> 2001-2019, Python Software Foundation.
+    <br />
+
+    The Python Software Foundation is a non-profit corporation.
+<a href="https://www.python.org/psf/donations/">Please donate.</a>
+<br />
+    <br />
+
+    最后更新于 12月 23, 2019.
+    <a href="https://docs.python.org/3/bugs.html">Found a bug</a>?
+    <br />
+
+    Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 2.2.1.
+    </div>
+
+  </body>
+</html>

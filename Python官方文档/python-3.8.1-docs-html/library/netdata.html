@@ -1,0 +1,281 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh_CN">
+  <head>
+    <meta charset="utf-8" />
+    <title>互联网数据处理 &#8212; Python 3.8.1 文档</title>
+    <link rel="stylesheet" href="../_static/pydoctheme.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/language_data.js"></script>
+    <script type="text/javascript" src="../_static/translations.js"></script>
+    
+    <script type="text/javascript" src="../_static/sidebar.js"></script>
+    
+    <link rel="search" type="application/opensearchdescription+xml"
+          title="在 Python 3.8.1 文档 中搜索"
+          href="../_static/opensearch.xml"/>
+    <link rel="author" title="关于这些文档" href="../about.html" />
+    <link rel="index" title="索引" href="../genindex.html" />
+    <link rel="search" title="搜索" href="../search.html" />
+    <link rel="copyright" title="版权所有" href="../copyright.html" />
+    <link rel="next" title="email --- 电子邮件与 MIME 处理包" href="email.html" />
+    <link rel="prev" title="mmap --- 内存映射文件支持" href="mmap.html" />
+    <link rel="canonical" href="https://docs.python.org/3/library/netdata.html" />
+    
+      
+      <script type="text/javascript" src="../_static/switchers.js"></script>
+      
+    
+
+    
+    <style>
+      @media only screen {
+        table.full-width-table {
+            width: 100%;
+        }
+      }
+    </style>
+
+    <link rel="shortcut icon" type="image/png" href="../_static/py.png" />
+    
+    <script type="text/javascript" src="../_static/copybutton.js"></script>
+    
+     
+
+
+  </head><body>
+  
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>导航</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="总目录"
+             accesskey="I">索引</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python 模块索引"
+             >模块</a> |</li>
+        <li class="right" >
+          <a href="email.html" title="email --- 电子邮件与 MIME 处理包"
+             accesskey="N">下一页</a> |</li>
+        <li class="right" >
+          <a href="mmap.html" title="mmap --- 内存映射文件支持"
+             accesskey="P">上一页</a> |</li>
+
+    <li><img src="../_static/py.png" alt=""
+             style="vertical-align: middle; margin-top: -1px"/></li>
+    <li><a href="https://www.python.org/">Python</a> &#187;</li>
+    
+
+    <li>
+      <span class="language_switcher_placeholder">zh_CN</span>
+      <span class="version_switcher_placeholder">3.8.1</span>
+      <a href="../index.html">文档</a> &#187;
+    </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">Python 标准库</a> &#187;</li>
+    <li class="right">
+        
+
+    <div class="inline-search" style="display: none" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="快速搜索" type="text" name="q" />
+          <input type="submit" value="转向" />
+          <input type="hidden" name="check_keywords" value="yes" />
+          <input type="hidden" name="area" value="default" />
+        </form>
+    </div>
+    <script type="text/javascript">$('.inline-search').show(0);</script>
+         |
+    </li>
+
+      </ul>
+    </div>    
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="internet-data-handling">
+<span id="netdata"></span><h1>互联网数据处理<a class="headerlink" href="#internet-data-handling" title="永久链接至标题">¶</a></h1>
+<p>本章介绍了支持处理互联网上常用数据格式的模块。</p>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="email.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">email</span></code> --- 电子邮件与 MIME 处理包</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="email.message.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">email.message</span></code>: Representing an email message</a></li>
+<li class="toctree-l2"><a class="reference internal" href="email.parser.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">email.parser</span></code>: Parsing email messages</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="email.parser.html#feedparser-api">FeedParser API</a></li>
+<li class="toctree-l3"><a class="reference internal" href="email.parser.html#parser-api">Parser API</a></li>
+<li class="toctree-l3"><a class="reference internal" href="email.parser.html#additional-notes">Additional notes</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="email.generator.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">email.generator</span></code>: Generating MIME documents</a></li>
+<li class="toctree-l2"><a class="reference internal" href="email.policy.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">email.policy</span></code>: Policy Objects</a></li>
+<li class="toctree-l2"><a class="reference internal" href="email.errors.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">email.errors</span></code>: 异常和缺陷类</a></li>
+<li class="toctree-l2"><a class="reference internal" href="email.headerregistry.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">email.headerregistry</span></code>: Custom Header Objects</a></li>
+<li class="toctree-l2"><a class="reference internal" href="email.contentmanager.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">email.contentmanager</span></code>: Managing MIME Content</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="email.contentmanager.html#content-manager-instances">Content Manager Instances</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="email.examples.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">email</span></code>: 示例</a></li>
+<li class="toctree-l2"><a class="reference internal" href="email.compat32-message.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">email.message.Message</span></code>: Representing an email message using the <code class="xref py py-data docutils literal notranslate"><span class="pre">compat32</span></code> API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="email.mime.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">email.mime</span></code>: Creating email and MIME objects from scratch</a></li>
+<li class="toctree-l2"><a class="reference internal" href="email.header.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">email.header</span></code>: Internationalized headers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="email.charset.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">email.charset</span></code>: Representing character sets</a></li>
+<li class="toctree-l2"><a class="reference internal" href="email.encoders.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">email.encoders</span></code>: 编码器</a></li>
+<li class="toctree-l2"><a class="reference internal" href="email.utils.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">email.utils</span></code>: 其他工具</a></li>
+<li class="toctree-l2"><a class="reference internal" href="email.iterators.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">email.iterators</span></code>: 迭代器</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="json.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">json</span></code> --- JSON 编码和解码器</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="json.html#basic-usage">基本使用</a></li>
+<li class="toctree-l2"><a class="reference internal" href="json.html#encoders-and-decoders">编码器和解码器</a></li>
+<li class="toctree-l2"><a class="reference internal" href="json.html#exceptions">异常</a></li>
+<li class="toctree-l2"><a class="reference internal" href="json.html#standard-compliance-and-interoperability">Standard Compliance and Interoperability</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="json.html#character-encodings">Character Encodings</a></li>
+<li class="toctree-l3"><a class="reference internal" href="json.html#infinite-and-nan-number-values">Infinite and NaN Number Values</a></li>
+<li class="toctree-l3"><a class="reference internal" href="json.html#repeated-names-within-an-object">Repeated Names Within an Object</a></li>
+<li class="toctree-l3"><a class="reference internal" href="json.html#top-level-non-object-non-array-values">Top-level Non-Object, Non-Array Values</a></li>
+<li class="toctree-l3"><a class="reference internal" href="json.html#implementation-limitations">Implementation Limitations</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="json.html#module-json.tool">Command Line Interface</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="json.html#command-line-options">Command line options</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="mailcap.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">mailcap</span></code> --- Mailcap file handling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mailbox.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">mailbox</span></code> --- Manipulate mailboxes in various formats</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="mailbox.html#mailbox-objects"><code class="xref py py-class docutils literal notranslate"><span class="pre">Mailbox</span></code> 对象</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="mailbox.html#maildir"><code class="xref py py-class docutils literal notranslate"><span class="pre">Maildir</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="mailbox.html#mbox"><code class="xref py py-class docutils literal notranslate"><span class="pre">mbox</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="mailbox.html#mh"><code class="xref py py-class docutils literal notranslate"><span class="pre">MH</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="mailbox.html#babyl"><code class="xref py py-class docutils literal notranslate"><span class="pre">Babyl</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="mailbox.html#mmdf"><code class="xref py py-class docutils literal notranslate"><span class="pre">MMDF</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="mailbox.html#message-objects"><code class="xref py py-class docutils literal notranslate"><span class="pre">Message</span></code> objects</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="mailbox.html#maildirmessage"><code class="xref py py-class docutils literal notranslate"><span class="pre">MaildirMessage</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="mailbox.html#mboxmessage"><code class="xref py py-class docutils literal notranslate"><span class="pre">mboxMessage</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="mailbox.html#mhmessage"><code class="xref py py-class docutils literal notranslate"><span class="pre">MHMessage</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="mailbox.html#babylmessage"><code class="xref py py-class docutils literal notranslate"><span class="pre">BabylMessage</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="mailbox.html#mmdfmessage"><code class="xref py py-class docutils literal notranslate"><span class="pre">MMDFMessage</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="mailbox.html#exceptions">异常</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mailbox.html#examples">示例</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="mimetypes.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">mimetypes</span></code> --- Map filenames to MIME types</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="mimetypes.html#mimetypes-objects">MimeTypes Objects</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="base64.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">base64</span></code> --- Base16, Base32, Base64, Base85 数据编码</a></li>
+<li class="toctree-l1"><a class="reference internal" href="binhex.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">binhex</span></code> --- 对binhex4文件进行编码和解码</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="binhex.html#notes">注释</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="binascii.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">binascii</span></code> --- 二进制和 ASCII 码互转</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quopri.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">quopri</span></code> --- 编码与解码经过 MIME 转码的可打印数据</a></li>
+<li class="toctree-l1"><a class="reference internal" href="uu.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">uu</span></code> --- 对 uuencode 文件进行编码与解码</a></li>
+</ul>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h4>上一个主题</h4>
+  <p class="topless"><a href="mmap.html"
+                        title="上一章"><code class="xref py py-mod docutils literal notranslate"><span class="pre">mmap</span></code> --- 内存映射文件支持</a></p>
+  <h4>下一个主题</h4>
+  <p class="topless"><a href="email.html"
+                        title="下一章"><code class="xref py py-mod docutils literal notranslate"><span class="pre">email</span></code> --- 电子邮件与 MIME 处理包</a></p>
+  <div role="note" aria-label="source link">
+    <h3>本页</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">提交 Bug</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/3.8/Doc/library/netdata.rst"
+            rel="nofollow">显示源代码
+        </a>
+      </li>
+    </ul>
+  </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>  
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>导航</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="总目录"
+             >索引</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python 模块索引"
+             >模块</a> |</li>
+        <li class="right" >
+          <a href="email.html" title="email --- 电子邮件与 MIME 处理包"
+             >下一页</a> |</li>
+        <li class="right" >
+          <a href="mmap.html" title="mmap --- 内存映射文件支持"
+             >上一页</a> |</li>
+
+    <li><img src="../_static/py.png" alt=""
+             style="vertical-align: middle; margin-top: -1px"/></li>
+    <li><a href="https://www.python.org/">Python</a> &#187;</li>
+    
+
+    <li>
+      <span class="language_switcher_placeholder">zh_CN</span>
+      <span class="version_switcher_placeholder">3.8.1</span>
+      <a href="../index.html">文档</a> &#187;
+    </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" >Python 标准库</a> &#187;</li>
+    <li class="right">
+        
+
+    <div class="inline-search" style="display: none" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="快速搜索" type="text" name="q" />
+          <input type="submit" value="转向" />
+          <input type="hidden" name="check_keywords" value="yes" />
+          <input type="hidden" name="area" value="default" />
+        </form>
+    </div>
+    <script type="text/javascript">$('.inline-search').show(0);</script>
+         |
+    </li>
+
+      </ul>
+    </div>  
+    <div class="footer">
+    &copy; <a href="../copyright.html">版权所有</a> 2001-2019, Python Software Foundation.
+    <br />
+
+    The Python Software Foundation is a non-profit corporation.
+<a href="https://www.python.org/psf/donations/">Please donate.</a>
+<br />
+    <br />
+
+    最后更新于 12月 23, 2019.
+    <a href="https://docs.python.org/3/bugs.html">Found a bug</a>?
+    <br />
+
+    Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 2.2.1.
+    </div>
+
+  </body>
+</html>
